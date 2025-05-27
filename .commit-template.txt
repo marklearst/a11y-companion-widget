@@ -1,0 +1,5 @@
+<emoji> <type>: <short summary>
+
+- What did you change?
+- Why did you change it?
+- Any relevant context or follow-up?

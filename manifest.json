@@ -1,0 +1,25 @@
+{
+  "name": "a11y Companion",
+  "id": "1302008954145773165",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "permissions": [
+    "currentuser",
+    "activeusers"
+  ],
+  "editorType": [
+    "figma"
+  ],
+  "networkAccess": {
+    "allowedDomains": [
+      "https://s3-alpha.figma.com",
+      "https://s3.amazonaws.com"
+    ]
+  },
+  "ui": "ui.html",
+  "containsWidget": true,
+  "widgetApi": "1.0.0",
+  "documentAccess": "dynamic-page"
+}
