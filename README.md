@@ -2,6 +2,10 @@
 
 A modern, open-source Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance, collaboratively with your team.
 
+[a11y Companion Widget | Figma Community](https://www.figma.com/community/widget/1509302611418259130)
+
+![A11Y Companion Widget Screenshot](./widget-src/assets/a11y-widget-250.jpg)
+
 ## What is this?
 
 **A11Y Companion** is a Figma widget that helps you:
