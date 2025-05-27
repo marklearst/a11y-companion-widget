@@ -1,5 +1,5 @@
 const { widget } = figma
-const { useSyncedState, AutoLayout, Text, SVG, Image } = widget
+const { useSyncedState, AutoLayout, Text, SVG } = widget
 
 // Get current user ONCE at module scope
 const user = figma.currentUser

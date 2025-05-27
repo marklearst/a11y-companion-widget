@@ -1,5 +1,5 @@
 const { widget } = figma
-const { AutoLayout, Text, Input } = widget
+const { AutoLayout, Text } = widget
 
 import Checkbox from '../shared/Checkbox'
 import { ChecklistItemType } from '../types'

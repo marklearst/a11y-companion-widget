@@ -526,7 +526,7 @@
   var { widget } = figma;
   var { AutoLayout, Rectangle } = widget;
   var ProgressBar = ({ total, completed, parentWidth }) => {
-    let percentage = total === 0 ? 0 : completed / total * 100;
+    const percentage = total === 0 ? 0 : completed / total * 100;
     let calculatedWidth = percentage / 100 * parentWidth;
     if (calculatedWidth === 0) {
       calculatedWidth = 0.25;
@@ -604,7 +604,7 @@
 
   // widget-src/components/ReviewItem.tsx
   var { widget: widget3 } = figma;
-  var { AutoLayout: AutoLayout3, Text, Input } = widget3;
+  var { AutoLayout: AutoLayout3, Text } = widget3;
   function ReviewItem({
     item,
     checked,
@@ -799,7 +799,7 @@ ${longDescription}`;
 
   // widget-src/components/ReviewSection.tsx
   var { widget: widget6 } = figma;
-  var { useSyncedState, AutoLayout: AutoLayout6, Text: Text4, SVG: SVG2, Image: Image2 } = widget6;
+  var { useSyncedState, AutoLayout: AutoLayout6, Text: Text4, SVG: SVG2 } = widget6;
   var user = figma.currentUser;
   function ReviewSection({
     section,

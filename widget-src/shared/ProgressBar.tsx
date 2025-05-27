@@ -22,7 +22,7 @@ interface ProgressBarProps {
  * @returns A React component that renders the progress bar.
  */
 const ProgressBar = ({ total, completed, parentWidth }: ProgressBarProps) => {
-  let percentage = total === 0 ? 0 : (completed / total) * 100
+  const percentage = total === 0 ? 0 : (completed / total) * 100
   let calculatedWidth = (percentage / 100) * parentWidth
 
   // Ensure calculatedWidth is at least 1 to avoid rendering issues
