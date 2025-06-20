@@ -1,4 +1,9 @@
-# A11Y Companion – Accessibility Checklist Widget for Figma
+# ♿️ A11Y Companion – Accessibility Checklist Widget for Figma Design
+
+![License](https://img.shields.io/github/license/marklearst/a11y-companion-widget)
+![GitHub last commit](https://img.shields.io/github/last-commit/marklearst/a11y-companion-widget)
+![GitHub issues](https://img.shields.io/github/issues/marklearst/a11y-companion-widget)
+[![Figma Community](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?logo=figma)](https://www.figma.com/community/widget/1509302611418259130)
 
 A modern, open-source Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance, collaboratively with your team.
 
@@ -6,7 +11,7 @@ A modern, open-source Figma widget that brings the [A11Y Project Checklist](http
 
 ![A11Y Companion Widget Screenshot](./widget-src/assets/a11y-widget-250.jpg)
 
-## What is this?
+## ❓ What is this?
 
 **A11Y Companion** is a Figma widget that helps you:
 
@@ -17,7 +22,7 @@ A modern, open-source Figma widget that brings the [A11Y Project Checklist](http
 
 Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/checklist/), this widget is designed for designers, content creators, and developers who want to make their work more accessible.
 
-## Features
+## ✨ Features
 
 - Full A11Y Project checklist, organized by section
 - Each item includes a WCAG reference and a detailed explanation
@@ -29,7 +34,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 - Property menu toggle to enable/disable tooltips
 - Modern, accessible UI with dark mode support
 
-## How to Use
+## ▶️ How to Use
 
 1. **Install the widget** in your Figma or FigJam file.
 2. Open the widget and review the checklist items by section.
@@ -37,17 +42,22 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 4. Hover over checklist items for WCAG references and detailed explanations.
 5. Use the property menu to toggle tooltips on or off.
 
-## Why use this widget?
+## 🤔 Why use this widget?
 
 - Ensure your designs and content meet accessibility standards
 - Make accessibility a collaborative, visible part of your workflow
 - Reference the latest, community-driven accessibility guidance
 
-## Credits
+## 🙌 Credits
 
 - Checklist data and guidance from [The A11Y Project](https://www.a11yproject.com/checklist/)
 - Widget built with the [Figma Widget API](https://www.figma.com/widget-docs/api/api-reference/)
 
----
+## 🚀 Make Accessibility First-Class
 
 **Make accessibility a first-class part of your design and development process!**
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).  
+© 2023–2025 Mark Learst
