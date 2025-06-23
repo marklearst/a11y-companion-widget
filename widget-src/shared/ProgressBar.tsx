@@ -7,19 +7,38 @@ const { AutoLayout, Rectangle } = widget
  * @property {number} completed - The number of completed tasks.
  * @property {number} parentWidth - The width of the parent container.
  */
+/**
+ * Props for the ProgressBar component.
+ *
+ * @remarks
+ * Controls the display of the progress bar, including task counts and parent width.
+ */
 interface ProgressBarProps {
+  /** Total number of tasks. */
   total: number
+  /** Number of completed tasks. */
   completed: number
+  /** Width of the parent container in pixels. */
   parentWidth: number
 }
 
 /**
- * Renders a progress bar component that displays the completion status of a task.
+ * Renders a horizontal progress bar showing completion status for tasks.
+ *
+ * @remarks
+ * This component visually represents checklist progress. Uses Figma Widget API primitives for layout and rectangle rendering.
  *
  * @param total - The total number of tasks.
  * @param completed - The number of completed tasks.
  * @param parentWidth - The width of the parent container.
- * @returns A React component that renders the progress bar.
+ * @returns The rendered ProgressBar component.
+ *
+ * @example
+ * ```ts
+ * <ProgressBar total={10} completed={7} parentWidth={400} />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 const ProgressBar = ({ total, completed, parentWidth }: ProgressBarProps) => {
   const percentage = total === 0 ? 0 : (completed / total) * 100
