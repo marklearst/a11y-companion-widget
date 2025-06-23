@@ -6,46 +6,68 @@ import { ChecklistItemType } from '../types'
 import { dropShadowEffect } from '../effects/dropShadows'
 import ReviewSection from './ReviewSection'
 
+/**
+ * Represents a section in the accessibility checklist, including its title, link, and items.
+ *
+ * @remarks
+ * Used to group related checklist items for display in the widget UI.
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
+ */
 interface ChecklistSectionType {
+  /** The section title. */
   title: string
+  /** An optional link for the section. */
   link: string
+  /** The checklist items belonging to this section. */
   items: ChecklistItemType[]
 }
 
 /**
- * Defines the props for the Checklist component.
+ * Props for the checklist panel component.
  *
- * @interface ChecklistProps
- * @property {string} title - The title of the checklist.
- * @property {string} sections - The sections to display in the checklist.
- * @property {Record<string, boolean>} taskCompletion - The completion status of each task.
- * @property {(taskId: string, isChecked: boolean) => void} handleCheckChange - A function to handle changes to task completion.
- * @property {number} total - The total number of tasks.
- * @property {number} completed - The number of completed tasks.
- * @property {boolean} isDarkMode - Indicates whether the component is in dark mode.
+ * @remarks
+ * Used to control the display and state of the accessibility checklist UI.
  */
 interface ChecklistProps {
+  /** The title of the checklist. */
   title: string
+  /** The sections to display in the checklist. */
   sections: ChecklistSectionType[]
+  /** The completion status of each task, keyed by item id. */
   taskCompletion: Record<string, boolean>
+  /** Handler for changes to task completion. */
   handleCheckChange: (taskId: string, isChecked: boolean) => void
+  /** The total number of tasks. */
   total: number
+  /** The number of completed tasks. */
   completed: number
+  /** Whether the component is in dark mode. */
   isDarkMode?: boolean | undefined
 }
 
 /**
- * Renders the Checklist component, which displays a list of categories and their associated tasks.
+ * Renders the accessibility checklist panel, displaying categories and their associated tasks.
  *
- * @param {ChecklistProps} props - The props for the Checklist component.
- * @param {string} props.title - The title of the checklist.
- * @param {string} props.sections - The sections to display in the checklist.
- * @param {Record<string, boolean>} props.taskCompletion - The completion status of each task.
- * @param {(taskId: string, isChecked: boolean) => void} props.handleCheckChange - A function to handle changes to task completion.
- * @param {number} props.total - The total number of tasks.
- * @param {number} props.completed - The number of completed tasks.
- * @param {boolean} props.isDarkMode - Indicates whether the component is in dark mode.
- * @returns {JSX.Element} The rendered Checklist component.
+ * @remarks
+ * This component manages the main checklist UI, including progress tracking and section rendering. It uses Figma Widget API primitives for layout and text.
+ *
+ * @param props - The checklist panel properties.
+ * @returns The rendered checklist panel JSX element.
+ *
+ * @example
+ * ```ts
+ * <CompanionPanel
+ *   title="A11y Checklist"
+ *   sections={sections}
+ *   taskCompletion={taskCompletion}
+ *   handleCheckChange={handleCheckChange}
+ *   total={total}
+ *   completed={completed}
+ * />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 function CompanionPanel({
   title,
