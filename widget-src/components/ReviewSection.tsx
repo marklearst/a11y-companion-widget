@@ -21,29 +21,50 @@ import AvatarStack from '../shared/AvatarStack'
  * @property {(taskId: string, isChecked: boolean) => void} handleCheckChange - A function to handle task completion changes.
  * @property {boolean} tooltipsEnabled - Whether tooltips are enabled for the section.
  */
+/**
+ * Props for the review section component.
+ *
+ * @remarks
+ * Used to render a section of checklist items, including their completion state and tooltips.
+ */
 interface ReviewSectionProps {
+  /** The section data, including title, description, and items. */
   section: {
     title: string
     description?: string
     items: ChecklistItemType[]
   }
+  /** Completion status of tasks in this section. */
   taskCompletion: Record<string, boolean>
+  /** Handler for task completion changes. */
   handleCheckChange: (taskId: string, isChecked: boolean) => void
+  /** Whether tooltips are enabled for the section. */
   tooltipsEnabled: boolean
 }
 
 /**
- * Renders a section component that displays a list of items.
+ * Renders a section of the accessibility checklist, displaying its items and completion state.
  *
- * @param {ReviewSectionProps} props - The props for the ReviewSection component.
- * @param {object} props.section - The section data.
- * @param {string} props.section.title - The title of the section.
- * @param {string} props.section.link - The link associated with the section.
- * @param {any[]} props.section.items - The items in the section.
- * @param {Record<string, boolean>} props.taskCompletion - The completion status of tasks.
- * @param {(taskId: string, isChecked: boolean) => void} props.handleCheckChange - A function to handle task completion changes.
- * @param {boolean} props.tooltipsEnabled - Whether tooltips are enabled for the section.
- * @returns {JSX.Element} The rendered ReviewSection component.
+ * @remarks
+ * This component displays a group of checklist items, tracks their completion, and manages section-level UI state. Uses Figma Widget API primitives for layout and interactivity.
+ *
+ * @param section - The section data, including title, description, and items.
+ * @param taskCompletion - Completion status of tasks in this section.
+ * @param handleCheckChange - Handler for task completion changes.
+ * @param tooltipsEnabled - Whether tooltips are enabled for the section.
+ * @returns The rendered ReviewSection component.
+ *
+ * @example
+ * ```ts
+ * <ReviewSection
+ *   section={section}
+ *   taskCompletion={taskCompletion}
+ *   handleCheckChange={handleCheckChange}
+ *   tooltipsEnabled={true}
+ * />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 function ReviewSection({
   section,
