@@ -5,16 +5,32 @@ const { AutoLayout, SVG } = widget
  * Defines the props for the Checkbox component.
  * @property {boolean} checked - Indicates whether the checkbox is checked or not.
  */
+/**
+ * Props for the Checkbox component.
+ *
+ * @remarks
+ * Controls the checked state of the checkbox UI element.
+ */
 interface CheckboxProps {
+  /** Whether the checkbox is checked. */
   checked: boolean
 }
 
 /**
- * Renders a checkbox with an optional checkmark.
+ * Renders a checkbox UI element with an optional checkmark.
  *
- * @param {CheckboxProps} props - The props for the Checkbox component.
- * @param {boolean} props.checked - Indicates whether the checkbox is checked or not.
- * @returns {JSX.Element} The rendered Checkbox component.
+ * @remarks
+ * This component provides a styled checkbox for use in the widget UI. Uses Figma Widget API primitives for layout and SVG rendering.
+ *
+ * @param checked - Whether the checkbox is checked.
+ * @returns The rendered Checkbox component.
+ *
+ * @example
+ * ```ts
+ * <Checkbox checked={true} />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 const Checkbox = ({ checked }: CheckboxProps) => (
   <AutoLayout
