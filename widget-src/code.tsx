@@ -1,3 +1,11 @@
+/**
+ * Entry point for the Figma accessibility companion widget.
+ *
+ * @remarks
+ * This file initializes the widget and registers the main component with the Figma Widget API. It manages state for task completion and renders the accessibility checklist interface.
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
+ */
 const { widget } = figma
 const { useSyncedState } = widget
 
@@ -7,7 +15,18 @@ import CompanionPanel from './components/CompanionPanel'
 /**
  * Main widget function component.
  *
- * @returns {JSX.Element} This component handles the state and rendering of the widget, including the role selector, checklist, and task completion functionality.
+ * @remarks
+ * Handles state and rendering for the accessibility checklist, including role selector, checklist, and task completion.
+ *
+ * @returns The widget's main UI as a React JSX element.
+ *
+ * @example
+ * ```ts
+ * // This function is registered as the widget entry point
+ * widget.register(Widget)
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/#widgetregister | Figma Widget API: widget.register}
  */
 function Widget() {
   // Flatten all items for progress tracking
@@ -19,7 +38,14 @@ function Widget() {
     Record<string, boolean>
   >('taskCompletion', {})
 
-  // Handler for checking/unchecking items
+  /**
+   * Handles checking and unchecking of checklist items.
+   *
+   * @param taskId - The ID of the checklist item.
+   * @param isChecked - Whether the item is checked.
+   * @remarks
+   * Updates the synced state for task completion.
+   */
   const handleCheckChange = (taskId: string, isChecked: boolean) => {
     setTaskCompletion({
       ...taskCompletion,
@@ -43,4 +69,12 @@ function Widget() {
   )
 }
 
+/**
+ * Registers the main widget component with the Figma Widget API.
+ *
+ * @remarks
+ * This is required for the widget to appear in the Figma editor.
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/#widgetregister | Figma Widget API: widget.register}
+ */
 widget.register(Widget)
