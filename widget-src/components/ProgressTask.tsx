@@ -11,19 +11,38 @@ import { ProgressTaskType } from '../types'
  * @property {boolean} checked - Whether the task is currently checked or not.
  * @property {(taskId: string, isChecked: boolean) => void} onCheckChange - Callback function to handle the checkbox change event.
  */
+/**
+ * Props for the progress task component.
+ *
+ * @remarks
+ * Used to render and manage a single checklist task's state and UI.
+ */
 interface TaskProps {
+  /** The task data object. */
   task: ProgressTaskType
+  /** Whether the task is currently checked. */
   checked: boolean
+  /** Handler for checkbox state changes. */
   onCheckChange: (taskId: string, isChecked: boolean) => void
 }
 
 /**
- * Renders a single task with a checkbox.
+ * Renders a single checklist task with a checkbox and label.
+ *
+ * @remarks
+ * This component displays a task and allows toggling its completion state. Uses Figma Widget API primitives for layout and interactivity.
  *
  * @param task - The task object containing the task details.
  * @param checked - Whether the task is currently checked or not.
  * @param onCheckChange - Callback function to handle the checkbox change event.
  * @returns The rendered Task component.
+ *
+ * @example
+ * ```ts
+ * <ProgressTask task={task} checked={checked} onCheckChange={handleCheckChange} />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 function ProgressTask({ task, checked, onCheckChange }: TaskProps) {
   const { id, text } = task
