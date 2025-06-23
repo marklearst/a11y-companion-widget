@@ -13,22 +13,41 @@ import { ChecklistItemType } from '../types'
  * @property {(taskId: string, isChecked: boolean) => void} onCheckChange - A function to handle changes to the completion status of the item.
  * @property {boolean} tooltipsEnabled - Whether tooltips are enabled for the item.
  */
+/**
+ * Props for the review item component.
+ *
+ * @remarks
+ * Used to render and manage a single checklist item's state and UI, including tooltip logic.
+ */
 interface ReviewItemProps {
+  /** The checklist item data. */
   item: ChecklistItemType
+  /** Whether the item is checked. */
   checked: boolean
+  /** Handler for changes to the completion status. */
   onCheckChange: (taskId: string, isChecked: boolean) => void
+  /** Whether tooltips are enabled for the item. */
   tooltipsEnabled: boolean
 }
 
 /**
- * Renders a single checklist item component.
+ * Renders a single checklist item row with a checkbox, text, and optional tooltip.
  *
- * @param {ReviewItemProps} props - The props for the ReviewItem component.
- * @param {ChecklistItemType} props.item - The checklist item object containing the data to be displayed.
- * @param {boolean} props.checked - The completion status of the item.
- * @param {(taskId: string, isChecked: boolean) => void} props.onCheckChange - A function to handle changes to the completion status of the item.
- * @param {boolean} props.tooltipsEnabled - Whether tooltips are enabled for the item.
- * @returns {JSX.Element} The rendered ReviewItem component.
+ * @remarks
+ * This component displays a checklist item with interactive completion and accessibility tooltip support. Uses Figma Widget API primitives for layout and interactivity.
+ *
+ * @param item - The checklist item data.
+ * @param checked - The completion status of the item.
+ * @param onCheckChange - Handler for completion status changes.
+ * @param tooltipsEnabled - Whether tooltips are enabled for the item.
+ * @returns The rendered ReviewItem component.
+ *
+ * @example
+ * ```ts
+ * <ReviewItem item={item} checked={checked} onCheckChange={handleCheckChange} tooltipsEnabled={true} />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 function ReviewItem({
   item,
