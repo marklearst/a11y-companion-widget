@@ -6,18 +6,35 @@ const { AutoLayout, Text } = widget
  * @property {number} completed - The number of completed tasks.
  * @property {number} total - The total number of tasks.
  */
+/**
+ * Props for the ProgressTracker component.
+ *
+ * @remarks
+ * Controls the display of the progress tracker, including completed and total task counts.
+ */
 interface ProgressTrackerProps {
+  /** Number of completed tasks. */
   completed: number
+  /** Total number of tasks. */
   total: number
 }
 
 /**
- * Renders a ProgressTracker component to display the completion status of a task.
+ * Renders a pill-shaped progress tracker showing completed and total tasks.
  *
- * @param {ProgressTrackerProps} props - The props for the ProgressTracker component.
- * @param {number} props.completed - The number of completed tasks.
- * @param {number} props.total - The total number of tasks.
- * @returns {JSX.Element} The rendered ProgressTracker component.
+ * @remarks
+ * This component visually displays checklist progress in a compact format. Uses Figma Widget API primitives for layout and text rendering.
+ *
+ * @param completed - Number of completed tasks.
+ * @param total - Total number of tasks.
+ * @returns The rendered ProgressTracker component.
+ *
+ * @example
+ * ```ts
+ * <ProgressTracker completed={5} total={10} />
+ * ```
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 const ProgressTracker = ({ completed, total }: ProgressTrackerProps) => {
   const isAllCompleted = total > 0 && total === completed
