@@ -7,10 +7,14 @@
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 const { widget } = figma
-const { useSyncedState } = widget
 
-import checklistData from 'data/a11yChecklistData.json'
+import checklistDataJson from 'data/a11yChecklistData.json'
 import { ChecklistPanel } from 'components/checklist'
+import type { ChecklistDataType } from 'types'
+import useProgressTracker from 'hooks/useProgressTracker'
+
+// Type assertion to ensure the JSON data conforms to our expected structure
+const checklistData = checklistDataJson as ChecklistDataType
 
 /**
  * Main widget function component.
@@ -29,29 +33,12 @@ import { ChecklistPanel } from 'components/checklist'
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/#widgetregister | Figma Widget API: widget.register}
  */
 function Widget() {
+  // Use the progress tracker hook for state management
+  const { taskCompletion, handleCheckChange } = useProgressTracker()
+
   // Flatten all items for progress tracking
   const allItems = checklistData.sections.flatMap((section) => section.items)
   const itemIds = allItems.map((item) => item.id)
-
-  // Use a single synced state for all item completions
-  const [taskCompletion, setTaskCompletion] = useSyncedState<
-    Record<string, boolean>
-  >('taskCompletion', {})
-
-  /**
-   * Handles checking and unchecking of checklist items.
-   *
-   * @param taskId - The ID of the checklist item.
-   * @param isChecked - Whether the item is checked.
-   * @remarks
-   * Updates the synced state for task completion.
-   */
-  const handleCheckChange = (taskId: string, isChecked: boolean) => {
-    setTaskCompletion({
-      ...taskCompletion,
-      [taskId]: isChecked,
-    })
-  }
 
   // Calculate progress
   const total = itemIds.length

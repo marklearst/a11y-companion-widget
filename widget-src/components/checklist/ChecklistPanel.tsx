@@ -1,10 +1,11 @@
 const { widget } = figma
-const { AutoLayout, SVG, Text, usePropertyMenu, useSyncedState } = widget
+const { AutoLayout, SVG, Text } = widget
 
 import { ProgressBar } from 'components/primitives'
 import { ChecklistProps } from 'types/index'
 import { dropShadowEffect } from 'effects/dropShadows'
 import { ChecklistSection } from 'components/checklist'
+import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -36,7 +37,7 @@ import { ChecklistSection } from 'components/checklist'
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-function CompanionPanel({
+function ChecklistPanel({
   title,
   sections,
   taskCompletion,
@@ -48,27 +49,8 @@ function CompanionPanel({
   const parentWidth = 460 // assuming a fixed width for the parent container
   const progressText = `${completed} of ${total} accessibility checks done`
 
-  // Add tooltips toggle state
-  const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState(
-    'tooltipsEnabled',
-    false
-  )
-
-  usePropertyMenu(
-    [
-      {
-        itemType: 'toggle',
-        propertyName: 'show-tooltips',
-        tooltip: 'Show tooltips on checkable items',
-        isToggled: tooltipsEnabled,
-      },
-    ],
-    ({ propertyName }) => {
-      if (propertyName === 'show-tooltips') {
-        setTooltipsEnabled(!tooltipsEnabled)
-      }
-    }
-  )
+  // Use custom hook for tooltips toggle and property menu
+  const { tooltipsEnabled } = useTooltipsToggle()
 
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
@@ -136,7 +118,7 @@ function CompanionPanel({
         </Text>
         {sections.map((section) => (
           <ChecklistSection
-            key={section.title}
+            key={section.id}
             section={section}
             taskCompletion={taskCompletion}
             handleCheckChange={handleCheckChange}
@@ -148,4 +130,4 @@ function CompanionPanel({
   )
 }
 
-export default CompanionPanel
+export default ChecklistPanel
