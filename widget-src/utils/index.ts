@@ -1,40 +1,11 @@
 /**
- * Calculates the total and completed tasks for a checklist (sections/items structure).
- * @param sections - Array of checklist sections, each with an items array.
- * @param taskCompletion - Record of task completion states keyed by item id.
- * @returns An object containing the total number of tasks and the number of completed tasks.
- */
-/**
- * Calculates the total and completed tasks for a checklist structure.
+ * Barrel file for checklist utility functions.
  *
  * @remarks
- * Iterates through all sections and their items, comparing each item's ID to the taskCompletion record to determine progress.
+ * Re-exports checklist progress utilities for convenient import elsewhere in the widget codebase.
+ * - `getSectionProgress`: Computes progress for a single checklist section
+ * - `getChecklistProgress`: Computes progress for the entire checklist
  *
- * @param sections - Array of checklist sections, each with an items array.
- * @param taskCompletion - Record of task completion states keyed by item id.
- * @returns An object containing the total number of tasks and the number of completed tasks.
- *
- * @example
- * ```ts
- * const progress = getChecklistProgress(sections, taskCompletion)
- * // progress = { total: 12, completed: 7 }
- * ```
- *
- * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
+ * @since 1.0.0
  */
-export function getChecklistProgress(
-  sections: { items: { id: string }[] }[],
-  taskCompletion: Record<string, boolean>
-): { total: number; completed: number } {
-  let total = 0
-  let completed = 0
-
-  sections.forEach((section) => {
-    section.items.forEach((item) => {
-      total += 1
-      if (taskCompletion[item.id]) completed += 1
-    })
-  })
-
-  return { total, completed }
-}
+export { getSectionProgress, getChecklistProgress } from 'utils/checklist'
