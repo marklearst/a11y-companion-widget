@@ -1,13 +1,12 @@
 const { widget } = figma
-const { useSyncedState, AutoLayout, Text, SVG } = widget
-
-// Get current user ONCE at module scope
-const user = figma.currentUser
+const { AutoLayout, Text } = widget
 
 import { ChecklistSectionProps } from 'types/index'
 import { ProgressTracker } from 'components/primitives'
-import { AvatarStack } from 'components/primitives'
 import { ChecklistItem } from 'components/checklist'
+import { useChecklistProgress } from 'hooks/useChecklistProgress'
+import { useOpenSections } from 'hooks/useOpenSections'
+import CaretIcon from 'components/checklist/CaretIcon'
 
 /**
  * Renders a section of the accessibility checklist, displaying its items and completion state.
@@ -44,63 +43,22 @@ function ChecklistSection({
   }
 
   // Use section title as key for open/closed state
-  const [openSections, setOpenSections] = useSyncedState<
-    Record<string, boolean>
-  >('openSections', {})
+  // Use custom hook for open/close state
+  const { openSections, toggleSection } = useOpenSections()
   const isOpen = openSections[section.title] || false
 
-  // Collaborative avatars per section
-  const [sectionAvatars, setSectionAvatars] = useSyncedState<
-    Record<string, { id: string; name: string; photoUrl: string | null }[]>
-  >('sectionAvatars', {})
+  // Use custom hook for per-section progress
+  const { completedCount: completed, totalCount: total } = useChecklistProgress(
+    section,
+    taskCompletion
+  )
 
-  // Calculate per-section progress
-  const total = section.items.length
-  const completed = section.items.filter(
-    (item) => taskCompletion[item.id]
-  ).length
+  // Handle checklist item check/uncheck
+  const handleCheckChangeSimple = (taskId: string, isChecked: boolean) => {
+    handleCheckChange(taskId, isChecked)
+  }
 
   // Caret SVG (right when closed, down when open)
-  const caretSvgSrcClosed =
-    "<svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M5 3L11 8L5 13' stroke='#9299CE' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
-  const caretSvgSrcOpen =
-    "<svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 5L8 11L13 5' stroke='#9299CE' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
-
-  // Toggle open/closed state for this section
-  const toggleSection = () => {
-    setOpenSections({
-      ...openSections,
-      [section.title]: !isOpen,
-    })
-  }
-
-  // Enhanced handleCheckChange to update avatars
-  const handleCheckChangeWithAvatars = (taskId: string, isChecked: boolean) => {
-    handleCheckChange(taskId, isChecked)
-    if (!user || typeof user.id !== 'string' || user.id === null) return
-    // Only update if checking (not unchecking)
-    if (isChecked) {
-      setSectionAvatars((prev) => {
-        const avatars = prev[section.title] || []
-        // Remove if already present and filter out any with id not a string
-        const filtered = avatars.filter(
-          (a) => typeof a.id === 'string' && a.id !== user.id
-        )
-        // Add to front
-        const updated: { id: string; name: string; photoUrl: string | null }[] =
-          [
-            { id: user.id as string, name: user.name, photoUrl: user.photoUrl },
-            ...filtered,
-          ]
-        return {
-          ...prev,
-          [section.title]: updated,
-        }
-      })
-    }
-  }
-
-  const avatars = sectionAvatars[section.title] || []
 
   /**
    * Renders the ChecklistSection component, which displays a list of items.
@@ -118,15 +76,10 @@ function ChecklistSection({
         spacing={12}
         verticalAlignItems="center"
         width="fill-parent"
-        onClick={toggleSection}
+        onClick={() => toggleSection(section.title)}
         height={34}
         horizontalAlignItems="center">
-        <SVG
-          name="Caret"
-          width={16}
-          height={16}
-          src={isOpen ? caretSvgSrcOpen : caretSvgSrcClosed}
-        />
+        <CaretIcon open={isOpen} />
         <Text
           name="SectionTitle"
           fill="#212A6A"
@@ -141,11 +94,6 @@ function ChecklistSection({
           direction="horizontal"
           spacing={8}
           verticalAlignItems="center">
-          <AvatarStack
-            avatars={avatars}
-            size={34}
-            maxAvatars={5}
-          />
           <ProgressTracker
             completed={completed}
             total={total}
@@ -177,10 +125,8 @@ function ChecklistSection({
           <ChecklistItem
             key={item.id}
             item={item}
-            checked={taskCompletion[item.id]}
-            onCheckChange={(taskId, isChecked) =>
-              handleCheckChangeWithAvatars(taskId, isChecked)
-            }
+            checked={taskCompletion[item.id] || false}
+            onCheckChange={handleCheckChangeSimple}
             tooltipsEnabled={tooltipsEnabled}
           />
         ))}

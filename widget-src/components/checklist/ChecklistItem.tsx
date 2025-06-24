@@ -3,6 +3,7 @@ const { AutoLayout, Text } = widget
 
 import { Checkbox } from 'components/primitives'
 import { ChecklistItemProps } from 'types/index'
+import WcagBadge from 'components/checklist/WcagBadge'
 
 /**
  * Renders a single checklist item row with a checkbox, text, and optional tooltip.
@@ -59,25 +60,14 @@ function ChecklistItem({
       <Checkbox checked={checked} />
       <Text
         name="TaskText"
-        width="fill-parent"
+        width={420}
         fill="#212A6A"
         lineHeight="150%"
         fontFamily="Anaheim"
         fontSize={17}
         fontWeight={600}
         tooltip={tooltipsEnabled ? tooltipContent : undefined}>
-        {text}{' '}
-        {wcag && (
-          <Text
-            fontSize={14}
-            fill="#888"
-            fontFamily="Anaheim"
-            fontWeight={400}
-            tooltip={`WCAG ${wcag}`}>
-            {' '}
-            {wcag}
-          </Text>
-        )}
+        {text} {wcag && <WcagBadge wcag={wcag} />}
       </Text>
     </AutoLayout>
   )
