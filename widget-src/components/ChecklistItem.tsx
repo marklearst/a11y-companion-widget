@@ -1,34 +1,8 @@
 const { widget } = figma
 const { AutoLayout, Text } = widget
 
-import Checkbox from '../shared/Checkbox'
-import { ChecklistItemType } from '../types'
-
-/**
- * Defines the props for the ReviewItem component.
- *
- * @interface ReviewItemProps
- * @property {ChecklistItemType} item - The checklist item object containing the data to be displayed.
- * @property {boolean} checked - The completion status of the item.
- * @property {(taskId: string, isChecked: boolean) => void} onCheckChange - A function to handle changes to the completion status of the item.
- * @property {boolean} tooltipsEnabled - Whether tooltips are enabled for the item.
- */
-/**
- * Props for the review item component.
- *
- * @remarks
- * Used to render and manage a single checklist item's state and UI, including tooltip logic.
- */
-interface ReviewItemProps {
-  /** The checklist item data. */
-  item: ChecklistItemType
-  /** Whether the item is checked. */
-  checked: boolean
-  /** Handler for changes to the completion status. */
-  onCheckChange: (taskId: string, isChecked: boolean) => void
-  /** Whether tooltips are enabled for the item. */
-  tooltipsEnabled: boolean
-}
+import Checkbox from 'shared/Checkbox'
+import { ChecklistItemProps } from 'types/index'
 
 /**
  * Renders a single checklist item row with a checkbox, text, and optional tooltip.
@@ -40,21 +14,21 @@ interface ReviewItemProps {
  * @param checked - The completion status of the item.
  * @param onCheckChange - Handler for completion status changes.
  * @param tooltipsEnabled - Whether tooltips are enabled for the item.
- * @returns The rendered ReviewItem component.
+ * @returns The rendered ChecklistItem component.
  *
  * @example
  * ```ts
- * <ReviewItem item={item} checked={checked} onCheckChange={handleCheckChange} tooltipsEnabled={true} />
+ * <ChecklistItem item={item} checked={checked} onCheckChange={handleCheckChange} tooltipsEnabled={true} />
  * ```
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-function ReviewItem({
+function ChecklistItem({
   item,
   checked,
   onCheckChange,
   tooltipsEnabled,
-}: ReviewItemProps) {
+}: ChecklistItemProps) {
   const { id, text, wcag, longDescription } = item
 
   const handleChange = () => {
@@ -109,4 +83,4 @@ function ReviewItem({
   )
 }
 
-export default ReviewItem
+export default ChecklistItem

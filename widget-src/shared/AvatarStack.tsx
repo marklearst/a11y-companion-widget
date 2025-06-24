@@ -1,35 +1,7 @@
 const { widget } = figma
 const { AutoLayout, Image, Text } = widget
 
-/**
- * Represents a user avatar for display in a stack.
- *
- * @remarks
- * Used in the AvatarStack component to visually represent users or reviewers.
- */
-interface Avatar {
-  /** Unique identifier for the avatar. */
-  id: string
-  /** Display name for the avatar. */
-  name: string
-  /** Optional photo URL for the avatar image. */
-  photoUrl: string | null
-}
-
-/**
- * Props for the AvatarStack component.
- *
- * @remarks
- * Controls the avatars, size, and maximum shown avatars in the stack.
- */
-interface AvatarStackProps {
-  /** Array of avatars to display. */
-  avatars: Avatar[]
-  /** Size of each avatar in pixels. @defaultValue 34 */
-  size?: number
-  /** Maximum number of avatars to display. @defaultValue 5 */
-  maxAvatars?: number
-}
+import { AvatarStackProps } from 'types/index'
 
 /**
  * Renders a horizontal stack of user avatars with overflow handling.

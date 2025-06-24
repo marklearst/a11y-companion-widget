@@ -1,26 +1,7 @@
 const { widget } = figma
 const { AutoLayout, Rectangle } = widget
 
-/**
- * Defines the properties for the ProgressBar component.
- * @property {number} total - The total number of tasks.
- * @property {number} completed - The number of completed tasks.
- * @property {number} parentWidth - The width of the parent container.
- */
-/**
- * Props for the ProgressBar component.
- *
- * @remarks
- * Controls the display of the progress bar, including task counts and parent width.
- */
-interface ProgressBarProps {
-  /** Total number of tasks. */
-  total: number
-  /** Number of completed tasks. */
-  completed: number
-  /** Width of the parent container in pixels. */
-  parentWidth: number
-}
+import { ProgressBarProps } from 'types/index'
 
 /**
  * Renders a horizontal progress bar showing completion status for tasks.

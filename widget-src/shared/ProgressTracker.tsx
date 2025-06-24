@@ -1,24 +1,7 @@
 const { widget } = figma
 const { AutoLayout, Text } = widget
 
-/**
- * Defines the props for the ProgressTracker component.
- * @property {number} completed - The number of completed tasks.
- * @property {number} total - The total number of tasks.
- */
-/**
- * Props for the ProgressTracker component.
- *
- * @remarks
- * Controls the display of the progress tracker, including completed and total task counts.
- */
-interface ProgressTrackerProps {
-  /** Number of completed tasks. */
-  completed: number
-  /** Total number of tasks. */
-  total: number
-}
-
+import { ProgressTrackerProps } from 'types/index'
 /**
  * Renders a pill-shaped progress tracker showing completed and total tasks.
  *

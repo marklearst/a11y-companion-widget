@@ -4,43 +4,10 @@ const { useSyncedState, AutoLayout, Text, SVG } = widget
 // Get current user ONCE at module scope
 const user = figma.currentUser
 
-import { ChecklistItemType } from '../types'
-import ReviewItem from './ReviewItem'
-import ProgressTracker from '../shared/ProgressTracker'
-import AvatarStack from '../shared/AvatarStack'
-
-/**
- * Defines the props for the `ReviewSection` component.
- *
- * @interface ReviewSectionProps
- * @property {object} section - The section data.
- * @property {string} section.title - The title of the section.
- * @property {string} section.link - The link associated with the section.
- * @property {any[]} section.items - The items in the section.
- * @property {Record<string, boolean>} taskCompletion - The completion status of tasks.
- * @property {(taskId: string, isChecked: boolean) => void} handleCheckChange - A function to handle task completion changes.
- * @property {boolean} tooltipsEnabled - Whether tooltips are enabled for the section.
- */
-/**
- * Props for the review section component.
- *
- * @remarks
- * Used to render a section of checklist items, including their completion state and tooltips.
- */
-interface ReviewSectionProps {
-  /** The section data, including title, description, and items. */
-  section: {
-    title: string
-    description?: string
-    items: ChecklistItemType[]
-  }
-  /** Completion status of tasks in this section. */
-  taskCompletion: Record<string, boolean>
-  /** Handler for task completion changes. */
-  handleCheckChange: (taskId: string, isChecked: boolean) => void
-  /** Whether tooltips are enabled for the section. */
-  tooltipsEnabled: boolean
-}
+import { ChecklistSectionProps } from 'types/index'
+import ProgressTracker from 'shared/ProgressTracker'
+import AvatarStack from 'shared/AvatarStack'
+import ChecklistItem from 'components/ChecklistItem'
 
 /**
  * Renders a section of the accessibility checklist, displaying its items and completion state.
@@ -52,11 +19,11 @@ interface ReviewSectionProps {
  * @param taskCompletion - Completion status of tasks in this section.
  * @param handleCheckChange - Handler for task completion changes.
  * @param tooltipsEnabled - Whether tooltips are enabled for the section.
- * @returns The rendered ReviewSection component.
+ * @returns The rendered ChecklistSection component.
  *
  * @example
  * ```ts
- * <ReviewSection
+ * <ChecklistSection
  *   section={section}
  *   taskCompletion={taskCompletion}
  *   handleCheckChange={handleCheckChange}
@@ -66,12 +33,12 @@ interface ReviewSectionProps {
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-function ReviewSection({
+function ChecklistSection({
   section,
   taskCompletion,
   handleCheckChange,
   tooltipsEnabled,
-}: ReviewSectionProps) {
+}: ChecklistSectionProps) {
   if (!section || !Array.isArray(section.items)) {
     return null
   }
@@ -136,9 +103,9 @@ function ReviewSection({
   const avatars = sectionAvatars[section.title] || []
 
   /**
-   * Renders the ReviewSection component, which displays a list of items.
+   * Renders the ChecklistSection component, which displays a list of items.
    *
-   * @returns {JSX.Element} The rendered ReviewSection component.
+   * @returns {JSX.Element} The rendered ChecklistSection component.
    */
   return (
     <AutoLayout
@@ -207,7 +174,7 @@ function ReviewSection({
       )}
       {isOpen &&
         section.items.map((item) => (
-          <ReviewItem
+          <ChecklistItem
             key={item.id}
             item={item}
             checked={taskCompletion[item.id]}
@@ -221,4 +188,4 @@ function ReviewSection({
   )
 }
 
-export default ReviewSection
+export default ChecklistSection

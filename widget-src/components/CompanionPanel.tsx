@@ -1,62 +1,29 @@
 const { widget } = figma
 const { AutoLayout, SVG, Text, usePropertyMenu, useSyncedState } = widget
 
-import ProgressBar from '../shared/ProgressBar'
-import { ChecklistItemType } from '../types'
-import { dropShadowEffect } from '../effects/dropShadows'
-import ReviewSection from './ReviewSection'
-
-/**
- * Represents a section in the accessibility checklist, including its title, link, and items.
- *
- * @remarks
- * Used to group related checklist items for display in the widget UI.
- *
- * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
- */
-interface ChecklistSectionType {
-  /** The section title. */
-  title: string
-  /** An optional link for the section. */
-  link: string
-  /** The checklist items belonging to this section. */
-  items: ChecklistItemType[]
-}
-
-/**
- * Props for the checklist panel component.
- *
- * @remarks
- * Used to control the display and state of the accessibility checklist UI.
- */
-interface ChecklistProps {
-  /** The title of the checklist. */
-  title: string
-  /** The sections to display in the checklist. */
-  sections: ChecklistSectionType[]
-  /** The completion status of each task, keyed by item id. */
-  taskCompletion: Record<string, boolean>
-  /** Handler for changes to task completion. */
-  handleCheckChange: (taskId: string, isChecked: boolean) => void
-  /** The total number of tasks. */
-  total: number
-  /** The number of completed tasks. */
-  completed: number
-  /** Whether the component is in dark mode. */
-  isDarkMode?: boolean | undefined
-}
+import ProgressBar from 'shared/ProgressBar'
+import { ChecklistProps } from 'types/index'
+import { dropShadowEffect } from 'effects/dropShadows'
+import ChecklistSection from 'components/ChecklistSection'
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
  *
  * @remarks
- * This component manages the main checklist UI, including progress tracking and section rendering. It uses Figma Widget API primitives for layout and text.
+ * This component manages the main checklist UI, including progress tracking and section rendering.
+ * It uses Figma Widget API primitives for layout and text.
  *
  * @param props - The checklist panel properties.
- * @returns The rendered checklist panel JSX element.
+ * @param props.title - The title of the checklist.
+ * @param props.sections - The checklist sections to display.
+ * @param props.taskCompletion - The current task completion state.
+ * @param props.handleCheckChange - Callback for when a checklist item is toggled.
+ * @param props.total - The total number of checklist items.
+ * @param props.completed - The number of completed checklist items.
+ * @returns The rendered checklist panel JSX element for use in a Figma widget.
  *
  * @example
- * ```ts
+ * ```tsx
  * <CompanionPanel
  *   title="A11y Checklist"
  *   sections={sections}
@@ -168,7 +135,7 @@ function CompanionPanel({
           {progressText}
         </Text>
         {sections.map((section) => (
-          <ReviewSection
+          <ChecklistSection
             key={section.title}
             section={section}
             taskCompletion={taskCompletion}

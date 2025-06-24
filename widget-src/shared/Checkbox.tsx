@@ -1,20 +1,7 @@
 const { widget } = figma
 const { AutoLayout, SVG } = widget
 
-/**
- * Defines the props for the Checkbox component.
- * @property {boolean} checked - Indicates whether the checkbox is checked or not.
- */
-/**
- * Props for the Checkbox component.
- *
- * @remarks
- * Controls the checked state of the checkbox UI element.
- */
-interface CheckboxProps {
-  /** Whether the checkbox is checked. */
-  checked: boolean
-}
+import { CheckboxProps } from 'types/index'
 
 /**
  * Renders a checkbox UI element with an optional checkmark.
