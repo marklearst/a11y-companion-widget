@@ -522,93 +522,9 @@
     ]
   };
 
-  // widget-src/shared/ProgressBar.tsx
+  // widget-src/components/primitives/AvatarStack.tsx
   var { widget } = figma;
-  var { AutoLayout, Rectangle } = widget;
-  var ProgressBar = ({ total, completed, parentWidth }) => {
-    const percentage = total === 0 ? 0 : completed / total * 100;
-    let calculatedWidth = percentage / 100 * parentWidth;
-    if (calculatedWidth === 0) {
-      calculatedWidth = 0.25;
-    }
-    return /* @__PURE__ */ figma.widget.h(
-      AutoLayout,
-      {
-        direction: "horizontal",
-        overflow: "hidden",
-        width: parentWidth,
-        height: 20,
-        fill: "#9299ce",
-        cornerRadius: 4,
-        padding: 0,
-        spacing: 0
-      },
-      /* @__PURE__ */ figma.widget.h(
-        Rectangle,
-        {
-          width: calculatedWidth,
-          height: "fill-parent",
-          fill: "#212a6a"
-        }
-      )
-    );
-  };
-  var ProgressBar_default = ProgressBar;
-
-  // widget-src/effects/dropShadows.ts
-  var dropShadowEffect = {
-    type: "drop-shadow",
-    color: "#212A6A25",
-    offset: {
-      x: 0,
-      y: 0
-    },
-    blur: 15,
-    showShadowBehindNode: true
-  };
-
-  // widget-src/shared/ProgressTracker.tsx
-  var { widget: widget2 } = figma;
-  var { AutoLayout: AutoLayout2, Text } = widget2;
-  var ProgressTracker = ({ completed, total }) => {
-    const isAllCompleted = total > 0 && total === completed;
-    const fillColor = isAllCompleted ? "#212a6a" : "#9299ce";
-    const textColor = isAllCompleted ? "#FFFFFF" : "#FFFFFF";
-    return /* @__PURE__ */ figma.widget.h(
-      AutoLayout2,
-      {
-        fill: fillColor,
-        cornerRadius: 16,
-        spacing: 10,
-        padding: {
-          vertical: 2,
-          horizontal: 10
-        },
-        horizontalAlignItems: "center",
-        verticalAlignItems: "center"
-      },
-      /* @__PURE__ */ figma.widget.h(
-        Text,
-        {
-          fill: textColor,
-          verticalAlignText: "center",
-          horizontalAlignText: "right",
-          lineHeight: "150%",
-          fontFamily: "Anaheim",
-          fontSize: 18,
-          fontWeight: 800
-        },
-        completed,
-        " / ",
-        total
-      )
-    );
-  };
-  var ProgressTracker_default = ProgressTracker;
-
-  // widget-src/shared/AvatarStack.tsx
-  var { widget: widget3 } = figma;
-  var { AutoLayout: AutoLayout3, Image, Text: Text2 } = widget3;
+  var { AutoLayout, Image, Text } = widget;
   var AvatarStack = ({
     avatars,
     size = 28,
@@ -618,7 +534,7 @@
     const shown = avatars.slice(0, maxAvatars).reverse();
     const extra = avatars.length - maxAvatars;
     return /* @__PURE__ */ figma.widget.h(
-      AutoLayout3,
+      AutoLayout,
       {
         direction: "horizontal",
         spacing: -size / 4,
@@ -641,7 +557,7 @@
             tooltip: avatar.name
           }
         ) : /* @__PURE__ */ figma.widget.h(
-          AutoLayout3,
+          AutoLayout,
           {
             key: avatar.id,
             width: size,
@@ -656,7 +572,7 @@
             tooltip: avatar.name
           },
           /* @__PURE__ */ figma.widget.h(
-            Text2,
+            Text,
             {
               fill: "#fff",
               fontSize: Math.round(size / 2.5),
@@ -667,7 +583,7 @@
         )
       ),
       extra > 0 && /* @__PURE__ */ figma.widget.h(
-        AutoLayout3,
+        AutoLayout,
         {
           width: size,
           height: size,
@@ -681,7 +597,7 @@
           tooltip: `${extra} more reviewers`
         },
         /* @__PURE__ */ figma.widget.h(
-          Text2,
+          Text,
           {
             fill: "#212A6A",
             fontSize: Math.round(size / 2.5),
@@ -695,11 +611,11 @@
   };
   var AvatarStack_default = AvatarStack;
 
-  // widget-src/shared/Checkbox.tsx
-  var { widget: widget4 } = figma;
-  var { AutoLayout: AutoLayout4, SVG } = widget4;
+  // widget-src/components/primitives/Checkbox.tsx
+  var { widget: widget2 } = figma;
+  var { AutoLayout: AutoLayout2, SVG } = widget2;
   var Checkbox = ({ checked }) => /* @__PURE__ */ figma.widget.h(
-    AutoLayout4,
+    AutoLayout2,
     {
       name: "Checkbox",
       fill: checked ? "#212a6a" : "#fff",
@@ -730,76 +646,218 @@
   );
   var Checkbox_default = Checkbox;
 
-  // widget-src/components/ChecklistItem.tsx
-  var { widget: widget5 } = figma;
-  var { AutoLayout: AutoLayout5, Text: Text3 } = widget5;
-  function ChecklistItem({
-    item,
-    checked,
-    onCheckChange,
-    tooltipsEnabled
-  }) {
-    const { id, text, wcag, longDescription } = item;
-    const handleChange = () => {
-      onCheckChange(id, !checked);
-    };
-    let tooltipContent = "";
-    if (wcag && longDescription) {
-      tooltipContent = `WCAG: ${wcag}
-${longDescription}`;
-    } else if (wcag) {
-      tooltipContent = `WCAG: ${wcag}`;
-    } else if (longDescription) {
-      tooltipContent = longDescription;
-    } else {
-      tooltipContent = text;
+  // widget-src/components/primitives/ProgressBar.tsx
+  var { widget: widget3 } = figma;
+  var { AutoLayout: AutoLayout3, Rectangle } = widget3;
+  var ProgressBar = ({ total, completed, parentWidth }) => {
+    const percentage = total === 0 ? 0 : completed / total * 100;
+    let calculatedWidth = percentage / 100 * parentWidth;
+    if (calculatedWidth === 0) {
+      calculatedWidth = 0.25;
     }
+    return /* @__PURE__ */ figma.widget.h(
+      AutoLayout3,
+      {
+        direction: "horizontal",
+        overflow: "hidden",
+        width: parentWidth,
+        height: 20,
+        fill: "#9299ce",
+        cornerRadius: 4,
+        padding: 0,
+        spacing: 0
+      },
+      /* @__PURE__ */ figma.widget.h(
+        Rectangle,
+        {
+          width: calculatedWidth,
+          height: "fill-parent",
+          fill: "#212a6a"
+        }
+      )
+    );
+  };
+  var ProgressBar_default = ProgressBar;
+
+  // widget-src/components/primitives/ProgressTracker.tsx
+  var { widget: widget4 } = figma;
+  var { AutoLayout: AutoLayout4, Text: Text2 } = widget4;
+  var ProgressTracker = ({ completed, total }) => {
+    const isAllCompleted = total > 0 && total === completed;
+    const fillColor = isAllCompleted ? "#212a6a" : "#9299ce";
+    const textColor = isAllCompleted ? "#FFFFFF" : "#FFFFFF";
+    return /* @__PURE__ */ figma.widget.h(
+      AutoLayout4,
+      {
+        fill: fillColor,
+        cornerRadius: 16,
+        spacing: 10,
+        padding: {
+          vertical: 2,
+          horizontal: 10
+        },
+        horizontalAlignItems: "center",
+        verticalAlignItems: "center"
+      },
+      /* @__PURE__ */ figma.widget.h(
+        Text2,
+        {
+          fill: textColor,
+          verticalAlignText: "center",
+          horizontalAlignText: "right",
+          lineHeight: "150%",
+          fontFamily: "Anaheim",
+          fontSize: 18,
+          fontWeight: 800
+        },
+        completed,
+        " / ",
+        total
+      )
+    );
+  };
+  var ProgressTracker_default = ProgressTracker;
+
+  // widget-src/effects/dropShadows.ts
+  var dropShadowEffect = {
+    type: "drop-shadow",
+    color: "#212A6A25",
+    offset: {
+      x: 0,
+      y: 0
+    },
+    blur: 15,
+    showShadowBehindNode: true
+  };
+
+  // widget-src/components/checklist/ChecklistPanel.tsx
+  var { widget: widget5 } = figma;
+  var { AutoLayout: AutoLayout5, SVG: SVG2, Text: Text3, usePropertyMenu, useSyncedState } = widget5;
+  function CompanionPanel({
+    title,
+    sections,
+    taskCompletion,
+    handleCheckChange,
+    total,
+    completed,
+    isDarkMode
+  }) {
+    const parentWidth = 460;
+    const progressText = `${completed} of ${total} accessibility checks done`;
+    const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState(
+      "tooltipsEnabled",
+      false
+    );
+    usePropertyMenu(
+      [
+        {
+          itemType: "toggle",
+          propertyName: "show-tooltips",
+          tooltip: "Show tooltips on checkable items",
+          isToggled: tooltipsEnabled
+        }
+      ],
+      ({ propertyName }) => {
+        if (propertyName === "show-tooltips") {
+          setTooltipsEnabled(!tooltipsEnabled);
+        }
+      }
+    );
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout5,
       {
-        key: id,
-        direction: "horizontal",
-        verticalAlignItems: "start",
-        spacing: 14,
-        padding: { vertical: 10 },
+        direction: "vertical",
         width: 520,
-        onClick: handleChange
+        cornerRadius: 8,
+        effect: dropShadowEffect,
+        fill: isDarkMode ? "#222222" : "#fff",
+        stroke: "#212A6A",
+        strokeAlign: "outside",
+        strokeWidth: 1,
+        spacing: 30,
+        padding: { top: 0, bottom: 30, left: 0, right: 0 }
       },
-      /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked }),
       /* @__PURE__ */ figma.widget.h(
-        Text3,
+        AutoLayout5,
         {
-          name: "TaskText",
+          name: "Header",
+          direction: "horizontal",
           width: "fill-parent",
+          height: 100,
           fill: "#212A6A",
-          lineHeight: "150%",
-          fontFamily: "Anaheim",
-          fontSize: 17,
-          fontWeight: 600,
-          tooltip: tooltipsEnabled ? tooltipContent : void 0
+          verticalAlignItems: "center",
+          spacing: 14,
+          padding: { top: 20, bottom: 20, left: 25, right: 0 }
         },
-        text,
-        " ",
-        wcag && /* @__PURE__ */ figma.widget.h(
+        /* @__PURE__ */ figma.widget.h(
+          SVG2,
+          {
+            name: "a11y-logo",
+            width: 51,
+            height: 51,
+            src: "<svg class='c-logo__icon' aria-hidden='true' focusable='false' width='51' height='51' xmlns='http://www.w3.org/2000/svg'><title>The A11Y Project</title><path d='M25.5 0C11.417 0 0 11.417 0 25.5S11.417 51 25.5 51 51 39.583 51 25.5 39.583 0 25.5 0zm-.385 5.064a3.3 3.3 0 0 1 3.307 3.291 3.304 3.304 0 0 1-3.307 3.306 3.3 3.3 0 0 1-3.29-3.306 3.29 3.29 0 0 1 3.29-3.291zm14.289 10.652l-9.809 1.24.005 9.817 4.755 15.867a1.85 1.85 0 0 1-1.344 2.252c-.989.25-2.003-.3-2.252-1.298l-4.87-14.443h-1.498l-4.48 14.742c-.374.964-1.448 1.404-2.407 1.03-.954-.37-1.533-1.454-1.158-2.418l4.115-15.572v-9.978l-9.04-1.228c-.928-.075-1.558-.89-1.483-1.818.07-.934.914-1.628 1.838-1.554l10.982.944h4.815l11.69-.963a1.68 1.68 0 0 1 1.749 1.623c.04.924-.68 1.718-1.608 1.758z' fill='#fff'></path></svg>"
+          }
+        ),
+        /* @__PURE__ */ figma.widget.h(
           Text3,
           {
-            fontSize: 14,
-            fill: "#888",
+            name: "HeaderTitle",
+            fill: "#fff",
             fontFamily: "Anaheim",
-            fontWeight: 400,
-            tooltip: `WCAG ${wcag}`
+            fontSize: 28,
+            fontWeight: 600,
+            lineHeight: "150%"
           },
-          " ",
-          wcag
+          title
         )
+      ),
+      /* @__PURE__ */ figma.widget.h(
+        AutoLayout5,
+        {
+          name: "Checklist",
+          direction: "vertical",
+          spacing: 16,
+          width: 520,
+          padding: { left: 30, right: 30 }
+        },
+        /* @__PURE__ */ figma.widget.h(
+          ProgressBar_default,
+          {
+            total,
+            completed,
+            parentWidth
+          }
+        ),
+        /* @__PURE__ */ figma.widget.h(
+          Text3,
+          {
+            name: "ProgressText",
+            fill: "#212A6A",
+            lineHeight: "100%",
+            fontFamily: "Anaheim",
+            fontSize: 18,
+            fontWeight: 600
+          },
+          progressText
+        ),
+        sections.map((section) => /* @__PURE__ */ figma.widget.h(
+          ChecklistSection_default,
+          {
+            key: section.title,
+            section,
+            taskCompletion,
+            handleCheckChange,
+            tooltipsEnabled
+          }
+        ))
       )
     );
   }
-  var ChecklistItem_default = ChecklistItem;
+  var ChecklistPanel_default = CompanionPanel;
 
-  // widget-src/components/ChecklistSection.tsx
+  // widget-src/components/checklist/ChecklistSection.tsx
   var { widget: widget6 } = figma;
-  var { useSyncedState, AutoLayout: AutoLayout6, Text: Text4, SVG: SVG2 } = widget6;
+  var { useSyncedState: useSyncedState2, AutoLayout: AutoLayout6, Text: Text4, SVG: SVG3 } = widget6;
   var user = figma.currentUser;
   function ChecklistSection({
     section,
@@ -810,9 +868,9 @@ ${longDescription}`;
     if (!section || !Array.isArray(section.items)) {
       return null;
     }
-    const [openSections, setOpenSections] = useSyncedState("openSections", {});
+    const [openSections, setOpenSections] = useSyncedState2("openSections", {});
     const isOpen = openSections[section.title] || false;
-    const [sectionAvatars, setSectionAvatars] = useSyncedState("sectionAvatars", {});
+    const [sectionAvatars, setSectionAvatars] = useSyncedState2("sectionAvatars", {});
     const total = section.items.length;
     const completed = section.items.filter(
       (item) => taskCompletion[item.id]
@@ -864,7 +922,7 @@ ${longDescription}`;
           horizontalAlignItems: "center"
         },
         /* @__PURE__ */ figma.widget.h(
-          SVG2,
+          SVG3,
           {
             name: "Caret",
             width: 16,
@@ -947,130 +1005,72 @@ ${longDescription}`;
   }
   var ChecklistSection_default = ChecklistSection;
 
-  // widget-src/components/CompanionPanel.tsx
+  // widget-src/components/checklist/ChecklistItem.tsx
   var { widget: widget7 } = figma;
-  var { AutoLayout: AutoLayout7, SVG: SVG3, Text: Text5, usePropertyMenu, useSyncedState: useSyncedState2 } = widget7;
-  function CompanionPanel({
-    title,
-    sections,
-    taskCompletion,
-    handleCheckChange,
-    total,
-    completed,
-    isDarkMode
+  var { AutoLayout: AutoLayout7, Text: Text5 } = widget7;
+  function ChecklistItem({
+    item,
+    checked,
+    onCheckChange,
+    tooltipsEnabled
   }) {
-    const parentWidth = 460;
-    const progressText = `${completed} of ${total} accessibility checks done`;
-    const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState2(
-      "tooltipsEnabled",
-      false
-    );
-    usePropertyMenu(
-      [
-        {
-          itemType: "toggle",
-          propertyName: "show-tooltips",
-          tooltip: "Show tooltips on checkable items",
-          isToggled: tooltipsEnabled
-        }
-      ],
-      ({ propertyName }) => {
-        if (propertyName === "show-tooltips") {
-          setTooltipsEnabled(!tooltipsEnabled);
-        }
-      }
-    );
+    const { id, text, wcag, longDescription } = item;
+    const handleChange = () => {
+      onCheckChange(id, !checked);
+    };
+    let tooltipContent = "";
+    if (wcag && longDescription) {
+      tooltipContent = `WCAG: ${wcag}
+${longDescription}`;
+    } else if (wcag) {
+      tooltipContent = `WCAG: ${wcag}`;
+    } else if (longDescription) {
+      tooltipContent = longDescription;
+    } else {
+      tooltipContent = text;
+    }
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout7,
       {
-        direction: "vertical",
+        key: id,
+        direction: "horizontal",
+        verticalAlignItems: "start",
+        spacing: 14,
+        padding: { vertical: 10 },
         width: 520,
-        cornerRadius: 8,
-        effect: dropShadowEffect,
-        fill: isDarkMode ? "#222222" : "#fff",
-        stroke: "#212A6A",
-        strokeAlign: "outside",
-        strokeWidth: 1,
-        spacing: 30,
-        padding: { top: 0, bottom: 30, left: 0, right: 0 }
+        onClick: handleChange
       },
+      /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked }),
       /* @__PURE__ */ figma.widget.h(
-        AutoLayout7,
+        Text5,
         {
-          name: "Header",
-          direction: "horizontal",
+          name: "TaskText",
           width: "fill-parent",
-          height: 100,
           fill: "#212A6A",
-          verticalAlignItems: "center",
-          spacing: 14,
-          padding: { top: 20, bottom: 20, left: 25, right: 0 }
+          lineHeight: "150%",
+          fontFamily: "Anaheim",
+          fontSize: 17,
+          fontWeight: 600,
+          tooltip: tooltipsEnabled ? tooltipContent : void 0
         },
-        /* @__PURE__ */ figma.widget.h(
-          SVG3,
-          {
-            name: "a11y-logo",
-            width: 51,
-            height: 51,
-            src: "<svg class='c-logo__icon' aria-hidden='true' focusable='false' width='51' height='51' xmlns='http://www.w3.org/2000/svg'><title>The A11Y Project</title><path d='M25.5 0C11.417 0 0 11.417 0 25.5S11.417 51 25.5 51 51 39.583 51 25.5 39.583 0 25.5 0zm-.385 5.064a3.3 3.3 0 0 1 3.307 3.291 3.304 3.304 0 0 1-3.307 3.306 3.3 3.3 0 0 1-3.29-3.306 3.29 3.29 0 0 1 3.29-3.291zm14.289 10.652l-9.809 1.24.005 9.817 4.755 15.867a1.85 1.85 0 0 1-1.344 2.252c-.989.25-2.003-.3-2.252-1.298l-4.87-14.443h-1.498l-4.48 14.742c-.374.964-1.448 1.404-2.407 1.03-.954-.37-1.533-1.454-1.158-2.418l4.115-15.572v-9.978l-9.04-1.228c-.928-.075-1.558-.89-1.483-1.818.07-.934.914-1.628 1.838-1.554l10.982.944h4.815l11.69-.963a1.68 1.68 0 0 1 1.749 1.623c.04.924-.68 1.718-1.608 1.758z' fill='#fff'></path></svg>"
-          }
-        ),
-        /* @__PURE__ */ figma.widget.h(
+        text,
+        " ",
+        wcag && /* @__PURE__ */ figma.widget.h(
           Text5,
           {
-            name: "HeaderTitle",
-            fill: "#fff",
+            fontSize: 14,
+            fill: "#888",
             fontFamily: "Anaheim",
-            fontSize: 28,
-            fontWeight: 600,
-            lineHeight: "150%"
+            fontWeight: 400,
+            tooltip: `WCAG ${wcag}`
           },
-          title
+          " ",
+          wcag
         )
-      ),
-      /* @__PURE__ */ figma.widget.h(
-        AutoLayout7,
-        {
-          name: "Checklist",
-          direction: "vertical",
-          spacing: 16,
-          width: 520,
-          padding: { left: 30, right: 30 }
-        },
-        /* @__PURE__ */ figma.widget.h(
-          ProgressBar_default,
-          {
-            total,
-            completed,
-            parentWidth
-          }
-        ),
-        /* @__PURE__ */ figma.widget.h(
-          Text5,
-          {
-            name: "ProgressText",
-            fill: "#212A6A",
-            lineHeight: "100%",
-            fontFamily: "Anaheim",
-            fontSize: 18,
-            fontWeight: 600
-          },
-          progressText
-        ),
-        sections.map((section) => /* @__PURE__ */ figma.widget.h(
-          ChecklistSection_default,
-          {
-            key: section.title,
-            section,
-            taskCompletion,
-            handleCheckChange,
-            tooltipsEnabled
-          }
-        ))
       )
     );
   }
-  var CompanionPanel_default = CompanionPanel;
+  var ChecklistItem_default = ChecklistItem;
 
   // widget-src/code.tsx
   var { widget: widget8 } = figma;
@@ -1087,14 +1087,15 @@ ${longDescription}`;
     const total = itemIds.length;
     const completed = itemIds.filter((id) => taskCompletion[id]).length;
     return /* @__PURE__ */ figma.widget.h(
-      CompanionPanel_default,
+      ChecklistPanel_default,
       {
         title: a11yChecklistData_default.title,
         sections: a11yChecklistData_default.sections,
         taskCompletion,
         handleCheckChange,
         total,
-        completed
+        completed,
+        isDarkMode: false
       }
     );
   }

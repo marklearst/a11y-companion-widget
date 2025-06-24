@@ -10,7 +10,7 @@ const { widget } = figma
 const { useSyncedState } = widget
 
 import checklistData from 'data/a11yChecklistData.json'
-import CompanionPanel from 'components/CompanionPanel'
+import { ChecklistPanel } from 'components/checklist'
 
 /**
  * Main widget function component.
@@ -58,13 +58,14 @@ function Widget() {
   const completed = itemIds.filter((id) => taskCompletion[id]).length
 
   return (
-    <CompanionPanel
+    <ChecklistPanel
       title={checklistData.title}
       sections={checklistData.sections}
       taskCompletion={taskCompletion}
       handleCheckChange={handleCheckChange}
       total={total}
       completed={completed}
+      isDarkMode={false}
     />
   )
 }
