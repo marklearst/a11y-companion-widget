@@ -28,11 +28,15 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 - Each item includes a WCAG reference and a detailed explanation
 - Collapsible sections for easy navigation
 - Progress tracking per section and overall
-- Collaborative avatars (facepile) for team check-offs
 - Accessible custom checkboxes
 - Tooltips with WCAG and long descriptions
 - Property menu toggle to enable/disable tooltips
-- Modern, accessible UI with dark mode support
+
+---
+
+**Note:** Collaborative avatars (facepile) for team check-offs were removed in v1.1.0 for a simpler interface and less UI noise, based on overwhelming user feedback. Avatars could be reset by resetting widget state. This feature may return in the future with a toggle to enable or disable it.
+
+- Modern, accessible UI with dark mode support coming in v1.2.0
 
 ## ▶️ How to Use
 
@@ -59,5 +63,5 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 
 ## 📝 License
 
-This project is licensed under the [MIT License](LICENSE).  
+This project is licensed under the [MIT License](LICENSE).
 © 2023–2025 Mark Learst
