@@ -2,6 +2,7 @@
   "title": "a11y Checklist",
   "sections": [
     {
+      "id": "content",
       "title": "Content",
       "description": "Content is the most important part of your site.",
       "link": "https://www.a11yproject.com/checklist/#content",
@@ -27,6 +28,7 @@
       ]
     },
     {
+      "id": "global-code",
       "title": "Global code",
       "description": "Global code is code that affects your entire website or web app.",
       "link": "https://www.a11yproject.com/checklist/#global-code",
@@ -88,6 +90,7 @@
       ]
     },
     {
+      "id": "keyboard",
       "title": "Keyboard",
       "description": "It is important that your interface and content can be operated, and navigated by use of a keyboard. Some people cannot use a mouse, or may be using other assistive technologies that may not allow for hovering or precise clicking.",
       "link": "https://www.a11yproject.com/checklist/#keyboard",
@@ -144,6 +147,7 @@
       ]
     },
     {
+      "id": "headings",
       "title": "Headings",
       "description": "Heading elements (h1, h2, h3, etc.) help break up the content of the page into related \"chunks\" of information. They are incredibly important for helping people who use assistive technology to understand the meaning of a page or view.",
       "link": "https://www.a11yproject.com/checklist/#headings",
@@ -188,6 +192,7 @@
       ]
     },
     {
+      "id": "controls",
       "title": "Controls",
       "description": "Controls are interactive elements such as links and buttons that let a person navigate to a destination or perform an action.",
       "link": "https://www.a11yproject.com/checklist/#controls",
@@ -256,6 +261,7 @@
       ]
     },
     {
+      "id": "forms",
       "title": "Forms",
       "description": "Forms allow people to enter information into a site for processing and manipulation. This includes things like sending messages and placing orders.",
       "link": "https://www.a11yproject.com/checklist/#forms",
@@ -324,6 +330,7 @@
       ]
     },
     {
+      "id": "video",
       "title": "Video",
       "description": "Video-specific checks.",
       "link": "https://www.a11yproject.com/checklist/#video",
@@ -423,6 +430,7 @@
       ]
     },
     {
+      "id": "color-contrast",
       "title": "Color contrast",
       "description": "Color contrast is how legible colors are when placed next to, and on top of each other.",
       "link": "https://www.a11yproject.com/checklist/#color-contrast",
@@ -466,6 +474,7 @@
       ]
     },
     {
+      "id": "mobile-and-touch",
       "title": "Mobile and touch",
       "description": "Things to check mobile experiences for.",
       "link": "https://www.a11yproject.com/checklist/#mobile-and-touch",
