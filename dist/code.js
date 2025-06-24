@@ -22,7 +22,7 @@
 
   // widget-src/data/a11yChecklistData.json
   var a11yChecklistData_default = {
-    title: "a11y Companion Checklist",
+    title: "a11y Checklist",
     sections: [
       {
         title: "Content",
@@ -567,11 +567,139 @@
     showShadowBehindNode: true
   };
 
-  // widget-src/shared/Checkbox.tsx
+  // widget-src/shared/ProgressTracker.tsx
   var { widget: widget2 } = figma;
-  var { AutoLayout: AutoLayout2, SVG } = widget2;
+  var { AutoLayout: AutoLayout2, Text } = widget2;
+  var ProgressTracker = ({ completed, total }) => {
+    const isAllCompleted = total > 0 && total === completed;
+    const fillColor = isAllCompleted ? "#212a6a" : "#9299ce";
+    const textColor = isAllCompleted ? "#FFFFFF" : "#FFFFFF";
+    return /* @__PURE__ */ figma.widget.h(
+      AutoLayout2,
+      {
+        fill: fillColor,
+        cornerRadius: 16,
+        spacing: 10,
+        padding: {
+          vertical: 2,
+          horizontal: 10
+        },
+        horizontalAlignItems: "center",
+        verticalAlignItems: "center"
+      },
+      /* @__PURE__ */ figma.widget.h(
+        Text,
+        {
+          fill: textColor,
+          verticalAlignText: "center",
+          horizontalAlignText: "right",
+          lineHeight: "150%",
+          fontFamily: "Anaheim",
+          fontSize: 18,
+          fontWeight: 800
+        },
+        completed,
+        " / ",
+        total
+      )
+    );
+  };
+  var ProgressTracker_default = ProgressTracker;
+
+  // widget-src/shared/AvatarStack.tsx
+  var { widget: widget3 } = figma;
+  var { AutoLayout: AutoLayout3, Image, Text: Text2 } = widget3;
+  var AvatarStack = ({
+    avatars,
+    size = 28,
+    maxAvatars = 5
+  }) => {
+    if (!avatars || avatars.length === 0) return null;
+    const shown = avatars.slice(0, maxAvatars).reverse();
+    const extra = avatars.length - maxAvatars;
+    return /* @__PURE__ */ figma.widget.h(
+      AutoLayout3,
+      {
+        direction: "horizontal",
+        spacing: -size / 4,
+        verticalAlignItems: "center",
+        height: size,
+        overflow: "visible"
+      },
+      shown.map(
+        (avatar) => avatar.photoUrl ? /* @__PURE__ */ figma.widget.h(
+          Image,
+          {
+            key: avatar.id,
+            src: avatar.photoUrl,
+            width: size,
+            height: size,
+            cornerRadius: size / 2,
+            stroke: "#fff",
+            strokeWidth: 1,
+            strokeAlign: "inside",
+            tooltip: avatar.name
+          }
+        ) : /* @__PURE__ */ figma.widget.h(
+          AutoLayout3,
+          {
+            key: avatar.id,
+            width: size,
+            height: size,
+            cornerRadius: size / 2,
+            fill: "#000",
+            horizontalAlignItems: "center",
+            verticalAlignItems: "center",
+            stroke: "#fff",
+            strokeWidth: 1,
+            strokeAlign: "inside",
+            tooltip: avatar.name
+          },
+          /* @__PURE__ */ figma.widget.h(
+            Text2,
+            {
+              fill: "#fff",
+              fontSize: Math.round(size / 2.5),
+              fontWeight: 700
+            },
+            avatar.name.charAt(0).toUpperCase()
+          )
+        )
+      ),
+      extra > 0 && /* @__PURE__ */ figma.widget.h(
+        AutoLayout3,
+        {
+          width: size,
+          height: size,
+          cornerRadius: size / 2,
+          fill: "#e0e0e0",
+          horizontalAlignItems: "center",
+          verticalAlignItems: "center",
+          stroke: "#fff",
+          strokeWidth: 1,
+          strokeAlign: "inside",
+          tooltip: `${extra} more reviewers`
+        },
+        /* @__PURE__ */ figma.widget.h(
+          Text2,
+          {
+            fill: "#212A6A",
+            fontSize: Math.round(size / 2.5),
+            fontWeight: 700
+          },
+          "+",
+          extra
+        )
+      )
+    );
+  };
+  var AvatarStack_default = AvatarStack;
+
+  // widget-src/shared/Checkbox.tsx
+  var { widget: widget4 } = figma;
+  var { AutoLayout: AutoLayout4, SVG } = widget4;
   var Checkbox = ({ checked }) => /* @__PURE__ */ figma.widget.h(
-    AutoLayout2,
+    AutoLayout4,
     {
       name: "Checkbox",
       fill: checked ? "#212a6a" : "#fff",
@@ -602,10 +730,10 @@
   );
   var Checkbox_default = Checkbox;
 
-  // widget-src/components/ReviewItem.tsx
-  var { widget: widget3 } = figma;
-  var { AutoLayout: AutoLayout3, Text } = widget3;
-  function ReviewItem({
+  // widget-src/components/ChecklistItem.tsx
+  var { widget: widget5 } = figma;
+  var { AutoLayout: AutoLayout5, Text: Text3 } = widget5;
+  function ChecklistItem({
     item,
     checked,
     onCheckChange,
@@ -627,7 +755,7 @@ ${longDescription}`;
       tooltipContent = text;
     }
     return /* @__PURE__ */ figma.widget.h(
-      AutoLayout3,
+      AutoLayout5,
       {
         key: id,
         direction: "horizontal",
@@ -639,7 +767,7 @@ ${longDescription}`;
       },
       /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked }),
       /* @__PURE__ */ figma.widget.h(
-        Text,
+        Text3,
         {
           name: "TaskText",
           width: "fill-parent",
@@ -653,7 +781,7 @@ ${longDescription}`;
         text,
         " ",
         wcag && /* @__PURE__ */ figma.widget.h(
-          Text,
+          Text3,
           {
             fontSize: 14,
             fill: "#888",
@@ -667,141 +795,13 @@ ${longDescription}`;
       )
     );
   }
-  var ReviewItem_default = ReviewItem;
+  var ChecklistItem_default = ChecklistItem;
 
-  // widget-src/shared/ProgressTracker.tsx
-  var { widget: widget4 } = figma;
-  var { AutoLayout: AutoLayout4, Text: Text2 } = widget4;
-  var ProgressTracker = ({ completed, total }) => {
-    const isAllCompleted = total > 0 && total === completed;
-    const fillColor = isAllCompleted ? "#212a6a" : "#9299ce";
-    const textColor = isAllCompleted ? "#FFFFFF" : "#FFFFFF";
-    return /* @__PURE__ */ figma.widget.h(
-      AutoLayout4,
-      {
-        fill: fillColor,
-        cornerRadius: 16,
-        spacing: 10,
-        padding: {
-          vertical: 2,
-          horizontal: 10
-        },
-        horizontalAlignItems: "center",
-        verticalAlignItems: "center"
-      },
-      /* @__PURE__ */ figma.widget.h(
-        Text2,
-        {
-          fill: textColor,
-          verticalAlignText: "center",
-          horizontalAlignText: "right",
-          lineHeight: "150%",
-          fontFamily: "Anaheim",
-          fontSize: 18,
-          fontWeight: 800
-        },
-        completed,
-        " / ",
-        total
-      )
-    );
-  };
-  var ProgressTracker_default = ProgressTracker;
-
-  // widget-src/shared/AvatarStack.tsx
-  var { widget: widget5 } = figma;
-  var { AutoLayout: AutoLayout5, Image, Text: Text3 } = widget5;
-  var AvatarStack = ({
-    avatars,
-    size = 28,
-    maxAvatars = 5
-  }) => {
-    if (!avatars || avatars.length === 0) return null;
-    const shown = avatars.slice(0, maxAvatars).reverse();
-    const extra = avatars.length - maxAvatars;
-    return /* @__PURE__ */ figma.widget.h(
-      AutoLayout5,
-      {
-        direction: "horizontal",
-        spacing: -size / 4,
-        verticalAlignItems: "center",
-        height: size,
-        overflow: "visible"
-      },
-      shown.map(
-        (avatar) => avatar.photoUrl ? /* @__PURE__ */ figma.widget.h(
-          Image,
-          {
-            key: avatar.id,
-            src: avatar.photoUrl,
-            width: size,
-            height: size,
-            cornerRadius: size / 2,
-            stroke: "#fff",
-            strokeWidth: 1,
-            strokeAlign: "inside",
-            tooltip: avatar.name
-          }
-        ) : /* @__PURE__ */ figma.widget.h(
-          AutoLayout5,
-          {
-            key: avatar.id,
-            width: size,
-            height: size,
-            cornerRadius: size / 2,
-            fill: "#000",
-            horizontalAlignItems: "center",
-            verticalAlignItems: "center",
-            stroke: "#fff",
-            strokeWidth: 1,
-            strokeAlign: "inside",
-            tooltip: avatar.name
-          },
-          /* @__PURE__ */ figma.widget.h(
-            Text3,
-            {
-              fill: "#fff",
-              fontSize: Math.round(size / 2.5),
-              fontWeight: 700
-            },
-            avatar.name.charAt(0).toUpperCase()
-          )
-        )
-      ),
-      extra > 0 && /* @__PURE__ */ figma.widget.h(
-        AutoLayout5,
-        {
-          width: size,
-          height: size,
-          cornerRadius: size / 2,
-          fill: "#e0e0e0",
-          horizontalAlignItems: "center",
-          verticalAlignItems: "center",
-          stroke: "#fff",
-          strokeWidth: 1,
-          strokeAlign: "inside",
-          tooltip: `${extra} more reviewers`
-        },
-        /* @__PURE__ */ figma.widget.h(
-          Text3,
-          {
-            fill: "#212A6A",
-            fontSize: Math.round(size / 2.5),
-            fontWeight: 700
-          },
-          "+",
-          extra
-        )
-      )
-    );
-  };
-  var AvatarStack_default = AvatarStack;
-
-  // widget-src/components/ReviewSection.tsx
+  // widget-src/components/ChecklistSection.tsx
   var { widget: widget6 } = figma;
   var { useSyncedState, AutoLayout: AutoLayout6, Text: Text4, SVG: SVG2 } = widget6;
   var user = figma.currentUser;
-  function ReviewSection({
+  function ChecklistSection({
     section,
     taskCompletion,
     handleCheckChange,
@@ -934,7 +934,7 @@ ${longDescription}`;
         )
       ),
       isOpen && section.items.map((item) => /* @__PURE__ */ figma.widget.h(
-        ReviewItem_default,
+        ChecklistItem_default,
         {
           key: item.id,
           item,
@@ -945,7 +945,7 @@ ${longDescription}`;
       ))
     );
   }
-  var ReviewSection_default = ReviewSection;
+  var ChecklistSection_default = ChecklistSection;
 
   // widget-src/components/CompanionPanel.tsx
   var { widget: widget7 } = figma;
@@ -1058,7 +1058,7 @@ ${longDescription}`;
           progressText
         ),
         sections.map((section) => /* @__PURE__ */ figma.widget.h(
-          ReviewSection_default,
+          ChecklistSection_default,
           {
             key: section.title,
             section,

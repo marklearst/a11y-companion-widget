@@ -46,48 +46,6 @@ export interface ProgressTaskType {
 }
 
 /**
- * Represents a review item within a review section.
- *
- * @remarks
- * Used to group tasks under a review item for accessibility or review checklists.
- *
- * @example
- * ```ts
- * const reviewItem: ReviewItemType = { id: 'item1', title: 'Item 1', tasks: [] };
- * ```
- */
-export interface ReviewItemType {
-  /** The unique identifier for the review item. */
-  id: string
-  /** The title of the review item. */
-  title: string
-  /** The tasks associated with the review item. */
-  tasks: ProgressTaskType[]
-}
-
-/**
- * Represents a review section that contains review items and tasks.
- *
- * @remarks
- * Used to organize review items into logical sections for checklists.
- *
- * @example
- * ```ts
- * const section: ReviewSectionType = { index: 0, id: 'section1', title: 'Section 1', subCategories: [] };
- * ```
- */
-export interface ReviewSectionType {
-  /** The index of the review section. */
-  index: number
-  /** The unique identifier for the review section. */
-  id: string
-  /** The title of the review section. */
-  title: string
-  /** The review items associated with the review section. */
-  subCategories: ReviewItemType[]
-}
-
-/**
  * Represents a persona that has associated review sections.
  *
  * @remarks
@@ -106,7 +64,7 @@ export interface PersonaType {
   /** The subtitle of the persona. */
   subTitle: string
   /** The review sections associated with the persona. */
-  categories: ReviewSectionType[]
+  categories: ChecklistSectionType[]
 }
 
 /**
@@ -183,4 +141,187 @@ export interface ChecklistItemType {
    * Provides additional guidance or context for the requirement.
    */
   longDescription?: string
+}
+
+/**
+ * Defines the props for the `ChecklistSection` component.
+ *
+ * @interface ChecklistSectionProps
+ * @property {object} section - The section data.
+ * @property {string} section.title - The title of the section.
+ * @property {string} section.link - The link associated with the section.
+ * @property {any[]} section.items - The items in the section.
+ * @property {Record<string, boolean>} taskCompletion - The completion status of tasks.
+ * @property {(taskId: string, isChecked: boolean) => void} handleCheckChange - A function to handle task completion changes.
+ * @property {boolean} tooltipsEnabled - Whether tooltips are enabled for the section.
+ */
+/**
+ * Props for the review section component.
+ *
+ * @remarks
+ * Used to render a section of checklist items, including their completion state and tooltips.
+ */
+export interface ChecklistSectionProps {
+  /** The section data, including title, description, and items. */
+  section: {
+    title: string
+    description?: string
+    items: ChecklistItemType[]
+  }
+  /** Completion status of tasks in this section. */
+  taskCompletion: Record<string, boolean>
+  /** Handler for task completion changes. */
+  handleCheckChange: (taskId: string, isChecked: boolean) => void
+  /** Whether tooltips are enabled for the section. */
+  tooltipsEnabled: boolean
+}
+
+/**
+ * Defines the props for the ChecklistItem component.
+ *
+ * @interface ChecklistItemProps
+ * @property {ChecklistItemType} item - The checklist item object containing the data to be displayed.
+ * @property {boolean} checked - The completion status of the item.
+ * @property {(taskId: string, isChecked: boolean) => void} onCheckChange - A function to handle changes to the completion status of the item.
+ * @property {boolean} tooltipsEnabled - Whether tooltips are enabled for the item.
+ */
+/**
+ * Props for the review item component.
+ *
+ * @remarks
+ * Used to render and manage a single checklist item's state and UI, including tooltip logic.
+ */
+export interface ChecklistItemProps {
+  /** The checklist item data. */
+  item: ChecklistItemType
+  /** Whether the item is checked. */
+  checked: boolean
+  /** Handler for changes to the completion status. */
+  onCheckChange: (taskId: string, isChecked: boolean) => void
+  /** Whether tooltips are enabled for the item. */
+  tooltipsEnabled: boolean
+}
+
+/**
+ * Represents a section in the accessibility checklist, including its title, link, and items.
+ *
+ * @remarks
+ * Used to group related checklist items for display in the widget UI.
+ *
+ * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
+ */
+export interface ChecklistSectionType {
+  /** The section title. */
+  title: string
+  /** An optional link for the section. */
+  link: string
+  /** The checklist items belonging to this section. */
+  items: ChecklistItemType[]
+}
+
+/**
+ * Props for the checklist panel component.
+ *
+ * @remarks
+ * Used to control the display and state of the accessibility checklist UI.
+ */
+export interface ChecklistProps {
+  /** The title of the checklist. */
+  title: string
+  /** The sections to display in the checklist. */
+  sections: ChecklistSectionType[]
+  /** The completion status of each task, keyed by item id. */
+  taskCompletion: Record<string, boolean>
+  /** Handler for changes to task completion. */
+  handleCheckChange: (taskId: string, isChecked: boolean) => void
+  /** The total number of tasks. */
+  total: number
+  /** The number of completed tasks. */
+  completed: number
+  /** Whether the component is in dark mode. */
+  isDarkMode?: boolean | undefined
+}
+
+/**
+ * Represents a user avatar for display in a stack.
+ *
+ * @remarks
+ * Used in the AvatarStack component to visually represent users or reviewers.
+ */
+interface Avatar {
+  /** Unique identifier for the avatar. */
+  id: string
+  /** Display name for the avatar. */
+  name: string
+  /** Optional photo URL for the avatar image. */
+  photoUrl: string | null
+}
+
+/**
+ * Props for the AvatarStack component.
+ *
+ * @remarks
+ * Controls the avatars, size, and maximum shown avatars in the stack.
+ */
+export interface AvatarStackProps {
+  /** Array of avatars to display. */
+  avatars: Avatar[]
+  /** Size of each avatar in pixels. @defaultValue 34 */
+  size?: number
+  /** Maximum number of avatars to display. @defaultValue 5 */
+  maxAvatars?: number
+}
+
+/**
+ * Defines the props for the Checkbox component.
+ * @property {boolean} checked - Indicates whether the checkbox is checked or not.
+ */
+/**
+ * Props for the Checkbox component.
+ *
+ * @remarks
+ * Controls the checked state of the checkbox UI element.
+ */
+export interface CheckboxProps {
+  /** Whether the checkbox is checked. */
+  checked: boolean
+}
+
+/**
+ * Defines the props for the ProgressTracker component.
+ * @property {number} completed - The number of completed tasks.
+ * @property {number} total - The total number of tasks.
+ */
+/**
+ * Props for the ProgressTracker component.
+ *
+ * @remarks
+ * Controls the display of the progress tracker, including completed and total task counts.
+ */
+export interface ProgressTrackerProps {
+  /** Number of completed tasks. */
+  completed: number
+  /** Total number of tasks. */
+  total: number
+}
+
+/**
+ * Defines the properties for the ProgressBar component.
+ * @property {number} total - The total number of tasks.
+ * @property {number} completed - The number of completed tasks.
+ * @property {number} parentWidth - The width of the parent container.
+ */
+/**
+ * Props for the ProgressBar component.
+ *
+ * @remarks
+ * Controls the display of the progress bar, including task counts and parent width.
+ */
+export interface ProgressBarProps {
+  /** Total number of tasks. */
+  total: number
+  /** Number of completed tasks. */
+  completed: number
+  /** Width of the parent container in pixels. */
+  parentWidth: number
 }

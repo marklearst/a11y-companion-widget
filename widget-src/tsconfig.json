@@ -1,8 +1,37 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../dist",
-    "rootDir": "."
-  },
-  "include": ["./**/*"]
+    "jsx": "react",
+    "jsxFactory": "figma.widget.h",
+    "jsxFragmentFactory": "figma.widget.Fragment",
+    "target": "es2019",
+    "lib": [
+      "es2019"
+    ],
+    "strict": true,
+    "typeRoots": [
+      "../node_modules/@types",
+      "../node_modules/@figma"
+    ],
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "components/*": [
+        "components/*"
+      ],
+      "data/*": [
+        "data/*"
+      ],
+      "effects/*": [
+        "effects/*"
+      ],
+      "shared/*": [
+        "shared/*"
+      ],
+      "types/*": [
+        "types/*"
+      ]
+    }
+  }
 }

@@ -9,8 +9,8 @@
 const { widget } = figma
 const { useSyncedState } = widget
 
-import checklistData from './data/a11yChecklistData.json'
-import CompanionPanel from './components/CompanionPanel'
+import checklistData from 'data/a11yChecklistData.json'
+import CompanionPanel from 'components/CompanionPanel'
 
 /**
  * Main widget function component.

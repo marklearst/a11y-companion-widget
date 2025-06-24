@@ -2,16 +2,16 @@
 <button id="closeButton">Close</button>
 
 <script>
-  console.log('Received message from iframe:')
+  // console.log('Received message from iframe:')
 
   window.onmessage = (event) => {
-    console.log('Received message from iframe:', event)
+    // console.log('Received message from iframe:', event)
     const msg = event.data.pluginMessage
     if (msg && msg.type === 'detectDarkMode') {
       const isDarkMode =
         window.matchMedia &&
         window.matchMedia('(prefers-color-scheme: dark)').matches
-      console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+      // console.log(window.matchMedia('(prefers-color-scheme: dark)'))
       parent.postMessage(
         { pluginMessage: { type: 'darkModeResult', isDarkMode } },
         '*'

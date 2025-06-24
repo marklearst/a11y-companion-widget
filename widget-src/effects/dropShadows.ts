@@ -1,4 +1,4 @@
-import { DropShadowEffect } from '../types'
+import { DropShadowEffect } from 'types/index'
 
 /**
  * Defines a drop shadow effect configuration object.
