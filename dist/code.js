@@ -662,37 +662,72 @@
   }
   var dropShadowEffect = createDropShadowEffect();
 
+  // widget-src/i18n/index.ts
+  var en = {
+    appTitle: "a11y Companion",
+    progressText: (c, t) => `${c} of ${t} accessibility checks done`,
+    tooltipsToggle: "Show tooltips on checkable items",
+    hideCompletedToggle: "Hide completed items"
+  };
+  var es = {
+    appTitle: "Compa\xF1ero a11y",
+    progressText: (c, t) => `${c} de ${t} comprobaciones de accesibilidad completadas`,
+    tooltipsToggle: "Mostrar tooltips en elementos con casilla",
+    hideCompletedToggle: "Ocultar elementos completados"
+  };
+  var locales = { en, es };
+  function getMessages(locale) {
+    var _a;
+    return (_a = locales[locale]) != null ? _a : en;
+  }
+
   // widget-src/hooks/useTooltipsToggle.ts
   var { widget: widget4 } = figma;
   var { usePropertyMenu, useSyncedState } = widget4;
   function useTooltipsToggle() {
     const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState("tooltipsEnabled", false);
     const [hideCompleted, setHideCompleted] = useSyncedState("hideCompleted", false);
+    const [language, setLanguage] = useSyncedState("language", "en");
+    const messages = getMessages(language);
     usePropertyMenu(
       [
         {
           itemType: "toggle",
           propertyName: "show-tooltips",
-          tooltip: "Show tooltips on checkable items",
+          tooltip: messages.tooltipsToggle,
           isToggled: tooltipsEnabled
         },
         {
           itemType: "toggle",
           propertyName: "hide-completed",
-          tooltip: "Hide completed items",
+          tooltip: messages.hideCompletedToggle,
           isToggled: hideCompleted
+        },
+        {
+          itemType: "dropdown",
+          propertyName: "language",
+          tooltip: "Language",
+          selectedOption: language,
+          options: [
+            { option: "en", label: "English" },
+            { option: "es", label: "Espa\xF1ol" }
+          ]
         }
       ],
-      ({ propertyName }) => {
+      (event) => {
+        const { propertyName, propertyValue } = event;
         if (propertyName === "show-tooltips") {
           setTooltipsEnabled(!tooltipsEnabled);
         }
         if (propertyName === "hide-completed") {
           setHideCompleted(!hideCompleted);
         }
+        if (propertyName === "language" && propertyValue) {
+          setLanguage(propertyValue);
+        }
       }
     );
-    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted };
+    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language };
   }
 
   // widget-src/components/checklist/ChecklistPanel.tsx
@@ -708,8 +743,9 @@
     isDarkMode
   }) {
     const parentWidth = 460;
-    const progressText = `${completed} of ${total} accessibility checks done`;
-    const { tooltipsEnabled, hideCompleted } = useTooltipsToggle();
+    const { tooltipsEnabled, hideCompleted, language } = useTooltipsToggle();
+    const t = getMessages(language);
+    const progressText = t.progressText(completed, total);
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout4,
       {
@@ -755,7 +791,7 @@
             fontWeight: 600,
             lineHeight: "150%"
           },
-          title
+          title || t.appTitle
         )
       ),
       /* @__PURE__ */ figma.widget.h(

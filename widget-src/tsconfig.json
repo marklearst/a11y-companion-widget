@@ -29,6 +29,12 @@
       "shared/*": [
         "shared/*"
       ],
+      "i18n": [
+        "i18n/index.ts"
+      ],
+      "i18n/*": [
+        "i18n/*"
+      ],
       "types/*": [
         "types/*"
       ]

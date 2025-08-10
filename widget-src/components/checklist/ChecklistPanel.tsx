@@ -6,6 +6,7 @@ import { ChecklistProps } from 'types/index'
 import { dropShadowEffect } from 'effects'
 import { ChecklistSection } from 'components/checklist'
 import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
+import { getMessages } from 'i18n'
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -47,10 +48,11 @@ function ChecklistPanel({
   isDarkMode,
 }: ChecklistProps) {
   const parentWidth = 460 // assuming a fixed width for the parent container
-  const progressText = `${completed} of ${total} accessibility checks done`
+  const { tooltipsEnabled, hideCompleted, language } = useTooltipsToggle()
+  const t = getMessages(language)
+  const progressText = t.progressText(completed, total)
 
   // Use custom hook for tooltips toggle and property menu
-  const { tooltipsEnabled, hideCompleted } = useTooltipsToggle()
 
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
@@ -92,7 +94,7 @@ function ChecklistPanel({
           fontSize={28}
           fontWeight={600}
           lineHeight="150%">
-          {title}
+          {title || t.appTitle}
         </Text>
       </AutoLayout>
       {/* Main content */}
