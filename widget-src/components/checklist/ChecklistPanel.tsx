@@ -7,6 +7,7 @@ import { dropShadowEffect } from 'effects'
 import { ChecklistSection } from 'components/checklist'
 import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
 import { getMessages } from 'i18n'
+import { resolveTheme } from 'theme'
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -59,14 +60,17 @@ function ChecklistPanel({
    *
    * @returns {JSX.Element} The rendered Checklist component.
    */
+  const effectiveDark = theme === 'dark' || (theme === 'system' && isDarkMode)
+  const tokens = resolveTheme(!!effectiveDark)
+
   return (
     <AutoLayout
       direction="vertical"
       width={520}
       cornerRadius={8}
       effect={dropShadowEffect}
-  fill={theme === 'dark' || (theme === 'system' && isDarkMode) ? '#222222' : '#fff'}
-      stroke="#212A6A"
+      fill={tokens.panelBg}
+      stroke={tokens.panelStroke}
       strokeAlign="outside"
       strokeWidth={1}
       spacing={30}
@@ -77,7 +81,7 @@ function ChecklistPanel({
         direction="horizontal"
         width="fill-parent"
         height={100}
-        fill="#212A6A"
+  fill={tokens.headerBg}
         verticalAlignItems="center"
         spacing={14}
         padding={{ top: 20, bottom: 20, left: 25, right: 0 }}>
@@ -89,7 +93,7 @@ function ChecklistPanel({
         />
         <Text
           name="HeaderTitle"
-          fill="#fff"
+          fill={tokens.headerText}
           fontFamily="Anaheim"
           fontSize={28}
           fontWeight={600}
@@ -111,7 +115,7 @@ function ChecklistPanel({
         />
         <Text
           name="ProgressText"
-          fill="#212A6A"
+          fill={tokens.textPrimary}
           lineHeight="100%"
           fontFamily="Anaheim"
           fontSize={18}

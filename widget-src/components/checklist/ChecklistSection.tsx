@@ -91,7 +91,7 @@ function ChecklistSection({
           {section.title}
         </Text>
         <AutoLayout width="fill-parent" />
-        <AutoLayout
+  <AutoLayout
           direction="horizontal"
           spacing={8}
           verticalAlignItems="center">

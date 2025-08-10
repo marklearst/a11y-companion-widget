@@ -22,6 +22,8 @@ import { ProgressBarProps } from 'types/index'
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 const ProgressBar = ({ total, completed, parentWidth }: ProgressBarProps) => {
+  // Heuristic: derive dark mode based on background—widgets don't provide direct theme here.
+  // For now, keep original colors; ChecklistPanel wraps it with context colors if needed later.
   const percentage = total === 0 ? 0 : (completed / total) * 100
   let calculatedWidth = (percentage / 100) * parentWidth
 

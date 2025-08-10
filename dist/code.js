@@ -745,6 +745,39 @@
     return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language, theme };
   }
 
+  // widget-src/theme/index.ts
+  var light = {
+    panelBg: "#FFFFFF",
+    panelStroke: "#212A6A",
+    headerBg: "#212A6A",
+    headerText: "#FFFFFF",
+    textPrimary: "#212A6A",
+    textSecondary: "#212A6A",
+    progressBg: "#9299ce",
+    progressFill: "#212a6a",
+    checkboxBgChecked: "#212a6a",
+    checkboxBgUnchecked: "#FFFFFF",
+    checkboxStroke: "#212a6a",
+    wcagBadge: "#9299CE"
+  };
+  var dark = {
+    panelBg: "#222222",
+    panelStroke: "#B7BCE6",
+    headerBg: "#12163b",
+    headerText: "#FFFFFF",
+    textPrimary: "#E6E8FF",
+    textSecondary: "#C8CBF2",
+    progressBg: "#4e5594",
+    progressFill: "#b8bdf7",
+    checkboxBgChecked: "#b8bdf7",
+    checkboxBgUnchecked: "#222222",
+    checkboxStroke: "#b8bdf7",
+    wcagBadge: "#B7BCE6"
+  };
+  function resolveTheme(isDark) {
+    return isDark ? dark : light;
+  }
+
   // widget-src/components/checklist/ChecklistPanel.tsx
   var { widget: widget5 } = figma;
   var { AutoLayout: AutoLayout4, SVG: SVG2, Text: Text2 } = widget5;
@@ -761,6 +794,8 @@
     const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle();
     const t = getMessages(language);
     const progressText = t.progressText(completed, total);
+    const effectiveDark = theme === "dark" || theme === "system" && isDarkMode;
+    const tokens = resolveTheme(!!effectiveDark);
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout4,
       {
@@ -768,8 +803,8 @@
         width: 520,
         cornerRadius: 8,
         effect: dropShadowEffect,
-        fill: theme === "dark" || theme === "system" && isDarkMode ? "#222222" : "#fff",
-        stroke: "#212A6A",
+        fill: tokens.panelBg,
+        stroke: tokens.panelStroke,
         strokeAlign: "outside",
         strokeWidth: 1,
         spacing: 30,
@@ -782,7 +817,7 @@
           direction: "horizontal",
           width: "fill-parent",
           height: 100,
-          fill: "#212A6A",
+          fill: tokens.headerBg,
           verticalAlignItems: "center",
           spacing: 14,
           padding: { top: 20, bottom: 20, left: 25, right: 0 }
@@ -800,7 +835,7 @@
           Text2,
           {
             name: "HeaderTitle",
-            fill: "#fff",
+            fill: tokens.headerText,
             fontFamily: "Anaheim",
             fontSize: 28,
             fontWeight: 600,
@@ -830,7 +865,7 @@
           Text2,
           {
             name: "ProgressText",
-            fill: "#212A6A",
+            fill: tokens.textPrimary,
             lineHeight: "100%",
             fontFamily: "Anaheim",
             fontSize: 18,
