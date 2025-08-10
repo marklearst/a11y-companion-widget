@@ -48,7 +48,7 @@ function ChecklistPanel({
   isDarkMode,
 }: ChecklistProps) {
   const parentWidth = 460 // assuming a fixed width for the parent container
-  const { tooltipsEnabled, hideCompleted, language } = useTooltipsToggle()
+  const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle()
   const t = getMessages(language)
   const progressText = t.progressText(completed, total)
 
@@ -65,7 +65,7 @@ function ChecklistPanel({
       width={520}
       cornerRadius={8}
       effect={dropShadowEffect}
-      fill={isDarkMode ? '#222222' : '#fff'}
+  fill={theme === 'dark' || (theme === 'system' && isDarkMode) ? '#222222' : '#fff'}
       stroke="#212A6A"
       strokeAlign="outside"
       strokeWidth={1}

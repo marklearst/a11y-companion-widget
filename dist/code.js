@@ -688,6 +688,7 @@
     const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState("tooltipsEnabled", false);
     const [hideCompleted, setHideCompleted] = useSyncedState("hideCompleted", false);
     const [language, setLanguage] = useSyncedState("language", "en");
+    const [theme, setTheme] = useSyncedState("theme", "light");
     const messages = getMessages(language);
     usePropertyMenu(
       [
@@ -702,6 +703,17 @@
           propertyName: "hide-completed",
           tooltip: messages.hideCompletedToggle,
           isToggled: hideCompleted
+        },
+        {
+          itemType: "dropdown",
+          propertyName: "theme",
+          tooltip: "Theme",
+          selectedOption: theme,
+          options: [
+            { option: "light", label: "Light" },
+            { option: "dark", label: "Dark" },
+            { option: "system", label: "System" }
+          ]
         },
         {
           itemType: "dropdown",
@@ -722,12 +734,15 @@
         if (propertyName === "hide-completed") {
           setHideCompleted(!hideCompleted);
         }
+        if (propertyName === "theme" && propertyValue) {
+          setTheme(propertyValue);
+        }
         if (propertyName === "language" && propertyValue) {
           setLanguage(propertyValue);
         }
       }
     );
-    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language };
+    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language, theme };
   }
 
   // widget-src/components/checklist/ChecklistPanel.tsx
@@ -743,7 +758,7 @@
     isDarkMode
   }) {
     const parentWidth = 460;
-    const { tooltipsEnabled, hideCompleted, language } = useTooltipsToggle();
+    const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle();
     const t = getMessages(language);
     const progressText = t.progressText(completed, total);
     return /* @__PURE__ */ figma.widget.h(
@@ -753,7 +768,7 @@
         width: 520,
         cornerRadius: 8,
         effect: dropShadowEffect,
-        fill: isDarkMode ? "#222222" : "#fff",
+        fill: theme === "dark" || theme === "system" && isDarkMode ? "#222222" : "#fff",
         stroke: "#212A6A",
         strokeAlign: "outside",
         strokeWidth: 1,
