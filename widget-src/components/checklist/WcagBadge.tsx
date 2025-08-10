@@ -26,8 +26,8 @@ export function WcagBadge({ wcag }: { wcag: string }) {
       strokeWidth={1}
       // padding={{ vertical: 2, horizontal: 8 }}
       // style={{ display: 'inline-block', marginLeft: 4 }}
-      tooltip={`WCAG1234 ${wcag}`}>
-      {wcag} {'cool'}
+  tooltip={`WCAG ${wcag}`}>
+  {wcag}
     </Text>
   )
 }

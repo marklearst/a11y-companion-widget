@@ -50,7 +50,7 @@ function ChecklistPanel({
   const progressText = `${completed} of ${total} accessibility checks done`
 
   // Use custom hook for tooltips toggle and property menu
-  const { tooltipsEnabled } = useTooltipsToggle()
+  const { tooltipsEnabled, hideCompleted } = useTooltipsToggle()
 
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
@@ -116,13 +116,14 @@ function ChecklistPanel({
           fontWeight={600}>
           {progressText}
         </Text>
-        {sections.map((section) => (
+    {sections.map((section) => (
           <ChecklistSection
             key={section.id}
             section={section}
             taskCompletion={taskCompletion}
             handleCheckChange={handleCheckChange}
-            tooltipsEnabled={tooltipsEnabled}
+      tooltipsEnabled={tooltipsEnabled}
+      hideCompleted={hideCompleted}
           />
         ))}
       </AutoLayout>

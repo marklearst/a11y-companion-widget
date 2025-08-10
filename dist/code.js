@@ -667,6 +667,7 @@
   var { usePropertyMenu, useSyncedState } = widget4;
   function useTooltipsToggle() {
     const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState("tooltipsEnabled", false);
+    const [hideCompleted, setHideCompleted] = useSyncedState("hideCompleted", false);
     usePropertyMenu(
       [
         {
@@ -674,15 +675,24 @@
           propertyName: "show-tooltips",
           tooltip: "Show tooltips on checkable items",
           isToggled: tooltipsEnabled
+        },
+        {
+          itemType: "toggle",
+          propertyName: "hide-completed",
+          tooltip: "Hide completed items",
+          isToggled: hideCompleted
         }
       ],
       ({ propertyName }) => {
         if (propertyName === "show-tooltips") {
           setTooltipsEnabled(!tooltipsEnabled);
         }
+        if (propertyName === "hide-completed") {
+          setHideCompleted(!hideCompleted);
+        }
       }
     );
-    return { tooltipsEnabled, setTooltipsEnabled };
+    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted };
   }
 
   // widget-src/components/checklist/ChecklistPanel.tsx
@@ -699,7 +709,7 @@
   }) {
     const parentWidth = 460;
     const progressText = `${completed} of ${total} accessibility checks done`;
-    const { tooltipsEnabled } = useTooltipsToggle();
+    const { tooltipsEnabled, hideCompleted } = useTooltipsToggle();
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout4,
       {
@@ -784,7 +794,8 @@
             section,
             taskCompletion,
             handleCheckChange,
-            tooltipsEnabled
+            tooltipsEnabled,
+            hideCompleted
           }
         ))
       )
@@ -839,7 +850,8 @@
     section,
     taskCompletion,
     handleCheckChange,
-    tooltipsEnabled
+    tooltipsEnabled,
+    hideCompleted
   }) {
     if (!section || !Array.isArray(section.items)) {
       return null;
@@ -926,7 +938,7 @@
           section.description
         )
       ),
-      isOpen && section.items.map((item) => /* @__PURE__ */ figma.widget.h(
+      isOpen && section.items.filter((item) => !(hideCompleted && taskCompletion[item.id])).map((item) => /* @__PURE__ */ figma.widget.h(
         ChecklistItem_default,
         {
           key: item.id,
@@ -959,11 +971,9 @@
         height: 20,
         stroke: "#9299CE",
         strokeWidth: 1,
-        tooltip: `WCAG1234 ${wcag}`
+        tooltip: `WCAG ${wcag}`
       },
-      wcag,
-      " ",
-      "cool"
+      wcag
     );
   }
   var WcagBadge_default = WcagBadge;

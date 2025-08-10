@@ -26,6 +26,8 @@ export interface ChecklistSectionProps {
   handleCheckChange: (taskId: string, isChecked: boolean) => void
   /** Whether tooltips are enabled for this section. */
   tooltipsEnabled: boolean
+  /** Whether completed items should be hidden. */
+  hideCompleted?: boolean
 }
 
 /**

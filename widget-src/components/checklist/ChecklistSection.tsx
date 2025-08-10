@@ -37,6 +37,7 @@ function ChecklistSection({
   taskCompletion,
   handleCheckChange,
   tooltipsEnabled,
+  hideCompleted,
 }: ChecklistSectionProps) {
   if (!section || !Array.isArray(section.items)) {
     return null
@@ -121,7 +122,9 @@ function ChecklistSection({
         </AutoLayout>
       )}
       {isOpen &&
-        section.items.map((item) => (
+        section.items
+          .filter((item) => !(hideCompleted && taskCompletion[item.id]))
+          .map((item) => (
           <ChecklistItem
             key={item.id}
             item={item}

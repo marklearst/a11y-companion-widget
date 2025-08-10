@@ -26,6 +26,7 @@ const { usePropertyMenu, useSyncedState } = widget
  */
 export function useTooltipsToggle() {
   const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState('tooltipsEnabled', false)
+  const [hideCompleted, setHideCompleted] = useSyncedState('hideCompleted', false)
 
   usePropertyMenu(
     [
@@ -35,13 +36,22 @@ export function useTooltipsToggle() {
         tooltip: 'Show tooltips on checkable items',
         isToggled: tooltipsEnabled,
       },
+      {
+        itemType: 'toggle',
+        propertyName: 'hide-completed',
+        tooltip: 'Hide completed items',
+        isToggled: hideCompleted,
+      },
     ],
     ({ propertyName }) => {
       if (propertyName === 'show-tooltips') {
         setTooltipsEnabled(!tooltipsEnabled)
       }
+      if (propertyName === 'hide-completed') {
+        setHideCompleted(!hideCompleted)
+      }
     }
   )
 
-  return { tooltipsEnabled, setTooltipsEnabled }
+  return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted }
 }
