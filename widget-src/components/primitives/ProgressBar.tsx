@@ -21,7 +21,7 @@ import { ProgressBarProps } from 'types/index'
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-const ProgressBar = ({ total, completed, parentWidth }: ProgressBarProps) => {
+const ProgressBar = ({ total, completed, parentWidth, colors }: ProgressBarProps) => {
   // Heuristic: derive dark mode based on background—widgets don't provide direct theme here.
   // For now, keep original colors; ChecklistPanel wraps it with context colors if needed later.
   const percentage = total === 0 ? 0 : (completed / total) * 100
@@ -41,15 +41,15 @@ const ProgressBar = ({ total, completed, parentWidth }: ProgressBarProps) => {
       direction="horizontal"
       overflow="hidden"
       width={parentWidth}
-      height={20}
-      fill="#9299ce"
+  height={20}
+  fill={colors?.track ?? '#9299ce'}
       cornerRadius={4}
       padding={0}
       spacing={0}>
       <Rectangle
         width={calculatedWidth}
-        height="fill-parent"
-        fill="#212a6a"
+  height="fill-parent"
+  fill={colors?.fill ?? '#212a6a'}
         // cornerRadius={4}
       />
     </AutoLayout>

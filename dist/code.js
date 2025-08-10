@@ -569,7 +569,8 @@
   // widget-src/components/primitives/ProgressBar.tsx
   var { widget: widget2 } = figma;
   var { AutoLayout: AutoLayout2, Rectangle } = widget2;
-  var ProgressBar = ({ total, completed, parentWidth }) => {
+  var ProgressBar = ({ total, completed, parentWidth, colors }) => {
+    var _a, _b;
     const percentage = total === 0 ? 0 : completed / total * 100;
     let calculatedWidth = percentage / 100 * parentWidth;
     if (calculatedWidth === 0) {
@@ -582,7 +583,7 @@
         overflow: "hidden",
         width: parentWidth,
         height: 20,
-        fill: "#9299ce",
+        fill: (_a = colors == null ? void 0 : colors.track) != null ? _a : "#9299ce",
         cornerRadius: 4,
         padding: 0,
         spacing: 0
@@ -592,7 +593,7 @@
         {
           width: calculatedWidth,
           height: "fill-parent",
-          fill: "#212a6a"
+          fill: (_b = colors == null ? void 0 : colors.fill) != null ? _b : "#212a6a"
         }
       )
     );
@@ -602,10 +603,11 @@
   // widget-src/components/primitives/ProgressTracker.tsx
   var { widget: widget3 } = figma;
   var { AutoLayout: AutoLayout3, Text } = widget3;
-  var ProgressTracker = ({ completed, total }) => {
+  var ProgressTracker = ({ completed, total, colors }) => {
+    var _a, _b;
     const isAllCompleted = total > 0 && total === completed;
-    const fillColor = isAllCompleted ? "#212a6a" : "#9299ce";
-    const textColor = isAllCompleted ? "#FFFFFF" : "#FFFFFF";
+    const fillColor = (_a = colors == null ? void 0 : colors.bg) != null ? _a : isAllCompleted ? "#212a6a" : "#9299ce";
+    const textColor = (_b = colors == null ? void 0 : colors.text) != null ? _b : isAllCompleted ? "#FFFFFF" : "#FFFFFF";
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout3,
       {
@@ -858,7 +860,8 @@
           {
             total,
             completed,
-            parentWidth
+            parentWidth,
+            colors: { track: tokens.progressBg, fill: tokens.progressFill }
           }
         ),
         /* @__PURE__ */ figma.widget.h(

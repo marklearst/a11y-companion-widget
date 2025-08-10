@@ -112,6 +112,7 @@ function ChecklistPanel({
           total={total}
           completed={completed}
           parentWidth={parentWidth}
+          colors={{ track: tokens.progressBg, fill: tokens.progressFill }}
         />
         <Text
           name="ProgressText"

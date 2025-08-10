@@ -76,6 +76,8 @@ export interface ChecklistProps {
 export interface CheckboxProps {
   /** Whether the checkbox is currently checked. */
   checked: boolean
+  /** Optional custom colors for theming. */
+  colors?: { bgChecked: string; bgUnchecked: string; stroke: string }
 }
 
 /**
@@ -89,6 +91,8 @@ export interface ProgressTrackerProps {
   completed: number
   /** Total number of tasks. */
   total: number
+  /** Optional custom colors for theming. */
+  colors?: { bg: string; text: string }
 }
 
 /**
@@ -104,4 +108,6 @@ export interface ProgressBarProps {
   completed: number
   /** Width of the parent container in pixels. */
   parentWidth: number
+  /** Optional custom colors for theming. */
+  colors?: { track: string; fill: string }
 }
