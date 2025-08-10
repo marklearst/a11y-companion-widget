@@ -28,6 +28,15 @@ export interface ChecklistSectionProps {
   tooltipsEnabled: boolean
   /** Whether completed items should be hidden. */
   hideCompleted?: boolean
+  /** Optional themed colors for this section and its children. */
+  colors?: {
+    textPrimary: string
+    sectionDescBg: string
+    sectionDescText: string
+    progressTracker: { bg: string; text: string }
+    checkbox: { bgChecked: string; bgUnchecked: string; stroke: string }
+    badge: string
+  }
 }
 
 /**
@@ -42,6 +51,12 @@ export interface ChecklistItemProps {
   onCheckChange: (taskId: string, isChecked: boolean) => void
   /** Whether tooltips are enabled for this item. */
   tooltipsEnabled: boolean
+  /** Optional text color override */
+  textColor?: string
+  /** Optional checkbox color overrides */
+  checkboxColors?: { bgChecked: string; bgUnchecked: string; stroke: string }
+  /** Optional WCAG badge color */
+  badgeColor?: string
 }
 
 /**

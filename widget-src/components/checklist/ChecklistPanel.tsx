@@ -129,8 +129,20 @@ function ChecklistPanel({
             section={section}
             taskCompletion={taskCompletion}
             handleCheckChange={handleCheckChange}
-      tooltipsEnabled={tooltipsEnabled}
+            tooltipsEnabled={tooltipsEnabled}
       hideCompleted={hideCompleted}
+            colors={{
+              textPrimary: tokens.textPrimary,
+              sectionDescBg: '#F3F4FC',
+              sectionDescText: tokens.textPrimary,
+              progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
+              checkbox: {
+                bgChecked: tokens.checkboxBgChecked,
+                bgUnchecked: tokens.checkboxBgUnchecked,
+                stroke: tokens.checkboxStroke,
+              },
+              badge: tokens.wcagBadge,
+            }}
           />
         ))}
       </AutoLayout>
