@@ -22,7 +22,7 @@
 
   // widget-src/data/a11yChecklistData.json
   var a11yChecklistData_default = {
-    title: "a11y Checklist",
+    title: "a11y Companion",
     sections: [
       {
         id: "content",
@@ -639,16 +639,28 @@
   var ProgressTracker_default = ProgressTracker;
 
   // widget-src/effects/dropShadows.ts
-  var dropShadowEffect = {
+  var DROP_SHADOW_DEFAULTS = {
     type: "drop-shadow",
     color: "#212A6A25",
-    offset: {
-      x: 0,
-      y: 0
-    },
+    offset: { x: 0, y: 0 },
     blur: 15,
     showShadowBehindNode: true
   };
+  function createDropShadowEffect(options = {}) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    const d = DROP_SHADOW_DEFAULTS;
+    return {
+      type: "drop-shadow",
+      color: (_a = options.color) != null ? _a : d.color,
+      offset: {
+        x: (_c = (_b = options.offset) == null ? void 0 : _b.x) != null ? _c : d.offset.x,
+        y: (_e = (_d = options.offset) == null ? void 0 : _d.y) != null ? _e : d.offset.y
+      },
+      blur: (_f = options.blur) != null ? _f : d.blur,
+      showShadowBehindNode: (_g = options.showShadowBehindNode) != null ? _g : d.showShadowBehindNode
+    };
+  }
+  var dropShadowEffect = createDropShadowEffect();
 
   // widget-src/hooks/useTooltipsToggle.ts
   var { widget: widget4 } = figma;

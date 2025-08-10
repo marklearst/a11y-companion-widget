@@ -3,7 +3,7 @@ const { AutoLayout, SVG, Text } = widget
 
 import { ProgressBar } from 'components/primitives'
 import { ChecklistProps } from 'types/index'
-import { dropShadowEffect } from 'effects/dropShadows'
+import { dropShadowEffect } from 'effects'
 import { ChecklistSection } from 'components/checklist'
 import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
 
