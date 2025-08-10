@@ -38,6 +38,7 @@ function ChecklistSection({
   handleCheckChange,
   tooltipsEnabled,
   hideCompleted,
+  colors,
 }: ChecklistSectionProps) {
   if (!section || !Array.isArray(section.items)) {
     return null
@@ -83,7 +84,7 @@ function ChecklistSection({
         <CaretIcon open={isOpen} />
         <Text
           name="SectionTitle"
-          fill="#212A6A"
+          fill={colors?.textPrimary ?? '#212A6A'}
           fontFamily="Anaheim"
           fontSize={20}
           fontWeight={700}
@@ -95,22 +96,19 @@ function ChecklistSection({
           direction="horizontal"
           spacing={8}
           verticalAlignItems="center">
-          <ProgressTracker
-            completed={completed}
-            total={total}
-          />
+          <ProgressTracker completed={completed} total={total} colors={colors?.progressTracker} />
         </AutoLayout>
       </AutoLayout>
       {isOpen && section.description && (
         <AutoLayout
-          fill="#F3F4FC"
+          fill={colors?.sectionDescBg ?? '#F3F4FC'}
           padding={{ vertical: 14, horizontal: 20 }}
           cornerRadius={16}
           width="fill-parent"
           verticalAlignItems="center">
           <Text
             name="SectionDescription"
-            fill="#212A6A"
+            fill={colors?.sectionDescText ?? '#212A6A'}
             opacity={0.7}
             fontFamily="Anaheim"
             fontSize={14}
@@ -131,6 +129,9 @@ function ChecklistSection({
             checked={taskCompletion[item.id] || false}
             onCheckChange={handleCheckChangeSimple}
             tooltipsEnabled={tooltipsEnabled}
+            textColor={colors?.textPrimary}
+            checkboxColors={colors?.checkbox}
+            badgeColor={colors?.badge}
           />
         ))}
     </AutoLayout>

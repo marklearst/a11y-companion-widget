@@ -29,6 +29,7 @@ export function useTooltipsToggle() {
   const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState('tooltipsEnabled', false)
   const [hideCompleted, setHideCompleted] = useSyncedState('hideCompleted', false)
   const [language, setLanguage] = useSyncedState<'en' | 'es'>('language', 'en')
+  const [theme, setTheme] = useSyncedState<'light' | 'dark' | 'system'>('theme', 'light')
 
   const messages = getMessages(language)
 
@@ -45,6 +46,17 @@ export function useTooltipsToggle() {
         propertyName: 'hide-completed',
         tooltip: messages.hideCompletedToggle,
         isToggled: hideCompleted,
+      },
+      {
+        itemType: 'dropdown',
+        propertyName: 'theme',
+        tooltip: 'Theme',
+        selectedOption: theme,
+        options: [
+          { option: 'light', label: 'Light' },
+          { option: 'dark', label: 'Dark' },
+          { option: 'system', label: 'System' },
+        ],
       },
       {
         itemType: 'dropdown',
@@ -65,11 +77,14 @@ export function useTooltipsToggle() {
       if (propertyName === 'hide-completed') {
         setHideCompleted(!hideCompleted)
       }
+      if (propertyName === 'theme' && propertyValue) {
+        setTheme(propertyValue as 'light' | 'dark' | 'system')
+      }
       if (propertyName === 'language' && propertyValue) {
         setLanguage(propertyValue as 'en' | 'es')
       }
     }
   )
 
-  return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language }
+  return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language, theme }
 }

@@ -19,7 +19,7 @@ import { ProgressTrackerProps } from 'types/index'
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-const ProgressTracker = ({ completed, total }: ProgressTrackerProps) => {
+const ProgressTracker = ({ completed, total, colors }: ProgressTrackerProps) => {
   const isAllCompleted = total > 0 && total === completed
   /**
    * Determines the fill color for the ProgressTracker component based on whether all tasks are completed.
@@ -27,14 +27,14 @@ const ProgressTracker = ({ completed, total }: ProgressTrackerProps) => {
    * @param {boolean} isAllCompleted - A flag indicating whether all tasks are completed.
    * @returns {string} The fill color for the ProgressTracker component.
    */
-  const fillColor = isAllCompleted ? '#212a6a' : '#9299ce'
+  const fillColor = colors?.bg ?? (isAllCompleted ? '#212a6a' : '#9299ce')
   /**
    * Determines the text color for the ProgressTracker component based on whether all tasks are completed.
    *
    * @param {boolean} isAllCompleted - A flag indicating whether all tasks are completed.
    * @returns {string} The text color for the ProgressTracker component.
    */
-  const textColor = isAllCompleted ? '#FFFFFF' : '#FFFFFF'
+  const textColor = colors?.text ?? (isAllCompleted ? '#FFFFFF' : '#FFFFFF')
 
   /**
    * Renders the ProgressTracker component, which displays the completion status of a task.

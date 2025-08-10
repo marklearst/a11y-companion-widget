@@ -7,13 +7,13 @@ const { Text } = widget
  * @param wcag - The WCAG code to display
  * @returns The rendered badge component
  */
-export function WcagBadge({ wcag }: { wcag: string }) {
+export function WcagBadge({ wcag, color }: { wcag: string; color?: string }) {
   return (
     <Text
       name="WcagBadge"
       fontSize={33}
       fontWeight={600}
-      fill="#9299CE"
+  fill={color ?? '#9299CE'}
       fontFamily="Anaheim"
       horizontalAlignText="center"
       // verticalAlignText="middle"/
