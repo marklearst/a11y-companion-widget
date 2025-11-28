@@ -29,12 +29,13 @@ function ChecklistItem({
   checked,
   onCheckChange,
   tooltipsEnabled,
+  textColor,
+  checkboxColors,
+  badgeColor,
 }: ChecklistItemProps) {
   const { id, text, wcag, longDescription } = item
 
-  const handleChange = () => {
-    onCheckChange(id, !checked)
-  }
+  const handleChange = () => onCheckChange(id, !checked)
 
   // Compose tooltip content
   let tooltipContent = ''
@@ -50,24 +51,23 @@ function ChecklistItem({
 
   return (
     <AutoLayout
-      key={id}
       direction="horizontal"
       verticalAlignItems="start"
       spacing={14}
       padding={{ vertical: 10 }}
       width={520}
       onClick={handleChange}>
-      <Checkbox checked={checked} />
+      <Checkbox checked={checked} colors={checkboxColors} />
       <Text
         name="TaskText"
         width={420}
-        fill="#212A6A"
+        fill={textColor ?? '#212A6A'}
         lineHeight="150%"
         fontFamily="Anaheim"
         fontSize={17}
         fontWeight={600}
         tooltip={tooltipsEnabled ? tooltipContent : undefined}>
-        {text} {wcag && <WcagBadge wcag={wcag} />}
+        {text} {wcag && <WcagBadge wcag={wcag} color={badgeColor} />}
       </Text>
     </AutoLayout>
   )

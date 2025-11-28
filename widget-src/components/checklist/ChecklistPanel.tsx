@@ -7,6 +7,7 @@ import { dropShadowEffect } from 'effects'
 import { ChecklistSection } from 'components/checklist'
 import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
 import { getMessages } from 'i18n'
+import { resolveTheme } from 'theme'
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -48,7 +49,7 @@ function ChecklistPanel({
   isDarkMode,
 }: ChecklistProps) {
   const parentWidth = 460 // assuming a fixed width for the parent container
-  const { tooltipsEnabled, hideCompleted, language } = useTooltipsToggle()
+  const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle()
   const t = getMessages(language)
   const progressText = t.progressText(completed, total)
 
@@ -59,14 +60,17 @@ function ChecklistPanel({
    *
    * @returns {JSX.Element} The rendered Checklist component.
    */
+  const effectiveDark = theme === 'dark' || (theme === 'system' && isDarkMode)
+  const tokens = resolveTheme(!!effectiveDark)
+
   return (
     <AutoLayout
       direction="vertical"
       width={520}
       cornerRadius={8}
       effect={dropShadowEffect}
-      fill={isDarkMode ? '#222222' : '#fff'}
-      stroke="#212A6A"
+      fill={tokens.panelBg}
+      stroke={tokens.panelStroke}
       strokeAlign="outside"
       strokeWidth={1}
       spacing={30}
@@ -77,7 +81,7 @@ function ChecklistPanel({
         direction="horizontal"
         width="fill-parent"
         height={100}
-        fill="#212A6A"
+  fill={tokens.headerBg}
         verticalAlignItems="center"
         spacing={14}
         padding={{ top: 20, bottom: 20, left: 25, right: 0 }}>
@@ -89,7 +93,7 @@ function ChecklistPanel({
         />
         <Text
           name="HeaderTitle"
-          fill="#fff"
+          fill={tokens.headerText}
           fontFamily="Anaheim"
           fontSize={28}
           fontWeight={600}
@@ -108,10 +112,11 @@ function ChecklistPanel({
           total={total}
           completed={completed}
           parentWidth={parentWidth}
+          colors={{ track: tokens.progressBg, fill: tokens.progressFill }}
         />
         <Text
           name="ProgressText"
-          fill="#212A6A"
+          fill={tokens.textPrimary}
           lineHeight="100%"
           fontFamily="Anaheim"
           fontSize={18}
@@ -124,8 +129,20 @@ function ChecklistPanel({
             section={section}
             taskCompletion={taskCompletion}
             handleCheckChange={handleCheckChange}
-      tooltipsEnabled={tooltipsEnabled}
+            tooltipsEnabled={tooltipsEnabled}
       hideCompleted={hideCompleted}
+            colors={{
+              textPrimary: tokens.textPrimary,
+              sectionDescBg: '#F3F4FC',
+              sectionDescText: tokens.textPrimary,
+              progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
+              checkbox: {
+                bgChecked: tokens.checkboxBgChecked,
+                bgUnchecked: tokens.checkboxBgUnchecked,
+                stroke: tokens.checkboxStroke,
+              },
+              badge: tokens.wcagBadge,
+            }}
           />
         ))}
       </AutoLayout>

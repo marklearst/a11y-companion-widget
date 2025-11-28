@@ -569,7 +569,8 @@
   // widget-src/components/primitives/ProgressBar.tsx
   var { widget: widget2 } = figma;
   var { AutoLayout: AutoLayout2, Rectangle } = widget2;
-  var ProgressBar = ({ total, completed, parentWidth }) => {
+  var ProgressBar = ({ total, completed, parentWidth, colors }) => {
+    var _a, _b;
     const percentage = total === 0 ? 0 : completed / total * 100;
     let calculatedWidth = percentage / 100 * parentWidth;
     if (calculatedWidth === 0) {
@@ -582,7 +583,7 @@
         overflow: "hidden",
         width: parentWidth,
         height: 20,
-        fill: "#9299ce",
+        fill: (_a = colors == null ? void 0 : colors.track) != null ? _a : "#9299ce",
         cornerRadius: 4,
         padding: 0,
         spacing: 0
@@ -592,7 +593,7 @@
         {
           width: calculatedWidth,
           height: "fill-parent",
-          fill: "#212a6a"
+          fill: (_b = colors == null ? void 0 : colors.fill) != null ? _b : "#212a6a"
         }
       )
     );
@@ -602,10 +603,11 @@
   // widget-src/components/primitives/ProgressTracker.tsx
   var { widget: widget3 } = figma;
   var { AutoLayout: AutoLayout3, Text } = widget3;
-  var ProgressTracker = ({ completed, total }) => {
+  var ProgressTracker = ({ completed, total, colors }) => {
+    var _a, _b;
     const isAllCompleted = total > 0 && total === completed;
-    const fillColor = isAllCompleted ? "#212a6a" : "#9299ce";
-    const textColor = isAllCompleted ? "#FFFFFF" : "#FFFFFF";
+    const fillColor = (_a = colors == null ? void 0 : colors.bg) != null ? _a : isAllCompleted ? "#212a6a" : "#9299ce";
+    const textColor = (_b = colors == null ? void 0 : colors.text) != null ? _b : isAllCompleted ? "#FFFFFF" : "#FFFFFF";
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout3,
       {
@@ -688,6 +690,7 @@
     const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState("tooltipsEnabled", false);
     const [hideCompleted, setHideCompleted] = useSyncedState("hideCompleted", false);
     const [language, setLanguage] = useSyncedState("language", "en");
+    const [theme, setTheme] = useSyncedState("theme", "light");
     const messages = getMessages(language);
     usePropertyMenu(
       [
@@ -702,6 +705,17 @@
           propertyName: "hide-completed",
           tooltip: messages.hideCompletedToggle,
           isToggled: hideCompleted
+        },
+        {
+          itemType: "dropdown",
+          propertyName: "theme",
+          tooltip: "Theme",
+          selectedOption: theme,
+          options: [
+            { option: "light", label: "Light" },
+            { option: "dark", label: "Dark" },
+            { option: "system", label: "System" }
+          ]
         },
         {
           itemType: "dropdown",
@@ -722,12 +736,48 @@
         if (propertyName === "hide-completed") {
           setHideCompleted(!hideCompleted);
         }
+        if (propertyName === "theme" && propertyValue) {
+          setTheme(propertyValue);
+        }
         if (propertyName === "language" && propertyValue) {
           setLanguage(propertyValue);
         }
       }
     );
-    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language };
+    return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language, theme };
+  }
+
+  // widget-src/theme/index.ts
+  var light = {
+    panelBg: "#FFFFFF",
+    panelStroke: "#212A6A",
+    headerBg: "#212A6A",
+    headerText: "#FFFFFF",
+    textPrimary: "#212A6A",
+    textSecondary: "#212A6A",
+    progressBg: "#9299ce",
+    progressFill: "#212a6a",
+    checkboxBgChecked: "#212a6a",
+    checkboxBgUnchecked: "#FFFFFF",
+    checkboxStroke: "#212a6a",
+    wcagBadge: "#9299CE"
+  };
+  var dark = {
+    panelBg: "#222222",
+    panelStroke: "#B7BCE6",
+    headerBg: "#12163b",
+    headerText: "#FFFFFF",
+    textPrimary: "#E6E8FF",
+    textSecondary: "#C8CBF2",
+    progressBg: "#4e5594",
+    progressFill: "#b8bdf7",
+    checkboxBgChecked: "#b8bdf7",
+    checkboxBgUnchecked: "#222222",
+    checkboxStroke: "#b8bdf7",
+    wcagBadge: "#B7BCE6"
+  };
+  function resolveTheme(isDark) {
+    return isDark ? dark : light;
   }
 
   // widget-src/components/checklist/ChecklistPanel.tsx
@@ -743,9 +793,11 @@
     isDarkMode
   }) {
     const parentWidth = 460;
-    const { tooltipsEnabled, hideCompleted, language } = useTooltipsToggle();
+    const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle();
     const t = getMessages(language);
     const progressText = t.progressText(completed, total);
+    const effectiveDark = theme === "dark" || theme === "system" && isDarkMode;
+    const tokens = resolveTheme(!!effectiveDark);
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout4,
       {
@@ -753,8 +805,8 @@
         width: 520,
         cornerRadius: 8,
         effect: dropShadowEffect,
-        fill: isDarkMode ? "#222222" : "#fff",
-        stroke: "#212A6A",
+        fill: tokens.panelBg,
+        stroke: tokens.panelStroke,
         strokeAlign: "outside",
         strokeWidth: 1,
         spacing: 30,
@@ -767,7 +819,7 @@
           direction: "horizontal",
           width: "fill-parent",
           height: 100,
-          fill: "#212A6A",
+          fill: tokens.headerBg,
           verticalAlignItems: "center",
           spacing: 14,
           padding: { top: 20, bottom: 20, left: 25, right: 0 }
@@ -785,7 +837,7 @@
           Text2,
           {
             name: "HeaderTitle",
-            fill: "#fff",
+            fill: tokens.headerText,
             fontFamily: "Anaheim",
             fontSize: 28,
             fontWeight: 600,
@@ -808,14 +860,15 @@
           {
             total,
             completed,
-            parentWidth
+            parentWidth,
+            colors: { track: tokens.progressBg, fill: tokens.progressFill }
           }
         ),
         /* @__PURE__ */ figma.widget.h(
           Text2,
           {
             name: "ProgressText",
-            fill: "#212A6A",
+            fill: tokens.textPrimary,
             lineHeight: "100%",
             fontFamily: "Anaheim",
             fontSize: 18,
@@ -831,7 +884,19 @@
             taskCompletion,
             handleCheckChange,
             tooltipsEnabled,
-            hideCompleted
+            hideCompleted,
+            colors: {
+              textPrimary: tokens.textPrimary,
+              sectionDescBg: "#F3F4FC",
+              sectionDescText: tokens.textPrimary,
+              progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
+              checkbox: {
+                bgChecked: tokens.checkboxBgChecked,
+                bgUnchecked: tokens.checkboxBgUnchecked,
+                stroke: tokens.checkboxStroke
+              },
+              badge: tokens.wcagBadge
+            }
           }
         ))
       )
@@ -887,8 +952,10 @@
     taskCompletion,
     handleCheckChange,
     tooltipsEnabled,
-    hideCompleted
+    hideCompleted,
+    colors
   }) {
+    var _a, _b, _c;
     if (!section || !Array.isArray(section.items)) {
       return null;
     }
@@ -925,7 +992,7 @@
           Text3,
           {
             name: "SectionTitle",
-            fill: "#212A6A",
+            fill: (_a = colors == null ? void 0 : colors.textPrimary) != null ? _a : "#212A6A",
             fontFamily: "Anaheim",
             fontSize: 20,
             fontWeight: 700,
@@ -941,19 +1008,13 @@
             spacing: 8,
             verticalAlignItems: "center"
           },
-          /* @__PURE__ */ figma.widget.h(
-            ProgressTracker_default,
-            {
-              completed,
-              total
-            }
-          )
+          /* @__PURE__ */ figma.widget.h(ProgressTracker_default, { completed, total, colors: colors == null ? void 0 : colors.progressTracker })
         )
       ),
       isOpen && section.description && /* @__PURE__ */ figma.widget.h(
         AutoLayout5,
         {
-          fill: "#F3F4FC",
+          fill: (_b = colors == null ? void 0 : colors.sectionDescBg) != null ? _b : "#F3F4FC",
           padding: { vertical: 14, horizontal: 20 },
           cornerRadius: 16,
           width: "fill-parent",
@@ -963,7 +1024,7 @@
           Text3,
           {
             name: "SectionDescription",
-            fill: "#212A6A",
+            fill: (_c = colors == null ? void 0 : colors.sectionDescText) != null ? _c : "#212A6A",
             opacity: 0.7,
             fontFamily: "Anaheim",
             fontSize: 14,
@@ -981,7 +1042,10 @@
           item,
           checked: taskCompletion[item.id] || false,
           onCheckChange: handleCheckChangeSimple,
-          tooltipsEnabled
+          tooltipsEnabled,
+          textColor: colors == null ? void 0 : colors.textPrimary,
+          checkboxColors: colors == null ? void 0 : colors.checkbox,
+          badgeColor: colors == null ? void 0 : colors.badge
         }
       ))
     );
@@ -991,14 +1055,14 @@
   // widget-src/components/checklist/WcagBadge.tsx
   var { widget: widget9 } = figma;
   var { Text: Text4 } = widget9;
-  function WcagBadge({ wcag }) {
+  function WcagBadge({ wcag, color }) {
     return /* @__PURE__ */ figma.widget.h(
       Text4,
       {
         name: "WcagBadge",
         fontSize: 33,
         fontWeight: 600,
-        fill: "#9299CE",
+        fill: color != null ? color : "#9299CE",
         fontFamily: "Anaheim",
         horizontalAlignText: "center",
         lineHeight: "120%",
@@ -1021,12 +1085,13 @@
     item,
     checked,
     onCheckChange,
-    tooltipsEnabled
+    tooltipsEnabled,
+    textColor,
+    checkboxColors,
+    badgeColor
   }) {
     const { id, text, wcag, longDescription } = item;
-    const handleChange = () => {
-      onCheckChange(id, !checked);
-    };
+    const handleChange = () => onCheckChange(id, !checked);
     let tooltipContent = "";
     if (wcag && longDescription) {
       tooltipContent = `WCAG: ${wcag}
@@ -1041,7 +1106,6 @@ ${longDescription}`;
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout6,
       {
-        key: id,
         direction: "horizontal",
         verticalAlignItems: "start",
         spacing: 14,
@@ -1049,13 +1113,13 @@ ${longDescription}`;
         width: 520,
         onClick: handleChange
       },
-      /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked }),
+      /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked, colors: checkboxColors }),
       /* @__PURE__ */ figma.widget.h(
         Text5,
         {
           name: "TaskText",
           width: 420,
-          fill: "#212A6A",
+          fill: textColor != null ? textColor : "#212A6A",
           lineHeight: "150%",
           fontFamily: "Anaheim",
           fontSize: 17,
@@ -1064,7 +1128,7 @@ ${longDescription}`;
         },
         text,
         " ",
-        wcag && /* @__PURE__ */ figma.widget.h(WcagBadge_default, { wcag })
+        wcag && /* @__PURE__ */ figma.widget.h(WcagBadge_default, { wcag, color: badgeColor })
       )
     );
   }
