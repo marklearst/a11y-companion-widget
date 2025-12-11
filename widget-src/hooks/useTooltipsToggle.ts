@@ -25,7 +25,7 @@ import { getMessages } from 'i18n'
  * @sideEffects
  * Registers a property menu item in the Figma widget UI for toggling tooltips.
  */
-export function useTooltipsToggle() {
+export function useTooltipsToggle(onExportClick?: () => void) {
   const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState('tooltipsEnabled', false)
   const [hideCompleted, setHideCompleted] = useSyncedState('hideCompleted', false)
   const [language, setLanguage] = useSyncedState<'en' | 'es'>('language', 'en')
@@ -68,6 +68,11 @@ export function useTooltipsToggle() {
           { option: 'es', label: 'Español' },
         ],
       },
+      {
+        itemType: 'action',
+        propertyName: 'export-progress',
+        tooltip: messages.exportProgress,
+      },
     ],
     (event: { propertyName: string; propertyValue?: string }) => {
       const { propertyName, propertyValue } = event
@@ -82,6 +87,9 @@ export function useTooltipsToggle() {
       }
       if (propertyName === 'language' && propertyValue) {
         setLanguage(propertyValue as 'en' | 'es')
+      }
+      if (propertyName === 'export-progress' && onExportClick) {
+        onExportClick()
       }
     }
   )

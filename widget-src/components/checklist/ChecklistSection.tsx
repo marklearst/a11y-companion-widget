@@ -6,6 +6,7 @@ import { ProgressTracker } from 'components/primitives'
 import { ChecklistItem } from 'components/checklist'
 import { useChecklistProgress } from 'hooks/useChecklistProgress'
 import { useOpenSections } from 'hooks/useOpenSections'
+import { useBulkActions } from 'hooks/useBulkActions'
 import CaretIcon from 'components/checklist/CaretIcon'
 
 /**
@@ -55,10 +56,17 @@ function ChecklistSection({
     taskCompletion
   )
 
+  // Bulk actions
+  const { markSectionComplete, markSectionIncomplete, toggleSection: toggleSectionItems } =
+    useBulkActions(handleCheckChange)
+
   // Handle checklist item check/uncheck
   const handleCheckChangeSimple = (taskId: string, isChecked: boolean) => {
     handleCheckChange(taskId, isChecked)
   }
+
+  // Check if all items in section are complete
+  const allItemsComplete = section.items.every((item) => taskCompletion[item.id])
 
   // Caret SVG (right when closed, down when open)
 
@@ -78,24 +86,45 @@ function ChecklistSection({
         spacing={12}
         verticalAlignItems="center"
         width="fill-parent"
-        onClick={() => toggleSection(section.title)}
         height={34}
         horizontalAlignItems="center">
-        <CaretIcon open={isOpen} />
-        <Text
-          name="SectionTitle"
-          fill={colors?.textPrimary ?? '#212A6A'}
-          fontFamily="Anaheim"
-          fontSize={20}
-          fontWeight={700}
-          lineHeight="150%">
-          {section.title}
-        </Text>
+        <AutoLayout
+          onClick={() => toggleSection(section.title)}
+          spacing={12}
+          verticalAlignItems="center"
+          horizontalAlignItems="center">
+          <CaretIcon open={isOpen} />
+          <Text
+            name="SectionTitle"
+            fill={colors?.textPrimary ?? '#212A6A'}
+            fontFamily="Anaheim"
+            fontSize={20}
+            fontWeight={700}
+            lineHeight="150%">
+            {section.title}
+          </Text>
+        </AutoLayout>
         <AutoLayout width="fill-parent" />
         <AutoLayout
           direction="horizontal"
           spacing={8}
           verticalAlignItems="center">
+          {isOpen && section.items.length > 0 && (
+            <AutoLayout
+              onClick={() => toggleSectionItems(section, taskCompletion)}
+              padding={{ horizontal: 6, vertical: 4 }}
+              cornerRadius={4}
+              tooltip={allItemsComplete ? 'Mark all incomplete' : 'Mark all complete'}>
+              <Text
+                fill={colors?.textPrimary ?? '#212A6A'}
+                fontFamily="Anaheim"
+                fontSize={12}
+                fontWeight={600}
+                opacity={0.7}>
+                {allItemsComplete ? '✓' : '☐'}
+              </Text>
+            </AutoLayout>
+          )}
           <ProgressTracker completed={completed} total={total} colors={colors?.progressTracker} />
         </AutoLayout>
       </AutoLayout>

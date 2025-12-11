@@ -44,6 +44,9 @@ function Widget() {
   const total = itemIds.length
   const completed = itemIds.filter((id) => taskCompletion[id]).length
 
+  // Note: Dark mode detection for 'system' theme is handled in ChecklistPanel
+  // via the theme property menu option. Widgets don't have direct access to
+  // system preferences, so 'system' will default to light mode for now.
   return (
     <ChecklistPanel
       title={checklistData.title}

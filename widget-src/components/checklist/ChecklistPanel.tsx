@@ -1,13 +1,19 @@
 const { widget } = figma
-const { AutoLayout, SVG, Text } = widget
+const { AutoLayout, SVG, Text, Input } = widget
+const { useSyncedState } = widget
 
 import { ProgressBar } from 'components/primitives'
 import { ChecklistProps } from 'types/index'
 import { dropShadowEffect } from 'effects'
 import { ChecklistSection } from 'components/checklist'
+import { ExportDisplay } from 'components/checklist/ExportDisplay'
 import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
+import { useSearch } from 'hooks/useSearch'
+import { useCollapseAll } from 'hooks/useCollapseAll'
+import { useExportImport } from 'hooks/useExportImport'
 import { getMessages } from 'i18n'
 import { resolveTheme } from 'theme'
+import type { ChecklistSectionType } from 'types'
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -49,11 +55,25 @@ function ChecklistPanel({
   isDarkMode,
 }: ChecklistProps) {
   const parentWidth = 460 // assuming a fixed width for the parent container
-  const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle()
+
+  // Export/import
+  const { exportProgress } = useExportImport(taskCompletion, { title, sections })
+  const [showExport, setShowExport] = useSyncedState('showExport', false)
+
+  // Handle export button click
+  const handleExportClick = () => {
+    setShowExport(true)
+  }
+
+  const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle(handleExportClick)
   const t = getMessages(language)
   const progressText = t.progressText(completed, total)
 
-  // Use custom hook for tooltips toggle and property menu
+  // Search functionality
+  const { searchQuery, setSearchQuery, filteredSections } = useSearch<ChecklistSectionType>(sections)
+
+  // Collapse/expand all
+  const { collapseAll, expandAll, isAllCollapsed } = useCollapseAll(sections)
 
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
@@ -75,6 +95,13 @@ function ChecklistPanel({
       strokeWidth={1}
       spacing={30}
       padding={{ top: 0, bottom: 30, left: 0, right: 0 }}>
+      {showExport && (
+        <ExportDisplay
+          exportData={exportProgress()}
+          onClose={() => setShowExport(false)}
+          colors={{ textPrimary: tokens.textPrimary, panelBg: tokens.panelBg }}
+        />
+      )}
       {/* Header */}
       <AutoLayout
         name="Header"
@@ -108,6 +135,39 @@ function ChecklistPanel({
         spacing={16}
         width={520}
         padding={{ left: 30, right: 30 }}>
+        {/* Search and Actions Bar */}
+        <AutoLayout
+          direction="horizontal"
+          spacing={8}
+          width="fill-parent"
+          verticalAlignItems="center">
+          <Input
+            value={searchQuery || null}
+            placeholder={t.searchPlaceholder}
+            onTextEditEnd={(e) => setSearchQuery(e.characters)}
+            width={280}
+            fontSize={14}
+            fontFamily="Anaheim"
+            fill={tokens.textPrimary}
+            inputBehavior="truncate"
+          />
+          <AutoLayout width="fill-parent" />
+          <AutoLayout
+            onClick={isAllCollapsed ? expandAll : collapseAll}
+            padding={{ horizontal: 6, vertical: 4 }}
+            cornerRadius={4}
+            tooltip={isAllCollapsed ? t.expandAll : t.collapseAll}>
+            <Text
+              fill={tokens.textPrimary}
+              fontSize={14}
+              fontFamily="Anaheim"
+              fontWeight={600}
+              opacity={0.7}>
+              {isAllCollapsed ? '▼' : '▲'}
+            </Text>
+          </AutoLayout>
+        </AutoLayout>
+
         <ProgressBar
           total={total}
           completed={completed}
@@ -123,28 +183,40 @@ function ChecklistPanel({
           fontWeight={600}>
           {progressText}
         </Text>
-    {sections.map((section) => (
-          <ChecklistSection
-            key={section.id}
-            section={section}
-            taskCompletion={taskCompletion}
-            handleCheckChange={handleCheckChange}
-            tooltipsEnabled={tooltipsEnabled}
-      hideCompleted={hideCompleted}
-            colors={{
-              textPrimary: tokens.textPrimary,
-              sectionDescBg: '#F3F4FC',
-              sectionDescText: tokens.textPrimary,
-              progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
-              checkbox: {
-                bgChecked: tokens.checkboxBgChecked,
-                bgUnchecked: tokens.checkboxBgUnchecked,
-                stroke: tokens.checkboxStroke,
-              },
-              badge: tokens.wcagBadge,
-            }}
-          />
-        ))}
+        {filteredSections.length === 0 ? (
+          <Text
+            fill={tokens.textPrimary}
+            fontSize={14}
+            fontFamily="Anaheim"
+            opacity={0.5}
+            width="fill-parent"
+            horizontalAlignText="center">
+            {t.noResults}
+          </Text>
+        ) : (
+          filteredSections.map((section) => (
+            <ChecklistSection
+              key={section.id}
+              section={section}
+              taskCompletion={taskCompletion}
+              handleCheckChange={handleCheckChange}
+              tooltipsEnabled={tooltipsEnabled}
+              hideCompleted={hideCompleted}
+              colors={{
+                textPrimary: tokens.textPrimary,
+                sectionDescBg: effectiveDark ? '#2A2A2A' : '#F3F4FC',
+                sectionDescText: tokens.textPrimary,
+                progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
+                checkbox: {
+                  bgChecked: tokens.checkboxBgChecked,
+                  bgUnchecked: tokens.checkboxBgUnchecked,
+                  stroke: tokens.checkboxStroke,
+                },
+                badge: tokens.wcagBadge,
+              }}
+            />
+          ))
+        )}
       </AutoLayout>
     </AutoLayout>
   )

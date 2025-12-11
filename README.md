@@ -24,6 +24,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 
 ## ✨ Features
 
+### Core Features
 - Full A11Y Project checklist, organized by section
 - Each item includes a WCAG reference and a detailed explanation
 - Collapsible sections for easy navigation
@@ -32,19 +33,34 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 - Tooltips with WCAG and long descriptions
 - Property menu toggle to enable/disable tooltips
 
+### New in v1.2.0 🎉
+- **🔍 Search & Filter** - Quickly find checklist items by text or WCAG code
+- **⚡ Bulk Actions** - Mark all items in a section complete/incomplete with one click
+- **📦 Collapse/Expand All** - Quickly navigate large checklists
+- **💾 Export Progress** - Export your progress as JSON for backup or sharing
+- **🌙 Dark Mode** - Full dark mode support with system preference detection
+- **🌍 Localization** - English and Spanish language support
+- **🎨 Enhanced UI** - Improved visual hierarchy and user experience
+
 ---
 
 **Note:** Collaborative avatars (facepile) for team check-offs were removed in v1.1.0 for a simpler interface and less UI noise, based on overwhelming user feedback. Avatars could be reset by resetting widget state. This feature may return in the future with a toggle to enable or disable it.
-
-- Modern, accessible UI with dark mode support coming in v1.2.0
 
 ## ▶️ How to Use
 
 1. **Install the widget** in your Figma or FigJam file.
 2. Open the widget and review the checklist items by section.
-3. Check off items as you complete them; your team can see your progress in real time.
-4. Hover over checklist items for WCAG references and detailed explanations.
-5. Use the property menu to toggle tooltips on or off.
+3. **Search** for specific items using the search bar at the top.
+4. Check off items as you complete them; your team can see your progress in real time.
+5. Use **bulk actions** (☐/✓) next to section titles to mark all items complete/incomplete.
+6. Click the **collapse/expand** button (▲/▼) to quickly navigate sections.
+7. Hover over checklist items for WCAG references and detailed explanations.
+8. Use the **property menu** to:
+   - Toggle tooltips on or off
+   - Hide completed items
+   - Switch between light/dark/system themes
+   - Change language (English/Español)
+   - Export your progress as JSON
 
 ## 🤔 Why use this widget?
 

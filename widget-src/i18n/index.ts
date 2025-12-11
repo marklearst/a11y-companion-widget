@@ -5,6 +5,14 @@ export type Messages = {
   progressText: (completed: number, total: number) => string
   tooltipsToggle: string
   hideCompletedToggle: string
+  markAllComplete: string
+  markAllIncomplete: string
+  collapseAll: string
+  expandAll: string
+  searchPlaceholder: string
+  exportProgress: string
+  importProgress: string
+  noResults: string
 }
 
 const en: Messages = {
@@ -12,6 +20,14 @@ const en: Messages = {
   progressText: (c, t) => `${c} of ${t} accessibility checks done`,
   tooltipsToggle: 'Show tooltips on checkable items',
   hideCompletedToggle: 'Hide completed items',
+  markAllComplete: 'Mark all complete',
+  markAllIncomplete: 'Mark all incomplete',
+  collapseAll: 'Collapse all',
+  expandAll: 'Expand all',
+  searchPlaceholder: 'Search checklist...',
+  exportProgress: 'Export progress',
+  importProgress: 'Import progress',
+  noResults: 'No items found',
 }
 
 const es: Messages = {
@@ -19,6 +35,14 @@ const es: Messages = {
   progressText: (c, t) => `${c} de ${t} comprobaciones de accesibilidad completadas`,
   tooltipsToggle: 'Mostrar tooltips en elementos con casilla',
   hideCompletedToggle: 'Ocultar elementos completados',
+  markAllComplete: 'Marcar todo como completo',
+  markAllIncomplete: 'Marcar todo como incompleto',
+  collapseAll: 'Contraer todo',
+  expandAll: 'Expandir todo',
+  searchPlaceholder: 'Buscar en lista...',
+  exportProgress: 'Exportar progreso',
+  importProgress: 'Importar progreso',
+  noResults: 'No se encontraron elementos',
 }
 
 export const locales: Record<Locale, Messages> = { en, es }
