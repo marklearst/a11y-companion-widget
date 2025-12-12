@@ -1,7 +1,7 @@
-const { widget } = figma
-const { AutoLayout, Text } = widget
+const { widget } = figma;
+const { AutoLayout, Text } = widget;
 
-import { ProgressTrackerProps } from 'types/index'
+import { ProgressTrackerProps } from "types/index";
 /**
  * Renders a pill-shaped progress tracker showing completed and total tasks.
  *
@@ -19,22 +19,27 @@ import { ProgressTrackerProps } from 'types/index'
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-const ProgressTracker = ({ completed, total, colors }: ProgressTrackerProps) => {
-  const isAllCompleted = total > 0 && total === completed
+const ProgressTracker = ({
+  completed,
+  total,
+  colors,
+}: ProgressTrackerProps) => {
+  const isAllCompleted = total > 0 && total === completed;
   /**
    * Determines the fill color for the ProgressTracker component based on whether all tasks are completed.
+   * When all tasks are completed, use dark color regardless of colors.bg prop.
    *
    * @param {boolean} isAllCompleted - A flag indicating whether all tasks are completed.
    * @returns {string} The fill color for the ProgressTracker component.
    */
-  const fillColor = colors?.bg ?? (isAllCompleted ? '#212a6a' : '#9299ce')
+  const fillColor = isAllCompleted ? "#212a6a" : colors?.bg ?? "#9299ce";
   /**
    * Determines the text color for the ProgressTracker component based on whether all tasks are completed.
    *
    * @param {boolean} isAllCompleted - A flag indicating whether all tasks are completed.
    * @returns {string} The text color for the ProgressTracker component.
    */
-  const textColor = colors?.text ?? (isAllCompleted ? '#FFFFFF' : '#FFFFFF')
+  const textColor = colors?.text ?? "#FFFFFF";
 
   /**
    * Renders the ProgressTracker component, which displays the completion status of a task.
@@ -51,7 +56,8 @@ const ProgressTracker = ({ completed, total, colors }: ProgressTrackerProps) => 
         horizontal: 10,
       }}
       horizontalAlignItems="center"
-      verticalAlignItems="center">
+      verticalAlignItems="center"
+    >
       <Text
         fill={textColor}
         verticalAlignText="center"
@@ -59,11 +65,12 @@ const ProgressTracker = ({ completed, total, colors }: ProgressTrackerProps) => 
         lineHeight="150%"
         fontFamily="Anaheim"
         fontSize={18}
-        fontWeight={800}>
+        fontWeight={800}
+      >
         {completed} / {total}
       </Text>
     </AutoLayout>
-  )
-}
+  );
+};
 
-export default ProgressTracker
+export default ProgressTracker;

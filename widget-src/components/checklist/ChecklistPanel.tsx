@@ -1,13 +1,30 @@
-const { widget } = figma
-const { AutoLayout, SVG, Text } = widget
+const { widget } = figma;
+const { AutoLayout, SVG, Text, Input } = widget;
+const { useSyncedState } = widget;
 
-import { ProgressBar } from 'components/primitives'
-import { ChecklistProps } from 'types/index'
-import { dropShadowEffect } from 'effects'
-import { ChecklistSection } from 'components/checklist'
-import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
-import { getMessages } from 'i18n'
-import { resolveTheme } from 'theme'
+// Type declaration for navigator (available in Figma widget runtime)
+declare const navigator: {
+  clipboard?: {
+    writeText: (text: string) => Promise<void>;
+  };
+};
+
+import { ProgressBar } from "components/primitives";
+import { ChecklistProps } from "types/index";
+import { dropShadowEffect } from "effects";
+import { ChecklistSection } from "components/checklist";
+import { CopyDisplay } from "components/checklist/CopyDisplay";
+import { useTooltipsToggle } from "hooks/useTooltipsToggle";
+import { useSearch } from "hooks/useSearch";
+import { useQuickCopy } from "hooks/useQuickCopy";
+import { getMessages } from "i18n";
+import { resolveTheme } from "theme";
+import {
+  templates,
+  filterSectionsByTemplate,
+  type TemplateType,
+} from "data/templates";
+import type { ChecklistSectionType } from "types";
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -48,20 +65,43 @@ function ChecklistPanel({
   completed,
   isDarkMode,
 }: ChecklistProps) {
-  const parentWidth = 460 // assuming a fixed width for the parent container
-  const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle()
-  const t = getMessages(language)
-  const progressText = t.progressText(completed, total)
+  const parentWidth = 460; // assuming a fixed width for the parent container
 
-  // Use custom hook for tooltips toggle and property menu
+  // Quick copy functionality
+  const { copyAllAsMarkdown, copyAsPlainText, copyAsHTML } = useQuickCopy();
+  const [showCopy, setShowCopy] = useSyncedState<
+    "markdown" | "html" | "plaintext" | null
+  >("showCopy", null);
+  const [copyData, setCopyData] = useSyncedState<string>("copyData", "");
+
+  // Template filtering
+  const [selectedTemplate, setSelectedTemplate] = useSyncedState<TemplateType>(
+    "selectedTemplate",
+    "all"
+  );
+
+  const { tooltipsEnabled, hideCompleted, language, theme } =
+    useTooltipsToggle();
+  const t = getMessages(language);
+  const progressText = t.progressText(completed, total);
+
+  // Search functionality
+  const { searchQuery, setSearchQuery, filteredSections } =
+    useSearch<ChecklistSectionType>(sections);
+
+  // Apply template filter after search filter
+  const templateFilteredSections = filterSectionsByTemplate(
+    filteredSections,
+    selectedTemplate
+  );
 
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
    *
    * @returns {JSX.Element} The rendered Checklist component.
    */
-  const effectiveDark = theme === 'dark' || (theme === 'system' && isDarkMode)
-  const tokens = resolveTheme(!!effectiveDark)
+  const effectiveDark = theme === "dark" || (theme === "system" && isDarkMode);
+  const tokens = resolveTheme(!!effectiveDark);
 
   return (
     <AutoLayout
@@ -73,18 +113,20 @@ function ChecklistPanel({
       stroke={tokens.panelStroke}
       strokeAlign="outside"
       strokeWidth={1}
-      spacing={30}
-      padding={{ top: 0, bottom: 30, left: 0, right: 0 }}>
+      spacing={16}
+      padding={{ top: 0, bottom: 16, left: 0, right: 0 }}
+    >
       {/* Header */}
       <AutoLayout
         name="Header"
         direction="horizontal"
         width="fill-parent"
         height={100}
-  fill={tokens.headerBg}
+        fill={tokens.headerBg}
         verticalAlignItems="center"
         spacing={14}
-        padding={{ top: 20, bottom: 20, left: 25, right: 0 }}>
+        padding={{ top: 20, bottom: 20, left: 25, right: 25 }}
+      >
         <SVG
           name="a11y-logo"
           width={51}
@@ -97,9 +139,11 @@ function ChecklistPanel({
           fontFamily="Anaheim"
           fontSize={28}
           fontWeight={600}
-          lineHeight="150%">
-          {title || t.appTitle}
+          lineHeight="150%"
+        >
+          {String(title || t.appTitle || "a11y Companion")}
         </Text>
+        <AutoLayout width="fill-parent" />
       </AutoLayout>
       {/* Main content */}
       <AutoLayout
@@ -107,7 +151,343 @@ function ChecklistPanel({
         direction="vertical"
         spacing={16}
         width={520}
-        padding={{ left: 30, right: 30 }}>
+        padding={{ left: 30, right: 30 }}
+      >
+        {/* Search */}
+        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+          <Text
+            fill={tokens.textPrimary}
+            fontSize={12}
+            fontFamily="Anaheim"
+            fontWeight={600}
+            opacity={0.6}
+          >
+            {t.searchLabel}
+          </Text>
+          <AutoLayout
+            padding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+            cornerRadius={4}
+            stroke={tokens.panelStroke}
+            strokeWidth={1}
+            width="fill-parent"
+          >
+            <Input
+              value={searchQuery}
+              placeholder={t.searchPlaceholder}
+              onTextEditEnd={(e) => setSearchQuery(e.characters)}
+              width="fill-parent"
+              fontSize={14}
+              fontFamily="Anaheim"
+              fill={tokens.textPrimary}
+              inputBehavior="truncate"
+            />
+          </AutoLayout>
+        </AutoLayout>
+
+        {/* Template Selector */}
+        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+          <Text
+            fill={tokens.textPrimary}
+            fontSize={12}
+            fontFamily="Anaheim"
+            fontWeight={600}
+            opacity={0.6}
+          >
+            {t.checklistTemplate}
+          </Text>
+          {/* Map kebab-case IDs to camelCase i18n keys */}
+          {(() => {
+            const templateKeyMap: Record<
+              TemplateType,
+              keyof typeof t.templates
+            > = {
+              all: "all",
+              "landing-page": "landingPage",
+              dashboard: "dashboard",
+              "mobile-app": "mobileApp",
+              "quick-audit": "quickAudit",
+              "forms-heavy": "formsHeavy",
+            };
+            return (
+              <>
+                <AutoLayout
+                  direction="horizontal"
+                  spacing={6}
+                  width="fill-parent"
+                >
+                  {templates.slice(0, 3).map((template) => {
+                    const templateInfo =
+                      t.templates[templateKeyMap[template.id]];
+                    return (
+                      <AutoLayout
+                        key={template.id}
+                        onClick={() => setSelectedTemplate(template.id)}
+                        padding={{ horizontal: 10, vertical: 6 }}
+                        cornerRadius={4}
+                        fill={
+                          selectedTemplate === template.id
+                            ? tokens.headerBg
+                            : undefined
+                        }
+                        stroke={tokens.panelStroke}
+                        strokeWidth={1}
+                        tooltip={String(
+                          templateInfo?.description ||
+                            template.description ||
+                            templateInfo?.name ||
+                            template.name ||
+                            "Template"
+                        )}
+                      >
+                        <Text
+                          fill={
+                            selectedTemplate === template.id
+                              ? tokens.headerText
+                              : tokens.textPrimary
+                          }
+                          fontSize={11}
+                          fontFamily="Anaheim"
+                          fontWeight={600}
+                        >
+                          {String(
+                            templateInfo?.name || template.name || "Template"
+                          )}
+                        </Text>
+                      </AutoLayout>
+                    );
+                  })}
+                </AutoLayout>
+                <AutoLayout
+                  direction="horizontal"
+                  spacing={6}
+                  width="fill-parent"
+                >
+                  {templates.slice(3).map((template) => {
+                    const templateInfo =
+                      t.templates[templateKeyMap[template.id]];
+                    return (
+                      <AutoLayout
+                        key={template.id}
+                        onClick={() => setSelectedTemplate(template.id)}
+                        padding={{ horizontal: 10, vertical: 6 }}
+                        cornerRadius={4}
+                        fill={
+                          selectedTemplate === template.id
+                            ? tokens.headerBg
+                            : undefined
+                        }
+                        stroke={tokens.panelStroke}
+                        strokeWidth={1}
+                        tooltip={String(
+                          templateInfo?.description ||
+                            template.description ||
+                            templateInfo?.name ||
+                            template.name ||
+                            "Template"
+                        )}
+                      >
+                        <Text
+                          fill={
+                            selectedTemplate === template.id
+                              ? tokens.headerText
+                              : tokens.textPrimary
+                          }
+                          fontSize={11}
+                          fontFamily="Anaheim"
+                          fontWeight={600}
+                        >
+                          {String(
+                            templateInfo?.name || template.name || "Template"
+                          )}
+                        </Text>
+                      </AutoLayout>
+                    );
+                  })}
+                </AutoLayout>
+              </>
+            );
+          })()}
+        </AutoLayout>
+
+        {/* Export Format */}
+        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+          <Text
+            fill={tokens.textPrimary}
+            fontSize={12}
+            fontFamily="Anaheim"
+            fontWeight={600}
+            opacity={0.6}
+          >
+            {t.exportFormat}
+          </Text>
+          <AutoLayout direction="horizontal" spacing={6}>
+            <AutoLayout
+              onClick={async () => {
+                const data = copyAllAsMarkdown(
+                  filteredSections,
+                  taskCompletion,
+                  title,
+                  completed,
+                  total
+                );
+                try {
+                  if (
+                    typeof navigator !== "undefined" &&
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                  ) {
+                    await navigator.clipboard.writeText(data);
+                    setShowCopy(null);
+                    setCopyData("");
+                    figma.notify("✅ Copied as Markdown!", { timeout: 2000 });
+                  } else {
+                    setCopyData(data);
+                    setShowCopy("markdown");
+                    figma.notify("📋 Text ready to copy below", {
+                      timeout: 2000,
+                    });
+                  }
+                } catch (_err) {
+                  setCopyData(data);
+                  setShowCopy("markdown");
+                  figma.notify("📋 Text ready to copy below", {
+                    timeout: 2000,
+                  });
+                }
+              }}
+              padding={{ horizontal: 10, vertical: 6 }}
+              cornerRadius={4}
+              stroke={tokens.panelStroke}
+              strokeWidth={1}
+              tooltip="Export checklist as Markdown"
+            >
+              <Text
+                fill={tokens.textPrimary}
+                fontSize={11}
+                fontFamily="Anaheim"
+                fontWeight={600}
+              >
+                Markdown
+              </Text>
+            </AutoLayout>
+            <AutoLayout
+              onClick={async () => {
+                const data = copyAsPlainText(
+                  filteredSections,
+                  taskCompletion,
+                  title,
+                  completed,
+                  total
+                );
+                try {
+                  if (
+                    typeof navigator !== "undefined" &&
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                  ) {
+                    await navigator.clipboard.writeText(data);
+                    setShowCopy(null);
+                    setCopyData("");
+                    figma.notify("✅ Copied as Plain Text!", { timeout: 2000 });
+                  } else {
+                    setCopyData(data);
+                    setShowCopy("plaintext");
+                    figma.notify("📋 Text ready to copy below", {
+                      timeout: 2000,
+                    });
+                  }
+                } catch (_err) {
+                  setCopyData(data);
+                  setShowCopy("plaintext");
+                  figma.notify("📋 Text ready to copy below", {
+                    timeout: 2000,
+                  });
+                }
+              }}
+              padding={{ horizontal: 10, vertical: 6 }}
+              cornerRadius={4}
+              stroke={tokens.panelStroke}
+              strokeWidth={1}
+              tooltip="Export checklist as plain text"
+            >
+              <Text
+                fill={tokens.textPrimary}
+                fontSize={11}
+                fontFamily="Anaheim"
+                fontWeight={600}
+              >
+                Plain Text
+              </Text>
+            </AutoLayout>
+            <AutoLayout
+              onClick={async () => {
+                const data = copyAsHTML(
+                  filteredSections,
+                  taskCompletion,
+                  title,
+                  completed,
+                  total
+                );
+                try {
+                  if (
+                    typeof navigator !== "undefined" &&
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                  ) {
+                    await navigator.clipboard.writeText(data);
+                    setShowCopy(null);
+                    setCopyData("");
+                    figma.notify("✅ Copied as HTML!", { timeout: 2000 });
+                  } else {
+                    setCopyData(data);
+                    setShowCopy("html");
+                    figma.notify("📋 Text ready to copy below", {
+                      timeout: 2000,
+                    });
+                  }
+                } catch (_err) {
+                  setCopyData(data);
+                  setShowCopy("html");
+                  figma.notify("📋 Text ready to copy below", {
+                    timeout: 2000,
+                  });
+                }
+              }}
+              padding={{ horizontal: 10, vertical: 6 }}
+              cornerRadius={4}
+              stroke={tokens.panelStroke}
+              strokeWidth={1}
+              tooltip="Export checklist as HTML"
+            >
+              <Text
+                fill={tokens.textPrimary}
+                fontSize={11}
+                fontFamily="Anaheim"
+                fontWeight={600}
+              >
+                HTML
+              </Text>
+            </AutoLayout>
+          </AutoLayout>
+        </AutoLayout>
+
+        {/* Export Format Modal - shown below buttons when clipboard unavailable */}
+        {showCopy && copyData && (
+          <CopyDisplay
+            copyData={copyData}
+            format={showCopy}
+            onClose={() => {
+              setShowCopy(null);
+              setCopyData("");
+            }}
+            colors={{
+              textPrimary: tokens.textPrimary,
+              panelBg: tokens.panelBg,
+              buttonBg: tokens.headerBg,
+            }}
+          />
+        )}
+
         <ProgressBar
           total={total}
           completed={completed}
@@ -120,34 +500,52 @@ function ChecklistPanel({
           lineHeight="100%"
           fontFamily="Anaheim"
           fontSize={18}
-          fontWeight={600}>
-          {progressText}
+          fontWeight={600}
+        >
+          {String(progressText || `${completed} of ${total} checks done`)}
         </Text>
-    {sections.map((section) => (
-          <ChecklistSection
-            key={section.id}
-            section={section}
-            taskCompletion={taskCompletion}
-            handleCheckChange={handleCheckChange}
-            tooltipsEnabled={tooltipsEnabled}
-      hideCompleted={hideCompleted}
-            colors={{
-              textPrimary: tokens.textPrimary,
-              sectionDescBg: '#F3F4FC',
-              sectionDescText: tokens.textPrimary,
-              progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
-              checkbox: {
-                bgChecked: tokens.checkboxBgChecked,
-                bgUnchecked: tokens.checkboxBgUnchecked,
-                stroke: tokens.checkboxStroke,
-              },
-              badge: tokens.wcagBadge,
-            }}
-          />
-        ))}
+        {templateFilteredSections.length === 0 ? (
+          <Text
+            fill={tokens.textPrimary}
+            fontSize={14}
+            fontFamily="Anaheim"
+            opacity={0.5}
+            width="fill-parent"
+            horizontalAlignText="center"
+          >
+            {String(t.noResults || "No items found")}
+          </Text>
+        ) : (
+          templateFilteredSections.map((section) => (
+            <ChecklistSection
+              key={section.id}
+              section={section}
+              taskCompletion={taskCompletion}
+              handleCheckChange={handleCheckChange}
+              tooltipsEnabled={tooltipsEnabled}
+              hideCompleted={hideCompleted}
+              isHighlighted={false}
+              colors={{
+                textPrimary: tokens.textPrimary,
+                sectionDescBg: effectiveDark ? "#2A2A2A" : "#F3F4FC",
+                sectionDescText: tokens.textPrimary,
+                progressTracker: {
+                  bg: tokens.progressBg,
+                  text: tokens.headerText,
+                },
+                checkbox: {
+                  bgChecked: tokens.checkboxBgChecked,
+                  bgUnchecked: tokens.checkboxBgUnchecked,
+                  stroke: tokens.checkboxStroke,
+                },
+                badge: tokens.wcagBadge,
+              }}
+            />
+          ))
+        )}
       </AutoLayout>
     </AutoLayout>
-  )
+  );
 }
 
-export default ChecklistPanel
+export default ChecklistPanel;

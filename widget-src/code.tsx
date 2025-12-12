@@ -6,15 +6,14 @@
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-const { widget } = figma
+const { widget } = figma;
+const { useSyncedState } = widget;
 
-import checklistDataJson from 'data/a11yChecklistData.json'
-import { ChecklistPanel } from 'components/checklist'
-import type { ChecklistDataType } from 'types'
-import useProgressTracker from 'hooks/useProgressTracker'
-
-// Type assertion to ensure the JSON data conforms to our expected structure
-const checklistData = checklistDataJson as ChecklistDataType
+import checklistDataJson from "data/a11yChecklistData.json";
+import checklistDataEsJson from "data/a11yChecklistData.es.json";
+import { ChecklistPanel } from "components/checklist";
+import type { ChecklistDataType } from "types";
+import useProgressTracker from "hooks/useProgressTracker";
 
 /**
  * Main widget function component.
@@ -33,17 +32,28 @@ const checklistData = checklistDataJson as ChecklistDataType
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/#widgetregister | Figma Widget API: widget.register}
  */
 function Widget() {
+  // Get language preference
+  const [language] = useSyncedState<"en" | "es">("language", "en");
+
+  // Select appropriate data based on language
+  const checklistData = (
+    language === "es" ? checklistDataEsJson : checklistDataJson
+  ) as ChecklistDataType;
+
   // Use the progress tracker hook for state management
-  const { taskCompletion, handleCheckChange } = useProgressTracker()
+  const { taskCompletion, handleCheckChange } = useProgressTracker();
 
   // Flatten all items for progress tracking
-  const allItems = checklistData.sections.flatMap((section) => section.items)
-  const itemIds = allItems.map((item) => item.id)
+  const allItems = checklistData.sections.flatMap((section) => section.items);
+  const itemIds = allItems.map((item) => item.id);
 
   // Calculate progress
-  const total = itemIds.length
-  const completed = itemIds.filter((id) => taskCompletion[id]).length
+  const total = itemIds.length;
+  const completed = itemIds.filter((id) => taskCompletion[id]).length;
 
+  // Note: Dark mode detection for 'system' theme is handled in ChecklistPanel
+  // via the theme property menu option. Widgets don't have direct access to
+  // system preferences, so 'system' will default to light mode for now.
   return (
     <ChecklistPanel
       title={checklistData.title}
@@ -54,7 +64,7 @@ function Widget() {
       completed={completed}
       isDarkMode={false}
     />
-  )
+  );
 }
 
 /**
@@ -65,4 +75,4 @@ function Widget() {
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/#widgetregister | Figma Widget API: widget.register}
  */
-widget.register(Widget)
+widget.register(Widget);

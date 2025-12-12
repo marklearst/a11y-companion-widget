@@ -6,9 +6,9 @@
  *
  * @since 1.0.0
  */
-const { widget } = figma
-const { usePropertyMenu, useSyncedState } = widget
-import { getMessages } from 'i18n'
+const { widget } = figma;
+const { usePropertyMenu, useSyncedState } = widget;
+import { getMessages } from "i18n";
 
 /**
  * Returns state and helpers for controlling tooltip visibility via the property menu.
@@ -26,65 +26,81 @@ import { getMessages } from 'i18n'
  * Registers a property menu item in the Figma widget UI for toggling tooltips.
  */
 export function useTooltipsToggle() {
-  const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState('tooltipsEnabled', false)
-  const [hideCompleted, setHideCompleted] = useSyncedState('hideCompleted', false)
-  const [language, setLanguage] = useSyncedState<'en' | 'es'>('language', 'en')
-  const [theme, setTheme] = useSyncedState<'light' | 'dark' | 'system'>('theme', 'light')
+  const [tooltipsEnabled, setTooltipsEnabled] = useSyncedState(
+    "tooltipsEnabled",
+    false
+  );
+  const [hideCompleted, setHideCompleted] = useSyncedState(
+    "hideCompleted",
+    false
+  );
+  const [language, setLanguage] = useSyncedState<"en" | "es">("language", "en");
+  const [theme, setTheme] = useSyncedState<"light" | "dark" | "system">(
+    "theme",
+    "light"
+  );
 
-  const messages = getMessages(language)
+  const messages = getMessages(language);
 
   usePropertyMenu(
     [
       {
-        itemType: 'toggle',
-        propertyName: 'show-tooltips',
+        itemType: "toggle",
+        propertyName: "show-tooltips",
         tooltip: messages.tooltipsToggle,
         isToggled: tooltipsEnabled,
       },
       {
-        itemType: 'toggle',
-        propertyName: 'hide-completed',
+        itemType: "toggle",
+        propertyName: "hide-completed",
         tooltip: messages.hideCompletedToggle,
         isToggled: hideCompleted,
       },
       {
-        itemType: 'dropdown',
-        propertyName: 'theme',
-        tooltip: 'Theme',
+        itemType: "dropdown",
+        propertyName: "theme",
+        tooltip: "Theme",
         selectedOption: theme,
         options: [
-          { option: 'light', label: 'Light' },
-          { option: 'dark', label: 'Dark' },
-          { option: 'system', label: 'System' },
+          { option: "light", label: "Light" },
+          { option: "dark", label: "Dark" },
+          { option: "system", label: "System" },
         ],
       },
       {
-        itemType: 'dropdown',
-        propertyName: 'language',
-        tooltip: 'Language',
+        itemType: "dropdown",
+        propertyName: "language",
+        tooltip: "Language",
         selectedOption: language,
         options: [
-          { option: 'en', label: 'English' },
-          { option: 'es', label: 'Español' },
+          { option: "en", label: "English" },
+          { option: "es", label: "Español" },
         ],
       },
     ],
     (event: { propertyName: string; propertyValue?: string }) => {
-      const { propertyName, propertyValue } = event
-      if (propertyName === 'show-tooltips') {
-        setTooltipsEnabled(!tooltipsEnabled)
+      const { propertyName, propertyValue } = event;
+      if (propertyName === "show-tooltips") {
+        setTooltipsEnabled(!tooltipsEnabled);
       }
-      if (propertyName === 'hide-completed') {
-        setHideCompleted(!hideCompleted)
+      if (propertyName === "hide-completed") {
+        setHideCompleted(!hideCompleted);
       }
-      if (propertyName === 'theme' && propertyValue) {
-        setTheme(propertyValue as 'light' | 'dark' | 'system')
+      if (propertyName === "theme" && propertyValue) {
+        setTheme(propertyValue as "light" | "dark" | "system");
       }
-      if (propertyName === 'language' && propertyValue) {
-        setLanguage(propertyValue as 'en' | 'es')
+      if (propertyName === "language" && propertyValue) {
+        setLanguage(propertyValue as "en" | "es");
       }
     }
-  )
+  );
 
-  return { tooltipsEnabled, setTooltipsEnabled, hideCompleted, setHideCompleted, language, theme }
+  return {
+    tooltipsEnabled,
+    setTooltipsEnabled,
+    hideCompleted,
+    setHideCompleted,
+    language,
+    theme,
+  };
 }

@@ -1,9 +1,9 @@
-const { widget } = figma
-const { AutoLayout, Text } = widget
+const { widget } = figma;
+const { AutoLayout, Text } = widget;
 
-import { Checkbox } from 'components/primitives'
-import { ChecklistItemProps } from 'types/index'
-import WcagBadge from 'components/checklist/WcagBadge'
+import { Checkbox } from "components/primitives";
+import { ChecklistItemProps } from "types/index";
+import WcagBadge from "components/checklist/WcagBadge";
 
 /**
  * Renders a single checklist item row with a checkbox, text, and optional tooltip.
@@ -33,20 +33,20 @@ function ChecklistItem({
   checkboxColors,
   badgeColor,
 }: ChecklistItemProps) {
-  const { id, text, wcag, longDescription } = item
+  const { id, text, wcag, longDescription } = item;
 
-  const handleChange = () => onCheckChange(id, !checked)
+  const handleChange = () => onCheckChange(id, !checked);
 
   // Compose tooltip content
-  let tooltipContent = ''
+  let tooltipContent = "";
   if (wcag && longDescription) {
-    tooltipContent = `WCAG: ${wcag}\n${longDescription}`
+    tooltipContent = `WCAG: ${wcag}\n${longDescription}`;
   } else if (wcag) {
-    tooltipContent = `WCAG: ${wcag}`
+    tooltipContent = `WCAG: ${wcag}`;
   } else if (longDescription) {
-    tooltipContent = longDescription
+    tooltipContent = longDescription;
   } else {
-    tooltipContent = text
+    tooltipContent = text;
   }
 
   return (
@@ -55,22 +55,33 @@ function ChecklistItem({
       verticalAlignItems="start"
       spacing={14}
       padding={{ vertical: 10 }}
-      width={520}
-      onClick={handleChange}>
-      <Checkbox checked={checked} colors={checkboxColors} />
-      <Text
-        name="TaskText"
-        width={420}
-        fill={textColor ?? '#212A6A'}
-        lineHeight="150%"
-        fontFamily="Anaheim"
-        fontSize={17}
-        fontWeight={600}
-        tooltip={tooltipsEnabled ? tooltipContent : undefined}>
-        {text} {wcag && <WcagBadge wcag={wcag} color={badgeColor} />}
-      </Text>
+      width="fill-parent"
+    >
+      <AutoLayout onClick={handleChange}>
+        <Checkbox checked={checked} colors={checkboxColors} />
+      </AutoLayout>
+      <AutoLayout
+        direction="vertical"
+        spacing={6}
+        width="fill-parent"
+        onClick={handleChange}
+      >
+        <Text
+          name="TaskText"
+          width="fill-parent"
+          fill={textColor ?? "#212A6A"}
+          lineHeight="150%"
+          fontFamily="Anaheim"
+          fontSize={17}
+          fontWeight={600}
+          tooltip={tooltipsEnabled ? tooltipContent : undefined}
+        >
+          {text}
+        </Text>
+        {wcag && <WcagBadge wcag={wcag} color={badgeColor} />}
+      </AutoLayout>
     </AutoLayout>
-  )
+  );
 }
 
-export default ChecklistItem
+export default ChecklistItem;

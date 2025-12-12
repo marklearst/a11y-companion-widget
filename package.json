@@ -1,6 +1,6 @@
 {
   "name": "a11y-companion-widget",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "a11y Companion Widget",
   "scripts": {
     "build": "esbuild widget-src/code.tsx --bundle --outfile=dist/code.js --target=es6",
