@@ -2581,24 +2581,31 @@ ${longDescription}`;
         verticalAlignItems: "start",
         spacing: 14,
         padding: { vertical: 10 },
-        width: 520,
-        onClick: handleChange
+        width: "fill-parent"
       },
-      /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked, colors: checkboxColors }),
+      /* @__PURE__ */ figma.widget.h(AutoLayout8, { onClick: handleChange }, /* @__PURE__ */ figma.widget.h(Checkbox_default, { checked, colors: checkboxColors })),
       /* @__PURE__ */ figma.widget.h(
-        Text6,
+        AutoLayout8,
         {
-          name: "TaskText",
-          width: 420,
-          fill: textColor != null ? textColor : "#212A6A",
-          lineHeight: "150%",
-          fontFamily: "Anaheim",
-          fontSize: 17,
-          fontWeight: 600,
-          tooltip: tooltipsEnabled ? tooltipContent : void 0
+          direction: "vertical",
+          spacing: 6,
+          width: "fill-parent",
+          onClick: handleChange
         },
-        text,
-        " ",
+        /* @__PURE__ */ figma.widget.h(
+          Text6,
+          {
+            name: "TaskText",
+            width: "fill-parent",
+            fill: textColor != null ? textColor : "#212A6A",
+            lineHeight: "150%",
+            fontFamily: "Anaheim",
+            fontSize: 17,
+            fontWeight: 600,
+            tooltip: tooltipsEnabled ? tooltipContent : void 0
+          },
+          text
+        ),
         wcag && /* @__PURE__ */ figma.widget.h(WcagBadge_default, { wcag, color: badgeColor })
       )
     );
