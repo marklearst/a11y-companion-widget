@@ -6,10 +6,7 @@
  *
  * @since 1.2.0
  */
-const { widget } = figma
-const { useSyncedState } = widget
-
-import type { ChecklistSectionType } from 'types'
+import type { ChecklistSectionType } from "types";
 
 /**
  * Returns handlers for bulk actions on checklist sections.
@@ -30,20 +27,20 @@ export function useBulkActions(
    */
   const markSectionComplete = (section: ChecklistSectionType) => {
     section.items.forEach((item) => {
-      if (!item.id) return
-      handleCheckChange(item.id, true)
-    })
-  }
+      if (!item.id) return;
+      handleCheckChange(item.id, true);
+    });
+  };
 
   /**
    * Marks all items in a section as incomplete.
    */
   const markSectionIncomplete = (section: ChecklistSectionType) => {
     section.items.forEach((item) => {
-      if (!item.id) return
-      handleCheckChange(item.id, false)
-    })
-  }
+      if (!item.id) return;
+      handleCheckChange(item.id, false);
+    });
+  };
 
   /**
    * Toggles all items in a section (complete if any incomplete, incomplete if all complete).
@@ -52,21 +49,18 @@ export function useBulkActions(
     section: ChecklistSectionType,
     taskCompletion: Record<string, boolean>
   ) => {
-    const allComplete = section.items.every((item) => taskCompletion[item.id])
-    const newState = !allComplete
+    const itemsWithIds = section.items.filter((item) => item.id);
+    const allComplete = itemsWithIds.every((item) => taskCompletion[item.id]);
+    const newState = !allComplete;
     section.items.forEach((item) => {
-      if (!item.id) return
-      handleCheckChange(item.id, newState)
-    })
-  }
+      if (!item.id) return;
+      handleCheckChange(item.id, newState);
+    });
+  };
 
   return {
     markSectionComplete,
     markSectionIncomplete,
     toggleSection,
-  }
+  };
 }
-
-
-
-

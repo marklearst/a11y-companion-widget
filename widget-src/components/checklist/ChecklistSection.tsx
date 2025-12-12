@@ -1,13 +1,13 @@
-const { widget } = figma
-const { AutoLayout, Text } = widget
+const { widget } = figma;
+const { AutoLayout, Text } = widget;
 
-import { ChecklistSectionProps } from 'types/index'
-import { ProgressTracker } from 'components/primitives'
-import { ChecklistItem } from 'components/checklist'
-import { useChecklistProgress } from 'hooks/useChecklistProgress'
-import { useOpenSections } from 'hooks/useOpenSections'
-import { useBulkActions } from 'hooks/useBulkActions'
-import CaretIcon from 'components/checklist/CaretIcon'
+import { ChecklistSectionProps } from "types/index";
+import { ProgressTracker, Checkbox } from "components/primitives";
+import { ChecklistItem } from "components/checklist";
+import { useChecklistProgress } from "hooks/useChecklistProgress";
+import { useOpenSections } from "hooks/useOpenSections";
+import { useBulkActions } from "hooks/useBulkActions";
+import CaretIcon from "components/checklist/CaretIcon";
 
 /**
  * Renders a section of the accessibility checklist, displaying its items and completion state.
@@ -39,34 +39,37 @@ function ChecklistSection({
   handleCheckChange,
   tooltipsEnabled,
   hideCompleted,
+  isHighlighted: _isHighlighted,
   colors,
 }: ChecklistSectionProps) {
   if (!section || !Array.isArray(section.items)) {
-    return null
+    return null;
   }
 
   // Use section title as key for open/closed state
   // Use custom hook for open/close state
-  const { openSections, toggleSection } = useOpenSections()
-  const isOpen = openSections[section.title] || false
+  const { openSections, toggleSection } = useOpenSections();
+  const isOpen = openSections[section.title] || false;
 
   // Use custom hook for per-section progress
   const { completedCount: completed, totalCount: total } = useChecklistProgress(
     section,
     taskCompletion
-  )
+  );
 
   // Bulk actions
-  const { markSectionComplete, markSectionIncomplete, toggleSection: toggleSectionItems } =
-    useBulkActions(handleCheckChange)
+  const { toggleSection: toggleSectionItems } = useBulkActions(handleCheckChange);
 
   // Handle checklist item check/uncheck
   const handleCheckChangeSimple = (taskId: string, isChecked: boolean) => {
-    handleCheckChange(taskId, isChecked)
-  }
+    handleCheckChange(taskId, isChecked);
+  };
 
   // Check if all items in section are complete
-  const allItemsComplete = section.items.every((item) => taskCompletion[item.id])
+  const itemsWithIds = section.items.filter((item) => item.id);
+  const allItemsComplete =
+    itemsWithIds.length > 0 &&
+    itemsWithIds.every((item) => taskCompletion[item.id]);
 
   // Caret SVG (right when closed, down when open)
 
@@ -80,27 +83,31 @@ function ChecklistSection({
       name="Section"
       direction="vertical"
       spacing={8}
-      width="fill-parent">
+      width="fill-parent"
+    >
       <AutoLayout
         padding={{ top: 10, bottom: 10 }}
         spacing={12}
         verticalAlignItems="center"
         width="fill-parent"
         height={34}
-        horizontalAlignItems="center">
+        horizontalAlignItems="center"
+      >
         <AutoLayout
           onClick={() => toggleSection(section.title)}
           spacing={12}
           verticalAlignItems="center"
-          horizontalAlignItems="center">
+          horizontalAlignItems="center"
+        >
           <CaretIcon open={isOpen} />
           <Text
             name="SectionTitle"
-            fill={colors?.textPrimary ?? '#212A6A'}
+            fill={colors?.textPrimary ?? "#212A6A"}
             fontFamily="Anaheim"
             fontSize={20}
             fontWeight={700}
-            lineHeight="150%">
+            lineHeight="150%"
+          >
             {section.title}
           </Text>
         </AutoLayout>
@@ -108,42 +115,45 @@ function ChecklistSection({
         <AutoLayout
           direction="horizontal"
           spacing={8}
-          verticalAlignItems="center">
+          verticalAlignItems="center"
+        >
           {isOpen && section.items.length > 0 && (
             <AutoLayout
               onClick={() => toggleSectionItems(section, taskCompletion)}
-              padding={{ horizontal: 6, vertical: 4 }}
+              padding={4}
               cornerRadius={4}
-              tooltip={allItemsComplete ? 'Mark all incomplete' : 'Mark all complete'}>
-              <Text
-                fill={colors?.textPrimary ?? '#212A6A'}
-                fontFamily="Anaheim"
-                fontSize={12}
-                fontWeight={600}
-                opacity={0.7}>
-                {allItemsComplete ? '✓' : '☐'}
-              </Text>
+              tooltip={
+                allItemsComplete ? "Mark all incomplete" : "Mark all complete"
+              }
+            >
+              <Checkbox checked={allItemsComplete} colors={colors?.checkbox} />
             </AutoLayout>
           )}
-          <ProgressTracker completed={completed} total={total} colors={colors?.progressTracker} />
+          <ProgressTracker
+            completed={completed}
+            total={total}
+            colors={colors?.progressTracker}
+          />
         </AutoLayout>
       </AutoLayout>
       {isOpen && section.description && (
         <AutoLayout
-          fill={colors?.sectionDescBg ?? '#F3F4FC'}
+          fill={colors?.sectionDescBg ?? "#F3F4FC"}
           padding={{ vertical: 14, horizontal: 20 }}
           cornerRadius={16}
           width="fill-parent"
-          verticalAlignItems="center">
+          verticalAlignItems="center"
+        >
           <Text
             name="SectionDescription"
-            fill={colors?.sectionDescText ?? '#212A6A'}
+            fill={colors?.sectionDescText ?? "#212A6A"}
             opacity={0.7}
             fontFamily="Anaheim"
             fontSize={14}
             fontWeight={600}
             lineHeight="150%"
-            width="fill-parent">
+            width="fill-parent"
+          >
             {section.description}
           </Text>
         </AutoLayout>
@@ -152,19 +162,19 @@ function ChecklistSection({
         section.items
           .filter((item) => !(hideCompleted && taskCompletion[item.id]))
           .map((item) => (
-          <ChecklistItem
-            key={item.id}
-            item={item}
-            checked={taskCompletion[item.id] || false}
-            onCheckChange={handleCheckChangeSimple}
-            tooltipsEnabled={tooltipsEnabled}
-            textColor={colors?.textPrimary}
-            checkboxColors={colors?.checkbox}
-            badgeColor={colors?.badge}
-          />
-        ))}
+            <ChecklistItem
+              key={item.id}
+              item={item}
+              checked={taskCompletion[item.id] || false}
+              onCheckChange={handleCheckChangeSimple}
+              tooltipsEnabled={tooltipsEnabled}
+              textColor={colors?.textPrimary}
+              checkboxColors={colors?.checkbox}
+              badgeColor={colors?.badge}
+            />
+          ))}
     </AutoLayout>
-  )
+  );
 }
 
-export default ChecklistSection
+export default ChecklistSection;

@@ -9,7 +9,7 @@
  * @since 1.0.0 - Extracted from monolithic types file
  */
 
-import type { ChecklistItemType, ChecklistSectionType } from 'types/checklist'
+import type { ChecklistItemType, ChecklistSectionType } from "types/checklist";
 
 /**
  * Props for the checklist section component.
@@ -19,24 +19,26 @@ import type { ChecklistItemType, ChecklistSectionType } from 'types/checklist'
  */
 export interface ChecklistSectionProps {
   /** The checklist section to render. */
-  section: ChecklistSectionType
+  section: ChecklistSectionType;
   /** Object mapping task IDs to their completion status. */
-  taskCompletion: Record<string, boolean>
+  taskCompletion: Record<string, boolean>;
   /** Function to handle checkbox state changes. */
-  handleCheckChange: (taskId: string, isChecked: boolean) => void
+  handleCheckChange: (taskId: string, isChecked: boolean) => void;
   /** Whether tooltips are enabled for this section. */
-  tooltipsEnabled: boolean
+  tooltipsEnabled: boolean;
   /** Whether completed items should be hidden. */
-  hideCompleted?: boolean
+  hideCompleted?: boolean;
+  /** Whether this section is highlighted/suggested. */
+  isHighlighted?: boolean;
   /** Optional themed colors for this section and its children. */
   colors?: {
-    textPrimary: string
-    sectionDescBg: string
-    sectionDescText: string
-    progressTracker: { bg: string; text: string }
-    checkbox: { bgChecked: string; bgUnchecked: string; stroke: string }
-    badge: string
-  }
+    textPrimary: string;
+    sectionDescBg: string;
+    sectionDescText: string;
+    progressTracker: { bg: string; text: string };
+    checkbox: { bgChecked: string; bgUnchecked: string; stroke: string };
+    badge: string;
+  };
 }
 
 /**
@@ -44,19 +46,19 @@ export interface ChecklistSectionProps {
  */
 export interface ChecklistItemProps {
   /** The checklist item to render. */
-  item: ChecklistItemType
+  item: ChecklistItemType;
   /** Whether this item is currently checked. */
-  checked: boolean
+  checked: boolean;
   /** Function to handle checkbox state changes. */
-  onCheckChange: (taskId: string, isChecked: boolean) => void
+  onCheckChange: (taskId: string, isChecked: boolean) => void;
   /** Whether tooltips are enabled for this item. */
-  tooltipsEnabled: boolean
+  tooltipsEnabled: boolean;
   /** Optional text color override */
-  textColor?: string
+  textColor?: string;
   /** Optional checkbox color overrides */
-  checkboxColors?: { bgChecked: string; bgUnchecked: string; stroke: string }
+  checkboxColors?: { bgChecked: string; bgUnchecked: string; stroke: string };
   /** Optional WCAG badge color */
-  badgeColor?: string
+  badgeColor?: string;
 }
 
 /**
@@ -67,19 +69,19 @@ export interface ChecklistItemProps {
  */
 export interface ChecklistProps {
   /** The title of the checklist. */
-  title: string
+  title: string;
   /** Array of checklist sections to display. */
-  sections: ChecklistSectionType[]
+  sections: ChecklistSectionType[];
   /** Object mapping task IDs to their completion status. */
-  taskCompletion: Record<string, boolean>
+  taskCompletion: Record<string, boolean>;
   /** Function to handle checkbox state changes. */
-  handleCheckChange: (taskId: string, isChecked: boolean) => void
+  handleCheckChange: (taskId: string, isChecked: boolean) => void;
   /** Total number of tasks in the checklist. */
-  total: number
+  total: number;
   /** Number of completed tasks. */
-  completed: number
+  completed: number;
   /** Whether to use dark mode styling. */
-  isDarkMode?: boolean
+  isDarkMode?: boolean;
 }
 
 /**
@@ -90,9 +92,9 @@ export interface ChecklistProps {
  */
 export interface CheckboxProps {
   /** Whether the checkbox is currently checked. */
-  checked: boolean
+  checked: boolean;
   /** Optional custom colors for theming. */
-  colors?: { bgChecked: string; bgUnchecked: string; stroke: string }
+  colors?: { bgChecked: string; bgUnchecked: string; stroke: string };
 }
 
 /**
@@ -103,11 +105,11 @@ export interface CheckboxProps {
  */
 export interface ProgressTrackerProps {
   /** Number of completed tasks. */
-  completed: number
+  completed: number;
   /** Total number of tasks. */
-  total: number
+  total: number;
   /** Optional custom colors for theming. */
-  colors?: { bg: string; text: string }
+  colors?: { bg: string; text: string };
 }
 
 /**
@@ -118,11 +120,11 @@ export interface ProgressTrackerProps {
  */
 export interface ProgressBarProps {
   /** Total number of tasks. */
-  total: number
+  total: number;
   /** Number of completed tasks. */
-  completed: number
+  completed: number;
   /** Width of the parent container in pixels. */
-  parentWidth: number
+  parentWidth: number;
   /** Optional custom colors for theming. */
-  colors?: { track: string; fill: string }
+  colors?: { track: string; fill: string };
 }
