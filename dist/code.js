@@ -1178,35 +1178,6 @@
   // widget-src/components/primitives/ProgressRing.tsx
   var { widget: widget4 } = figma;
   var { SVG: SVG2 } = widget4;
-  function ProgressRing({
-    total,
-    completed,
-    size = 60,
-    strokeWidth = 6,
-    colors
-  }) {
-    var _a, _b;
-    const percentage = total === 0 ? 0 : Math.round(completed / total * 100);
-    const radius = (size - strokeWidth) / 2;
-    const circumference = 2 * Math.PI * radius;
-    const offset = circumference - percentage / 100 * circumference;
-    const trackColor = (_a = colors == null ? void 0 : colors.track) != null ? _a : "#9299ce";
-    const fillColor = (_b = colors == null ? void 0 : colors.fill) != null ? _b : "#212a6a";
-    const center = size / 2;
-    const textSize = Math.max(12, Math.round(size * 0.22));
-    const textY = center + textSize / 3;
-    const svgContent = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}"><circle cx="${center}" cy="${center}" r="${Math.round(
-      radius
-    )}" fill="none" stroke="${trackColor}" stroke-width="${strokeWidth}" opacity="0.2"/><circle cx="${center}" cy="${center}" r="${Math.round(
-      radius
-    )}" fill="none" stroke="${fillColor}" stroke-width="${strokeWidth}" stroke-dasharray="${Math.round(
-      circumference
-    )}" stroke-dashoffset="${Math.round(
-      offset
-    )}" stroke-linecap="round" transform="rotate(-90 ${center} ${center})"/><text x="${center}" y="${textY}" font-family="Anaheim" font-size="${textSize}" font-weight="700" fill="${fillColor}" text-anchor="middle" dominant-baseline="middle">${percentage}%</text></svg>`;
-    return /* @__PURE__ */ figma.widget.h(SVG2, { src: svgContent, width: size, height: size });
-  }
-  var ProgressRing_default = ProgressRing;
 
   // widget-src/effects/dropShadows.ts
   var DROP_SHADOW_DEFAULTS = {
@@ -1338,7 +1309,8 @@
     markAllIncomplete: "Mark all incomplete",
     collapseAll: "Collapse all",
     expandAll: "Expand all",
-    searchPlaceholder: "Search or Filter",
+    searchLabel: "Search:",
+    searchPlaceholder: "Type to filter items...",
     exportProgress: "Export progress",
     importProgress: "Import progress",
     noResults: "No items found",
@@ -1381,7 +1353,8 @@
     markAllIncomplete: "Marcar todo como incompleto",
     collapseAll: "Contraer todo",
     expandAll: "Expandir todo",
-    searchPlaceholder: "Buscar o Filtrar",
+    searchLabel: "Buscar:",
+    searchPlaceholder: "Escribe para filtrar...",
     exportProgress: "Exportar progreso",
     importProgress: "Importar progreso",
     noResults: "No se encontraron elementos",
@@ -1921,17 +1894,7 @@
           },
           String(title || t.appTitle || "a11y Companion")
         ),
-        /* @__PURE__ */ figma.widget.h(AutoLayout5, { width: "fill-parent" }),
-        /* @__PURE__ */ figma.widget.h(
-          ProgressRing_default,
-          {
-            total,
-            completed,
-            size: 60,
-            strokeWidth: 5,
-            colors: { track: tokens.progressBg, fill: tokens.progressFill }
-          }
-        )
+        /* @__PURE__ */ figma.widget.h(AutoLayout5, { width: "fill-parent" })
       ),
       /* @__PURE__ */ figma.widget.h(
         AutoLayout5,
@@ -1942,13 +1905,24 @@
           width: 520,
           padding: { left: 30, right: 30 }
         },
-        /* @__PURE__ */ figma.widget.h(
+        /* @__PURE__ */ figma.widget.h(AutoLayout5, { direction: "vertical", spacing: 4, width: "fill-parent" }, /* @__PURE__ */ figma.widget.h(
+          Text3,
+          {
+            fill: tokens.textPrimary,
+            fontSize: 12,
+            fontFamily: "Anaheim",
+            fontWeight: 600,
+            opacity: 0.6
+          },
+          t.searchLabel
+        ), /* @__PURE__ */ figma.widget.h(
           AutoLayout5,
           {
             padding: { top: 8, bottom: 8, left: 12, right: 12 },
             cornerRadius: 4,
             stroke: tokens.panelStroke,
-            strokeWidth: 1
+            strokeWidth: 1,
+            width: "fill-parent"
           },
           /* @__PURE__ */ figma.widget.h(
             Input2,
@@ -1956,14 +1930,14 @@
               value: searchQuery,
               placeholder: t.searchPlaceholder,
               onTextEditEnd: (e) => setSearchQuery(e.characters),
-              width: 280,
-              fontSize: 16,
+              width: "fill-parent",
+              fontSize: 14,
               fontFamily: "Anaheim",
               fill: tokens.textPrimary,
               inputBehavior: "truncate"
             }
           )
-        ),
+        )),
         /* @__PURE__ */ figma.widget.h(AutoLayout5, { direction: "vertical", spacing: 4, width: "fill-parent" }, /* @__PURE__ */ figma.widget.h(
           Text3,
           {
@@ -2059,7 +2033,7 @@
             })
           ));
         })()),
-        /* @__PURE__ */ figma.widget.h(AutoLayout5, { direction: "horizontal", spacing: 8, width: "fill-parent" }, /* @__PURE__ */ figma.widget.h(
+        /* @__PURE__ */ figma.widget.h(AutoLayout5, { direction: "vertical", spacing: 4, width: "fill-parent" }, /* @__PURE__ */ figma.widget.h(
           Text3,
           {
             fill: tokens.textPrimary,
@@ -2068,8 +2042,8 @@
             fontWeight: 600,
             opacity: 0.6
           },
-          t.quickCopy
-        ), /* @__PURE__ */ figma.widget.h(
+          t.exportFormat
+        ), /* @__PURE__ */ figma.widget.h(AutoLayout5, { direction: "horizontal", spacing: 6 }, /* @__PURE__ */ figma.widget.h(
           AutoLayout5,
           {
             onClick: () => __async(null, null, function* () {
@@ -2089,9 +2063,7 @@
                 } else {
                   setCopyData(data);
                   setShowCopy("markdown");
-                  figma.notify("\u{1F4CB} Text ready to copy below", {
-                    timeout: 2e3
-                  });
+                  figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
                 }
               } catch (_err) {
                 setCopyData(data);
@@ -2099,21 +2071,21 @@
                 figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
               }
             }),
-            padding: { horizontal: 8, vertical: 4 },
+            padding: { horizontal: 10, vertical: 6 },
             cornerRadius: 4,
             stroke: tokens.panelStroke,
             strokeWidth: 1,
-            tooltip: "Copy checklist as Markdown"
+            tooltip: "Export checklist as Markdown"
           },
           /* @__PURE__ */ figma.widget.h(
             Text3,
             {
               fill: tokens.textPrimary,
-              fontSize: 12,
+              fontSize: 11,
               fontFamily: "Anaheim",
               fontWeight: 600
             },
-            "MD"
+            "Markdown"
           )
         ), /* @__PURE__ */ figma.widget.h(
           AutoLayout5,
@@ -2135,9 +2107,7 @@
                 } else {
                   setCopyData(data);
                   setShowCopy("plaintext");
-                  figma.notify("\u{1F4CB} Text ready to copy below", {
-                    timeout: 2e3
-                  });
+                  figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
                 }
               } catch (_err) {
                 setCopyData(data);
@@ -2145,21 +2115,21 @@
                 figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
               }
             }),
-            padding: { horizontal: 8, vertical: 4 },
+            padding: { horizontal: 10, vertical: 6 },
             cornerRadius: 4,
             stroke: tokens.panelStroke,
             strokeWidth: 1,
-            tooltip: "Copy checklist as plain text"
+            tooltip: "Export checklist as plain text"
           },
           /* @__PURE__ */ figma.widget.h(
             Text3,
             {
               fill: tokens.textPrimary,
-              fontSize: 12,
+              fontSize: 11,
               fontFamily: "Anaheim",
               fontWeight: 600
             },
-            "TXT"
+            "Plain Text"
           )
         ), /* @__PURE__ */ figma.widget.h(
           AutoLayout5,
@@ -2181,9 +2151,7 @@
                 } else {
                   setCopyData(data);
                   setShowCopy("html");
-                  figma.notify("\u{1F4CB} Text ready to copy below", {
-                    timeout: 2e3
-                  });
+                  figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
                 }
               } catch (_err) {
                 setCopyData(data);
@@ -2191,23 +2159,23 @@
                 figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
               }
             }),
-            padding: { horizontal: 8, vertical: 4 },
+            padding: { horizontal: 10, vertical: 6 },
             cornerRadius: 4,
             stroke: tokens.panelStroke,
             strokeWidth: 1,
-            tooltip: "Copy checklist as HTML"
+            tooltip: "Export checklist as HTML"
           },
           /* @__PURE__ */ figma.widget.h(
             Text3,
             {
               fill: tokens.textPrimary,
-              fontSize: 12,
+              fontSize: 11,
               fontFamily: "Anaheim",
               fontWeight: 600
             },
             "HTML"
           )
-        )),
+        ))),
         showCopy && copyData && /* @__PURE__ */ figma.widget.h(
           CopyDisplay,
           {

@@ -9,6 +9,7 @@ export type Messages = {
   markAllIncomplete: string;
   collapseAll: string;
   expandAll: string;
+  searchLabel: string;
   searchPlaceholder: string;
   exportProgress: string;
   importProgress: string;
@@ -35,7 +36,8 @@ const en: Messages = {
   markAllIncomplete: "Mark all incomplete",
   collapseAll: "Collapse all",
   expandAll: "Expand all",
-  searchPlaceholder: "Search or Filter",
+  searchLabel: "Search:",
+  searchPlaceholder: "Type to filter items...",
   exportProgress: "Export progress",
   importProgress: "Import progress",
   noResults: "No items found",
@@ -80,7 +82,8 @@ const es: Messages = {
   markAllIncomplete: "Marcar todo como incompleto",
   collapseAll: "Contraer todo",
   expandAll: "Expandir todo",
-  searchPlaceholder: "Buscar o Filtrar",
+  searchLabel: "Buscar:",
+  searchPlaceholder: "Escribe para filtrar...",
   exportProgress: "Exportar progreso",
   importProgress: "Importar progreso",
   noResults: "No se encontraron elementos",

@@ -9,7 +9,7 @@ declare const navigator: {
   };
 };
 
-import { ProgressBar, ProgressRing } from "components/primitives";
+import { ProgressBar } from "components/primitives";
 import { ChecklistProps } from "types/index";
 import { dropShadowEffect } from "effects";
 import { ChecklistSection } from "components/checklist";
@@ -144,13 +144,6 @@ function ChecklistPanel({
           {String(title || t.appTitle || "a11y Companion")}
         </Text>
         <AutoLayout width="fill-parent" />
-        <ProgressRing
-          total={total}
-          completed={completed}
-          size={60}
-          strokeWidth={5}
-          colors={{ track: tokens.progressBg, fill: tokens.progressFill }}
-        />
       </AutoLayout>
       {/* Main content */}
       <AutoLayout
@@ -161,22 +154,34 @@ function ChecklistPanel({
         padding={{ left: 30, right: 30 }}
       >
         {/* Search */}
-        <AutoLayout
-          padding={{ top: 8, bottom: 8, left: 12, right: 12 }}
-          cornerRadius={4}
-          stroke={tokens.panelStroke}
-          strokeWidth={1}
-        >
-          <Input
-            value={searchQuery}
-            placeholder={t.searchPlaceholder}
-            onTextEditEnd={(e) => setSearchQuery(e.characters)}
-            width={280}
-            fontSize={16}
-            fontFamily="Anaheim"
+        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+          <Text
             fill={tokens.textPrimary}
-            inputBehavior="truncate"
-          />
+            fontSize={12}
+            fontFamily="Anaheim"
+            fontWeight={600}
+            opacity={0.6}
+          >
+            {t.searchLabel}
+          </Text>
+          <AutoLayout
+            padding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+            cornerRadius={4}
+            stroke={tokens.panelStroke}
+            strokeWidth={1}
+            width="fill-parent"
+          >
+            <Input
+              value={searchQuery}
+              placeholder={t.searchPlaceholder}
+              onTextEditEnd={(e) => setSearchQuery(e.characters)}
+              width="fill-parent"
+              fontSize={14}
+              fontFamily="Anaheim"
+              fill={tokens.textPrimary}
+              inputBehavior="truncate"
+            />
+          </AutoLayout>
         </AutoLayout>
 
         {/* Template Selector */}
@@ -304,8 +309,8 @@ function ChecklistPanel({
           })()}
         </AutoLayout>
 
-        {/* Copy Actions */}
-        <AutoLayout direction="horizontal" spacing={8} width="fill-parent">
+        {/* Export Format */}
+        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
           <Text
             fill={tokens.textPrimary}
             fontSize={12}
@@ -313,150 +318,144 @@ function ChecklistPanel({
             fontWeight={600}
             opacity={0.6}
           >
-            {t.quickCopy}
+            {t.exportFormat}
           </Text>
-          <AutoLayout
-            onClick={async () => {
-              const data = copyAllAsMarkdown(
-                filteredSections,
-                taskCompletion,
-                title,
-                completed,
-                total
-              );
-              try {
-                if (
-                  typeof navigator !== "undefined" &&
-                  navigator.clipboard &&
-                  navigator.clipboard.writeText
-                ) {
-                  await navigator.clipboard.writeText(data);
-                  setShowCopy(null); // Clear any existing modal
-                  setCopyData(""); // Clear copy data
-                  figma.notify("✅ Copied as Markdown!", { timeout: 2000 });
-                } else {
-                  // Fallback: show copy display
+          <AutoLayout direction="horizontal" spacing={6}>
+            <AutoLayout
+              onClick={async () => {
+                const data = copyAllAsMarkdown(
+                  filteredSections,
+                  taskCompletion,
+                  title,
+                  completed,
+                  total
+                );
+                try {
+                  if (
+                    typeof navigator !== "undefined" &&
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                  ) {
+                    await navigator.clipboard.writeText(data);
+                    setShowCopy(null);
+                    setCopyData("");
+                    figma.notify("✅ Copied as Markdown!", { timeout: 2000 });
+                  } else {
+                    setCopyData(data);
+                    setShowCopy("markdown");
+                    figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                  }
+                } catch (_err) {
                   setCopyData(data);
                   setShowCopy("markdown");
-                  figma.notify("📋 Text ready to copy below", {
-                    timeout: 2000,
-                  });
+                  figma.notify("📋 Text ready to copy below", { timeout: 2000 });
                 }
-              } catch (_err) {
-                // Fallback: show copy display if clipboard fails
-                setCopyData(data);
-                setShowCopy("markdown");
-                figma.notify("📋 Text ready to copy below", { timeout: 2000 });
-              }
-            }}
-            padding={{ horizontal: 8, vertical: 4 }}
-            cornerRadius={4}
-            stroke={tokens.panelStroke}
-            strokeWidth={1}
-            tooltip="Copy checklist as Markdown"
-          >
-            <Text
-              fill={tokens.textPrimary}
-              fontSize={12}
-              fontFamily="Anaheim"
-              fontWeight={600}
+              }}
+              padding={{ horizontal: 10, vertical: 6 }}
+              cornerRadius={4}
+              stroke={tokens.panelStroke}
+              strokeWidth={1}
+              tooltip="Export checklist as Markdown"
             >
-              MD
-            </Text>
-          </AutoLayout>
-          <AutoLayout
-            onClick={async () => {
-              const data = copyAsPlainText(
-                filteredSections,
-                taskCompletion,
-                title,
-                completed,
-                total
-              );
-              try {
-                if (
-                  typeof navigator !== "undefined" &&
-                  navigator.clipboard &&
-                  navigator.clipboard.writeText
-                ) {
-                  await navigator.clipboard.writeText(data);
-                  setShowCopy(null); // Clear any existing modal
-                  setCopyData(""); // Clear copy data
-                  figma.notify("✅ Copied as Plain Text!", { timeout: 2000 });
-                } else {
+              <Text
+                fill={tokens.textPrimary}
+                fontSize={11}
+                fontFamily="Anaheim"
+                fontWeight={600}
+              >
+                Markdown
+              </Text>
+            </AutoLayout>
+            <AutoLayout
+              onClick={async () => {
+                const data = copyAsPlainText(
+                  filteredSections,
+                  taskCompletion,
+                  title,
+                  completed,
+                  total
+                );
+                try {
+                  if (
+                    typeof navigator !== "undefined" &&
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                  ) {
+                    await navigator.clipboard.writeText(data);
+                    setShowCopy(null);
+                    setCopyData("");
+                    figma.notify("✅ Copied as Plain Text!", { timeout: 2000 });
+                  } else {
+                    setCopyData(data);
+                    setShowCopy("plaintext");
+                    figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                  }
+                } catch (_err) {
                   setCopyData(data);
                   setShowCopy("plaintext");
-                  figma.notify("📋 Text ready to copy below", {
-                    timeout: 2000,
-                  });
+                  figma.notify("📋 Text ready to copy below", { timeout: 2000 });
                 }
-              } catch (_err) {
-                setCopyData(data);
-                setShowCopy("plaintext");
-                figma.notify("📋 Text ready to copy below", { timeout: 2000 });
-              }
-            }}
-            padding={{ horizontal: 8, vertical: 4 }}
-            cornerRadius={4}
-            stroke={tokens.panelStroke}
-            strokeWidth={1}
-            tooltip="Copy checklist as plain text"
-          >
-            <Text
-              fill={tokens.textPrimary}
-              fontSize={12}
-              fontFamily="Anaheim"
-              fontWeight={600}
+              }}
+              padding={{ horizontal: 10, vertical: 6 }}
+              cornerRadius={4}
+              stroke={tokens.panelStroke}
+              strokeWidth={1}
+              tooltip="Export checklist as plain text"
             >
-              TXT
-            </Text>
-          </AutoLayout>
-          <AutoLayout
-            onClick={async () => {
-              const data = copyAsHTML(
-                filteredSections,
-                taskCompletion,
-                title,
-                completed,
-                total
-              );
-              try {
-                if (
-                  typeof navigator !== "undefined" &&
-                  navigator.clipboard &&
-                  navigator.clipboard.writeText
-                ) {
-                  await navigator.clipboard.writeText(data);
-                  setShowCopy(null); // Clear any existing modal
-                  setCopyData(""); // Clear copy data
-                  figma.notify("✅ Copied as HTML!", { timeout: 2000 });
-                } else {
+              <Text
+                fill={tokens.textPrimary}
+                fontSize={11}
+                fontFamily="Anaheim"
+                fontWeight={600}
+              >
+                Plain Text
+              </Text>
+            </AutoLayout>
+            <AutoLayout
+              onClick={async () => {
+                const data = copyAsHTML(
+                  filteredSections,
+                  taskCompletion,
+                  title,
+                  completed,
+                  total
+                );
+                try {
+                  if (
+                    typeof navigator !== "undefined" &&
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                  ) {
+                    await navigator.clipboard.writeText(data);
+                    setShowCopy(null);
+                    setCopyData("");
+                    figma.notify("✅ Copied as HTML!", { timeout: 2000 });
+                  } else {
+                    setCopyData(data);
+                    setShowCopy("html");
+                    figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                  }
+                } catch (_err) {
                   setCopyData(data);
                   setShowCopy("html");
-                  figma.notify("📋 Text ready to copy below", {
-                    timeout: 2000,
-                  });
+                  figma.notify("📋 Text ready to copy below", { timeout: 2000 });
                 }
-              } catch (_err) {
-                setCopyData(data);
-                setShowCopy("html");
-                figma.notify("📋 Text ready to copy below", { timeout: 2000 });
-              }
-            }}
-            padding={{ horizontal: 8, vertical: 4 }}
-            cornerRadius={4}
-            stroke={tokens.panelStroke}
-            strokeWidth={1}
-            tooltip="Copy checklist as HTML"
-          >
-            <Text
-              fill={tokens.textPrimary}
-              fontSize={12}
-              fontFamily="Anaheim"
-              fontWeight={600}
+              }}
+              padding={{ horizontal: 10, vertical: 6 }}
+              cornerRadius={4}
+              stroke={tokens.panelStroke}
+              strokeWidth={1}
+              tooltip="Export checklist as HTML"
             >
-              HTML
-            </Text>
+              <Text
+                fill={tokens.textPrimary}
+                fontSize={11}
+                fontFamily="Anaheim"
+                fontWeight={600}
+              >
+                HTML
+              </Text>
+            </AutoLayout>
           </AutoLayout>
         </AutoLayout>
 
