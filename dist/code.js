@@ -2063,12 +2063,16 @@
                 } else {
                   setCopyData(data);
                   setShowCopy("markdown");
-                  figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
+                  figma.notify("\u{1F4CB} Text ready to copy below", {
+                    timeout: 2e3
+                  });
                 }
               } catch (_err) {
                 setCopyData(data);
                 setShowCopy("markdown");
-                figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
+                figma.notify("\u{1F4CB} Text ready to copy below", {
+                  timeout: 2e3
+                });
               }
             }),
             padding: { horizontal: 10, vertical: 6 },
@@ -2107,12 +2111,16 @@
                 } else {
                   setCopyData(data);
                   setShowCopy("plaintext");
-                  figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
+                  figma.notify("\u{1F4CB} Text ready to copy below", {
+                    timeout: 2e3
+                  });
                 }
               } catch (_err) {
                 setCopyData(data);
                 setShowCopy("plaintext");
-                figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
+                figma.notify("\u{1F4CB} Text ready to copy below", {
+                  timeout: 2e3
+                });
               }
             }),
             padding: { horizontal: 10, vertical: 6 },
@@ -2151,12 +2159,16 @@
                 } else {
                   setCopyData(data);
                   setShowCopy("html");
-                  figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
+                  figma.notify("\u{1F4CB} Text ready to copy below", {
+                    timeout: 2e3
+                  });
                 }
               } catch (_err) {
                 setCopyData(data);
                 setShowCopy("html");
-                figma.notify("\u{1F4CB} Text ready to copy below", { timeout: 2e3 });
+                figma.notify("\u{1F4CB} Text ready to copy below", {
+                  timeout: 2e3
+                });
               }
             }),
             padding: { horizontal: 10, vertical: 6 },

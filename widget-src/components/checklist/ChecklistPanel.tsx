@@ -343,12 +343,16 @@ function ChecklistPanel({
                   } else {
                     setCopyData(data);
                     setShowCopy("markdown");
-                    figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                    figma.notify("📋 Text ready to copy below", {
+                      timeout: 2000,
+                    });
                   }
                 } catch (_err) {
                   setCopyData(data);
                   setShowCopy("markdown");
-                  figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                  figma.notify("📋 Text ready to copy below", {
+                    timeout: 2000,
+                  });
                 }
               }}
               padding={{ horizontal: 10, vertical: 6 }}
@@ -388,12 +392,16 @@ function ChecklistPanel({
                   } else {
                     setCopyData(data);
                     setShowCopy("plaintext");
-                    figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                    figma.notify("📋 Text ready to copy below", {
+                      timeout: 2000,
+                    });
                   }
                 } catch (_err) {
                   setCopyData(data);
                   setShowCopy("plaintext");
-                  figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                  figma.notify("📋 Text ready to copy below", {
+                    timeout: 2000,
+                  });
                 }
               }}
               padding={{ horizontal: 10, vertical: 6 }}
@@ -433,12 +441,16 @@ function ChecklistPanel({
                   } else {
                     setCopyData(data);
                     setShowCopy("html");
-                    figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                    figma.notify("📋 Text ready to copy below", {
+                      timeout: 2000,
+                    });
                   }
                 } catch (_err) {
                   setCopyData(data);
                   setShowCopy("html");
-                  figma.notify("📋 Text ready to copy below", { timeout: 2000 });
+                  figma.notify("📋 Text ready to copy below", {
+                    timeout: 2000,
+                  });
                 }
               }}
               padding={{ horizontal: 10, vertical: 6 }}
