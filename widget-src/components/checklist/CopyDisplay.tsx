@@ -33,7 +33,7 @@ export function CopyDisplay({
       direction="vertical"
       spacing={12}
       padding={20}
-      width="fill-parent"
+      width={"fill-parent"}
       fill={colors?.panelBg ?? "#FFFFFF"}
       cornerRadius={8}
       effect={{
@@ -57,10 +57,10 @@ export function CopyDisplay({
         >
           {String("Copy as " + (formatLabels[format] || "Text"))}
         </Text>
-        <AutoLayout width="fill-parent" />
+        <AutoLayout width="fill-parent" height={16} />
         <AutoLayout
           onClick={onClose}
-          padding={{ horizontal: 8, vertical: 4 }}
+          padding={{ horizontal: 8, vertical: 2 }}
           cornerRadius={4}
           tooltip="Close"
         >

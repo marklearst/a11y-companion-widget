@@ -1252,12 +1252,12 @@
           },
           String("Copy as " + (formatLabels[format] || "Text"))
         ),
-        /* @__PURE__ */ figma.widget.h(AutoLayout4, { width: "fill-parent" }),
+        /* @__PURE__ */ figma.widget.h(AutoLayout4, { width: "fill-parent", height: 16 }),
         /* @__PURE__ */ figma.widget.h(
           AutoLayout4,
           {
             onClick: onClose,
-            padding: { horizontal: 8, vertical: 4 },
+            padding: { horizontal: 8, vertical: 2 },
             cornerRadius: 4,
             tooltip: "Close"
           },
@@ -2536,11 +2536,12 @@
           name: "WcagBadge",
           fontSize: 11,
           fontWeight: 600,
-          fill: badgeColor,
+          fill: "#212A6A",
           fontFamily: "Anaheim",
           horizontalAlignText: "center",
-          lineHeight: "120%",
-          letterSpacing: 0.5
+          lineHeight: "150%",
+          letterSpacing: 0.5,
+          textDecoration: "underline"
         },
         wcag
       )

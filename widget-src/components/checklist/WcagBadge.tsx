@@ -62,9 +62,7 @@ export function WcagBadge({ wcag, color }: { wcag: string; color?: string }) {
   return (
     <AutoLayout
       onClick={wcagUrl ? () => figma.openExternal(wcagUrl) : undefined}
-      tooltip={
-        wcagUrl ? `Click to open WCAG documentation` : `WCAG ${wcag}`
-      }
+      tooltip={wcagUrl ? `Click to open WCAG documentation` : `WCAG ${wcag}`}
       padding={{ horizontal: 8, vertical: 4 }}
       cornerRadius={4}
       fill="#F3F4FC"
@@ -73,11 +71,12 @@ export function WcagBadge({ wcag, color }: { wcag: string; color?: string }) {
         name="WcagBadge"
         fontSize={11}
         fontWeight={600}
-        fill={badgeColor}
+        fill="#212A6A"
         fontFamily="Anaheim"
         horizontalAlignText="center"
-        lineHeight="120%"
+        lineHeight="150%"
         letterSpacing={0.5}
+        textDecoration="underline"
       >
         {wcag}
       </Text>
