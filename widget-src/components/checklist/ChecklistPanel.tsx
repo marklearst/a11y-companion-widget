@@ -1,19 +1,20 @@
-const { widget } = figma
-const { AutoLayout, SVG, Text, Input } = widget
-const { useSyncedState } = widget
+const { widget } = figma;
+const { AutoLayout, SVG, Text, Input } = widget;
+const { useSyncedState } = widget;
 
-import { ProgressBar } from 'components/primitives'
-import { ChecklistProps } from 'types/index'
-import { dropShadowEffect } from 'effects'
-import { ChecklistSection } from 'components/checklist'
-import { ExportDisplay } from 'components/checklist/ExportDisplay'
-import { useTooltipsToggle } from 'hooks/useTooltipsToggle'
-import { useSearch } from 'hooks/useSearch'
-import { useCollapseAll } from 'hooks/useCollapseAll'
-import { useExportImport } from 'hooks/useExportImport'
-import { getMessages } from 'i18n'
-import { resolveTheme } from 'theme'
-import type { ChecklistSectionType } from 'types'
+import { ProgressBar } from "components/primitives";
+import { ChecklistProps } from "types/index";
+import { dropShadowEffect } from "effects";
+import { ChecklistSection } from "components/checklist";
+import { ExportDisplay } from "components/checklist/ExportDisplay";
+import CaretIcon from "components/checklist/CaretIcon";
+import { useTooltipsToggle } from "hooks/useTooltipsToggle";
+import { useSearch } from "hooks/useSearch";
+import { useCollapseAll } from "hooks/useCollapseAll";
+import { useExportImport } from "hooks/useExportImport";
+import { getMessages } from "i18n";
+import { resolveTheme } from "theme";
+import type { ChecklistSectionType } from "types";
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -54,34 +55,39 @@ function ChecklistPanel({
   completed,
   isDarkMode,
 }: ChecklistProps) {
-  const parentWidth = 460 // assuming a fixed width for the parent container
+  const parentWidth = 460; // assuming a fixed width for the parent container
 
   // Export/import
-  const { exportProgress } = useExportImport(taskCompletion, { title, sections })
-  const [showExport, setShowExport] = useSyncedState('showExport', false)
+  const { exportProgress } = useExportImport(taskCompletion, {
+    title,
+    sections,
+  });
+  const [showExport, setShowExport] = useSyncedState("showExport", false);
 
   // Handle export button click
   const handleExportClick = () => {
-    setShowExport(true)
-  }
+    setShowExport(true);
+  };
 
-  const { tooltipsEnabled, hideCompleted, language, theme } = useTooltipsToggle(handleExportClick)
-  const t = getMessages(language)
-  const progressText = t.progressText(completed, total)
+  const { tooltipsEnabled, hideCompleted, language, theme } =
+    useTooltipsToggle(handleExportClick);
+  const t = getMessages(language);
+  const progressText = t.progressText(completed, total);
 
   // Search functionality
-  const { searchQuery, setSearchQuery, filteredSections } = useSearch<ChecklistSectionType>(sections)
+  const { searchQuery, setSearchQuery, filteredSections } =
+    useSearch<ChecklistSectionType>(sections);
 
   // Collapse/expand all
-  const { collapseAll, expandAll, isAllCollapsed } = useCollapseAll(sections)
+  const { collapseAll, expandAll, isAllCollapsed } = useCollapseAll(sections);
 
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
    *
    * @returns {JSX.Element} The rendered Checklist component.
    */
-  const effectiveDark = theme === 'dark' || (theme === 'system' && isDarkMode)
-  const tokens = resolveTheme(!!effectiveDark)
+  const effectiveDark = theme === "dark" || (theme === "system" && isDarkMode);
+  const tokens = resolveTheme(!!effectiveDark);
 
   return (
     <AutoLayout
@@ -94,7 +100,8 @@ function ChecklistPanel({
       strokeAlign="outside"
       strokeWidth={1}
       spacing={30}
-      padding={{ top: 0, bottom: 30, left: 0, right: 0 }}>
+      padding={{ top: 0, bottom: 30, left: 0, right: 0 }}
+    >
       {showExport && (
         <ExportDisplay
           exportData={exportProgress()}
@@ -108,10 +115,11 @@ function ChecklistPanel({
         direction="horizontal"
         width="fill-parent"
         height={100}
-  fill={tokens.headerBg}
+        fill={tokens.headerBg}
         verticalAlignItems="center"
         spacing={14}
-        padding={{ top: 20, bottom: 20, left: 25, right: 0 }}>
+        padding={{ top: 20, bottom: 20, left: 25, right: 0 }}
+      >
         <SVG
           name="a11y-logo"
           width={51}
@@ -124,7 +132,8 @@ function ChecklistPanel({
           fontFamily="Anaheim"
           fontSize={28}
           fontWeight={600}
-          lineHeight="150%">
+          lineHeight="150%"
+        >
           {title || t.appTitle}
         </Text>
       </AutoLayout>
@@ -134,37 +143,38 @@ function ChecklistPanel({
         direction="vertical"
         spacing={16}
         width={520}
-        padding={{ left: 30, right: 30 }}>
+        padding={{ left: 30, right: 30 }}
+      >
         {/* Search and Actions Bar */}
         <AutoLayout
           direction="horizontal"
           spacing={8}
           width="fill-parent"
-          verticalAlignItems="center">
+          verticalAlignItems="center"
+        >
           <Input
             value={searchQuery || null}
             placeholder={t.searchPlaceholder}
             onTextEditEnd={(e) => setSearchQuery(e.characters)}
-            width={280}
+            width="fill-parent"
             fontSize={14}
             fontFamily="Anaheim"
             fill={tokens.textPrimary}
             inputBehavior="truncate"
+            stroke={tokens.panelStroke}
+            strokeWidth={1}
+            padding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+            cornerRadius={4}
           />
-          <AutoLayout width="fill-parent" />
           <AutoLayout
             onClick={isAllCollapsed ? expandAll : collapseAll}
             padding={{ horizontal: 6, vertical: 4 }}
             cornerRadius={4}
-            tooltip={isAllCollapsed ? t.expandAll : t.collapseAll}>
-            <Text
-              fill={tokens.textPrimary}
-              fontSize={14}
-              fontFamily="Anaheim"
-              fontWeight={600}
-              opacity={0.7}>
-              {isAllCollapsed ? '▼' : '▲'}
-            </Text>
+            tooltip={isAllCollapsed ? t.expandAll : t.collapseAll}
+            verticalAlignItems="center"
+            horizontalAlignItems="center"
+          >
+            <CaretIcon open={!isAllCollapsed} />
           </AutoLayout>
         </AutoLayout>
 
@@ -180,7 +190,8 @@ function ChecklistPanel({
           lineHeight="100%"
           fontFamily="Anaheim"
           fontSize={18}
-          fontWeight={600}>
+          fontWeight={600}
+        >
           {progressText}
         </Text>
         {filteredSections.length === 0 ? (
@@ -190,7 +201,8 @@ function ChecklistPanel({
             fontFamily="Anaheim"
             opacity={0.5}
             width="fill-parent"
-            horizontalAlignText="center">
+            horizontalAlignText="center"
+          >
             {t.noResults}
           </Text>
         ) : (
@@ -204,9 +216,12 @@ function ChecklistPanel({
               hideCompleted={hideCompleted}
               colors={{
                 textPrimary: tokens.textPrimary,
-                sectionDescBg: effectiveDark ? '#2A2A2A' : '#F3F4FC',
+                sectionDescBg: effectiveDark ? "#2A2A2A" : "#F3F4FC",
                 sectionDescText: tokens.textPrimary,
-                progressTracker: { bg: tokens.progressBg, text: tokens.headerText },
+                progressTracker: {
+                  bg: tokens.progressBg,
+                  text: tokens.headerText,
+                },
                 checkbox: {
                   bgChecked: tokens.checkboxBgChecked,
                   bgUnchecked: tokens.checkboxBgUnchecked,
@@ -219,7 +234,7 @@ function ChecklistPanel({
         )}
       </AutoLayout>
     </AutoLayout>
-  )
+  );
 }
 
-export default ChecklistPanel
+export default ChecklistPanel;
