@@ -57,28 +57,27 @@ function getWcagUrl(wcag: string): string {
  */
 export function WcagBadge({ wcag, color }: { wcag: string; color?: string }) {
   const wcagUrl = getWcagUrl(wcag);
+  const badgeColor = color ?? "#9299CE";
 
   return (
     <AutoLayout
       onClick={wcagUrl ? () => figma.openExternal(wcagUrl) : undefined}
       tooltip={
-        wcagUrl ? `Click to view WCAG ${wcag} documentation` : `WCAG ${wcag}`
+        wcagUrl ? `Click to open WCAG documentation` : `WCAG ${wcag}`
       }
-      padding={{ horizontal: 4, vertical: 2 }}
+      padding={{ horizontal: 8, vertical: 4 }}
       cornerRadius={4}
-      fill={wcagUrl ? color ?? "#9299CE" : undefined}
-      opacity={wcagUrl ? 0.1 : 1}
+      fill="#F3F4FC"
     >
       <Text
         name="WcagBadge"
         fontSize={11}
         fontWeight={600}
-        fill={color ?? "#9299CE"}
+        fill={badgeColor}
         fontFamily="Anaheim"
         horizontalAlignText="center"
         lineHeight="120%"
         letterSpacing={0.5}
-        tooltip={wcagUrl ? `Click to view: ${wcagUrl}` : `WCAG ${wcag}`}
       >
         {wcag}
       </Text>

@@ -2520,15 +2520,15 @@
   }
   function WcagBadge({ wcag, color }) {
     const wcagUrl = getWcagUrl(wcag);
+    const badgeColor = color != null ? color : "#9299CE";
     return /* @__PURE__ */ figma.widget.h(
       AutoLayout7,
       {
         onClick: wcagUrl ? () => figma.openExternal(wcagUrl) : void 0,
-        tooltip: wcagUrl ? `Click to view WCAG ${wcag} documentation` : `WCAG ${wcag}`,
-        padding: { horizontal: 4, vertical: 2 },
+        tooltip: wcagUrl ? `Click to open WCAG documentation` : `WCAG ${wcag}`,
+        padding: { horizontal: 8, vertical: 4 },
         cornerRadius: 4,
-        fill: wcagUrl ? color != null ? color : "#9299CE" : void 0,
-        opacity: wcagUrl ? 0.1 : 1
+        fill: "#F3F4FC"
       },
       /* @__PURE__ */ figma.widget.h(
         Text5,
@@ -2536,12 +2536,11 @@
           name: "WcagBadge",
           fontSize: 11,
           fontWeight: 600,
-          fill: color != null ? color : "#9299CE",
+          fill: badgeColor,
           fontFamily: "Anaheim",
           horizontalAlignText: "center",
           lineHeight: "120%",
-          letterSpacing: 0.5,
-          tooltip: wcagUrl ? `Click to view: ${wcagUrl}` : `WCAG ${wcag}`
+          letterSpacing: 0.5
         },
         wcag
       )
