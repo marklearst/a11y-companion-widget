@@ -1,5 +1,7 @@
 # ♿️ A11Y Companion – Accessibility Checklist Widget for Figma Design
 
+Built and maintained by Mark Learst.
+
 ![License](https://img.shields.io/github/license/marklearst/a11y-companion-widget)
 ![GitHub last commit](https://img.shields.io/github/last-commit/marklearst/a11y-companion-widget)
 ![GitHub issues](https://img.shields.io/github/issues/marklearst/a11y-companion-widget)
