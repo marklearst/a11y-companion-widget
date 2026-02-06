@@ -1,5 +1,6 @@
 const { widget } = figma;
 const { SVG } = widget;
+import { defaultTheme, primitives } from "design-system";
 
 /**
  * Props for the ProgressRing component.
@@ -42,14 +43,15 @@ export function ProgressRing({
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
 
-  const trackColor = colors?.track ?? "#9299ce";
-  const fillColor = colors?.fill ?? "#212a6a";
+  const trackColor = colors?.track ?? defaultTheme.lightTheme.progressBg;
+  const fillColor = colors?.fill ?? defaultTheme.lightTheme.progressFill;
 
   const center = size / 2;
   const textSize = Math.max(12, Math.round(size * 0.22));
   const textY = center + textSize / 3; // Center text vertically in SVG
 
   // Create SVG with percentage text embedded directly in SVG for reliable rendering
+  const fontFamily = primitives.typography.fontFamily.sans;
   const svgContent = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}"><circle cx="${center}" cy="${center}" r="${Math.round(
     radius
   )}" fill="none" stroke="${trackColor}" stroke-width="${strokeWidth}" opacity="0.2"/><circle cx="${center}" cy="${center}" r="${Math.round(
@@ -58,7 +60,7 @@ export function ProgressRing({
     circumference
   )}" stroke-dashoffset="${Math.round(
     offset
-  )}" stroke-linecap="round" transform="rotate(-90 ${center} ${center})"/><text x="${center}" y="${textY}" font-family="Anaheim" font-size="${textSize}" font-weight="700" fill="${fillColor}" text-anchor="middle" dominant-baseline="middle">${percentage}%</text></svg>`;
+  )}" stroke-linecap="round" transform="rotate(-90 ${center} ${center})"/><text x="${center}" y="${textY}" font-family="${fontFamily}" font-size="${textSize}" font-weight="600" fill="${fillColor}" text-anchor="middle" dominant-baseline="middle">${percentage}%</text></svg>`;
 
   return <SVG src={svgContent} width={size} height={size} />;
 }

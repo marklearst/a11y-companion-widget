@@ -2,6 +2,14 @@ const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
 import { ProgressTrackerProps } from "types/index";
+import {
+  defaultTheme,
+  padding as dsPadding,
+  radius as dsRadius,
+  gap as dsGap,
+  fontFamily as dsFontFamily,
+  fontSize as dsFontSize,
+} from "design-system";
 /**
  * Renders a pill-shaped progress tracker showing completed and total tasks.
  *
@@ -23,23 +31,24 @@ const ProgressTracker = ({
   completed,
   total,
   colors,
+  padding,
+  radius,
+  fontSize,
+  fontWeight,
+  fontFamily,
+  gap,
 }: ProgressTrackerProps) => {
-  const isAllCompleted = total > 0 && total === completed;
   /**
-   * Determines the fill color for the ProgressTracker component based on whether all tasks are completed.
-   * When all tasks are completed, use dark color regardless of colors.bg prop.
-   *
-   * @param {boolean} isAllCompleted - A flag indicating whether all tasks are completed.
-   * @returns {string} The fill color for the ProgressTracker component.
+   * Determines the fill color for the ProgressTracker component.
    */
-  const fillColor = isAllCompleted ? "#212a6a" : colors?.bg ?? "#9299ce";
+  const fillColor = colors?.bg ?? defaultTheme.lightTheme.progressFill;
   /**
    * Determines the text color for the ProgressTracker component based on whether all tasks are completed.
    *
    * @param {boolean} isAllCompleted - A flag indicating whether all tasks are completed.
    * @returns {string} The text color for the ProgressTracker component.
    */
-  const textColor = colors?.text ?? "#FFFFFF";
+  const textColor = colors?.text ?? defaultTheme.lightTheme.panelBg;
 
   /**
    * Renders the ProgressTracker component, which displays the completion status of a task.
@@ -49,11 +58,11 @@ const ProgressTracker = ({
   return (
     <AutoLayout
       fill={fillColor}
-      cornerRadius={16}
-      spacing={10}
+      cornerRadius={radius ?? dsRadius.full}
+      spacing={gap ?? dsGap.compact}
       padding={{
-        vertical: 2,
-        horizontal: 10,
+        vertical: padding?.vertical ?? dsPadding.progressTracker.vertical,
+        horizontal: padding?.horizontal ?? dsPadding.progressTracker.horizontal,
       }}
       horizontalAlignItems="center"
       verticalAlignItems="center"
@@ -62,10 +71,10 @@ const ProgressTracker = ({
         fill={textColor}
         verticalAlignText="center"
         horizontalAlignText="right"
-        lineHeight="150%"
-        fontFamily="Anaheim"
-        fontSize={18}
-        fontWeight={800}
+        lineHeight="140%"
+        fontFamily={fontFamily ?? dsFontFamily.sans}
+        fontSize={fontSize ?? dsFontSize.sm}
+        fontWeight={fontWeight ?? 600}
       >
         {completed} / {total}
       </Text>

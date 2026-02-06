@@ -1,4 +1,5 @@
 import { DropShadowEffect } from 'types/index'
+import { getThemeShadow } from 'design-system'
 
 /**
  * Defines a drop shadow effect configuration object.
@@ -32,14 +33,31 @@ import { DropShadowEffect } from 'types/index'
  * ```
  */
 /**
- * Default configuration for a drop shadow.
+ * Default configuration for a drop shadow (light theme).
  */
 const DROP_SHADOW_DEFAULTS: DropShadowEffect = {
   type: 'drop-shadow',
-  color: '#212A6A25',
-  offset: { x: 0, y: 0 },
-  blur: 15,
+  color: '#0000001A', // Subtle neutral shadow
+  offset: { x: 0, y: 4 }, // Slight vertical offset for depth
+  blur: 24, // Softer, more diffused shadow
   showShadowBehindNode: true,
+}
+
+/**
+ * Creates a theme-aware drop shadow effect.
+ *
+ * @param isDark - Whether to use dark theme shadow
+ * @returns A drop shadow effect matching the current theme
+ */
+function createThemeShadow(isDark: boolean = false): DropShadowEffect {
+  const shadow = getThemeShadow(isDark)
+  return {
+    type: 'drop-shadow',
+    color: shadow.color,
+    offset: shadow.offset,
+    blur: shadow.blur,
+    showShadowBehindNode: true,
+  }
 }
 
 /**
@@ -76,4 +94,4 @@ function createDropShadowEffect(options: DropShadowOptions = {}): DropShadowEffe
 // Backwards-compatible default export for existing imports
 const dropShadowEffect: DropShadowEffect = createDropShadowEffect()
 
-export { dropShadowEffect, createDropShadowEffect, DROP_SHADOW_DEFAULTS }
+export { dropShadowEffect, createDropShadowEffect, createThemeShadow, DROP_SHADOW_DEFAULTS }

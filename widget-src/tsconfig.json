@@ -35,6 +35,9 @@
       "i18n/*": [
         "i18n/*"
       ],
+      "logic/*": [
+        "logic/*"
+      ],
       "theme": [
         "theme/index.ts"
       ],

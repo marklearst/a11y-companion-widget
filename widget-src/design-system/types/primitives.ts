@@ -210,6 +210,7 @@ export interface BorderWidth {
   none: number; // 0
   thin: number; // 1px
   base: number; // 2px
+  medium: number; // 3px
   thick: number; // 4px
 }
 

@@ -24,8 +24,6 @@ export type ChecklistThemeTokens = {
   hoverStroke?: string;
 };
 
-export type ChecklistLayoutPreset = "companion" | "companion-pro";
-
 type ChecklistLayoutTokens = {
   panel: {
     width: number;
@@ -54,6 +52,7 @@ type ChecklistLayoutTokens = {
       radius: number;
       strokeWidth: number;
       fontSize: number;
+      overlap: number;
     };
   };
   search: {
@@ -68,6 +67,7 @@ type ChecklistLayoutTokens = {
   };
   progress: {
     gap: number;
+    paddingX: number;
     paddingTop: number;
     paddingBottom: number;
     barHeight: number;
@@ -140,13 +140,22 @@ type ChecklistLayoutTokens = {
       fontWeight: WidgetJSX.FontWeight;
       lineHeight: string;
     };
+    description: {
+      fontFamily: string;
+      fontSize: number;
+      fontWeight: WidgetJSX.FontWeight;
+      lineHeight: string;
+    };
   };
   inline: {
     code: { fontFamily: string; fontWeight: WidgetJSX.FontWeight };
     kbd: { fontFamily: string; fontWeight: WidgetJSX.FontWeight };
     strong: { fontWeight: WidgetJSX.FontWeight };
     em: { italic: boolean };
-    link: { textDecoration: "underline" | "none" };
+    link: {
+      textDecoration: "underline" | "none";
+      fontWeight?: WidgetJSX.FontWeight;
+    };
   };
   checkbox: {
     size: number;
@@ -176,315 +185,163 @@ type ChecklistLayoutTokens = {
   };
 };
 
-const layoutPresets: Record<ChecklistLayoutPreset, ChecklistLayoutTokens> = {
-  companion: {
-    panel: {
-      width: sizes.widget.width,
-      paddingX: padding.panel.horizontal,
-      paddingBottom: gap.normal,
-      radius: radius.lg,
+const companionLayout: ChecklistLayoutTokens = {
+  panel: {
+    width: sizes.widget.width,
+    paddingX: padding.panel.horizontal,
+    paddingBottom: gap.normal,
+    radius: radius.lg,
+    strokeWidth: borderWidth.base,
+    spacing: gap.zero,
+  },
+  header: {
+    gap: gap.compact,
+    paddingX: padding.header.horizontal,
+    paddingY: gap.compact,
+    height: sizes.header.height,
+    logoSize: sizes.icon.large,
+    title: {
+      fontFamily: "Assistant",
+      fontSize: fontSize.xl,
+      fontWeight: fontWeight.semibold,
+      lineHeight: "130%",
+      letterSpacing: -0.3,
+    },
+    avatar: {
+      size: dimensions.avatarMd + 2,
+      radius: borderRadius.full,
       strokeWidth: borderWidth.base,
-      spacing: gap.tight,
-    },
-    header: {
-      gap: gap.compact,
-      paddingX: padding.header.horizontal,
-      paddingY: gap.compact,
-      height: sizes.header.height,
-      logoSize: sizes.icon.large,
-      title: {
-        fontFamily: "Assistant",
-        fontSize: fontSize.xl,
-        fontWeight: fontWeight.semibold,
-        lineHeight: "130%",
-        letterSpacing: -0.3,
-      },
-      avatar: {
-        size: dimensions.avatarSm,
-        radius: borderRadius.full,
-        strokeWidth: borderWidth.thin,
-        fontSize: fontSize.xs,
-      },
-    },
-    search: {
-      paddingX: padding.input.horizontal,
-      paddingY: padding.input.vertical,
-      radius: radius.md,
-      fontSize: fontSize.md,
-      fontFamily: fontFamily.sans,
-      fontWeight: fontWeight.medium,
-      placeholderOpacity: 0.8,
-      bottomSpacing: gap.compact,
-    },
-    progress: {
-      gap: gap.tight,
-      paddingTop: gap.compact,
-      paddingBottom: gap.compact,
-      barHeight: sizes.progressBar.height,
-      barRadius: radius.xxs,
-      minWidth: sizes.progressBarMinWidth,
-      textMinWidth: sizes.progressTextWidth,
-      textCharWidth: 7.5,
-      text: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.base,
-        fontWeight: fontWeight.medium,
-        letterSpacing: -0.2,
-        lineHeight: "110%",
-      },
-      textOffsetY: 0,
-    },
-    section: {
-      spacing: gap.compact,
-      headerPaddingY: gap.compact,
-      headerPaddingX: 12,
-      headerHeight: 40,
-      headerGap: gap.compact,
-      headerRadius: radius.sm,
-      caretSize: 11,
-      caretOffsetY: 1,
-      caretStrokeWidth: borderWidth.base,
-      title: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.base,
-        fontWeight: fontWeight.semibold,
-        lineHeight: "140%",
-      },
-      bulkAction: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
-        padding: padding.bulkAction.all,
-        radius: radius.sm,
-        gap: gap.tight,
-      },
-      description: {
-        paddingX: padding.sectionDescription.horizontal,
-        paddingY: padding.sectionDescription.vertical,
-        radius: radius.xl,
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
-        lineHeight: "150%",
-      },
-    },
-    item: {
-      paddingX: padding.checklistItem.horizontal,
-      paddingY: padding.checklistItem.vertical,
-      gap: gap.compact,
-      stackGap: gap.compact,
-      radius: radius.lg,
-      text: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.base,
-        fontWeight: fontWeight.medium,
-        lineHeight: "150%",
-      },
-    },
-    inline: {
-      code: {
-        fontFamily: fontFamily.mono,
-        fontWeight: fontWeight.medium,
-      },
-      kbd: {
-        fontFamily: fontFamily.mono,
-        fontWeight: fontWeight.medium,
-      },
-      strong: {
-        fontWeight: fontWeight.bold,
-      },
-      em: { italic: true },
-      link: { textDecoration: "underline" },
-    },
-    checkbox: {
-      size: sizes.checkbox.width,
-      radius: radius.md,
-      strokeWidth: borderWidth.base,
-      offsetY: gap.tight / 2,
-    },
-    badge: {
-      paddingX: padding.badge.horizontal,
-      paddingY: padding.badge.vertical,
-      radius: radius.md,
-      fontFamily: fontFamily.sans,
-      fontSize: fontSize.sm,
-      fontWeight: fontWeight.medium,
-      iconSize: sizes.icon.small,
-      iconStrokeWidth: 1.5,
-      strokeWidth: borderWidth.thin,
-    },
-    progressTracker: {
-      paddingX: padding.progressTracker.horizontal,
-      paddingY: padding.progressTracker.vertical,
-      radius: radius.full,
-      fontFamily: fontFamily.sans,
-      fontSize: fontSize.sm,
-      fontWeight: fontWeight.bold,
-      gap: gap.compact,
+      fontSize: fontSize.xs,
+      overlap: 6,
     },
   },
-  "companion-pro": {
-    panel: {
-      width: sizes.widget.width,
-      paddingX: padding.panel.horizontal,
-      paddingBottom: gap.normal,
-      radius: radius.lg,
-      strokeWidth: borderWidth.base,
-      spacing: gap.tight,
-    },
-    header: {
-      gap: gap.compact,
-      paddingX: padding.header.horizontal,
-      paddingY: gap.compact,
-      height: sizes.header.height,
-      logoSize: sizes.icon.large,
-      title: {
-        fontFamily: "Assistant",
-        fontSize: fontSize.xl,
-        fontWeight: fontWeight.semibold,
-        lineHeight: "130%",
-        letterSpacing: -0.3,
-      },
-      avatar: {
-        size: dimensions.avatarSm,
-        radius: borderRadius.full,
-        strokeWidth: borderWidth.thin,
-        fontSize: fontSize.xs,
-      },
-    },
-    search: {
-      paddingX: padding.input.horizontal,
-      paddingY: padding.input.vertical,
-      radius: radius.md,
-      fontSize: fontSize.md,
+  search: {
+    paddingX: padding.input.horizontal,
+    paddingY: padding.input.vertical,
+    radius: radius.md,
+    fontSize: fontSize.md,
+    fontFamily: fontFamily.sans,
+    fontWeight: fontWeight.medium,
+    placeholderOpacity: 0.8,
+    bottomSpacing: gap.compact,
+  },
+  progress: {
+    gap: gap.zero,
+    paddingX: padding.input.horizontalNone,
+    paddingTop: gap.normal,
+    paddingBottom: gap.normal,
+    barHeight: sizes.progressBar.height,
+    barRadius: radius.sm,
+    minWidth: sizes.progressBarMinWidth,
+    textMinWidth: sizes.progressTextWidth,
+    textCharWidth: 7.5,
+    text: {
       fontFamily: fontFamily.sans,
+      fontSize: fontSize.base,
       fontWeight: fontWeight.medium,
-      placeholderOpacity: 0.82,
-      bottomSpacing: gap.compact,
+      letterSpacing: -0.2,
+      lineHeight: "110%",
     },
-    progress: {
-      gap: gap.tight,
-      paddingTop: gap.compact,
-      paddingBottom: gap.compact,
-      barHeight: sizes.progressBar.height,
-      barRadius: radius.sm,
-      minWidth: sizes.progressBarMinWidth,
-      textMinWidth: sizes.progressTextWidth,
-      textCharWidth: 7.4,
-      countWidth: 76,
-      labelGap: 4,
-      text: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.base,
-        fontWeight: fontWeight.medium,
-        letterSpacing: -0.15,
-        lineHeight: "110%",
-      },
-      label: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
-        letterSpacing: -0.1,
-        lineHeight: "110%",
-      },
-      textOffsetY: 0,
+    textOffsetY: 0,
+  },
+  section: {
+    spacing: gap.tight,
+    headerPaddingY: gap.compact,
+    headerPaddingX: 12,
+    headerHeight: 40,
+    headerGap: gap.compact,
+    headerRadius: radius.sm,
+    caretSize: 10,
+    caretOffsetY: 1,
+    caretStrokeWidth: borderWidth.base,
+    title: {
+      fontFamily: fontFamily.sans,
+      fontSize: fontSize.base,
+      fontWeight: fontWeight.semibold,
+      lineHeight: "140%",
     },
-    section: {
-      spacing: gap.compact,
-      headerPaddingY: gap.compact,
-      headerPaddingX: 12,
-      headerHeight: 40,
-      headerGap: 6,
-      headerRadius: radius.sm,
-      caretSize: 10,
-      caretOffsetY: 0,
-      caretStrokeWidth: borderWidth.base,
-      title: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.base,
-        fontWeight: fontWeight.semibold,
-        lineHeight: "140%",
-      },
-      bulkAction: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
-        padding: padding.bulkAction.all,
-        radius: radius.sm,
-        gap: gap.tight,
-      },
-      description: {
-        paddingX: padding.sectionDescription.horizontal,
-        paddingY: padding.sectionDescription.vertical,
-        radius: radius.xl,
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
-        lineHeight: "150%",
-      },
-    },
-    item: {
-      paddingX: padding.checklistItem.horizontal,
-      paddingY: 10,
-      gap: gap.tight,
-      stackGap: gap.compact,
-      radius: radius.lg,
-      text: {
-        fontFamily: fontFamily.sans,
-        fontSize: fontSize.base,
-        fontWeight: fontWeight.medium,
-        lineHeight: "150%",
-      },
-    },
-    inline: {
-      code: {
-        fontFamily: fontFamily.mono,
-        fontWeight: fontWeight.medium,
-      },
-      kbd: {
-        fontFamily: fontFamily.mono,
-        fontWeight: fontWeight.medium,
-      },
-      strong: {
-        fontWeight: fontWeight.bold,
-      },
-      em: { italic: true },
-      link: { textDecoration: "underline" },
-    },
-    checkbox: {
-      size: sizes.checkbox.width,
-      radius: radius.md,
-      strokeWidth: borderWidth.base,
-      offsetY: gap.tight / 2,
-    },
-    badge: {
-      paddingX: padding.badge.horizontal,
-      paddingY: padding.badge.vertical,
-      radius: radius.md,
+    bulkAction: {
       fontFamily: fontFamily.sans,
       fontSize: fontSize.sm,
       fontWeight: fontWeight.medium,
-      iconSize: sizes.icon.small,
-      iconStrokeWidth: 1.5,
-      strokeWidth: borderWidth.thin,
+      padding: padding.bulkAction.all,
+      radius: radius.sm,
+      gap: gap.tight,
     },
-    progressTracker: {
-      paddingX: padding.progressTracker.horizontal,
-      paddingY: padding.progressTracker.vertical,
-      radius: radius.full,
+    description: {
+      paddingX: padding.sectionDescription.horizontal,
+      paddingY: padding.sectionDescription.vertical,
+      radius: radius.xl,
       fontFamily: fontFamily.sans,
       fontSize: fontSize.sm,
+      fontWeight: fontWeight.medium,
+      lineHeight: "150%",
+    },
+  },
+  item: {
+    paddingX: padding.checklistItem.horizontal,
+    paddingY: padding.checklistItem.vertical,
+    gap: gap.compact,
+    stackGap: gap.compact,
+    radius: radius.lg,
+    text: {
+      fontFamily: fontFamily.sans,
+      fontSize: fontSize.base,
+      fontWeight: fontWeight.medium,
+      lineHeight: "150%",
+    },
+    description: {
+      fontFamily: fontFamily.sans,
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.medium,
+      lineHeight: "150%",
+    },
+  },
+  inline: {
+    code: {
+      fontFamily: fontFamily.mono,
       fontWeight: fontWeight.bold,
-      gap: gap.compact,
     },
+    kbd: {
+      fontFamily: fontFamily.mono,
+      fontWeight: fontWeight.bold,
+    },
+    strong: {
+      fontWeight: fontWeight.bold,
+    },
+    em: { italic: true },
+    link: { textDecoration: "underline" },
+  },
+  checkbox: {
+    size: sizes.checkbox.width,
+    radius: radius.md,
+    strokeWidth: borderWidth.base,
+    offsetY: gap.tight / 2,
+  },
+  badge: {
+    paddingX: padding.badge.horizontal,
+    paddingY: padding.badge.vertical,
+    radius: radius.md,
+    fontFamily: fontFamily.sans,
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.medium,
+    iconSize: sizes.icon.small,
+    iconStrokeWidth: 1.5,
+    strokeWidth: borderWidth.thin,
+  },
+  progressTracker: {
+    paddingX: padding.progressTracker.horizontal,
+    paddingY: padding.progressTracker.vertical,
+    radius: radius.full,
+    fontFamily: fontFamily.sans,
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.bold,
+    gap: gap.compact,
   },
 };
 
-export function createChecklistTokens(
-  theme: ChecklistThemeTokens,
-  layoutPreset: ChecklistLayoutPreset = "companion"
-) {
-  const layout = layoutPresets[layoutPreset];
+export function createChecklistTokens(theme: ChecklistThemeTokens) {
+  const layout = companionLayout;
   return {
     colors: {
       panelBg: theme.panelBg,
@@ -504,10 +361,7 @@ export function createChecklistTokens(
       wcagBadgeText: theme.wcagBadgeText ?? theme.panelBg,
       hoverBg: theme.hoverBg ?? `${theme.textPrimary}10`,
       hoverStroke: theme.hoverStroke ?? theme.panelStroke,
-      itemBg:
-        layoutPreset === "companion-pro"
-          ? withOpacity(theme.textStrong, 0.04)
-          : undefined,
+      itemBg: undefined,
     },
     panel: {
       width: layout.panel.width,
@@ -527,18 +381,12 @@ export function createChecklistTokens(
     },
     progress: {
       ...layout.progress,
-      textColor:
-        layoutPreset === "companion-pro"
-          ? theme.textSecondary
-          : theme.textPrimary,
+      textColor: theme.textPrimary,
     },
     section: {
       ...layout.section,
-      headerFullClick: layoutPreset === "companion-pro",
-      headerHoverBg:
-        layoutPreset === "companion-pro"
-          ? theme.hoverBg ?? `${theme.textPrimary}10`
-          : undefined,
+      headerFullClick: undefined,
+      headerHoverBg: undefined,
     },
     item: {
       ...layout.item,
@@ -546,17 +394,18 @@ export function createChecklistTokens(
     inline: {
       code: {
         ...layout.inline.code,
-        fill: theme.textStrong,
+        fill: theme.progressFill,
       },
       kbd: {
         ...layout.inline.kbd,
-        fill: theme.textStrong,
+        fill: theme.progressFill,
       },
       strong: layout.inline.strong,
       em: layout.inline.em,
       link: {
-        fill: withOpacity(theme.progressFill, 0.72),
+        fill: theme.progressFill,
         textDecoration: layout.inline.link.textDecoration,
+        fontWeight: layout.inline.link.fontWeight,
       },
     },
     checkbox: {

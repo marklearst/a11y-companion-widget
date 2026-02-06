@@ -1,7 +1,12 @@
-const { widget } = figma
-const { AutoLayout, Rectangle } = widget
+const { widget } = figma;
+const { AutoLayout, Rectangle } = widget;
 
-import { ProgressBarProps } from 'types/index'
+import { ProgressBarProps } from "types/index";
+import {
+  defaultTheme,
+  sizes as dsSizes,
+  radius as dsRadius,
+} from "design-system";
 
 /**
  * Renders a horizontal progress bar showing completion status for tasks.
@@ -21,15 +26,22 @@ import { ProgressBarProps } from 'types/index'
  *
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
-const ProgressBar = ({ total, completed, parentWidth, colors }: ProgressBarProps) => {
+const ProgressBar = ({
+  total,
+  completed,
+  parentWidth,
+  colors,
+  height,
+  radius,
+}: ProgressBarProps) => {
   // Heuristic: derive dark mode based on background—widgets don't provide direct theme here.
   // For now, keep original colors; ChecklistPanel wraps it with context colors if needed later.
-  const percentage = total === 0 ? 0 : (completed / total) * 100
-  let calculatedWidth = (percentage / 100) * parentWidth
+  const percentage = total === 0 ? 0 : (completed / total) * 100;
+  let calculatedWidth = (percentage / 100) * parentWidth;
 
   // Ensure calculatedWidth is at least 1 to avoid rendering issues
   if (calculatedWidth === 0) {
-    calculatedWidth = 0.25
+    calculatedWidth = 0.25;
   }
 
   /**
@@ -41,19 +53,19 @@ const ProgressBar = ({ total, completed, parentWidth, colors }: ProgressBarProps
       direction="horizontal"
       overflow="hidden"
       width={parentWidth}
-  height={20}
-  fill={colors?.track ?? '#9299ce'}
-      cornerRadius={4}
+      height={height ?? dsSizes.progressBar.height}
+      fill={colors?.track ?? defaultTheme.lightTheme.progressBg}
+      cornerRadius={radius ?? dsRadius.xxs}
       padding={0}
-      spacing={0}>
+      spacing={0}
+    >
       <Rectangle
         width={calculatedWidth}
-  height="fill-parent"
-  fill={colors?.fill ?? '#212a6a'}
-        // cornerRadius={4}
+        height="fill-parent"
+        fill={colors?.fill ?? defaultTheme.lightTheme.progressFill}
       />
     </AutoLayout>
-  )
-}
+  );
+};
 
-export default ProgressBar
+export default ProgressBar;

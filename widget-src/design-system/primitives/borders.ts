@@ -16,6 +16,7 @@ export const borderWidth: BorderWidth = {
   none: 0, // No border
   thin: 1, // Thin border (most common)
   base: 2, // Default border
+  medium: 3, // Medium border (checkbox emphasis)
   thick: 4, // Thick border (emphasis)
 } as const;
 
@@ -63,7 +64,7 @@ export const borders = {
   },
 
   checkbox: {
-    width: borderWidth.base,
+    width: borderWidth.medium,
     radius: borderRadius.sm,
   },
 

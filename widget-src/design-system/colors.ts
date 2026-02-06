@@ -86,7 +86,7 @@ export const lightTheme = {
   // Backgrounds
   panelBg: neutral.offWhite,
   headerBg: neutral.offWhite,
-  sectionDescBg: withOpacity(neutral.gray[900], 0.04),
+  sectionDescBg: neutral.gray[100],
 
   // Borders
   panelStroke: neutral.gray[300],
@@ -108,7 +108,7 @@ export const lightTheme = {
 
   // WCAG Badge
   wcagBadge: neutral.gray[200],
-  wcagBadgeText: neutral.gray[600],
+  wcagBadgeText: neutral.gray[500],
 
   // Hover states
   hoverBg: `${neutral.gray[700]}10`, // 10% opacity
