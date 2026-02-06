@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 import { ChecklistSectionType } from 'types'
-import { getSectionProgress } from 'utils/checklist'
+import { getSectionProgress } from 'logic/checklist'
 
 /**
  * Returns the progress for a checklist section.

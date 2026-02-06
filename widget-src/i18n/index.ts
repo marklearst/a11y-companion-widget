@@ -3,7 +3,8 @@ export type Locale = "en" | "es";
 export type Messages = {
   appTitle: string;
   progressText: (completed: number, total: number) => string;
-  tooltipsToggle: string;
+  progressCount?: (completed: number, total: number) => string;
+  progressLabel?: string;
   hideCompletedToggle: string;
   markAllComplete: string;
   markAllIncomplete: string;
@@ -13,10 +14,19 @@ export type Messages = {
   searchPlaceholder: string;
   exportProgress: string;
   importProgress: string;
+  exportMarkdown: string;
+  themeLabel: string;
+  brandThemeLabel: string;
+  languageLabel: string;
+  layoutLabel: string;
   noResults: string;
   quickCopy: string;
   exportFormat: string;
   checklistTemplate: string;
+  copyAs: string;
+  copyInstruction: string;
+  copiedMarkdown: string;
+  copyReady: string;
   templates: {
     all: { name: string; description: string };
     landingPage: { name: string; description: string };
@@ -29,21 +39,31 @@ export type Messages = {
 
 const en: Messages = {
   appTitle: "a11y Companion",
-  progressText: (c, t) => `${c} of ${t} accessibility checks done`,
-  tooltipsToggle: "Show tooltips on checkable items",
+  progressText: (c, t) => `${c} of ${t} checked`,
+  progressCount: (c, t) => `${c} of ${t}`,
+  progressLabel: "checked",
   hideCompletedToggle: "Hide completed items",
-  markAllComplete: "Mark all complete",
-  markAllIncomplete: "Mark all incomplete",
+  markAllComplete: "Check all",
+  markAllIncomplete: "Uncheck all",
   collapseAll: "Collapse all",
   expandAll: "Expand all",
   searchLabel: "Search:",
   searchPlaceholder: "Type to filter items...",
   exportProgress: "Export progress",
   importProgress: "Import progress",
+  exportMarkdown: "Export Markdown",
+  themeLabel: "Theme",
+  brandThemeLabel: "Accent color",
+  languageLabel: "Language",
+  layoutLabel: "Layout",
   noResults: "No items found",
   quickCopy: "Export Format:",
   exportFormat: "Export Format:",
   checklistTemplate: "Checklist Template:",
+  copyAs: "Copy as",
+  copyInstruction: "Select and copy the text below:",
+  copiedMarkdown: "✅ Copied as Markdown!",
+  copyReady: "📋 Text ready to copy below",
   templates: {
     all: {
       name: "All Checks",
@@ -74,22 +94,31 @@ const en: Messages = {
 
 const es: Messages = {
   appTitle: "Compañero a11y",
-  progressText: (c, t) =>
-    `${c} de ${t} comprobaciones de accesibilidad completadas`,
-  tooltipsToggle: "Mostrar tooltips en elementos con casilla",
+  progressText: (c, t) => `${c} de ${t} completados`,
+  progressCount: (c, t) => `${c} de ${t}`,
+  progressLabel: "completados",
   hideCompletedToggle: "Ocultar elementos completados",
-  markAllComplete: "Marcar todo como completo",
-  markAllIncomplete: "Marcar todo como incompleto",
+  markAllComplete: "Marcar todo",
+  markAllIncomplete: "Desmarcar todo",
   collapseAll: "Contraer todo",
   expandAll: "Expandir todo",
   searchLabel: "Buscar:",
   searchPlaceholder: "Escribe para filtrar...",
   exportProgress: "Exportar progreso",
   importProgress: "Importar progreso",
+  exportMarkdown: "Exportar Markdown",
+  themeLabel: "Tema",
+  brandThemeLabel: "Color de acento",
+  languageLabel: "Idioma",
+  layoutLabel: "Diseño",
   noResults: "No se encontraron elementos",
   quickCopy: "Formato de Exportación:",
   exportFormat: "Formato de Exportación:",
   checklistTemplate: "Plantilla de Lista:",
+  copyAs: "Copiar como",
+  copyInstruction: "Selecciona y copia el texto debajo:",
+  copiedMarkdown: "✅ Copiado como Markdown!",
+  copyReady: "📋 Texto listo para copiar abajo",
   templates: {
     all: {
       name: "Todas las Comprobaciones",

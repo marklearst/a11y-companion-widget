@@ -10,12 +10,14 @@
  */
 
 import type { ChecklistItemType, ChecklistSectionType } from "types/checklist";
+import type { UserPreferences } from "hooks/useUserPreferences";
+import type { ChecklistTokens } from "design-system";
 
 /**
  * Props for the checklist section component.
  *
  * @remarks
- * Used to render a section of checklist items, including their completion state and tooltips.
+ * Used to render a section of checklist items, including their completion state.
  */
 export interface ChecklistSectionProps {
   /** The checklist section to render. */
@@ -24,8 +26,6 @@ export interface ChecklistSectionProps {
   taskCompletion: Record<string, boolean>;
   /** Function to handle checkbox state changes. */
   handleCheckChange: (taskId: string, isChecked: boolean) => void;
-  /** Whether tooltips are enabled for this section. */
-  tooltipsEnabled: boolean;
   /** Whether completed items should be hidden. */
   hideCompleted?: boolean;
   /** Whether this section is highlighted/suggested. */
@@ -33,12 +33,27 @@ export interface ChecklistSectionProps {
   /** Optional themed colors for this section and its children. */
   colors?: {
     textPrimary: string;
+    textSecondary?: string;
+    sectionTitle?: string;
+    sectionIcon?: string;
     sectionDescBg: string;
     sectionDescText: string;
     progressTracker: { bg: string; text: string };
-    checkbox: { bgChecked: string; bgUnchecked: string; stroke: string };
-    badge: string;
+    checkbox: {
+      bgChecked: string;
+      bgUnchecked: string;
+      stroke: string;
+      checkmark?: string;
+    };
   };
+  /** Design-system tokens for layout and typography. */
+  ui: ChecklistTokens;
+  /** Optional labels for bulk section actions. */
+  labels?: { checkAll: string; uncheckAll: string };
+  /** Whether to show item long descriptions in this section. */
+  showItemDescriptions?: boolean;
+  /** Optional callback fired when bulk actions are triggered. */
+  onBulkAction?: () => void;
 }
 
 /**
@@ -51,14 +66,19 @@ export interface ChecklistItemProps {
   checked: boolean;
   /** Function to handle checkbox state changes. */
   onCheckChange: (taskId: string, isChecked: boolean) => void;
-  /** Whether tooltips are enabled for this item. */
-  tooltipsEnabled: boolean;
   /** Optional text color override */
   textColor?: string;
   /** Optional checkbox color overrides */
-  checkboxColors?: { bgChecked: string; bgUnchecked: string; stroke: string };
-  /** Optional WCAG badge color */
-  badgeColor?: string;
+  checkboxColors?: {
+    bgChecked: string;
+    bgUnchecked: string;
+    stroke: string;
+    checkmark?: string;
+  };
+  /** Design-system tokens for layout and typography. */
+  ui: ChecklistTokens;
+  /** Whether to show the item's long description. */
+  showDescription?: boolean;
 }
 
 /**
@@ -82,6 +102,12 @@ export interface ChecklistProps {
   completed: number;
   /** Whether to use dark mode styling. */
   isDarkMode?: boolean;
+  /** Section ids that should show item descriptions. */
+  showItemDescriptionsForSectionIds?: string[];
+  /** Current user preferences. */
+  preferences: UserPreferences;
+  /** Updates user preferences. */
+  setPreferences: (next: Partial<UserPreferences>) => void;
 }
 
 /**
@@ -94,7 +120,27 @@ export interface CheckboxProps {
   /** Whether the checkbox is currently checked. */
   checked: boolean;
   /** Optional custom colors for theming. */
-  colors?: { bgChecked: string; bgUnchecked: string; stroke: string };
+  colors?: {
+    bgChecked: string;
+    bgUnchecked: string;
+    stroke: string;
+    checkmark?: string;
+  };
+  /** Optional size override. */
+  size?: number;
+  /** Optional stroke width override. */
+  strokeWidth?: number;
+  /** Optional corner radius override. */
+  radius?: number;
+}
+
+/**
+ * Props for overlay-style panels (export/copy/contrast).
+ */
+export interface OverlayColors {
+  textPrimary: string;
+  panelBg: string;
+  buttonBg?: string;
 }
 
 /**
@@ -110,6 +156,18 @@ export interface ProgressTrackerProps {
   total: number;
   /** Optional custom colors for theming. */
   colors?: { bg: string; text: string };
+  /** Optional padding override. */
+  padding?: { horizontal: number; vertical: number };
+  /** Optional corner radius override. */
+  radius?: number;
+  /** Optional font size override. */
+  fontSize?: number;
+  /** Optional font weight override. */
+  fontWeight?: WidgetJSX.FontWeight;
+  /** Optional font family override. */
+  fontFamily?: string;
+  /** Optional spacing override. */
+  gap?: number;
 }
 
 /**
@@ -127,4 +185,8 @@ export interface ProgressBarProps {
   parentWidth: number;
   /** Optional custom colors for theming. */
   colors?: { track: string; fill: string };
+  /** Optional height override. */
+  height?: number;
+  /** Optional corner radius override. */
+  radius?: number;
 }
