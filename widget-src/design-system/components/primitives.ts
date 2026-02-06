@@ -8,7 +8,7 @@ import { fontFamily, fontSize, fontWeight } from "../primitives/typography";
  * These values intentionally centralize defaults used by primitive components.
  * A few values are off-scale to preserve current visual output.
  */
-export const primitiveComponentVariables = {
+export const componentPrimitives = {
   checkbox: {
     size: 16,
     radius: 6,
@@ -52,13 +52,23 @@ export const primitiveComponentVariables = {
 } as const;
 
 /**
- * @deprecated Use `primitiveComponentVariables`.
+ * @deprecated Use `componentPrimitives`.
  */
-export const primitiveComponentTokens = primitiveComponentVariables;
-
-export type PrimitiveComponentVariables = typeof primitiveComponentVariables;
+export const primitiveComponentVariables = componentPrimitives;
 
 /**
- * @deprecated Use `PrimitiveComponentVariables`.
+ * @deprecated Use `componentPrimitives`.
  */
-export type PrimitiveComponentTokens = PrimitiveComponentVariables;
+export const primitiveComponentTokens = componentPrimitives;
+
+export type ComponentPrimitives = typeof componentPrimitives;
+
+/**
+ * @deprecated Use `ComponentPrimitives`.
+ */
+export type PrimitiveComponentVariables = ComponentPrimitives;
+
+/**
+ * @deprecated Use `ComponentPrimitives`.
+ */
+export type PrimitiveComponentTokens = ComponentPrimitives;

@@ -61,8 +61,16 @@ export { createChecklistVariables, createChecklistTokens } from "./components/ch
 export type { ChecklistVariables, ChecklistTokens } from "./components/checklist";
 export { createOverlayVariables, createOverlayTokens } from "./components/overlays";
 export type { OverlayVariables, OverlayTokens } from "./components/overlays";
-export { primitiveComponentVariables, primitiveComponentTokens } from "./components/primitives";
-export type { PrimitiveComponentVariables, PrimitiveComponentTokens } from "./components/primitives";
+export {
+  componentPrimitives,
+  primitiveComponentVariables,
+  primitiveComponentTokens,
+} from "./components/primitives";
+export type {
+  ComponentPrimitives,
+  PrimitiveComponentVariables,
+  PrimitiveComponentTokens,
+} from "./components/primitives";
 
 // Import primitives for bundled export
 import {

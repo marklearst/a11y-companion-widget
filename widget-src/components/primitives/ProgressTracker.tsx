@@ -3,7 +3,7 @@ const { AutoLayout, Text } = widget;
 
 import { ProgressTrackerProps } from "types/index";
 import { defaultTheme } from "design-system/theme/default";
-import { primitiveComponentVariables } from "design-system/components/primitives";
+import { componentPrimitives } from "design-system/components/primitives";
 /**
  * Renders a pill-shaped progress tracker showing completed and total tasks.
  *
@@ -52,13 +52,13 @@ const ProgressTracker = ({
   return (
     <AutoLayout
       fill={fillColor}
-      cornerRadius={radius ?? primitiveComponentVariables.progressTracker.radius}
-      spacing={gap ?? primitiveComponentVariables.progressTracker.gap}
+      cornerRadius={radius ?? componentPrimitives.progressTracker.radius}
+      spacing={gap ?? componentPrimitives.progressTracker.gap}
       padding={{
         vertical:
-          padding?.vertical ?? primitiveComponentVariables.progressTracker.paddingY,
+          padding?.vertical ?? componentPrimitives.progressTracker.paddingY,
         horizontal:
-          padding?.horizontal ?? primitiveComponentVariables.progressTracker.paddingX,
+          padding?.horizontal ?? componentPrimitives.progressTracker.paddingX,
       }}
       horizontalAlignItems="center"
       verticalAlignItems="center"
@@ -69,11 +69,11 @@ const ProgressTracker = ({
         horizontalAlignText="right"
         lineHeight="140%"
         fontFamily={
-          fontFamily ?? primitiveComponentVariables.progressTracker.fontFamily
+          fontFamily ?? componentPrimitives.progressTracker.fontFamily
         }
-        fontSize={fontSize ?? primitiveComponentVariables.progressTracker.fontSize}
+        fontSize={fontSize ?? componentPrimitives.progressTracker.fontSize}
         fontWeight={
-          fontWeight ?? primitiveComponentVariables.progressTracker.fontWeight
+          fontWeight ?? componentPrimitives.progressTracker.fontWeight
         }
       >
         {completed} / {total}

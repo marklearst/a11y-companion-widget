@@ -1,7 +1,7 @@
 import { gap, radius } from "../spacing";
 import { fontSize, fontWeight, fontFamily } from "../primitives/typography";
 import { borderWidth } from "../primitives/borders";
-import { primitiveComponentVariables } from "./primitives";
+import { componentPrimitives } from "./primitives";
 
 export type OverlayThemeVariables = {
   panelBg: string;
@@ -30,10 +30,10 @@ export function createOverlayVariables(theme: OverlayThemeVariables) {
       tight: gap.tight,
       outlineWidth: borderWidth.base,
       radius: radius.lg,
-      closeRadius: primitiveComponentVariables.overlayHeader.closeRadius,
+      closeRadius: componentPrimitives.overlayHeader.closeRadius,
       closePaddingX: gap.compact,
       closePaddingY: gap.tight,
-      headerSpacerHeight: primitiveComponentVariables.overlayHeader.spacerHeight,
+      headerSpacerHeight: componentPrimitives.overlayHeader.spacerHeight,
     },
     text: {
       title: {
