@@ -1,3 +1,6 @@
+import { wcagCriteriaByLevel, wcagLevelCriteriaMap } from "data/wcagLevelMap";
+import type { WCAGLevel } from "types/wcag";
+
 /**
  * WCAG helpers for mapping checklist codes to W3C documentation.
  */
@@ -41,4 +44,12 @@ export function getWcagUrl(wcag: string): string {
   const code = match[1];
   const slug = WCAG_CODE_MAP[code] || code.toLowerCase().replace(/\./g, "-");
   return `https://www.w3.org/WAI/WCAG22/Understanding/${slug}.html`;
+}
+
+export function getWcagCriteriaCodesByLevel(level: WCAGLevel) {
+  return wcagCriteriaByLevel[level];
+}
+
+export function getWcagCriteriaByLevel(level: WCAGLevel) {
+  return wcagLevelCriteriaMap[level];
 }

@@ -1,3 +1,5 @@
+import type { WCAGLevel } from "types/wcag";
+
 /**
  * Core types for accessibility checklist data structures.
  *
@@ -41,11 +43,6 @@ export interface ChecklistItemType {
   /** Optional long description providing more detail about the requirement. */
   longDescription?: string;
 }
-
-/**
- * WCAG conformance levels.
- */
-export type WCAGLevel = "A" | "AA" | "AAA";
 
 /**
  * Represents a section in the accessibility checklist, including its title, link, and items.
