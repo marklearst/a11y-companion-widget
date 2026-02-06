@@ -22,7 +22,7 @@ import type { ChecklistDataType } from "types";
  */
 export function useExportImport(
   taskCompletion: Record<string, boolean>,
-  checklistData: ChecklistDataType
+  checklistData: ChecklistDataType,
 ) {
   /**
    * Exports current progress as JSON string.

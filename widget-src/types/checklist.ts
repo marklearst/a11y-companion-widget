@@ -31,14 +31,21 @@
  */
 export interface ChecklistItemType {
   /** The unique identifier for the checklist item. */
-  id: string
+  id: string;
   /** The text description of the checklist item. */
-  text: string
+  text: string;
   /** The WCAG reference for this item. */
-  wcag: string
+  wcag: string;
+  /** Optional WCAG level (A/AA/AAA). */
+  level?: WCAGLevel | string | null;
   /** Optional long description providing more detail about the requirement. */
-  longDescription?: string
+  longDescription?: string;
 }
+
+/**
+ * WCAG conformance levels.
+ */
+export type WCAGLevel = "A" | "AA" | "AAA";
 
 /**
  * Represents a section in the accessibility checklist, including its title, link, and items.
@@ -50,15 +57,15 @@ export interface ChecklistItemType {
  */
 export interface ChecklistSectionType {
   /** The unique identifier for the section. */
-  id: string
+  id: string;
   /** The title of the section. */
-  title: string
+  title: string;
   /** Optional description of the section. */
-  description?: string
+  description?: string;
   /** Optional link to more information about this section. */
-  link?: string
+  link?: string;
   /** Array of checklist items in this section. */
-  items: ChecklistItemType[]
+  items: ChecklistItemType[];
 }
 
 /**
@@ -77,7 +84,7 @@ export interface ChecklistSectionType {
  */
 export interface ChecklistDataType {
   /** The title of the checklist */
-  title: string
+  title: string;
   /** Array of checklist sections */
-  sections: ChecklistSectionType[]
+  sections: ChecklistSectionType[];
 }

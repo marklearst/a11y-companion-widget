@@ -25,7 +25,7 @@ export interface Template {
 export const templates: Template[] = [
   {
     id: "all",
-    name: "All Checks",
+    name: "All Checked",
     description: "Complete accessibility checklist",
     sections: [
       "Content",
