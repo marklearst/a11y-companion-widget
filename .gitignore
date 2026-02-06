@@ -17,11 +17,11 @@ assets
 /dist
 
 # planning
-/markdown
 .claude
 
 # markdown
 *.md
+/markdown
 !README.md
 
 # production
