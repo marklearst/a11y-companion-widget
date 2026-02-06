@@ -1,5 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, Text, Input } = widget;
+import { createOverlayTokens, defaultTheme, type OverlayTokens } from "design-system";
+import { dropShadowEffect } from "effects";
 
 /**
  * Component for displaying copyable text in different formats.
@@ -8,7 +10,7 @@ const { AutoLayout, Text, Input } = widget;
  * Shows formatted text that users can select and copy.
  *
  * @param copyData - The formatted text to display
- * @param format - The format type (markdown, html, plaintext)
+ * @param format - The format type (markdown)
  * @param onClose - Callback to close the display
  */
 export function CopyDisplay({
@@ -16,33 +18,48 @@ export function CopyDisplay({
   format,
   onClose,
   colors,
+  ui,
+  labels,
 }: {
   copyData: string;
-  format: "markdown" | "html" | "plaintext";
+  format: "markdown";
   onClose: () => void;
   colors?: { textPrimary: string; panelBg: string; buttonBg: string };
+  ui?: OverlayTokens;
+  labels?: { copyAs: string; instruction: string };
 }) {
+  const fallback = defaultTheme.lightTheme;
+  const uiTokens =
+    ui ??
+    createOverlayTokens({
+      panelBg: colors?.panelBg ?? fallback.panelBg,
+      panelStroke: fallback.panelStroke,
+      textPrimary: colors?.textPrimary ?? fallback.textPrimary,
+      textSecondary: fallback.textSecondary,
+      textStrong: fallback.textStrong,
+      progressFill: colors?.buttonBg ?? fallback.progressFill,
+    });
+  const palette = {
+    textPrimary: colors?.textPrimary ?? uiTokens.colors.textPrimary,
+    panelBg: colors?.panelBg ?? uiTokens.colors.panelBg,
+    buttonBg: colors?.buttonBg ?? uiTokens.colors.buttonBg,
+  };
   const formatLabels = {
     markdown: "Markdown",
-    html: "HTML",
-    plaintext: "Plain Text",
   };
+
+  const copyAsLabel = labels?.copyAs ?? "Copy as";
+  const instructionLabel = labels?.instruction ?? "Select and copy the text below:";
 
   return (
     <AutoLayout
       direction="vertical"
-      spacing={12}
-      padding={20}
+      spacing={uiTokens.layout.spacing}
+      padding={uiTokens.layout.padding}
       width={"fill-parent"}
-      fill={colors?.panelBg ?? "#FFFFFF"}
-      cornerRadius={8}
-      effect={{
-        type: "drop-shadow",
-        color: { r: 0, g: 0, b: 0, a: 0.15 },
-        offset: { x: 0, y: 4 },
-        blur: 12,
-        spread: 0,
-      }}
+      fill={palette.panelBg}
+      cornerRadius={uiTokens.layout.radius}
+      effect={dropShadowEffect}
     >
       <AutoLayout
         direction="horizontal"
@@ -50,24 +67,26 @@ export function CopyDisplay({
         verticalAlignItems="center"
       >
         <Text
-          fill={colors?.textPrimary ?? "#212A6A"}
-          fontFamily="Anaheim"
-          fontSize={18}
-          fontWeight={700}
+          fill={palette.textPrimary}
+          fontFamily={uiTokens.text.title.fontFamily}
+          fontSize={uiTokens.text.title.fontSize}
+          fontWeight={uiTokens.text.title.fontWeight}
         >
-          {String("Copy as " + (formatLabels[format] || "Text"))}
+          {String(copyAsLabel + " " + (formatLabels[format] || "Text"))}
         </Text>
         <AutoLayout width="fill-parent" height={16} />
         <AutoLayout
           onClick={onClose}
-          padding={{ horizontal: 8, vertical: 2 }}
-          cornerRadius={4}
-          tooltip="Close"
+          padding={{
+            horizontal: uiTokens.layout.closePaddingX,
+            vertical: uiTokens.layout.closePaddingY,
+          }}
+          cornerRadius={uiTokens.layout.closeRadius}
         >
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={18}
-            fontWeight={700}
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.title.fontSize}
+            fontWeight={uiTokens.text.title.fontWeight}
             opacity={0.7}
           >
             ×
@@ -75,21 +94,21 @@ export function CopyDisplay({
         </AutoLayout>
       </AutoLayout>
       <Text
-        fill={colors?.textPrimary ?? "#212A6A"}
-        fontSize={12}
-        fontFamily="Anaheim"
+        fill={palette.textPrimary}
+        fontSize={uiTokens.text.helper.fontSize}
+        fontFamily={uiTokens.text.helper.fontFamily}
         opacity={0.7}
       >
-        Select and copy the text below:
+        {instructionLabel}
       </Text>
       <Input
         value={copyData}
         onTextEditEnd={() => {}}
         width="fill-parent"
-        fontSize={11}
-        fontFamily="Inter"
+        fontSize={uiTokens.text.mono.fontSize}
+        fontFamily={uiTokens.text.mono.fontFamily}
         inputBehavior="multiline"
-        fill={colors?.textPrimary ?? "#212A6A"}
+        fill={palette.textPrimary}
       />
     </AutoLayout>
   );

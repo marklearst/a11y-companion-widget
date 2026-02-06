@@ -32,8 +32,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 - Collapsible sections for easy navigation
 - Progress tracking per section and overall
 - Accessible custom checkboxes
-- Tooltips with WCAG and long descriptions
-- Property menu toggle to enable/disable tooltips
+- WCAG references and detailed explanations
 
 ### New in v1.2.0 🎉
 - **🔍 Search & Filter** - Quickly find checklist items by text or WCAG code
@@ -58,9 +57,9 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 6. Click the **collapse/expand** button (▲/▼) to quickly navigate sections.
 7. Hover over checklist items for WCAG references and detailed explanations.
 8. Use the **property menu** to:
-   - Toggle tooltips on or off
    - Hide completed items
    - Switch between light/dark/system themes
+   - Switch between brand themes (Default, Indigo, Emerald, Rose, Slate, Cyan)
    - Change language (English/Español)
    - Export your progress as JSON
 

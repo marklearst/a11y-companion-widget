@@ -1,5 +1,6 @@
 const { widget } = figma;
 const { AutoLayout, Text, Input } = widget;
+import { createOverlayTokens, defaultTheme, type OverlayTokens } from "design-system";
 
 /**
  * Component for displaying export data that users can copy.
@@ -14,32 +15,51 @@ export function ExportDisplay({
   exportData,
   onClose,
   colors,
+  ui,
 }: {
   exportData: string;
   onClose: () => void;
   colors?: { textPrimary: string; panelBg: string };
+  ui?: OverlayTokens;
 }) {
+  const fallback = defaultTheme.lightTheme;
+  const uiTokens =
+    ui ??
+    createOverlayTokens({
+      panelBg: colors?.panelBg ?? fallback.panelBg,
+      panelStroke: fallback.panelStroke,
+      textPrimary: colors?.textPrimary ?? fallback.textPrimary,
+      textSecondary: fallback.textSecondary,
+      textStrong: fallback.textStrong,
+      progressFill: colors?.textPrimary ?? fallback.progressFill,
+    });
+  const palette = {
+    textPrimary: colors?.textPrimary ?? uiTokens.colors.textPrimary,
+    panelBg: colors?.panelBg ?? uiTokens.colors.panelBg,
+    buttonBg: colors?.textPrimary ?? uiTokens.colors.buttonBg,
+    buttonText: uiTokens.colors.buttonText,
+  };
   return (
     <AutoLayout
       direction="vertical"
-      spacing={12}
-      padding={20}
+      spacing={uiTokens.layout.spacing}
+      padding={uiTokens.layout.padding}
       width="fill-parent"
-      fill={colors?.panelBg ?? "#FFFFFF"}
-      cornerRadius={8}
+      fill={palette.panelBg}
+      cornerRadius={uiTokens.layout.radius}
     >
       <Text
-        fill={colors?.textPrimary ?? "#212A6A"}
-        fontFamily="Anaheim"
-        fontSize={16}
-        fontWeight={700}
+        fill={palette.textPrimary}
+        fontFamily={uiTokens.text.title.fontFamily}
+        fontSize={uiTokens.text.title.fontSize}
+        fontWeight={uiTokens.text.title.fontWeight}
       >
         Export Progress
       </Text>
       <Text
-        fill={colors?.textPrimary ?? "#212A6A"}
-        fontSize={12}
-        fontFamily="Anaheim"
+        fill={palette.textPrimary}
+        fontSize={uiTokens.text.helper.fontSize}
+        fontFamily={uiTokens.text.helper.fontFamily}
         opacity={0.7}
       >
         Select and copy the JSON below:
@@ -48,22 +68,25 @@ export function ExportDisplay({
         value={exportData}
         onTextEditEnd={() => {}}
         width="fill-parent"
-        fontSize={11}
-        fontFamily="monospace"
+        fontSize={uiTokens.text.mono.fontSize}
+        fontFamily={uiTokens.text.mono.fontFamily}
         inputBehavior="multiline"
-        fill={colors?.textPrimary ?? "#212A6A"}
+        fill={palette.textPrimary}
       />
       <AutoLayout
         onClick={onClose}
-        padding={{ vertical: 8, horizontal: 16 }}
-        fill={colors?.textPrimary ?? "#212A6A"}
-        cornerRadius={4}
+        padding={{
+          vertical: uiTokens.button.paddingY,
+          horizontal: uiTokens.button.paddingX,
+        }}
+        fill={palette.buttonBg}
+        cornerRadius={uiTokens.button.radius}
       >
         <Text
-          fill="#FFFFFF"
-          fontSize={14}
-          fontFamily="Anaheim"
-          fontWeight={600}
+          fill={palette.buttonText}
+          fontSize={uiTokens.text.body.fontSize}
+          fontFamily={uiTokens.text.body.fontFamily}
+          fontWeight={uiTokens.text.body.fontWeight}
         >
           Close
         </Text>

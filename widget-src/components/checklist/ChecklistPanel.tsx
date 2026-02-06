@@ -1,30 +1,24 @@
 const { widget } = figma;
-const { AutoLayout, SVG, Text, Input } = widget;
-const { useSyncedState } = widget;
-
-// Type declaration for navigator (available in Figma widget runtime)
-declare const navigator: {
-  clipboard?: {
-    writeText: (text: string) => Promise<void>;
-  };
-};
+const { AutoLayout, Frame, SVG, Text, Input, Image } = widget;
 
 import { ProgressBar } from "components/primitives";
 import { ChecklistProps } from "types/index";
-import { dropShadowEffect } from "effects";
 import { ChecklistSection } from "components/checklist";
 import { CopyDisplay } from "components/checklist/CopyDisplay";
-import { useTooltipsToggle } from "hooks/useTooltipsToggle";
 import { useSearch } from "hooks/useSearch";
-import { useQuickCopy } from "hooks/useQuickCopy";
+import { useMarkdownExport } from "hooks/useMarkdownExport";
 import { getMessages } from "i18n";
 import { resolveTheme } from "theme";
 import {
-  templates,
-  filterSectionsByTemplate,
-  type TemplateType,
-} from "data/templates";
+  createChecklistTokens,
+  createOverlayTokens,
+  neutral,
+} from "design-system";
+import { filterSectionsByTemplate } from "data/templates";
 import type { ChecklistSectionType } from "types";
+import { useAvatarProfiles } from "hooks/useAvatarProfiles";
+import { getProgressLayout } from "logic/progress";
+import { useChecklistSettingsMenu } from "hooks/useChecklistSettingsMenu";
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -64,26 +58,13 @@ function ChecklistPanel({
   total,
   completed,
   isDarkMode,
+  showItemDescriptionsForSectionIds = [],
+  preferences,
+  setPreferences,
 }: ChecklistProps) {
-  const parentWidth = 460; // assuming a fixed width for the parent container
-
-  // Quick copy functionality
-  const { copyAllAsMarkdown, copyAsPlainText, copyAsHTML } = useQuickCopy();
-  const [showCopy, setShowCopy] = useSyncedState<
-    "markdown" | "html" | "plaintext" | null
-  >("showCopy", null);
-  const [copyData, setCopyData] = useSyncedState<string>("copyData", "");
-
-  // Template filtering
-  const [selectedTemplate, setSelectedTemplate] = useSyncedState<TemplateType>(
-    "selectedTemplate",
-    "all"
-  );
-
-  const { tooltipsEnabled, hideCompleted, language, theme } =
-    useTooltipsToggle();
+  const { hideCompleted, language, theme, selectedTemplate, accentColor } =
+    preferences;
   const t = getMessages(language);
-  const progressText = t.progressText(completed, total);
 
   // Search functionality
   const { searchQuery, setSearchQuery, filteredSections } =
@@ -95,450 +76,373 @@ function ChecklistPanel({
     selectedTemplate
   );
 
+  const { showCopy, copyData, handleExport, closeCopy } = useMarkdownExport({
+    sections: templateFilteredSections,
+    taskCompletion,
+    title,
+    completed,
+    total,
+    messages: t,
+  });
+
+  useChecklistSettingsMenu({
+    preferences,
+    setPreferences,
+    messages: t,
+    onExport: handleExport,
+  });
+
+  const progressText = t.progressText(completed, total);
+  const progressTextSample = t.progressText(total, total);
+
   /**
    * Returns the main Checklist component, which displays a list of categories and their associated tasks.
    *
    * @returns {JSX.Element} The rendered Checklist component.
    */
   const effectiveDark = theme === "dark" || (theme === "system" && isDarkMode);
-  const tokens = resolveTheme(!!effectiveDark);
+  const tokens = resolveTheme(!!effectiveDark, "default", accentColor);
+  const ui = createChecklistTokens(tokens);
+  const overlayUi = createOverlayTokens({
+    panelBg: ui.colors.panelBg,
+    panelStroke: ui.colors.panelStroke,
+    textPrimary: ui.colors.textPrimary,
+    textSecondary: ui.colors.textSecondary,
+    textStrong: ui.colors.textStrong,
+    progressFill: ui.colors.progressFill,
+  });
+  const headerBg = ui.colors.headerBg;
+  const headerText = ui.colors.headerText;
+  const logoFill = ui.colors.progressFill;
+  const sectionTitleColor = ui.colors.textPrimary;
+  const sectionIconColor = ui.colors.textSecondary;
+  const panelWidthResolved = ui.panel.width;
+  const contentPaddingResolved = ui.panel.paddingX;
+  const parentWidth = panelWidthResolved - contentPaddingResolved * 2;
+  const progressRowPaddingX = ui.progress.paddingX;
+  const progressRowWidth = Math.max(0, parentWidth - progressRowPaddingX * 2);
+  const progressGap = ui.progress.gap;
+  const progressTextColor = ui.progress.textColor ?? ui.colors.textPrimary;
+  const progressLayoutText = progressTextSample;
+  const { textWidth: progressTextWidth, barWidth: progressBarWidth } =
+    getProgressLayout({
+      text: progressLayoutText,
+      parentWidth: progressRowWidth,
+      gap: progressGap,
+      minBarWidth: ui.progress.minWidth,
+      textMinWidth: ui.progress.textMinWidth,
+      textCharWidth: ui.progress.textCharWidth,
+    });
 
+  const { avatars, recordInteraction } = useAvatarProfiles({
+    accentColor: ui.colors.progressFill,
+    neutralDark: neutral.gray[900],
+    neutralLight: neutral.white,
+    max: 6,
+  });
+  const avatarSize = ui.header.avatar.size;
+  const avatarStroke = ui.header.avatar.strokeWidth;
+  const avatarOverlap = ui.header.avatar.overlap;
+  const avatarStep = Math.max(0, avatarSize - avatarOverlap);
+  const avatarStackWidth =
+    avatars.length > 0
+      ? avatarSize + (avatars.length - 1) * avatarStep
+      : 0;
+  const avatarPositions = avatars.map((avatar, index) => ({
+    avatar,
+    x: index * avatarStep,
+  }));
+  const avatarsForRender = [...avatarPositions].reverse();
+  const richDescriptionSections = new Set(showItemDescriptionsForSectionIds);
   return (
     <AutoLayout
       direction="vertical"
-      width={520}
-      cornerRadius={8}
-      effect={dropShadowEffect}
-      fill={tokens.panelBg}
-      stroke={tokens.panelStroke}
+      width={panelWidthResolved}
+      cornerRadius={ui.panel.radius}
+      fill={ui.colors.panelBg}
+      stroke={ui.panel.strokeColor}
       strokeAlign="outside"
-      strokeWidth={1}
-      spacing={16}
-      padding={{ top: 0, bottom: 16, left: 0, right: 0 }}
+      strokeWidth={ui.panel.strokeWidth}
+      {...(ui.panel.effect ? { effect: ui.panel.effect } : {})}
+      spacing={ui.panel.spacing}
+      padding={{ top: 0, bottom: ui.panel.paddingBottom, left: 0, right: 0 }}
     >
       {/* Header */}
       <AutoLayout
         name="Header"
         direction="horizontal"
         width="fill-parent"
-        height={100}
-        fill={tokens.headerBg}
+        height={ui.header.height}
+        fill={headerBg}
         verticalAlignItems="center"
-        spacing={14}
-        padding={{ top: 20, bottom: 20, left: 25, right: 25 }}
+        spacing={ui.header.gap}
+        padding={{
+          top: ui.header.paddingY,
+          bottom: ui.header.paddingY,
+          left: ui.header.paddingX,
+          right: ui.header.paddingX,
+        }}
+        cornerRadius={{
+          topLeft: ui.panel.radius,
+          topRight: ui.panel.radius,
+          bottomLeft: 0,
+          bottomRight: 0,
+        }}
       >
         <SVG
           name="a11y-logo"
-          width={51}
-          height={51}
-          src="<svg class='c-logo__icon' aria-hidden='true' focusable='false' width='51' height='51' xmlns='http://www.w3.org/2000/svg'><title>The A11Y Project</title><path d='M25.5 0C11.417 0 0 11.417 0 25.5S11.417 51 25.5 51 51 39.583 51 25.5 39.583 0 25.5 0zm-.385 5.064a3.3 3.3 0 0 1 3.307 3.291 3.304 3.304 0 0 1-3.307 3.306 3.3 3.3 0 0 1-3.29-3.306 3.29 3.29 0 0 1 3.29-3.291zm14.289 10.652l-9.809 1.24.005 9.817 4.755 15.867a1.85 1.85 0 0 1-1.344 2.252c-.989.25-2.003-.3-2.252-1.298l-4.87-14.443h-1.498l-4.48 14.742c-.374.964-1.448 1.404-2.407 1.03-.954-.37-1.533-1.454-1.158-2.418l4.115-15.572v-9.978l-9.04-1.228c-.928-.075-1.558-.89-1.483-1.818.07-.934.914-1.628 1.838-1.554l10.982.944h4.815l11.69-.963a1.68 1.68 0 0 1 1.749 1.623c.04.924-.68 1.718-1.608 1.758z' fill='#fff'></path></svg>"
+          width={ui.header.logoSize}
+          height={ui.header.logoSize}
+          src={`<svg class='c-logo__icon' aria-hidden='true' focusable='false' width='51' height='51' xmlns='http://www.w3.org/2000/svg'><title>The A11Y Project</title><path d='M25.5 0C11.417 0 0 11.417 0 25.5S11.417 51 25.5 51 51 39.583 51 25.5 39.583 0 25.5 0zm-.385 5.064a3.3 3.3 0 0 1 3.307 3.291 3.304 3.304 0 0 1-3.307 3.306 3.3 3.3 0 0 1-3.29-3.306 3.29 3.29 0 0 1 3.29-3.291zm14.289 10.652l-9.809 1.24.005 9.817 4.755 15.867a1.85 1.85 0 0 1-1.344 2.252c-.989.25-2.003-.3-2.252-1.298l-4.87-14.443h-1.498l-4.48 14.742c-.374.964-1.448 1.404-2.407 1.03-.954-.37-1.533-1.454-1.158-2.418l4.115-15.572v-9.978l-9.04-1.228c-.928-.075-1.558-.89-1.483-1.818.07-.934.914-1.628 1.838-1.554l10.982.944h4.815l11.69-.963a1.68 1.68 0 0 1 1.749 1.623c.04.924-.68 1.718-1.608 1.758z' fill='${logoFill}'></path></svg>`}
         />
         <Text
           name="HeaderTitle"
-          fill={tokens.headerText}
-          fontFamily="Anaheim"
-          fontSize={28}
-          fontWeight={600}
-          lineHeight="150%"
+          fill={headerText}
+          fontFamily={ui.header.title.fontFamily}
+          fontSize={ui.header.title.fontSize}
+          fontWeight={ui.header.title.fontWeight}
+          lineHeight={ui.header.title.lineHeight}
+          letterSpacing={ui.header.title.letterSpacing}
         >
           {String(title || t.appTitle || "a11y Companion")}
         </Text>
         <AutoLayout width="fill-parent" />
+        {avatarsForRender.length > 0 ? (
+          <Frame
+            name="AvatarStack"
+            width={avatarStackWidth}
+            height={avatarSize}
+          >
+            {avatarsForRender.map(({ avatar, x }) => {
+              const innerSize = Math.max(0, avatarSize - avatarStroke * 2);
+              const innerRadius = Math.max(
+                0,
+                ui.header.avatar.radius - avatarStroke
+              );
+              if (avatar.type === "image" && avatar.src) {
+                return (
+                  <AutoLayout
+                    key={avatar.id}
+                    name="UserAvatar"
+                    tooltip={avatar.name}
+                    x={x}
+                    y={0}
+                    width={avatarSize}
+                    height={avatarSize}
+                    cornerRadius={ui.header.avatar.radius}
+                    stroke={ui.colors.progressFill}
+                    strokeWidth={avatarStroke}
+                    verticalAlignItems="center"
+                    horizontalAlignItems="center"
+                  >
+                    <Image
+                      src={avatar.src}
+                      width={innerSize}
+                      height={innerSize}
+                      cornerRadius={innerRadius}
+                    />
+                  </AutoLayout>
+                );
+              }
+              return (
+                <AutoLayout
+                  key={avatar.id}
+                  name="UserInitials"
+                  tooltip={avatar.name}
+                  x={x}
+                  y={0}
+                  width={avatarSize}
+                  height={avatarSize}
+                  cornerRadius={ui.header.avatar.radius}
+                  stroke={ui.colors.progressFill}
+                  strokeWidth={avatarStroke}
+                  verticalAlignItems="center"
+                  horizontalAlignItems="center"
+                >
+                  <AutoLayout
+                    width={innerSize}
+                    height={innerSize}
+                    cornerRadius={innerRadius}
+                    fill={avatar.fill}
+                    verticalAlignItems="center"
+                    horizontalAlignItems="center"
+                  >
+                    <Text
+                      fontSize={ui.header.avatar.fontSize}
+                      fontWeight={600}
+                      fontFamily={ui.header.title.fontFamily}
+                      fill={avatar.textColor}
+                    >
+                      {avatar.initials}
+                    </Text>
+                  </AutoLayout>
+                </AutoLayout>
+              );
+            })}
+          </Frame>
+        ) : null}
       </AutoLayout>
       {/* Main content */}
       <AutoLayout
         name="Checklist"
         direction="vertical"
-        spacing={16}
-        width={520}
-        padding={{ left: 30, right: 30 }}
+        spacing={ui.panel.spacing}
+        width={panelWidthResolved}
+        padding={{
+          left: contentPaddingResolved,
+          right: contentPaddingResolved,
+        }}
       >
         {/* Search */}
-        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-          <Text
-            fill={tokens.textPrimary}
-            fontSize={12}
-            fontFamily="Anaheim"
-            fontWeight={600}
-            opacity={0.6}
-          >
-            {t.searchLabel}
-          </Text>
+        <AutoLayout
+          direction="vertical"
+          spacing={0}
+          width="fill-parent"
+          padding={{ bottom: ui.search.bottomSpacing }}
+        >
           <AutoLayout
-            padding={{ top: 8, bottom: 8, left: 12, right: 12 }}
-            cornerRadius={4}
-            stroke={tokens.panelStroke}
-            strokeWidth={1}
+            padding={{
+              top: ui.search.paddingY,
+              bottom: ui.search.paddingY,
+              left: ui.search.paddingX,
+              right: ui.search.paddingX,
+            }}
+            cornerRadius={ui.search.radius}
+            stroke={ui.colors.panelStroke}
+            strokeWidth={ui.panel.strokeWidth}
             width="fill-parent"
           >
             <Input
               value={searchQuery}
               placeholder={t.searchPlaceholder}
+              placeholderProps={{
+                fill: ui.colors.textPrimary,
+                opacity: ui.search.placeholderOpacity,
+                fontWeight: ui.search.fontWeight,
+              }}
               onTextEditEnd={(e) => setSearchQuery(e.characters)}
               width="fill-parent"
-              fontSize={14}
-              fontFamily="Anaheim"
-              fill={tokens.textPrimary}
+              fontSize={ui.search.fontSize}
+              fontFamily={ui.search.fontFamily}
+              fontWeight={ui.search.fontWeight}
+              fill={ui.colors.textPrimary}
               inputBehavior="truncate"
+              x={0}
             />
           </AutoLayout>
         </AutoLayout>
 
-        {/* Template Selector */}
-        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-          <Text
-            fill={tokens.textPrimary}
-            fontSize={12}
-            fontFamily="Anaheim"
-            fontWeight={600}
-            opacity={0.6}
-          >
-            {t.checklistTemplate}
-          </Text>
-          {/* Map kebab-case IDs to camelCase i18n keys */}
-          {(() => {
-            const templateKeyMap: Record<
-              TemplateType,
-              keyof typeof t.templates
-            > = {
-              all: "all",
-              "landing-page": "landingPage",
-              dashboard: "dashboard",
-              "mobile-app": "mobileApp",
-              "quick-audit": "quickAudit",
-              "forms-heavy": "formsHeavy",
-            };
-            return (
-              <>
-                <AutoLayout
-                  direction="horizontal"
-                  spacing={6}
-                  width="fill-parent"
-                >
-                  {templates.slice(0, 3).map((template) => {
-                    const templateInfo =
-                      t.templates[templateKeyMap[template.id]];
-                    return (
-                      <AutoLayout
-                        key={template.id}
-                        onClick={() => setSelectedTemplate(template.id)}
-                        padding={{ horizontal: 10, vertical: 6 }}
-                        cornerRadius={4}
-                        fill={
-                          selectedTemplate === template.id
-                            ? tokens.headerBg
-                            : undefined
-                        }
-                        stroke={tokens.panelStroke}
-                        strokeWidth={1}
-                        tooltip={String(
-                          templateInfo?.description ||
-                            template.description ||
-                            templateInfo?.name ||
-                            template.name ||
-                            "Template"
-                        )}
-                      >
-                        <Text
-                          fill={
-                            selectedTemplate === template.id
-                              ? tokens.headerText
-                              : tokens.textPrimary
-                          }
-                          fontSize={11}
-                          fontFamily="Anaheim"
-                          fontWeight={600}
-                        >
-                          {String(
-                            templateInfo?.name || template.name || "Template"
-                          )}
-                        </Text>
-                      </AutoLayout>
-                    );
-                  })}
-                </AutoLayout>
-                <AutoLayout
-                  direction="horizontal"
-                  spacing={6}
-                  width="fill-parent"
-                >
-                  {templates.slice(3).map((template) => {
-                    const templateInfo =
-                      t.templates[templateKeyMap[template.id]];
-                    return (
-                      <AutoLayout
-                        key={template.id}
-                        onClick={() => setSelectedTemplate(template.id)}
-                        padding={{ horizontal: 10, vertical: 6 }}
-                        cornerRadius={4}
-                        fill={
-                          selectedTemplate === template.id
-                            ? tokens.headerBg
-                            : undefined
-                        }
-                        stroke={tokens.panelStroke}
-                        strokeWidth={1}
-                        tooltip={String(
-                          templateInfo?.description ||
-                            template.description ||
-                            templateInfo?.name ||
-                            template.name ||
-                            "Template"
-                        )}
-                      >
-                        <Text
-                          fill={
-                            selectedTemplate === template.id
-                              ? tokens.headerText
-                              : tokens.textPrimary
-                          }
-                          fontSize={11}
-                          fontFamily="Anaheim"
-                          fontWeight={600}
-                        >
-                          {String(
-                            templateInfo?.name || template.name || "Template"
-                          )}
-                        </Text>
-                      </AutoLayout>
-                    );
-                  })}
-                </AutoLayout>
-              </>
-            );
-          })()}
-        </AutoLayout>
-
-        {/* Export Format */}
-        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-          <Text
-            fill={tokens.textPrimary}
-            fontSize={12}
-            fontFamily="Anaheim"
-            fontWeight={600}
-            opacity={0.6}
-          >
-            {t.exportFormat}
-          </Text>
-          <AutoLayout direction="horizontal" spacing={6}>
-            <AutoLayout
-              onClick={async () => {
-                const data = copyAllAsMarkdown(
-                  filteredSections,
-                  taskCompletion,
-                  title,
-                  completed,
-                  total
-                );
-                try {
-                  if (
-                    typeof navigator !== "undefined" &&
-                    navigator.clipboard &&
-                    navigator.clipboard.writeText
-                  ) {
-                    await navigator.clipboard.writeText(data);
-                    setShowCopy(null);
-                    setCopyData("");
-                    figma.notify("✅ Copied as Markdown!", { timeout: 2000 });
-                  } else {
-                    setCopyData(data);
-                    setShowCopy("markdown");
-                    figma.notify("📋 Text ready to copy below", {
-                      timeout: 2000,
-                    });
-                  }
-                } catch (_err) {
-                  setCopyData(data);
-                  setShowCopy("markdown");
-                  figma.notify("📋 Text ready to copy below", {
-                    timeout: 2000,
-                  });
-                }
-              }}
-              padding={{ horizontal: 10, vertical: 6 }}
-              cornerRadius={4}
-              stroke={tokens.panelStroke}
-              strokeWidth={1}
-              tooltip="Export checklist as Markdown"
-            >
-              <Text
-                fill={tokens.textPrimary}
-                fontSize={11}
-                fontFamily="Anaheim"
-                fontWeight={600}
-              >
-                Markdown
-              </Text>
-            </AutoLayout>
-            <AutoLayout
-              onClick={async () => {
-                const data = copyAsPlainText(
-                  filteredSections,
-                  taskCompletion,
-                  title,
-                  completed,
-                  total
-                );
-                try {
-                  if (
-                    typeof navigator !== "undefined" &&
-                    navigator.clipboard &&
-                    navigator.clipboard.writeText
-                  ) {
-                    await navigator.clipboard.writeText(data);
-                    setShowCopy(null);
-                    setCopyData("");
-                    figma.notify("✅ Copied as Plain Text!", { timeout: 2000 });
-                  } else {
-                    setCopyData(data);
-                    setShowCopy("plaintext");
-                    figma.notify("📋 Text ready to copy below", {
-                      timeout: 2000,
-                    });
-                  }
-                } catch (_err) {
-                  setCopyData(data);
-                  setShowCopy("plaintext");
-                  figma.notify("📋 Text ready to copy below", {
-                    timeout: 2000,
-                  });
-                }
-              }}
-              padding={{ horizontal: 10, vertical: 6 }}
-              cornerRadius={4}
-              stroke={tokens.panelStroke}
-              strokeWidth={1}
-              tooltip="Export checklist as plain text"
-            >
-              <Text
-                fill={tokens.textPrimary}
-                fontSize={11}
-                fontFamily="Anaheim"
-                fontWeight={600}
-              >
-                Plain Text
-              </Text>
-            </AutoLayout>
-            <AutoLayout
-              onClick={async () => {
-                const data = copyAsHTML(
-                  filteredSections,
-                  taskCompletion,
-                  title,
-                  completed,
-                  total
-                );
-                try {
-                  if (
-                    typeof navigator !== "undefined" &&
-                    navigator.clipboard &&
-                    navigator.clipboard.writeText
-                  ) {
-                    await navigator.clipboard.writeText(data);
-                    setShowCopy(null);
-                    setCopyData("");
-                    figma.notify("✅ Copied as HTML!", { timeout: 2000 });
-                  } else {
-                    setCopyData(data);
-                    setShowCopy("html");
-                    figma.notify("📋 Text ready to copy below", {
-                      timeout: 2000,
-                    });
-                  }
-                } catch (_err) {
-                  setCopyData(data);
-                  setShowCopy("html");
-                  figma.notify("📋 Text ready to copy below", {
-                    timeout: 2000,
-                  });
-                }
-              }}
-              padding={{ horizontal: 10, vertical: 6 }}
-              cornerRadius={4}
-              stroke={tokens.panelStroke}
-              strokeWidth={1}
-              tooltip="Export checklist as HTML"
-            >
-              <Text
-                fill={tokens.textPrimary}
-                fontSize={11}
-                fontFamily="Anaheim"
-                fontWeight={600}
-              >
-                HTML
-              </Text>
-            </AutoLayout>
-          </AutoLayout>
-        </AutoLayout>
-
         {/* Export Format Modal - shown below buttons when clipboard unavailable */}
-        {showCopy && copyData && (
+        {showCopy && copyData ? (
           <CopyDisplay
             copyData={copyData}
             format={showCopy}
-            onClose={() => {
-              setShowCopy(null);
-              setCopyData("");
+            ui={overlayUi}
+            labels={{
+              copyAs: t.copyAs,
+              instruction: t.copyInstruction,
             }}
+            onClose={closeCopy}
             colors={{
-              textPrimary: tokens.textPrimary,
-              panelBg: tokens.panelBg,
-              buttonBg: tokens.headerBg,
+              textPrimary: ui.colors.textPrimary,
+              panelBg: ui.colors.panelBg,
+              buttonBg: ui.colors.headerBg,
             }}
           />
-        )}
+        ) : null}
 
-        <ProgressBar
-          total={total}
-          completed={completed}
-          parentWidth={parentWidth}
-          colors={{ track: tokens.progressBg, fill: tokens.progressFill }}
-        />
-        <Text
-          name="ProgressText"
-          fill={tokens.textPrimary}
-          lineHeight="100%"
-          fontFamily="Anaheim"
-          fontSize={18}
-          fontWeight={600}
+        <AutoLayout
+          direction="horizontal"
+          spacing={progressGap}
+          width="fill-parent"
+          verticalAlignItems="center"
+          padding={{
+            top: ui.progress.paddingTop,
+            bottom: ui.progress.paddingBottom,
+            left: progressRowPaddingX,
+            right: progressRowPaddingX,
+          }}
         >
-          {String(progressText || `${completed} of ${total} checks done`)}
-        </Text>
+          <ProgressBar
+            total={total}
+            completed={completed}
+            parentWidth={progressBarWidth}
+            colors={{
+              track: ui.colors.progressBg,
+              fill: ui.colors.progressFill,
+            }}
+            height={ui.progress.barHeight}
+            radius={ui.progress.barRadius}
+          />
+          <AutoLayout
+            padding={{
+              top: Math.max(0, ui.progress.textOffsetY ?? 0),
+            }}
+          >
+            <Text
+              name="ProgressText"
+              fill={progressTextColor}
+              lineHeight={ui.progress.text.lineHeight}
+              fontFamily={ui.progress.text.fontFamily}
+              fontSize={ui.progress.text.fontSize}
+              fontWeight={ui.progress.text.fontWeight}
+              letterSpacing={ui.progress.text.letterSpacing}
+              width={progressTextWidth}
+              horizontalAlignText="right"
+              truncate={1}
+            >
+              {String(progressText || `${completed} / ${total} checks`)}
+            </Text>
+          </AutoLayout>
+        </AutoLayout>
         {templateFilteredSections.length === 0 ? (
           <Text
-            fill={tokens.textPrimary}
-            fontSize={14}
-            fontFamily="Anaheim"
-            opacity={0.5}
+            fill={ui.colors.textPrimary}
+            fontSize={ui.search.fontSize}
+            fontFamily={ui.search.fontFamily}
+            fontWeight={ui.search.fontWeight}
+            opacity={0.55}
             width="fill-parent"
             horizontalAlignText="center"
           >
             {String(t.noResults || "No items found")}
           </Text>
         ) : (
-          templateFilteredSections.map((section) => (
+          templateFilteredSections.map((section, index) => (
             <ChecklistSection
-              key={section.id}
+              key={section.id ?? `${section.title}-${index}`}
               section={section}
               taskCompletion={taskCompletion}
-              handleCheckChange={handleCheckChange}
-              tooltipsEnabled={tooltipsEnabled}
+              handleCheckChange={(taskId, isChecked) => {
+                recordInteraction();
+                handleCheckChange(taskId, isChecked);
+              }}
               hideCompleted={hideCompleted}
               isHighlighted={false}
+              showItemDescriptions={richDescriptionSections.has(section.id)}
+              onBulkAction={recordInteraction}
+              labels={{
+                checkAll: t.markAllComplete || "Check all",
+                uncheckAll: t.markAllIncomplete || "Uncheck all",
+              }}
+              ui={ui}
               colors={{
-                textPrimary: tokens.textPrimary,
-                sectionDescBg: effectiveDark ? "#2A2A2A" : "#F3F4FC",
-                sectionDescText: tokens.textPrimary,
+                textPrimary: ui.colors.textPrimary,
+                textSecondary: ui.colors.textSecondary,
+                sectionTitle: sectionTitleColor,
+                sectionIcon: sectionIconColor,
+                sectionDescBg: ui.colors.sectionDescBg,
+                sectionDescText: ui.colors.textStrong,
                 progressTracker: {
-                  bg: tokens.progressBg,
-                  text: tokens.headerText,
+                  bg: ui.colors.sectionDescBg,
+                  text: ui.colors.textPrimary,
                 },
                 checkbox: {
-                  bgChecked: tokens.checkboxBgChecked,
-                  bgUnchecked: tokens.checkboxBgUnchecked,
-                  stroke: tokens.checkboxStroke,
+                  bgChecked: ui.colors.checkboxBgChecked,
+                  bgUnchecked: ui.colors.checkboxBgUnchecked,
+                  stroke: ui.colors.checkboxStroke,
+                  checkmark: ui.colors.panelBg,
                 },
-                badge: tokens.wcagBadge,
               }}
             />
           ))
