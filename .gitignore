@@ -20,6 +20,10 @@ assets
 /markdown
 .claude
 
+# markdown
+*.md
+!README.md
+
 # production
 /build
 
