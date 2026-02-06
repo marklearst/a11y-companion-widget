@@ -3,6 +3,7 @@
 # assets
 assets
 .figma-assets
+/widget-src/assets
 
 # dependencies
 /node_modules
