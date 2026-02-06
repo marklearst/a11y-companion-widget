@@ -2,11 +2,9 @@ const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
 import { ChecklistSectionProps } from "types/index";
-import { ProgressTracker, Checkbox } from "components/primitives";
+import { ProgressTracker } from "components/primitives";
 import { ChecklistItem } from "components/checklist";
-import { useChecklistProgress } from "hooks/useChecklistProgress";
-import { useOpenSections } from "hooks/useOpenSections";
-import { useBulkActions } from "hooks/useBulkActions";
+import { useChecklistSectionState } from "hooks/useChecklistSectionState";
 import CaretIcon from "components/checklist/CaretIcon";
 
 /**
@@ -18,7 +16,6 @@ import CaretIcon from "components/checklist/CaretIcon";
  * @param section - The section data, including title, description, and items.
  * @param taskCompletion - Completion status of tasks in this section.
  * @param handleCheckChange - Handler for task completion changes.
- * @param tooltipsEnabled - Whether tooltips are enabled for the section.
  * @returns The rendered ChecklistSection component.
  *
  * @example
@@ -27,7 +24,6 @@ import CaretIcon from "components/checklist/CaretIcon";
  *   section={section}
  *   taskCompletion={taskCompletion}
  *   handleCheckChange={handleCheckChange}
- *   tooltipsEnabled={true}
  * />
  * ```
  *
@@ -37,41 +33,62 @@ function ChecklistSection({
   section,
   taskCompletion,
   handleCheckChange,
-  tooltipsEnabled,
   hideCompleted,
   isHighlighted: _isHighlighted,
   colors,
+  ui,
+  labels,
+  showItemDescriptions,
+  onBulkAction,
 }: ChecklistSectionProps) {
   if (!section || !Array.isArray(section.items)) {
     return null;
   }
 
-  // Use section title as key for open/closed state
-  // Use custom hook for open/close state
-  const { openSections, toggleSection } = useOpenSections();
-  const isOpen = openSections[section.title] || false;
+  const uiTokens = ui;
+  const palette = colors ?? {
+    textPrimary: uiTokens.colors.textPrimary,
+    textSecondary: uiTokens.colors.textSecondary,
+    sectionTitle: uiTokens.colors.textPrimary,
+    sectionIcon: uiTokens.colors.textSecondary,
+    sectionDescBg: uiTokens.colors.sectionDescBg,
+    sectionDescText: uiTokens.colors.textStrong,
+    progressTracker: {
+      bg: uiTokens.colors.progressFill,
+      text: uiTokens.colors.panelBg,
+    },
+    checkbox: {
+      bgChecked: uiTokens.colors.checkboxBgChecked,
+      bgUnchecked: uiTokens.colors.checkboxBgUnchecked,
+      stroke: uiTokens.colors.checkboxStroke,
+    },
+  };
+  const primaryText = palette.textPrimary ?? uiTokens.colors.textPrimary;
+  const secondaryText = palette.textSecondary ?? uiTokens.colors.textSecondary;
 
-  // Use custom hook for per-section progress
-  const { completedCount: completed, totalCount: total } = useChecklistProgress(
+  const {
+    isOpen,
+    toggleSection,
+    toggleSectionItems,
+    completed,
+    total,
+    progressTrackerColors,
+    showBulkLabel,
+    bulkActionLabel,
+    visibleItems,
+  } = useChecklistSectionState({
     section,
-    taskCompletion
-  );
-
-  // Bulk actions
-  const { toggleSection: toggleSectionItems } = useBulkActions(handleCheckChange);
+    taskCompletion,
+    handleCheckChange,
+    hideCompleted,
+    labels,
+    ui: uiTokens,
+  });
 
   // Handle checklist item check/uncheck
   const handleCheckChangeSimple = (taskId: string, isChecked: boolean) => {
     handleCheckChange(taskId, isChecked);
   };
-
-  // Check if all items in section are complete
-  const itemsWithIds = section.items.filter((item) => item.id);
-  const allItemsComplete =
-    itemsWithIds.length > 0 &&
-    itemsWithIds.every((item) => taskCompletion[item.id]);
-
-  // Caret SVG (right when closed, down when open)
 
   /**
    * Renders the ChecklistSection component, which displays a list of items.
@@ -82,97 +99,146 @@ function ChecklistSection({
     <AutoLayout
       name="Section"
       direction="vertical"
-      spacing={8}
+      spacing={uiTokens.section.spacing}
       width="fill-parent"
     >
       <AutoLayout
-        padding={{ top: 10, bottom: 10 }}
-        spacing={12}
+        padding={{
+          top: uiTokens.section.headerPaddingY,
+          bottom: uiTokens.section.headerPaddingY,
+        }}
+        spacing={uiTokens.section.headerGap}
         verticalAlignItems="center"
         width="fill-parent"
-        height={34}
+        height={uiTokens.section.headerHeight}
         horizontalAlignItems="center"
+        {...(uiTokens.section.headerFullClick
+          ? { onClick: () => toggleSection(section.title) }
+          : {})}
+        {...(uiTokens.section.headerHoverBg
+          ? { hoverStyle: { fill: uiTokens.section.headerHoverBg } }
+          : {})}
       >
         <AutoLayout
-          onClick={() => toggleSection(section.title)}
-          spacing={12}
+          onClick={
+            uiTokens.section.headerFullClick
+              ? undefined
+              : () => toggleSection(section.title)
+          }
+          spacing={uiTokens.section.headerGap}
           verticalAlignItems="center"
           horizontalAlignItems="center"
+          cornerRadius={uiTokens.section.headerRadius}
+          {...(uiTokens.section.headerFullClick
+            ? {}
+            : { hoverStyle: { opacity: 0.7 } })}
         >
-          <CaretIcon open={isOpen} />
+          <AutoLayout padding={{ top: uiTokens.section.caretOffsetY ?? 0 }}>
+            <CaretIcon
+              open={isOpen}
+              color={palette.sectionIcon ?? secondaryText}
+              size={uiTokens.section.caretSize}
+              strokeWidth={uiTokens.section.caretStrokeWidth}
+            />
+          </AutoLayout>
           <Text
             name="SectionTitle"
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontFamily="Anaheim"
-            fontSize={20}
-            fontWeight={700}
-            lineHeight="150%"
+            fill={palette.sectionTitle ?? primaryText}
+            fontFamily={uiTokens.section.title.fontFamily}
+            fontSize={uiTokens.section.title.fontSize}
+            fontWeight={uiTokens.section.title.fontWeight}
+            lineHeight={uiTokens.section.title.lineHeight}
           >
             {section.title}
           </Text>
         </AutoLayout>
-        <AutoLayout width="fill-parent" />
+        <AutoLayout width="fill-parent" height="fill-parent" />
         <AutoLayout
           direction="horizontal"
-          spacing={8}
+          spacing={uiTokens.section.headerGap}
           verticalAlignItems="center"
         >
-          {isOpen && section.items.length > 0 && (
+          {isOpen && section.items.length > 0 && showBulkLabel ? (
             <AutoLayout
-              onClick={() => toggleSectionItems(section, taskCompletion)}
-              padding={4}
-              cornerRadius={4}
-              tooltip={
-                allItemsComplete ? "Mark all incomplete" : "Mark all complete"
-              }
+              onClick={() => {
+                onBulkAction?.();
+                toggleSectionItems(section, taskCompletion);
+              }}
+              direction="horizontal"
+              spacing={uiTokens.section.bulkAction.gap}
+              verticalAlignItems="center"
+              padding={{
+                vertical: uiTokens.section.bulkAction.padding,
+                horizontal: uiTokens.section.bulkAction.padding,
+              }}
+              cornerRadius={uiTokens.section.bulkAction.radius}
+              hoverStyle={{
+                fill: uiTokens.colors.hoverBg,
+              }}
             >
-              <Checkbox checked={allItemsComplete} colors={colors?.checkbox} />
+              <Text
+                fill={secondaryText ?? primaryText}
+                fontFamily={uiTokens.section.bulkAction.fontFamily}
+                fontSize={uiTokens.section.bulkAction.fontSize}
+                fontWeight={uiTokens.section.bulkAction.fontWeight}
+                lineHeight="140%"
+              >
+                {bulkActionLabel}
+              </Text>
             </AutoLayout>
-          )}
+          ) : null}
           <ProgressTracker
             completed={completed}
             total={total}
-            colors={colors?.progressTracker}
+            colors={progressTrackerColors}
+            padding={{
+              vertical: uiTokens.progressTracker.paddingY,
+              horizontal: uiTokens.progressTracker.paddingX,
+            }}
+            radius={uiTokens.progressTracker.radius}
+            fontSize={uiTokens.progressTracker.fontSize}
+            fontWeight={uiTokens.progressTracker.fontWeight}
+            fontFamily={uiTokens.progressTracker.fontFamily}
+            gap={uiTokens.progressTracker.gap}
           />
         </AutoLayout>
       </AutoLayout>
-      {isOpen && section.description && (
+      {isOpen && section.description ? (
         <AutoLayout
-          fill={colors?.sectionDescBg ?? "#F3F4FC"}
-          padding={{ vertical: 14, horizontal: 20 }}
-          cornerRadius={16}
+          fill={palette.sectionDescBg}
+          padding={{
+            vertical: uiTokens.section.description.paddingY,
+            horizontal: uiTokens.section.description.paddingX,
+          }}
+          cornerRadius={uiTokens.section.description.radius}
           width="fill-parent"
           verticalAlignItems="center"
         >
           <Text
             name="SectionDescription"
-            fill={colors?.sectionDescText ?? "#212A6A"}
-            opacity={0.7}
-            fontFamily="Anaheim"
-            fontSize={14}
-            fontWeight={600}
-            lineHeight="150%"
+            fill={palette.sectionDescText}
+            fontFamily={uiTokens.section.description.fontFamily}
+            fontSize={uiTokens.section.description.fontSize}
+            fontWeight={uiTokens.section.description.fontWeight}
+            lineHeight={uiTokens.section.description.lineHeight}
             width="fill-parent"
           >
             {section.description}
           </Text>
         </AutoLayout>
-      )}
-      {isOpen &&
-        section.items
-          .filter((item) => !(hideCompleted && taskCompletion[item.id]))
-          .map((item) => (
-            <ChecklistItem
-              key={item.id}
-              item={item}
-              checked={taskCompletion[item.id] || false}
-              onCheckChange={handleCheckChangeSimple}
-              tooltipsEnabled={tooltipsEnabled}
-              textColor={colors?.textPrimary}
-              checkboxColors={colors?.checkbox}
-              badgeColor={colors?.badge}
-            />
-          ))}
+      ) : null}
+      {visibleItems.map((item, index) => (
+        <ChecklistItem
+          key={item.id ?? `${section.id}-${index}`}
+          item={item}
+          checked={taskCompletion[item.id] || false}
+          onCheckChange={handleCheckChangeSimple}
+          textColor={primaryText}
+          checkboxColors={palette.checkbox}
+          ui={uiTokens}
+          showDescription={showItemDescriptions}
+        />
+      ))}
     </AutoLayout>
   );
 }

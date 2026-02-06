@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WCAG 2.2 Level A Checklist</title>
+  </head>
+  <body>
+    <figure class="wp-block-table">
+      <table>
+        <tbody>
+          <tr>
+            <th><strong>Criterion</strong></th>
+            <th><strong>Level</strong></th>
+            <th><strong>Summary</strong></th>
+            <th><strong>Points to Ponder</strong></th>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-1-1-non-text-content/"
+                ><strong>1.1.1 Non-Text Content</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Provide text alternatives for non-text content that serves the
+              same purpose.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Always provide alternative options like audio or OTP (one time
+                  password) for CAPTCHA.
+                </li>
+                <li>
+                  Always provide textual summary or description for complex
+                  charts and graphs apart from shot alt text.
+                </li>
+                <li>
+                  Always use title attribute for additional info while using alt
+                  attribute in image links.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-2-1-audio-only-and-video-only-prerecorded/"
+                ><strong>1.2.1 Audio-Only and Video-Only</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Provide an alternative to video-only and audio-only content.
+            </td>
+            <td>
+              <ul>
+                <li>Provide text transcripts for audio tracks.</li>
+                <li>
+                  Provide either text transcript or an audio track for a silent
+                  video.
+                </li>
+                <li>
+                  If an audio is provided for video then text transcript is not
+                  required. (Exception)
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-2-2-captions-prerecorded/"
+                ><strong>1.2.2 Captions (Prerecorded)</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Provide captions for videos with audio.</td>
+            <td>
+              <ul>
+                <li>Provide captions for the video that has audio.</li>
+                <li>
+                  If video is the alternative for text content then it doesn’t
+                  need captions. (Exception)
+                </li>
+                <li>
+                  If possible provide captions in multiple languages as this
+                  helps users to choose the language they can follow.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-2-3-audio-description-or-media-alternative-prerecorded/"
+                ><strong
+                  >1.2.3 Audio Description or Media Alternative</strong
+                ></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Provide audio description or text transcript for videos with
+              sound.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Provide audio descriptions if possible or provide text
+                  transcripts for the video.
+                </li>
+                <li>
+                  Videos that rely on sound only don’t require audio
+                  descriptions.&nbsp;<br />Example: interviews, speeches.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-2-4-captions-live/"
+                ><strong>1.2.4 Captions (Live)</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Add captions to live videos.</td>
+            <td>
+              <ul>
+                <li>Provide captions for a live broadcast.</li>
+                <li>
+                  Use
+                  <a
+                    href="https://www.digitala11y.com/accessible-jquery-html5-media-players/"
+                    >media players</a
+                  >
+                  or broadcast platforms where live captioning is supported.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-2-5-audio-description-prerecorded/"
+                ><strong>1.2.5 Audio Description (Pre-Recorded)</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Provide audio descriptions for pre-recorded videos.</td>
+            <td>
+              <ul>
+                <li>
+                  Provide audio descriptions where the visual aspect is not
+                  explained in the dialog of the video.
+                </li>
+                <li>
+                  The audio description can either be separate from the original
+                  video or be an integral part of the video.
+                </li>
+                <li>
+                  Audio description must include scene changes, settings,
+                  actions that are described in dialogues and any other visual
+                  information that is not conveyed via a speech or dialog.
+                </li>
+                <li>
+                  Use
+                  <a
+                    href="https://www.digitala11y.com/accessible-jquery-html5-media-players/"
+                    >media players</a
+                  >
+                  that support audio descriptions.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-3-1-info-and-relationship/"
+                ><strong>1.3.1 Info and Relationships</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Content, structure and relationships can be programmatically
+              determined.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Emphasis – Use &lt;em&gt; and &lt;strong&gt; instead of using
+                  Italics and Bold texts to highlight important texts; use
+                  &lt;blockquote&gt; to mark quotations
+                </li>
+                <li>
+                  Headings – Provide hierarchically logical heading markup for
+                  the contents.
+                </li>
+                <li>
+                  Table – Provide HTML table markup and provide column headers
+                  for simple tables and column headers and row headers for
+                  complex tables.
+                </li>
+                <li>
+                  Table – When using nested tables, consider the possibility of
+                  breaking the content into logical individual tables instead of
+                  nested tables.
+                </li>
+                <li>
+                  Forms – Provide programmatic association of visible labels or
+                  appropriate accessible names to all the form elements.
+                </li>
+                <li>
+                  Lists – Markup the contents that logically fall into a list as
+                  ordered or unordered list. Do not put huge text blocks which
+                  are otherwise paragraphs as lists.<br />Grouping – Provide
+                  grouping and group level labels to mark a group of form
+                  elements like radio buttons or checkboxes; use
+                  &lt;fieldset&gt; and legend to achieve grouping and group
+                  level association for native form elements; use ARIA to
+                  achieve the same where custom form controls are used; use
+                  native semantic markup frequently and ARIA sparingly.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-3-2-meaningful-sequence/"
+                ><strong>1.3.2 Meaningful Sequence</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Present content in a meaningful order.</td>
+            <td>
+              <ul>
+                <li>
+                  Make sure that content presented on the page is logical &amp;
+                  intuitive.
+                </li>
+                <li>Write HTML first &amp; then manage design with CSS</li>
+                <li>Make sure the visual order matches the DOM order.</li>
+                <li>
+                  Use headings, lists, paragraphs etc to mark your content.
+                </li>
+                <li>
+                  Make sure your users can differentiate the navigation menus
+                  from main content.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-3-3-sensory-characteristics/"
+                ><strong>1.3.3 Sensory Characteristics</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Instructions don’t rely solely on sensory characteristics.</td>
+            <td>
+              <ul>
+                <li>
+                  While using shape and or location, provide visible
+                  labels/names to the controls.
+                </li>
+                <li>
+                  When combining color and shape/size/location/orientation,
+                  provide off-screen text for screen reader users.
+                </li>
+                <li>
+                  When using sound as a clue, combine it with text/color based
+                  clues.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-3-4-orientation/"
+                ><strong>1.3.4 Orientation</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Your website adapts to portrait and landscape views.</td>
+            <td>
+              <ul>
+                <li>
+                  Don’t restrict your application or website to just work in
+                  landscape or portrait mode.
+                </li>
+                <li>
+                  Make sure to honor the device settings while displaying the
+                  application in landscape or portrait mode.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-3-5-identify-input-purpose/"
+                ><strong>1.3.5 Identify Input Purpose</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              The purpose of input fields must be programmatically determinable.
+            </td>
+            <td>
+              <ul>
+                <li>Provide programmatically determinable input purpose.</li>
+                <li>
+                  Use appropriate token values while using autocomplete
+                  attributes.
+                </li>
+                <li>
+                  Do not use autocomplete on input fields that do not ask for
+                  user data.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-1-use-of-color/"
+                ><strong>1.4.1 Use of Color</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Don’t use presentation that relies solely on colour.</td>
+            <td>
+              <ul>
+                <li>
+                  Don’t use color as the sole method to convey information.
+                </li>
+                <li>
+                  Make sure instructions/prompts provided in text don’t refer to
+                  color alone.
+                </li>
+                <li>
+                  Make sure instructions are provided in text for graphs and
+                  charts where color is used to convey information.
+                </li>
+                <li>
+                  Provide more than one visual clue that include common icons
+                  and colors to differentiate texts and user interface elements.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-2-audio-control/"
+                ><strong>1.4.2 Audio Control</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Don’t play audio automatically.</td>
+            <td>
+              <ul>
+                <li>Don’t play audio automatically if possible.</li>
+                <li>Make sure your audio is less than 3 seconds.</li>
+                <li>
+                  If audio is more than 3 seconds then provide a pause/stop or a
+                  mechanism to control the audio player volume from the overall
+                  system volume.
+                </li>
+                <li>
+                  Make sure that focus is on the pause/stop or volume control as
+                  soon as the page opens if audio is playing automatically.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-3-contrast-minimum/"
+                ><strong>1.4.3 Contrast Minimum</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Contrast ratio between text and background is at least 4.5:1.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Develop the style guide in such a way that all the texts that
+                  are crucial meet the minimum contrast.
+                </li>
+                <li>
+                  Choose color schemes that are contrastive enough for everyone
+                  to see and read.
+                </li>
+                <li>
+                  Provide a “Contrast” mode with the help of alternative CSS if
+                  you can’t design and develop the content with the minimum
+                  contrast requirement.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-4-resize-text/"
+                ><strong>1.4.4 Resize Text</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Text can be resized to 200% without loss of content or function.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Where browsers do not support or provide zoom functionality
+                  (IE6 as an example), provide alternative CSS for scaling
+                  purpose.&nbsp;<br />When zoomed to 200%, ensure there is no
+                  much of horizontal scrolling (a best practice).
+                </li>
+                <li>
+                  Where lengthy user interface components or content like
+                  subject line of an email is there, truncate and provide ways
+                  along with the instructions to access the content.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-5-image-of-text/"
+                ><strong>1.4.5 Images of Text</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Don’t use images of text.</td>
+            <td>
+              <ul>
+                <li>Use CSS styled headings instead of Bitmap images.</li>
+                <li>
+                  Provide site-wide controls to customize the images of texts
+                  when there are dynamically generated images of texts.
+                </li>
+                <li>
+                  Use CSS to specify spacing, alignment, color and the font
+                  family of any UI elements, their texts and icons, quotations
+                  etc.
+                </li>
+                <li>
+                  Use keyboard generated symbols wherever possible instead of
+                  making them as images.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-10-reflow/"
+                ><strong>1.4.10 Reflow</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Content retains meaning and function without scrolling in two
+              dimensions.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Use Responsive Web Design (RWD) from the conception of design
+                  itself.
+                </li>
+                <li>
+                  Use accessible links, modals, toggle type elements to show or
+                  hide content.
+                </li>
+                <li>
+                  Avoid horizontal scroll bars in 400% zoom.&nbsp;<br />Avoid
+                  content overlaps, clipping, content loss and functionality
+                  loss.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-11-non-text-contrast/"
+                ><strong>1.4.11 Non-Text Contrast</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              The contrast between user interface components, graphics and
+              adjacent colours is at least 3:1.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Ensure hit-areas and focus indicators have 3:1 contrast ratio
+                  with their inner or outer background.
+                </li>
+                <li>
+                  Ensure the checked/unchecked states meet the 3:1 ratio against
+                  their adjacent color in order to distinguish the states.
+                </li>
+                <li>
+                  Ensure parts of graphs and charts where color is the only way
+                  to decipher the information, the contrast ratio is met against
+                  adjacent colors.
+                </li>
+                <li>
+                  Ensure appropriate color combinations are chosen and defined
+                  for UI elements and other graphical objects in the style
+                  guides and the design documents in order to avoid
+                  uncomfortable retrofitting.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-12-text-spacing/"
+                ><strong>1.4.12 Text Spacing</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Content and function retain meaning when users change elements of
+              text spacing.
+            </td>
+            <td>
+              <ul>
+                <li>Don’t use fixed containers in your CSS styles.</li>
+                <li>
+                  Make sure that content reflows without overlapping or text
+                  cut-offs.
+                </li>
+                <li>
+                  Use relative units of font size, line height, spaces between
+                  characters, words, lines and paragraphs.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-1-4-13-content-on-hover-or-focus/"
+                ><strong>1.4.13 Content on Hover or Focus</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              When hover or focus triggers content to appear, it is dismissible,
+              hoverable and persistent.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Provide a method to dismiss the additional content that
+                  appears on hover or keyboard focus.
+                </li>
+                <li>
+                  Make sure that content is present until the user moves away
+                  the mouse pointer from the triggering element or content
+                  block.
+                </li>
+                <li>Make sure that experience is persistent.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-1-1-keyboard/"
+                ><strong>2.1.1 Keyboard</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              All functionality is accessible by keyboard with no specific
+              timings.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Make sure all elements on the page buttons, links, form
+                  controls etc. are reachable by tab key.
+                </li>
+                <li>
+                  Make sure that users are able to activate the buttons, links
+                  and form controls using the enter and/or spacebar keys.
+                </li>
+                <li>
+                  Write clean HTML &amp; CSS as it is keyboard operable by
+                  default and doesn’t require any special tweaks.
+                </li>
+                <li>
+                  Make sure that there is a visible focus for all the active
+                  elements on the page.
+                </li>
+                <li>Make sure that focus order is logical and intuitive.</li>
+                <li>
+                  Provide tabindex=0 for custom UI elements so that they are
+                  focusable.
+                </li>
+                <li>
+                  Provide appropriate event handlers for custom scripted
+                  elements so that they are operable by their respective keys.
+                </li>
+                <li>
+                  Avoid access keys if possible. If not, at least, ensure they
+                  don’t conflict with the user agent and/or AT shortcut keys.
+                </li>
+                <li>
+                  Make sure that there is no time limit to perform any action
+                  using the keyboard when more than one key is required to
+                  operate a control.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-1-2-no-keyboard-trap/"
+                ><strong>2.1.2 No keyboard Trap</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Users can navigate to and from all content using a keyboard.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Make sure that users can tab to and away from all parts of the
+                  site.
+                </li>
+                <li>
+                  If a user is trapped on a portion of the web page for a
+                  purpose, a clear instruction must be provided for the user to
+                  end that keyboard trap.
+                </li>
+                <li>
+                  Check if all parts of the site are operable using only the
+                  keyboard, test by unplugging the mouse.
+                </li>
+                <li>
+                  Stick to standard navigation as much as possible like tab,
+                  shift+tab &amp; arrow keys.
+                </li>
+                <li>
+                  If custom keystrokes are provided to operate a control make
+                  sure hints are exposed to all users.
+                </li>
+                <li>
+                  Make sure your third party widgets are accessible, most of the
+                  time they cause major keyboard operability issues.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-1-4-character-key-shortcuts/"
+                ><strong>2.1.4 Character Key Shortcuts</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Allow users to turn off or remap single-key character shortcuts.
+            </td>
+            <td>
+              <ul>
+                <li>Don’t use single character key shortcuts if possible.</li>
+                <li>
+                  Provide a mechanism to turn off the character key shortcuts.
+                </li>
+                <li>
+                  Design all the keyboard shortcuts with the combinations of
+                  non-printable keys.
+                </li>
+                <li>
+                  Let the user trigger the shortcut key only when the element
+                  has keyboard focus.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-2-1-timing-adjustable/"
+                ><strong>2.2.1 Timing Adjustable</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Provide user controls to turn off, adjust or extend time limits.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Provide a control on the landing page for the user to initiate
+                  a longer session time or no session timeout.
+                </li>
+                <li>
+                  Provide a way for the user to turn off the session timeout.
+                </li>
+                <li>
+                  Provide a means to set the time limit to 10 times the default
+                  time limit.
+                </li>
+                <li>
+                  Prompt the user with help of a pop-up or modal so that enough
+                  warning is available for the user to reset the time limit.
+                </li>
+                <li>
+                  Make sure controls provided to extend the time limit are
+                  keyboard operable.
+                </li>
+                <li>
+                  Moving, scrolling and/or blinking content must have a
+                  mechanism to pause or stop the movement or scroll or blink.
+                </li>
+                <li>
+                  Auto updating content must be provided with a feature to
+                  extend the time limit to 10 times of its actual update
+                  frequency.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-2-2-pause-stop-hide/"
+                ><strong>2.2.2 Pause, Stop, Hide</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Provide user controls to pause, stop and hide moving and
+              auto-updating content.
+            </td>
+            <td>
+              <ul>
+                <li>Avoid moving, blinking scrolling content if possible.</li>
+                <li>
+                  Content should not blink more than 3 times per second, if it
+                  does blink 3 times per second then it is considered as
+                  flashing &amp; will fail WCAG.
+                </li>
+                <li>
+                  Auto updating content should be provided with a pause button
+                  or provide a mechanism for the user to specify when the update
+                  can happen.
+                </li>
+                <li>
+                  If the entire page contains moving, blinking, scrolling &amp;
+                  auto updating content then pause, stop or hide buttons are not
+                  required as there is no parallel content.
+                </li>
+                <li>
+                  Animation that conveys the users that a page or content is
+                  loading doesn’t require to meet this success criterion.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-3-1-three-flashes-or-below-threshold/"
+                ><strong>2.3.1 Three Flashes or Below</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>No content flashes more than three times per second.</td>
+            <td>
+              <ul>
+                <li>Avoid flashing content completely if possible.</li>
+                <li>
+                  Make sure that flashing content doesn’t flash more than 3
+                  times per second.
+                </li>
+                <li>
+                  Use PEAT to confirm if the flashing content passes this check
+                  point.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-4-1-bypass-blocks/"
+                ><strong>2.4.1 Bypass Blocks</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Provide a way for users to skip repeated blocks of content.</td>
+            <td>
+              <ul>
+                <li>
+                  Provide a skip link on top of the page to skip navigational
+                  menus.
+                </li>
+                <li>
+                  Provide skip links to navigate to content on a large page.
+                </li>
+                <li>
+                  Make sure that skip link is visible when it receives focus.
+                </li>
+                <li>
+                  Make sure that the purpose of the link is clear, provide skip
+                  link text as skip to main content or skip navigation etc.
+                </li>
+                <li>
+                  When providing ARIA landmarks, ensure multiple landmarks of
+                  the same type are not provided. If provided, ensure to use
+                  aria-label to assign unique names to such landmarks “Primary
+                  navigation”, “secondary navigation” etc.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-4-2-page-titled/"
+                ><strong>2.4.2 Page Titled</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Use helpful and clear page titles.</td>
+            <td>
+              <ul>
+                <li>Provide a unique title.</li>
+                <li>Make sure that title is between 50-75 characters.</li>
+                <li>
+                  Make sure the title of the page is the heading level H1 on the
+                  page.
+                </li>
+                <li>
+                  Title should contain web page name, bit of description and
+                  site name.
+                </li>
+                <li>Make sure the title describes the purpose of the page.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/focus-order-understanding-sc-2-4-3/"
+                ><strong>2.4.3 Focus Order</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Components receive focus in a logical sequence.</td>
+            <td>
+              <ul>
+                <li>
+                  Avoid using tabindex values that are &gt;1 to manage focus
+                  order as they may supersede logical tab order.
+                </li>
+                <li>
+                  Align the focus order with the reading order as much as
+                  possible in order to maintain a logical and intuitive
+                  navigation of the content.Too much deviation would put a lot
+                  of users with disabilities into confusion.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/link-purpose-in-context-understanding-sc-2-4-4/"
+                ><strong>2.4.4 Link Purpose (In Context)</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Every link’s purpose is clear from its text or context.</td>
+            <td>
+              <ul>
+                <li>
+                  Let the purpose of the link be clear just by the link text
+                  alone! E.G. “My Blog”, “Visit our Blog”.
+                </li>
+                <li>
+                  Ensure appropriate alt text is provided when only an image
+                  stands as a link.
+                </li>
+                <li>
+                  Avoid ambiguous links like “here” or “click here”. If they are
+                  required make sure that they are placed at the end of the
+                  sentence or paragraph so that they are understood from
+                  context.
+                </li>
+                <li>
+                  Do not duplicate the alt text and the link text when there is
+                  an image and the link adjacent to each other and convey the
+                  same info or lead to the same destination. Rather, wrap the
+                  image with the link and provide alt=”” for the image.
+                </li>
+                <li>
+                  Ensure Links having the same link text leads to the same
+                  destination.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/2-4-5-multiple-ways-to-locate-web-pages/"
+                ><strong>2.4.5 Multiple Ways</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Offer at least two ways to find pages on your website.</td>
+            <td>
+              <ul>
+                <li>
+                  More than one way must be available to meet this success
+                  criteria.
+                </li>
+                <li>
+                  Though breadcrumb is quite old, it still works if the users
+                  want to go back in a process or a layered structure.
+                </li>
+                <li>
+                  Search function is the most powerful to achieve faster
+                  navigation.
+                </li>
+                <li>
+                  Menus may become larger and cumbersome; still they work
+                  wonders when you look up for a category.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/headings-labels-understanding-sc-2-4-6/"
+                ><strong>2.4.6 Headings and Labels</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Headings and labels describe topic or purpose.</td>
+            <td>
+              <ul>
+                <li>Headings must be clear, concise &amp; descriptive.</li>
+                <li>
+                  Headings must follow a sequential order to avoid confusion.
+                </li>
+                <li>
+                  Ensure that headings are consistent throughout the site.
+                </li>
+                <li>
+                  Ensure that labels are descriptive enough so that users can
+                  take necessary actions.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/focus-visible-understanding-sc-2-4-7/"
+                ><strong>2.4.7 Focus Visible</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Keyboard focus is visible when used.</td>
+            <td>
+              <ul>
+                <li>
+                  Let browsers handle the visible focus for active elements.
+                </li>
+                <li>
+                  Ensure that the active element is provided with visible focus.
+                </li>
+                <li>
+                  Ensure that when the user is navigating through the page using
+                  keyboard visible focus moves along for every element presented
+                  on the page.
+                </li>
+                <li>
+                  Ensure that there is sufficient contrast between the visible
+                  focus and the background of the element, for example if the
+                  visible focus is black and the background of the element is
+                  black then focus visible is not visually distinguishable.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-4-11-focus-not-obscured-minimum/"
+                ><strong>2.4.11 Focus Not Obscured (Minimum)</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              When a user interface component is selected, the focus indicator
+              encompasses the visual presentation of the component, maintains a
+              contrast ratio of at least 3:1 between its pixels in focused and
+              unfocused states, and ensures a contrast ratio of at least 3:1
+              against adjacent colors.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Visibility is Key: Make certain that all elements remain
+                  visible when they receive keyboard focus and are not obscured
+                  by other content blocks.
+                </li>
+                <li>
+                  Partial Focus: In cases where maintaining full visibility of
+                  an element is not feasible, ensure a partial focus indicator
+                  is visible to the user.
+                </li>
+                <li>
+                  Sticky Elements and CSS Scroll-Padding: When utilizing sticky
+                  elements, utilize the CSS scroll-padding property. This
+                  property enables you to set padding on all sides of an element
+                  simultaneously.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-5-1-pointer-gestures/"
+                ><strong>2.5.1 Pointer Gestures</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Multi-point and path-based gestures can be operated with a single
+              pointer.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Do not use multi-pointer or path-based gestures as a sole
+                  method to control content.
+                </li>
+                <li>Provide single tap or double tap/click as alternatives.</li>
+                <li>Always have in mind that one mode does fit for all.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://www.digitala11y.com/2-5-2-pointer-cancellation/"
+                ><strong>2.5.2 Pointer Cancellation</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Functions don’t complete on the down-click of a pointer.</td>
+            <td>
+              <ul>
+                <li>
+                  Ensure down event alone does not execute any functionality.
+                </li>
+                <li>
+                  Ensure Up event reverses or un-does any down event-based
+                  action.
+                </li>
+                <li>
+                  Ensure a mechanism is available to confirm the performed
+                  action where the down event executes such action.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-5-3-label-in-name/"
+                ><strong>2.5.3 Label in Name</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Where a component has a text label, the name of the component also
+              contains the text displayed.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Ensure the accessible names like<a
+                    href="https://www.digitala11y.com/aria-label-properties/"
+                  >
+                    aria-label</a
+                  >
+                  and alt attribute contain the exact match of the visible
+                  label.
+                </li>
+                <li>
+                  Ensure the visible label text and accessible name text are not
+                  interspersed.
+                </li>
+                <li>
+                  Ensure the accessible name starts exactly with the visible
+                  name.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-5-4-motion-actuation/"
+                ><strong>2.5.4 Motion Actuation</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Functions operated by motion can also be operated through an
+              interface and responding to motion can be disabled.
+            </td>
+            <td>
+              <ul>
+                <li>Provide alternatives where motion actuation is used.</li>
+                <li>Provide confirmation or canceling mechanism.</li>
+                <li>Allow system settings to deactivate motion detection.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-5-7-dragging-movements/"
+                ><strong>2.5.7 Dragging Movements</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              All functionality that uses a dragging movement for operation can
+              be achieved by a single pointer without dragging, unless dragging
+              is essential or the functionality is determined by the user agent
+              and not modified by the author.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Ensure Alternative Functionality: Wherever drag and drop
+                  functionality is employed, it’s crucial to provide an
+                  alternative method. This ensures that users with diverse
+                  abilities can interact with the interface effectively.
+                </li>
+                <li>
+                  Simplify Single Pointer or Touch Interaction: Ensure that
+                  interactions involving a single pointer or touch are intuitive
+                  and don’t burden users with excessive cognitive load. Simplify
+                  actions to enhance user experience and ease of use.
+                </li>
+                <li>
+                  Simplicity in Design: Keep the user experience simple. During
+                  the design process, evaluate whether such complex
+                  functionalities, like intricate drag and drop features, are
+                  truly necessary for the product. Strive for elegance in
+                  simplicity to enhance user understanding and engagement.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-2-5-8-target-size-minimum/"
+                ><strong>2.5.8 Target Size (Minimum)</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Ensure the target of any UI element has 24 by 24 CSS PX target
+              size or there is enough spacing provided between two targets that
+              have undersize targets.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Always provide a bigger target size (24 by 24 CSS PX) for the
+                  target areas of UI controls.
+                </li>
+                <li>
+                  Provide enough spacing between elements on the side, above and
+                  below so that users do not touch or activate elements
+                  accidentally.
+                </li>
+                <li>
+                  Design the layouts and the UI controls in such a way that
+                  there is always space between controls.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-1-1-language-of-page/"
+                ><strong>3.1.1 Language of Page</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Each webpage has a default human language assigned.</td>
+            <td>
+              <ul>
+                <li>Ensure each page of your web site has a lang attribute.</li>
+                <li>Ensure the language code is correct.</li>
+                <li>
+                  Use appropriate language tokens in terms of language
+                  variations like lang=”en-us” for English in US and
+                  lang=”en-uk” for English in Britain.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-1-2-language-of-parts/"
+                ><strong>3.1.2 Language of Parts</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Each part of a webpage has a default human language assigned.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Ensure to use appropriate language code (lang=”fr”) wherever
+                  the text is in other language.
+                </li>
+                <li>
+                  Ensure appropriate language token is used in the lang
+                  attribute (lang=”pt-br”). Beware of the exceptions too.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-2-1-on-focus/"
+                ><strong>3.2.1 On Focus</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Elements do not change when they receive focus.</td>
+            <td>
+              <ul>
+                <li>Ensure that no element changes by receiving focus.</li>
+                <li>
+                  We should avoid both visual and behavioral modifications to
+                  the page.
+                </li>
+                <li>
+                  A website built using only HTML and CSS will not have on focus
+                  by default, one needs to provide this through scripting.
+                </li>
+                <li>
+                  One way to test this check point is to unplug the mouse and
+                  navigate the page using the keyboard.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-2-2-on-input/"
+                ><strong>3.2.2 On Input</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Elements do not change when they receive input.</td>
+            <td>
+              <ul>
+                <li>Make sure that forms don’t submit on input of data.</li>
+                <li>
+                  Make sure that focus doesn’t move to next form control once a
+                  form field is populated with data.
+                </li>
+                <li>Provide a submit button for all forms.</li>
+                <li>
+                  Make sure that control of how data is populated is in the
+                  hands of your users.
+                </li>
+                <li>
+                  If there is a change of context, then provide an instruction
+                  that is available for all user groups.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a href="https://www.digitala11y.com/3-2-3-consistent-navigation/"
+                ><strong>3.2.3 Consistent Navigation</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Position menus and standard controls consistently.</td>
+            <td>
+              <ul>
+                <li>Keep navigational menus in the same location.</li>
+                <li>
+                  Present the navigational menus in the same order on all pages.
+                </li>
+                <li>
+                  Represent all the standard elements like logo, search
+                  functionality, and skip links etc. in the same location on all
+                  the pages.
+                </li>
+                <li>
+                  Using a standard template will help achieve the success
+                  criteria of 3.2.3 consistent navigation.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/3-2-4-consistent-identification/"
+                ><strong>3.2.4 Consistent Identification</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Identify components with the same function consistently.</td>
+            <td>
+              <ul>
+                <li>
+                  Icons and images that are used repeatedly and provide the same
+                  function must be provided with the same alternative text.
+                </li>
+                <li>
+                  Elements with the same function are named and labeled
+                  consistently.
+                </li>
+                <li>
+                  Use icons/images that are consistent.&nbsp;For example print,
+                  twitter, Facebook etc.
+                </li>
+                <li>
+                  Images will have different meaning in different contexts, so
+                  will need different alternative text depending on the context.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-wcag-sc-3-2-6-consistent-help-level-a/"
+                ><strong>3.2.6 Consistent Help</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              Help options are presented programmatically in the same order.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  It is always best to provide specific help mechanisms like
+                  human contact, self-help etc. for users to complete complex
+                  tasks.
+                </li>
+                <li>
+                  Provide such help mechanisms in the same order that is
+                  consistent across a set of web pages.
+                </li>
+                <li>
+                  Ensure help mechanisms across the entire site are consistently
+                  and easily locatable.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-3-1-error-identification/"
+                ><strong>3.3.1 Error Identification</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Identify and describe input errors for users.</td>
+            <td>
+              <ul>
+                <li>
+                  Make sure that errors are in text. Don’t just use color or
+                  visual cues to point out form errors.
+                </li>
+                <li>
+                  Use
+                  <a
+                    href="https://www.digitala11y.com/aria-describedby-properties/"
+                    >aria-describedby</a
+                  >
+                  to bind the form control with the error programmatically.
+                </li>
+                <li>
+                  Don’t disable the submit button! Some websites disable the
+                  submit button &amp; will only enable it if the form is filled
+                  appropriately. This is bad practice.
+                </li>
+                <li>
+                  Provide necessary instructions and be as specific as possible
+                  with the errors so that users can take necessary action.
+                </li>
+                <li>
+                  Make sure that errors are distinguished from the regular text
+                  on the web page.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-3-2-labels-or-instructions/"
+                ><strong>3.3.2 Labels or Instruction</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Provide labels or instructions for user input.</td>
+            <td>
+              <ul>
+                <li>
+                  Always provide visible labels to every form field and
+                  controls.
+                </li>
+                <li>
+                  Provide instructions where the form fields require specific
+                  data or format.
+                </li>
+                <li>Ensure the labels identify the fields clearly.</li>
+                <li>
+                  Do programmatically associate the labels with their respective
+                  fields.
+                </li>
+                <li>
+                  Provide group level labels and associate them with the group
+                  of form fields where the user input is required in more than
+                  one field like phone number or credit card number; also ensure
+                  to provide individual labels through title attribute in such
+                  scenarios.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-3-3-error-suggestion/"
+                ><strong>3.3.3 Error Suggestion</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>Suggest corrections when users make mistakes.</td>
+            <td>
+              <ul>
+                <li>Provide descriptive errors.</li>
+                <li>
+                  Provide visible hints that will enable the users to avoid
+                  errors during form submissions.
+                </li>
+                <li>
+                  Associate the errors with form controls using
+                  <a
+                    href="https://www.digitala11y.com/aria-describedby-properties/"
+                    >aria-describedby</a
+                  >.
+                </li>
+                <li>
+                  Move the focus to the form control that has the error once
+                  validation failed, this reduces the number of keystrokes.
+                </li>
+                <li>
+                  Mark the required fields with an asterisk visually and
+                  programmatically with aria-required.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-3-4-error-prevention-legal-financial-data/"
+                ><strong
+                  >3.3.4 Error Prevention (Legal, Financial, Data)</strong
+                ></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Check, confirm and allow reversal of pages that cause important
+              commitments.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Make sure proper hints are provided to fill the data in the
+                  forms.
+                </li>
+                <li>
+                  Provide a review information screen where user provided
+                  information is populated.
+                </li>
+                <li>
+                  Provide a checkbox where the user can confirm that they have
+                  reviewed all the information and they are ready to submit;
+                  enable the submit button only when the user checks the
+                  checkbox.
+                </li>
+                <li>
+                  Provide confirmation screen or dialogue when users delete any
+                  data.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-wcag-sc-3-3-7-redundant-entry-level-a/"
+                ><strong>3.3.7 Redundant Entry</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>Autofill form- fields that repeat across steps.</td>
+            <td>
+              <ul>
+                <li>
+                  Avoid asking users to re-enter the same information during a
+                  process.
+                </li>
+                <li>
+                  Provide mechanisms where users can select the information that
+                  they previously entered.
+                </li>
+                <li>
+                  Remember that the information users are copying or pasting to
+                  avoid retyping must be on the same page.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-3-3-8-accessible-authentication-method-minimum/"
+                ><strong>3.3.8 Accessible Authentication (Minimum)</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              It states that users must be able to access authentication methods
+              using only a keyboard. This means that the authentication process
+              should not require the use of a mouse or other pointing device.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Design authentication processes that are accessible and
+                  secure.
+                </li>
+                <li>
+                  Provide alternatives for users when a certain authentication
+                  process involves too much of a cognitive burden.
+                </li>
+                <li>
+                  Involve more modern and sophisticated techniques such as
+                  biometric authentications and Magic Link (A one-time link sent
+                  to a user’s email or SMS to be clicked).
+                </li>
+                <li>
+                  Always provide a proper name, role value, and input purpose
+                  like autocomplete attribute to username and password fields.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-4-1-2-name-role-value/"
+                ><strong>4.1.2 Name, Role, Value</strong></a
+              >
+            </th>
+            <td>A</td>
+            <td>
+              The name and role of user components can be understood by
+              technology.
+            </td>
+            <td>
+              <ul>
+                <li>Use native HTML elements wherever possible.</li>
+                <li>
+                  USE WAI-ARIA attributes while constructing custom component
+                  widgets.
+                </li>
+                <li>
+                  Make sure custom widgets are keyboard operable using spacebar
+                  or enter keys.
+                </li>
+                <li>
+                  Provide tabindex=0 for custom widgets so that they receive tab
+                  focus.
+                </li>
+                <li>
+                  Make it a practice to read ARIA specifications to understand
+                  the implications and the consequences of ARIA roles, states
+                  and properties before using them.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <a
+                href="https://www.digitala11y.com/understanding-sc-4-1-3-status-messages/"
+                ><strong>4.1.3 Status Messages</strong></a
+              >
+            </th>
+            <td>AA</td>
+            <td>
+              Make sure that all messages indicating success or errors are read
+              out by a screen reader.
+            </td>
+            <td>
+              <ul>
+                <li>
+                  Ensure all success toasts and error messages are announced by
+                  screen reader.
+                </li>
+                <li>Do not fill the pages with live regions.</li>
+                <li>
+                  Decide which is an important update and qualifies a status
+                  message intelligently.
+                </li>
+                <li>
+                  Ensure focusable messages are not considered as status
+                  messages.
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <figcaption class="wp-element-caption">WCAG 2.2 AA Checklist</figcaption>
+    </figure>
+  </body>
+</html>

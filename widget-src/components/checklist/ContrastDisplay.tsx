@@ -1,5 +1,8 @@
 const { widget } = figma;
 const { AutoLayout, Text } = widget;
+import { createOverlayTokens, defaultTheme, type OverlayTokens } from "design-system";
+import { containerWidths } from "design-system/primitives/sizing";
+import { dropShadowEffect } from "effects";
 
 import type { ContrastResult } from "hooks/useContrastChecker";
 
@@ -13,6 +16,7 @@ export function ContrastDisplay({
   result,
   onClose,
   colors,
+  ui,
 }: {
   result: ContrastResult;
   onClose: () => void;
@@ -23,12 +27,28 @@ export function ContrastDisplay({
     warning: string;
     error: string;
   };
+  ui?: OverlayTokens;
 }) {
+  const fallback = defaultTheme.lightTheme;
+  const uiTokens =
+    ui ??
+    createOverlayTokens({
+      panelBg: colors?.panelBg ?? fallback.panelBg,
+      panelStroke: fallback.panelStroke,
+      textPrimary: colors?.textPrimary ?? fallback.textPrimary,
+      textSecondary: fallback.textSecondary,
+      textStrong: fallback.textStrong,
+      progressFill: fallback.progressFill,
+    });
+  const palette = {
+    textPrimary: colors?.textPrimary ?? uiTokens.colors.textPrimary,
+    panelBg: colors?.panelBg ?? uiTokens.colors.panelBg,
+  };
   const statusColor = result.passesAAA
-    ? colors?.success ?? "#22C55E"
+    ? colors?.success ?? defaultTheme.semantic.success.medium
     : result.passesAA
-    ? colors?.warning ?? "#EAB308"
-    : colors?.error ?? "#EF4444";
+    ? colors?.warning ?? defaultTheme.semantic.warning.medium
+    : colors?.error ?? defaultTheme.semantic.error.medium;
 
   const statusText = result.passesAAA
     ? "AAA Compliant"
@@ -39,20 +59,14 @@ export function ContrastDisplay({
   return (
     <AutoLayout
       direction="vertical"
-      spacing={12}
-      padding={20}
-      width={460}
-      fill={colors?.panelBg ?? "#FFFFFF"}
-      cornerRadius={8}
+      spacing={uiTokens.layout.spacing}
+      padding={uiTokens.layout.padding}
+      width={containerWidths.md}
+      fill={palette.panelBg}
+      cornerRadius={uiTokens.layout.radius}
       stroke={statusColor}
-      strokeWidth={2}
-      effect={{
-        type: "drop-shadow",
-        color: { r: 0, g: 0, b: 0, a: 0.15 },
-        offset: { x: 0, y: 4 },
-        blur: 12,
-        spread: 0,
-      }}
+      strokeWidth={uiTokens.layout.outlineWidth}
+      effect={dropShadowEffect}
     >
       <AutoLayout
         direction="horizontal"
@@ -60,24 +74,26 @@ export function ContrastDisplay({
         verticalAlignItems="center"
       >
         <Text
-          fill={colors?.textPrimary ?? "#212A6A"}
-          fontFamily="Anaheim"
-          fontSize={18}
-          fontWeight={700}
+          fill={palette.textPrimary}
+          fontFamily={uiTokens.text.title.fontFamily}
+          fontSize={uiTokens.text.title.fontSize}
+          fontWeight={uiTokens.text.title.fontWeight}
         >
           Contrast Check
         </Text>
         <AutoLayout width="fill-parent" />
         <AutoLayout
           onClick={onClose}
-          padding={{ horizontal: 8, vertical: 4 }}
-          cornerRadius={4}
-          tooltip="Close"
+          padding={{
+            horizontal: uiTokens.layout.closePaddingX,
+            vertical: uiTokens.layout.closePaddingY,
+          }}
+          cornerRadius={uiTokens.layout.closeRadius}
         >
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={18}
-            fontWeight={700}
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.title.fontSize}
+            fontWeight={uiTokens.text.title.fontWeight}
             opacity={0.7}
           >
             ×
@@ -88,18 +104,18 @@ export function ContrastDisplay({
       {/* Contrast Ratio Display */}
       <AutoLayout
         direction="vertical"
-        spacing={8}
+        spacing={uiTokens.layout.spacing}
         width="fill-parent"
-        padding={16}
+        padding={uiTokens.layout.padding}
         fill={statusColor}
-        cornerRadius={8}
+        cornerRadius={uiTokens.layout.radius}
         opacity={0.1}
       >
         <Text
-          fill={colors?.textPrimary ?? "#212A6A"}
-          fontFamily="Anaheim"
-          fontSize={48}
-          fontWeight={700}
+          fill={palette.textPrimary}
+          fontFamily={uiTokens.text.display.fontFamily}
+          fontSize={uiTokens.text.display.fontSize}
+          fontWeight={uiTokens.text.display.fontWeight}
           horizontalAlignText="center"
           width="fill-parent"
         >
@@ -107,9 +123,9 @@ export function ContrastDisplay({
         </Text>
         <Text
           fill={statusColor}
-          fontFamily="Anaheim"
-          fontSize={16}
-          fontWeight={700}
+          fontFamily={uiTokens.text.title.fontFamily}
+          fontSize={uiTokens.text.body.fontSize}
+          fontWeight={uiTokens.text.title.fontWeight}
           horizontalAlignText="center"
           width="fill-parent"
         >
@@ -118,85 +134,89 @@ export function ContrastDisplay({
       </AutoLayout>
 
       {/* Color Swatches */}
-      <AutoLayout direction="horizontal" spacing={12} width="fill-parent">
-        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+      <AutoLayout direction="horizontal" spacing={uiTokens.layout.spacing} width="fill-parent">
+        <AutoLayout direction="vertical" spacing={uiTokens.layout.tight} width="fill-parent">
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={10}
-            fontFamily="Anaheim"
-            fontWeight={600}
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.helper.fontSize}
+            fontFamily={uiTokens.text.helper.fontFamily}
+            fontWeight={uiTokens.text.title.fontWeight}
             opacity={0.6}
           >
             FOREGROUND
           </Text>
           <AutoLayout
-            width={60}
-            height={40}
+            width={uiTokens.swatch.width}
+            height={uiTokens.swatch.height}
             fill={result.foreground}
-            cornerRadius={4}
-            stroke={colors?.textPrimary ?? "#212A6A"}
-            strokeWidth={1}
+            cornerRadius={uiTokens.swatch.radius}
+            stroke={palette.textPrimary}
+            strokeWidth={uiTokens.swatch.strokeWidth}
           />
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={11}
-            fontFamily="Inter"
-            fontWeight={500}
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.helper.fontSize}
+            fontFamily={uiTokens.text.helper.fontFamily}
+            fontWeight={uiTokens.text.title.fontWeight}
           >
-            {String(result.foreground || "#000000")}
+            {String(result.foreground || defaultTheme.neutral.black)}
           </Text>
         </AutoLayout>
-        <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+        <AutoLayout direction="vertical" spacing={uiTokens.layout.tight} width="fill-parent">
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={10}
-            fontFamily="Anaheim"
-            fontWeight={600}
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.helper.fontSize}
+            fontFamily={uiTokens.text.helper.fontFamily}
+            fontWeight={uiTokens.text.title.fontWeight}
             opacity={0.6}
           >
             BACKGROUND
           </Text>
           <AutoLayout
-            width={60}
-            height={40}
+            width={uiTokens.swatch.width}
+            height={uiTokens.swatch.height}
             fill={result.background}
-            cornerRadius={4}
-            stroke={colors?.textPrimary ?? "#212A6A"}
-            strokeWidth={1}
+            cornerRadius={uiTokens.swatch.radius}
+            stroke={palette.textPrimary}
+            strokeWidth={uiTokens.swatch.strokeWidth}
           />
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={11}
-            fontFamily="Inter"
-            fontWeight={500}
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.helper.fontSize}
+            fontFamily={uiTokens.text.helper.fontFamily}
+            fontWeight={uiTokens.text.title.fontWeight}
           >
-            {String(result.background || "#FFFFFF")}
+            {String(result.background || defaultTheme.neutral.white)}
           </Text>
         </AutoLayout>
       </AutoLayout>
 
       {/* WCAG Standards */}
-      <AutoLayout direction="vertical" spacing={4} width="fill-parent">
-        <AutoLayout direction="horizontal" spacing={8} width="fill-parent">
+      <AutoLayout direction="vertical" spacing={uiTokens.layout.tight} width="fill-parent">
+        <AutoLayout direction="horizontal" spacing={uiTokens.layout.compact} width="fill-parent">
           <Text
             fill={
-              result.passesAA ? statusColor : colors?.textPrimary ?? "#212A6A"
+              result.passesAA
+                ? statusColor
+                : palette.textPrimary
             }
-            fontSize={12}
-            fontFamily="Anaheim"
-            fontWeight={600}
+            fontSize={uiTokens.text.body.fontSize}
+            fontFamily={uiTokens.text.body.fontFamily}
+            fontWeight={uiTokens.text.title.fontWeight}
           >
             {result.passesAA ? "✓" : "✗"} WCAG AA (4.5:1)
           </Text>
         </AutoLayout>
-        <AutoLayout direction="horizontal" spacing={8} width="fill-parent">
+        <AutoLayout direction="horizontal" spacing={uiTokens.layout.compact} width="fill-parent">
           <Text
             fill={
-              result.passesAAA ? statusColor : colors?.textPrimary ?? "#212A6A"
+              result.passesAAA
+                ? statusColor
+                : palette.textPrimary
             }
-            fontSize={12}
-            fontFamily="Anaheim"
-            fontWeight={600}
+            fontSize={uiTokens.text.body.fontSize}
+            fontFamily={uiTokens.text.body.fontFamily}
+            fontWeight={uiTokens.text.title.fontWeight}
           >
             {result.passesAAA ? "✓" : "✗"} WCAG AAA (7:1)
           </Text>
@@ -204,25 +224,25 @@ export function ContrastDisplay({
       </AutoLayout>
 
       {/* Suggestion */}
-      {result.suggestion && result.suggestion.length > 0 && (
+      {result.suggestion && result.suggestion.length > 0 ? (
         <AutoLayout
-          padding={12}
-          fill={colors?.textPrimary ?? "#212A6A"}
-          opacity={0.05}
-          cornerRadius={4}
+          padding={uiTokens.suggestion.padding}
+          fill={palette.textPrimary}
+          opacity={uiTokens.suggestion.opacity}
+          cornerRadius={uiTokens.suggestion.radius}
           width="fill-parent"
         >
           <Text
-            fill={colors?.textPrimary ?? "#212A6A"}
-            fontSize={12}
-            fontFamily="Anaheim"
+            fill={palette.textPrimary}
+            fontSize={uiTokens.text.body.fontSize}
+            fontFamily={uiTokens.text.body.fontFamily}
             lineHeight="150%"
             width="fill-parent"
           >
             {String(result.suggestion || "")}
           </Text>
         </AutoLayout>
-      )}
+      ) : null}
     </AutoLayout>
   );
 }

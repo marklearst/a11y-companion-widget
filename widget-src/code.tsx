@@ -7,13 +7,19 @@
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/ | Figma Widget API Reference}
  */
 const { widget } = figma;
-const { useSyncedState } = widget;
 
 import checklistDataJson from "data/a11yChecklistData.json";
 import checklistDataEsJson from "data/a11yChecklistData.es.json";
+import legacyChecklistJson from "data/checklist.json";
 import { ChecklistPanel } from "components/checklist";
 import type { ChecklistDataType } from "types";
 import useProgressTracker from "hooks/useProgressTracker";
+import useDarkMode from "hooks/useDarkMode"; // Widgets have a hard time detecting dark mode from my experience
+import { useUserPreferences } from "hooks/useUserPreferences";
+import {
+  applyLegacyOverrides,
+  type LegacyChecklist,
+} from "logic/checklistAdapter";
 
 /**
  * Main widget function component.
@@ -32,16 +38,31 @@ import useProgressTracker from "hooks/useProgressTracker";
  * @see {@link https://www.figma.com/widget-docs/api/api-reference/#widgetregister | Figma Widget API: widget.register}
  */
 function Widget() {
-  // Get language preference
-  const [language] = useSyncedState<"en" | "es">("language", "en");
+  const { preferences, setPreferences } = useUserPreferences();
+  const { language, theme } = preferences;
 
   // Select appropriate data based on language
-  const checklistData = (
+  let checklistData = (
     language === "es" ? checklistDataEsJson : checklistDataJson
   ) as ChecklistDataType;
+  const useLegacyOverrides = language === "en";
+  const legacySectionIds = useLegacyOverrides
+    ? checklistData.sections.map((section) => section.id)
+    : [];
+
+  if (useLegacyOverrides && legacySectionIds.length > 0) {
+    checklistData = applyLegacyOverrides(
+      checklistData,
+      legacyChecklistJson as LegacyChecklist,
+      { sectionIds: legacySectionIds }
+    );
+  }
 
   // Use the progress tracker hook for state management
   const { taskCompletion, handleCheckChange } = useProgressTracker();
+
+  // Detect system dark mode preference (if available)
+  const isDarkMode = useDarkMode();
 
   // Flatten all items for progress tracking
   const allItems = checklistData.sections.flatMap((section) => section.items);
@@ -51,9 +72,13 @@ function Widget() {
   const total = itemIds.length;
   const completed = itemIds.filter((id) => taskCompletion[id]).length;
 
-  // Note: Dark mode detection for 'system' theme is handled in ChecklistPanel
-  // via the theme property menu option. Widgets don't have direct access to
-  // system preferences, so 'system' will default to light mode for now.
+  // Determine effective dark mode based on theme selection:
+  // - "light" → always light mode
+  // - "dark" → always dark mode
+  // - "system" → use detected system preference (defaults to light if unavailable)
+  const effectiveDarkMode =
+    theme === "dark" ? true : theme === "system" ? isDarkMode : false;
+
   return (
     <ChecklistPanel
       title={checklistData.title}
@@ -62,7 +87,10 @@ function Widget() {
       handleCheckChange={handleCheckChange}
       total={total}
       completed={completed}
-      isDarkMode={false}
+      isDarkMode={effectiveDarkMode}
+      showItemDescriptionsForSectionIds={legacySectionIds}
+      preferences={preferences}
+      setPreferences={setPreferences}
     />
   );
 }
