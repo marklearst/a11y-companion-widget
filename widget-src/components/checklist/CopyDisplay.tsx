@@ -1,6 +1,6 @@
 const { widget } = figma;
 const { AutoLayout, Text, Input } = widget;
-import { createOverlayTokens, defaultTheme, type OverlayTokens } from "design-system";
+import { createOverlayVariables, defaultTheme, type OverlayVariables } from "design-system";
 import { dropShadowEffect } from "effects";
 
 /**
@@ -25,13 +25,13 @@ export function CopyDisplay({
   format: "markdown";
   onClose: () => void;
   colors?: { textPrimary: string; panelBg: string; buttonBg: string };
-  ui?: OverlayTokens;
+  ui?: OverlayVariables;
   labels?: { copyAs: string; instruction: string };
 }) {
   const fallback = defaultTheme.lightTheme;
   const uiTokens =
     ui ??
-    createOverlayTokens({
+    createOverlayVariables({
       panelBg: colors?.panelBg ?? fallback.panelBg,
       panelStroke: fallback.panelStroke,
       textPrimary: colors?.textPrimary ?? fallback.textPrimary,
@@ -74,7 +74,10 @@ export function CopyDisplay({
         >
           {String(copyAsLabel + " " + (formatLabels[format] || "Text"))}
         </Text>
-        <AutoLayout width="fill-parent" height={16} />
+        <AutoLayout
+          width="fill-parent"
+          height={uiTokens.layout.headerSpacerHeight}
+        />
         <AutoLayout
           onClick={onClose}
           padding={{

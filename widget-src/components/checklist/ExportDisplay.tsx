@@ -1,6 +1,6 @@
 const { widget } = figma;
 const { AutoLayout, Text, Input } = widget;
-import { createOverlayTokens, defaultTheme, type OverlayTokens } from "design-system";
+import { createOverlayVariables, defaultTheme, type OverlayVariables } from "design-system";
 
 /**
  * Component for displaying export data that users can copy.
@@ -20,12 +20,12 @@ export function ExportDisplay({
   exportData: string;
   onClose: () => void;
   colors?: { textPrimary: string; panelBg: string };
-  ui?: OverlayTokens;
+  ui?: OverlayVariables;
 }) {
   const fallback = defaultTheme.lightTheme;
   const uiTokens =
     ui ??
-    createOverlayTokens({
+    createOverlayVariables({
       panelBg: colors?.panelBg ?? fallback.panelBg,
       panelStroke: fallback.panelStroke,
       textPrimary: colors?.textPrimary ?? fallback.textPrimary,

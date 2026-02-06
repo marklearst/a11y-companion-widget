@@ -7,7 +7,7 @@
  *
  * Architecture:
  * - **Primitives**: Raw design values (colors, spacing, typography, etc.)
- * - **Semantic**: Named tokens that reference primitives (future)
+ * - **Semantic**: Named variables that reference primitives (future)
  * - **Utils**: Helper functions for accessibility and color manipulation
  *
  * @example
@@ -54,13 +54,15 @@ export type {
 } from "./theme";
 
 // ============================================
-// Component Tokens
+// Component Variables
 // ============================================
 
-export { createChecklistTokens } from "./components/checklist";
-export type { ChecklistTokens } from "./components/checklist";
-export { createOverlayTokens } from "./components/overlays";
-export type { OverlayTokens } from "./components/overlays";
+export { createChecklistVariables, createChecklistTokens } from "./components/checklist";
+export type { ChecklistVariables, ChecklistTokens } from "./components/checklist";
+export { createOverlayVariables, createOverlayTokens } from "./components/overlays";
+export type { OverlayVariables, OverlayTokens } from "./components/overlays";
+export { primitiveComponentVariables, primitiveComponentTokens } from "./components/primitives";
+export type { PrimitiveComponentVariables, PrimitiveComponentTokens } from "./components/primitives";
 
 // Import primitives for bundled export
 import {
@@ -255,7 +257,7 @@ export const designSystem = {
  * Get theme colors based on dark mode
  *
  * @param isDark - Whether dark mode is active
- * @returns Theme color tokens
+ * @returns Theme color variables
  *
  * @example
  * ```tsx

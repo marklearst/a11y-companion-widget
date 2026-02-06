@@ -26,6 +26,9 @@
       "effects/*": [
         "effects/*"
       ],
+      "ui/*": [
+        "ui/*"
+      ],
       "shared/*": [
         "shared/*"
       ],

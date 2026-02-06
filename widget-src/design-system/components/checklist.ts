@@ -4,7 +4,7 @@ import { fontSize, fontWeight, fontFamily } from "../primitives/typography";
 import { borderWidth, borderRadius } from "../primitives/borders";
 import { dimensions } from "../primitives/sizing";
 
-export type ChecklistThemeTokens = {
+export type ChecklistThemeVariables = {
   panelBg: string;
   panelStroke: string;
   headerBg: string;
@@ -24,7 +24,7 @@ export type ChecklistThemeTokens = {
   hoverStroke?: string;
 };
 
-type ChecklistLayoutTokens = {
+type ChecklistLayoutVariables = {
   panel: {
     width: number;
     paddingX: number;
@@ -52,6 +52,7 @@ type ChecklistLayoutTokens = {
       radius: number;
       strokeWidth: number;
       fontSize: number;
+      fontWeight: WidgetJSX.FontWeight;
       overlap: number;
     };
   };
@@ -185,7 +186,7 @@ type ChecklistLayoutTokens = {
   };
 };
 
-const companionLayout: ChecklistLayoutTokens = {
+const companionLayout: ChecklistLayoutVariables = {
   panel: {
     width: sizes.widget.width,
     paddingX: padding.panel.horizontal,
@@ -212,6 +213,7 @@ const companionLayout: ChecklistLayoutTokens = {
       radius: borderRadius.full,
       strokeWidth: borderWidth.base,
       fontSize: fontSize.xs,
+      fontWeight: fontWeight.semibold,
       overlap: 6,
     },
   },
@@ -340,7 +342,7 @@ const companionLayout: ChecklistLayoutTokens = {
   },
 };
 
-export function createChecklistTokens(theme: ChecklistThemeTokens) {
+export function createChecklistVariables(theme: ChecklistThemeVariables) {
   const layout = companionLayout;
   return {
     colors: {
@@ -420,4 +422,19 @@ export function createChecklistTokens(theme: ChecklistThemeTokens) {
   } as const;
 }
 
-export type ChecklistTokens = ReturnType<typeof createChecklistTokens>;
+/**
+ * @deprecated Use `createChecklistVariables`.
+ */
+export const createChecklistTokens = createChecklistVariables;
+
+export type ChecklistVariables = ReturnType<typeof createChecklistVariables>;
+
+/**
+ * @deprecated Use `ChecklistVariables`.
+ */
+export type ChecklistTokens = ChecklistVariables;
+
+/**
+ * @deprecated Use `ChecklistThemeVariables`.
+ */
+export type ChecklistThemeTokens = ChecklistThemeVariables;

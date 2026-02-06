@@ -3,25 +3,68 @@ import path from "path";
 
 const ROOT = path.resolve(process.cwd(), "widget-src/components");
 const EXTENSIONS = new Set([".ts", ".tsx"]);
+const ALLOWED_NUMERIC_LITERAL = new Set([0]);
 
-const checks = [
+const DEPRECATED_TOP_LEVEL_IMPORTS = new Set([
+  "typography",
+  "legacySpacing",
+  "spacing",
+  "padding",
+  "gap",
+  "radius",
+  "sizes",
+  "lightTheme",
+  "darkTheme",
+  "brand",
+  "neutral",
+  "semantic",
+  "shadows",
+  "withOpacity",
+  "designSystem",
+]);
+
+const regexChecks = [
   {
     name: "Hex color literal",
     regex: /#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\b/g,
     message:
-      "Use design-system tokens instead of hex color literals in components.",
+      "Use design-system variables instead of hex color literals in components.",
   },
   {
     name: "Raw Inter font",
     regex: /fontFamily=\"Inter\"|fontFamily='Inter'/g,
     message:
-      "Use design-system typography tokens instead of raw font family literals.",
+      "Use design-system typography variables instead of raw font family literals.",
   },
   {
     name: "Numeric fontSize literal",
     regex: /fontSize=\{\d+\}/g,
     message:
-      "Use design-system typography tokens instead of numeric font sizes.",
+      "Use design-system typography variables instead of numeric font sizes.",
+  },
+];
+
+const numericChecks = [
+  {
+    name: "Raw style numeric literal",
+    regex:
+      /\b(?:padding|spacing|cornerRadius|radius|fontSize|strokeWidth|width|height|fontWeight|letterSpacing)\s*=\s*\{(\d+(?:\.\d+)?)\}/g,
+    message:
+      "Use design-system variables instead of raw non-zero style literals in JSX props.",
+  },
+  {
+    name: "Raw style object numeric literal",
+    regex:
+      /\b(?:top|bottom|left|right|horizontal|vertical)\s*:\s*(\d+(?:\.\d+)?)\b/g,
+    message:
+      "Use design-system variables instead of raw non-zero style literals in layout objects.",
+  },
+  {
+    name: "Raw style fallback numeric literal",
+    regex:
+      /\b(?:top|bottom|left|right|horizontal|vertical|padding|spacing|cornerRadius|radius|fontSize|strokeWidth|width|height|fontWeight|letterSpacing)\b[^\n;]*\?\?\s*(\d+(?:\.\d+)?)\b/g,
+    message:
+      "Use design-system variables instead of raw non-zero fallback style literals.",
   },
 ];
 
@@ -52,25 +95,116 @@ function lineNumberForIndex(content, index) {
   }
 }
 
+function lineTextForIndex(content, index) {
+  const lineStart = content.lastIndexOf("\n", index - 1) + 1;
+  const lineEnd = content.indexOf("\n", index);
+  if (lineEnd === -1) return content.slice(lineStart);
+  return content.slice(lineStart, lineEnd);
+}
+
+function isCommentLine(content, index) {
+  const lineText = lineTextForIndex(content, index).trim();
+  return lineText.startsWith("//") || lineText.startsWith("*");
+}
+
+function parseImportSpecifiers(specifierBlock) {
+  return specifierBlock
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => part.replace(/^type\s+/, "").trim())
+    .map((part) => part.split(/\s+as\s+/)[0].trim())
+    .filter(Boolean);
+}
+
+function collectDeprecatedImportViolations(content, file) {
+  const violations = [];
+  const importRegex =
+    /import\s*\{([\s\S]*?)\}\s*from\s*["']design-system["'];?/g;
+
+  let match;
+  while ((match = importRegex.exec(content))) {
+    if (isCommentLine(content, match.index)) continue;
+
+    const imports = parseImportSpecifiers(match[1]);
+    for (const importedName of imports) {
+      if (!DEPRECATED_TOP_LEVEL_IMPORTS.has(importedName)) continue;
+
+      const localIndex = match.index + match[0].indexOf(importedName);
+      const line = lineNumberForIndex(content, localIndex);
+      violations.push({
+        file,
+        line,
+        type: "Deprecated design-system import",
+        detail: importedName,
+        message:
+          "Import canonical variables/modules instead of deprecated top-level design-system exports.",
+      });
+    }
+  }
+
+  return violations;
+}
+
+function collectRegexViolations(content, file) {
+  const violations = [];
+
+  for (const check of regexChecks) {
+    const regex = new RegExp(check.regex.source, check.regex.flags);
+    let match;
+    while ((match = regex.exec(content))) {
+      if (isCommentLine(content, match.index)) continue;
+
+      const line = lineNumberForIndex(content, match.index);
+      violations.push({
+        file,
+        line,
+        type: check.name,
+        detail: match[0],
+        message: check.message,
+      });
+    }
+  }
+
+  return violations;
+}
+
+function collectRawNumericViolations(content, file) {
+  const violations = [];
+
+  for (const check of numericChecks) {
+    const regex = new RegExp(check.regex.source, check.regex.flags);
+    let match;
+    while ((match = regex.exec(content))) {
+      if (isCommentLine(content, match.index)) continue;
+
+      const numericValue = Number(match[1]);
+      if (ALLOWED_NUMERIC_LITERAL.has(numericValue)) continue;
+
+      const line = lineNumberForIndex(content, match.index);
+      violations.push({
+        file,
+        line,
+        type: check.name,
+        detail: match[0],
+        message: check.message,
+      });
+    }
+  }
+
+  return violations;
+}
+
 async function main() {
   const files = await walk(ROOT);
   const violations = [];
 
   for (const file of files) {
     const content = await fs.readFile(file, "utf8");
-    for (const check of checks) {
-      let match;
-      while ((match = check.regex.exec(content))) {
-        const line = lineNumberForIndex(content, match.index);
-        violations.push({
-          file,
-          line,
-          type: check.name,
-          detail: match[0],
-          message: check.message,
-        });
-      }
-    }
+
+    violations.push(...collectRegexViolations(content, file));
+    violations.push(...collectDeprecatedImportViolations(content, file));
+    violations.push(...collectRawNumericViolations(content, file));
   }
 
   if (violations.length > 0) {
@@ -83,7 +217,9 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("Design-system lint passed: no raw colors or typography literals in components.");
+  console.log(
+    "Design-system lint passed: no deprecated imports, raw colors, or raw non-zero style literals in components."
+  );
 }
 
 main().catch((err) => {

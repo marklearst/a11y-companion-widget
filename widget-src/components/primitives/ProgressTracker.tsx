@@ -2,14 +2,8 @@ const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
 import { ProgressTrackerProps } from "types/index";
-import {
-  defaultTheme,
-  padding as dsPadding,
-  radius as dsRadius,
-  gap as dsGap,
-  fontFamily as dsFontFamily,
-  fontSize as dsFontSize,
-} from "design-system";
+import { defaultTheme } from "design-system/theme/default";
+import { primitiveComponentVariables } from "design-system/components/primitives";
 /**
  * Renders a pill-shaped progress tracker showing completed and total tasks.
  *
@@ -58,11 +52,13 @@ const ProgressTracker = ({
   return (
     <AutoLayout
       fill={fillColor}
-      cornerRadius={radius ?? dsRadius.full}
-      spacing={gap ?? dsGap.compact}
+      cornerRadius={radius ?? primitiveComponentVariables.progressTracker.radius}
+      spacing={gap ?? primitiveComponentVariables.progressTracker.gap}
       padding={{
-        vertical: padding?.vertical ?? dsPadding.progressTracker.vertical,
-        horizontal: padding?.horizontal ?? dsPadding.progressTracker.horizontal,
+        vertical:
+          padding?.vertical ?? primitiveComponentVariables.progressTracker.paddingY,
+        horizontal:
+          padding?.horizontal ?? primitiveComponentVariables.progressTracker.paddingX,
       }}
       horizontalAlignItems="center"
       verticalAlignItems="center"
@@ -72,9 +68,13 @@ const ProgressTracker = ({
         verticalAlignText="center"
         horizontalAlignText="right"
         lineHeight="140%"
-        fontFamily={fontFamily ?? dsFontFamily.sans}
-        fontSize={fontSize ?? dsFontSize.sm}
-        fontWeight={fontWeight ?? 600}
+        fontFamily={
+          fontFamily ?? primitiveComponentVariables.progressTracker.fontFamily
+        }
+        fontSize={fontSize ?? primitiveComponentVariables.progressTracker.fontSize}
+        fontWeight={
+          fontWeight ?? primitiveComponentVariables.progressTracker.fontWeight
+        }
       >
         {completed} / {total}
       </Text>
