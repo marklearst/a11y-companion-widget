@@ -99,7 +99,7 @@ export const letterSpacing: LetterSpacing = {
  */
 export const fontFamily = {
   sans: "Inter", // Default UI font
-  mono: "monospace", // Code, data
+  mono: "Roboto Mono", // Cross-platform monospace available in Figma
 } as const;
 
 /**

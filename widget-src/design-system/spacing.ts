@@ -59,6 +59,7 @@ export const padding = {
 
   // Input fields
   input: {
+    horizontalNone: spacing.none, // 0px
     horizontal: spacing.md, // 16px
     vertical: spacing.xs, // 8px
   },
@@ -168,12 +169,12 @@ export const radius = {
  */
 export const sizes = {
   checkbox: {
-    width: 18,
-    height: 18,
+    width: 16,
+    height: 16,
   },
 
   icon: {
-    small: 16,
+    small: 18,
     medium: 20,
     large: 24,
   },

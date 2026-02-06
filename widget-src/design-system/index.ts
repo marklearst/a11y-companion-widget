@@ -58,7 +58,7 @@ export type {
 // ============================================
 
 export { createChecklistTokens } from "./components/checklist";
-export type { ChecklistTokens, ChecklistLayoutPreset } from "./components/checklist";
+export type { ChecklistTokens } from "./components/checklist";
 export { createOverlayTokens } from "./components/overlays";
 export type { OverlayTokens } from "./components/overlays";
 
