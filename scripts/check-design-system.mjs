@@ -5,22 +5,36 @@ const ROOT = path.resolve(process.cwd(), "widget-src/components");
 const EXTENSIONS = new Set([".ts", ".tsx"]);
 const ALLOWED_NUMERIC_LITERAL = new Set([0]);
 
-const DEPRECATED_TOP_LEVEL_IMPORTS = new Set([
-  "typography",
-  "legacySpacing",
-  "spacing",
-  "padding",
-  "gap",
-  "radius",
-  "sizes",
-  "lightTheme",
-  "darkTheme",
-  "brand",
-  "neutral",
-  "semantic",
-  "shadows",
-  "withOpacity",
-  "designSystem",
+const DEPRECATED_IMPORTS_BY_MODULE = new Map([
+  [
+    "design-system",
+    new Set([
+      "typography",
+      "legacySpacing",
+      "spacing",
+      "padding",
+      "gap",
+      "radius",
+      "sizes",
+      "lightTheme",
+      "darkTheme",
+      "brand",
+      "neutral",
+      "semantic",
+      "shadows",
+      "withOpacity",
+      "designSystem",
+    ]),
+  ],
+  [
+    "design-system/components/primitives",
+    new Set([
+      "primitiveComponentVariables",
+      "primitiveComponentTokens",
+      "PrimitiveComponentVariables",
+      "PrimitiveComponentTokens",
+    ]),
+  ],
 ]);
 
 const regexChecks = [
@@ -120,15 +134,18 @@ function parseImportSpecifiers(specifierBlock) {
 function collectDeprecatedImportViolations(content, file) {
   const violations = [];
   const importRegex =
-    /import\s*\{([\s\S]*?)\}\s*from\s*["']design-system["'];?/g;
+    /import\s*\{([\s\S]*?)\}\s*from\s*["']([^"']+)["'];?/g;
 
   let match;
   while ((match = importRegex.exec(content))) {
     if (isCommentLine(content, match.index)) continue;
+    const importPath = match[2];
+    const deprecatedImports = DEPRECATED_IMPORTS_BY_MODULE.get(importPath);
+    if (!deprecatedImports) continue;
 
     const imports = parseImportSpecifiers(match[1]);
     for (const importedName of imports) {
-      if (!DEPRECATED_TOP_LEVEL_IMPORTS.has(importedName)) continue;
+      if (!deprecatedImports.has(importedName)) continue;
 
       const localIndex = match.index + match[0].indexOf(importedName);
       const line = lineNumberForIndex(content, localIndex);
@@ -136,9 +153,9 @@ function collectDeprecatedImportViolations(content, file) {
         file,
         line,
         type: "Deprecated design-system import",
-        detail: importedName,
+        detail: `${importPath}#${importedName}`,
         message:
-          "Import canonical variables/modules instead of deprecated top-level design-system exports.",
+          "Import canonical variables/modules instead of deprecated design-system exports.",
       });
     }
   }

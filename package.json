@@ -14,6 +14,7 @@
     "theme:baseline:write": "node scripts/theme-baseline.mjs --write",
     "theme:baseline:check": "node scripts/theme-baseline.mjs --check",
     "watch:ds": "node scripts/watch-design-system.mjs",
+    "watch:ds:strict": "node scripts/watch-design-system.mjs --with-contrast-aa",
     "sync:a11y-checklist": "node scripts/sync-a11y-checklist.mjs",
     "generate:wcag-level-map": "node scripts/generate-wcag-level-map.mjs",
     "tsc": "tsc --noEmit -p widget-src",

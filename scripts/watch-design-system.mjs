@@ -13,15 +13,30 @@ const WATCH_TARGETS = [
   "scripts/check-variable-architecture.mjs",
   "scripts/theme-baseline.mjs",
   "scripts/generate-variable-gap-report.mjs",
+  "scripts/suggest-contrast-shade-steps.mjs",
+  "scripts/check-contrast-aa.mjs",
   "package.json",
 ];
 
-const CHECK_COMMANDS = [
-  ["node", ["scripts/check-design-system.mjs"]],
-  ["node", ["scripts/check-variable-architecture.mjs"]],
-  ["node", ["scripts/theme-baseline.mjs", "--check"]],
-  ["node", ["scripts/generate-variable-gap-report.mjs"]],
-];
+const ENABLE_CONTRAST_AA_CHECK = process.argv.includes("--with-contrast-aa");
+
+function buildCheckCommands() {
+  const commands = [
+    ["node", ["scripts/check-design-system.mjs"]],
+    ["node", ["scripts/check-variable-architecture.mjs"]],
+    ["node", ["scripts/theme-baseline.mjs", "--check"]],
+    ["node", ["scripts/generate-variable-gap-report.mjs"]],
+    ["node", ["scripts/suggest-contrast-shade-steps.mjs"]],
+  ];
+
+  if (ENABLE_CONTRAST_AA_CHECK) {
+    commands.push(["node", ["scripts/check-contrast-aa.mjs"]]);
+  }
+
+  return commands;
+}
+
+const CHECK_COMMANDS = buildCheckCommands();
 
 const IGNORE_PATTERNS = [
   "widget-src/design-system/baselines/",
@@ -112,6 +127,10 @@ async function main() {
       }
     }, 200);
   };
+
+  if (ENABLE_CONTRAST_AA_CHECK) {
+    console.log("[watch:ds] Strict mode enabled (includes check-contrast-aa).");
+  }
 
   await runChecks("startup");
 

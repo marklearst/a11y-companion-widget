@@ -221,8 +221,9 @@ Exit Criteria:
 - [x] Add `pnpm` command `check:contrast`.
 - [x] Add `scripts/suggest-contrast-shade-steps.mjs` to propose nearest safe shade steps for failing accent scenarios without applying changes.
 - [x] Add `pnpm` command `check:contrast:suggest`.
+- [x] Include `check:contrast:suggest` in `watch:ds`.
 - [ ] Include `check:contrast` in `watch:ds` after failure policy is finalized.
-- [ ] Include `check:contrast:suggest` in `watch:ds` after policy is finalized.
+- [x] Add strict watcher mode (`watch:ds:strict`) that includes `check:contrast`.
 - [ ] Add acceptance thresholds:
   - normal text >= 4.5:1
   - large text >= 3.0:1
