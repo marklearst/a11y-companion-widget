@@ -11,7 +11,7 @@
 
 import type { ChecklistItemType, ChecklistSectionType } from "types/checklist";
 import type { UserPreferences } from "hooks/useUserPreferences";
-import type { ChecklistTokens } from "design-system";
+import type { ChecklistVariables } from "design-system";
 
 /**
  * Props for the checklist section component.
@@ -46,8 +46,8 @@ export interface ChecklistSectionProps {
       checkmark?: string;
     };
   };
-  /** Design-system tokens for layout and typography. */
-  ui: ChecklistTokens;
+  /** Design-system variables for layout and typography. */
+  ui: ChecklistVariables;
   /** Optional labels for bulk section actions. */
   labels?: { checkAll: string; uncheckAll: string };
   /** Whether to show item long descriptions in this section. */
@@ -75,8 +75,8 @@ export interface ChecklistItemProps {
     stroke: string;
     checkmark?: string;
   };
-  /** Design-system tokens for layout and typography. */
-  ui: ChecklistTokens;
+  /** Design-system variables for layout and typography. */
+  ui: ChecklistVariables;
   /** Whether to show the item's long description. */
   showDescription?: boolean;
 }

@@ -1,9 +1,9 @@
 import { useChecklistProgress } from "hooks/useChecklistProgress";
 import { useOpenSections } from "hooks/useOpenSections";
 import { useBulkActions } from "hooks/useBulkActions";
-import { withOpacity } from "design-system";
+import { withOpacity } from "design-system/theme/default";
 import type { ChecklistSectionType } from "types";
-import type { ChecklistTokens } from "design-system";
+import type { ChecklistVariables } from "design-system";
 
 type UseChecklistSectionStateOptions = {
   section: ChecklistSectionType;
@@ -11,7 +11,7 @@ type UseChecklistSectionStateOptions = {
   handleCheckChange: (taskId: string, isChecked: boolean) => void;
   hideCompleted?: boolean;
   labels?: { checkAll: string; uncheckAll: string };
-  ui: ChecklistTokens;
+  ui: ChecklistVariables;
 };
 
 export function useChecklistSectionState({

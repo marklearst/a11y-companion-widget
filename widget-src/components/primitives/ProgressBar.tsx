@@ -2,11 +2,8 @@ const { widget } = figma;
 const { AutoLayout, Rectangle } = widget;
 
 import { ProgressBarProps } from "types/index";
-import {
-  defaultTheme,
-  sizes as dsSizes,
-  radius as dsRadius,
-} from "design-system";
+import { defaultTheme } from "design-system/theme/default";
+import { primitiveComponentVariables } from "design-system/components/primitives";
 
 /**
  * Renders a horizontal progress bar showing completion status for tasks.
@@ -53,9 +50,9 @@ const ProgressBar = ({
       direction="horizontal"
       overflow="hidden"
       width={parentWidth}
-      height={height ?? dsSizes.progressBar.height}
+      height={height ?? primitiveComponentVariables.progressBar.height}
       fill={colors?.track ?? defaultTheme.lightTheme.progressBg}
-      cornerRadius={radius ?? dsRadius.xxs}
+      cornerRadius={radius ?? primitiveComponentVariables.progressBar.radius}
       padding={0}
       spacing={0}
     >

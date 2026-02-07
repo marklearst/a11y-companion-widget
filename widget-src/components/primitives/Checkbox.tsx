@@ -2,7 +2,9 @@ const { widget } = figma
 const { AutoLayout, SVG } = widget
 
 import { CheckboxProps } from "types/index";
-import { defaultTheme, sizes as dsSizes, radius as dsRadius } from "design-system";
+import { defaultTheme } from "design-system/theme/default";
+import { primitiveComponentVariables } from "design-system/components/primitives";
+import { buildCheckmarkSvg } from "ui/icons";
 
 /**
  * Renders a checkbox UI element with an optional checkmark.
@@ -27,11 +29,22 @@ const Checkbox = ({ checked, colors, size, strokeWidth, radius }: CheckboxProps)
     colors?.bgUnchecked ?? defaultTheme.lightTheme.checkboxBgUnchecked;
   const strokeColor =
     colors?.stroke ?? defaultTheme.lightTheme.checkboxStroke;
-  const resolvedSize = size ?? dsSizes.checkbox.width
-  const resolvedStrokeWidth = strokeWidth ?? 3
-  const resolvedRadius = radius ?? dsRadius.md
+  const resolvedSize = size ?? primitiveComponentVariables.checkbox.size
+  const resolvedStrokeWidth =
+    strokeWidth ?? primitiveComponentVariables.checkbox.strokeWidth
+  const resolvedRadius = radius ?? primitiveComponentVariables.checkbox.radius
+  const checkmarkWidth = primitiveComponentVariables.checkbox.checkmark.width
+  const checkmarkHeight = primitiveComponentVariables.checkbox.checkmark.height
+  const checkmarkStrokeWidth =
+    primitiveComponentVariables.checkbox.checkmark.strokeWidth
   const checkmarkColor =
     colors?.checkmark ?? defaultTheme.lightTheme.panelBg
+  const checkmarkSvg = buildCheckmarkSvg({
+    color: checkmarkColor,
+    width: checkmarkWidth,
+    height: checkmarkHeight,
+    strokeWidth: checkmarkStrokeWidth,
+  });
 
   return (
     <AutoLayout
@@ -56,7 +69,7 @@ const Checkbox = ({ checked, colors, size, strokeWidth, radius }: CheckboxProps)
           type: 'center',
           offset: 0,
         }}
-        src={`<svg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 1L4 6.5L1 4' stroke='${checkmarkColor}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>`}
+        src={checkmarkSvg}
       />
     )}
   </AutoLayout>

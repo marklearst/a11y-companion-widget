@@ -1,7 +1,6 @@
 const { widget } = figma;
 const { AutoLayout, Text } = widget;
-import { createOverlayTokens, defaultTheme, type OverlayTokens } from "design-system";
-import { containerWidths } from "design-system/primitives/sizing";
+import { createOverlayVariables, defaultTheme, primitives, type OverlayVariables } from "design-system";
 import { dropShadowEffect } from "effects";
 
 import type { ContrastResult } from "hooks/useContrastChecker";
@@ -27,12 +26,12 @@ export function ContrastDisplay({
     warning: string;
     error: string;
   };
-  ui?: OverlayTokens;
+  ui?: OverlayVariables;
 }) {
   const fallback = defaultTheme.lightTheme;
   const uiTokens =
     ui ??
-    createOverlayTokens({
+    createOverlayVariables({
       panelBg: colors?.panelBg ?? fallback.panelBg,
       panelStroke: fallback.panelStroke,
       textPrimary: colors?.textPrimary ?? fallback.textPrimary,
@@ -61,7 +60,7 @@ export function ContrastDisplay({
       direction="vertical"
       spacing={uiTokens.layout.spacing}
       padding={uiTokens.layout.padding}
-      width={containerWidths.md}
+      width={primitives.sizing.container.md}
       fill={palette.panelBg}
       cornerRadius={uiTokens.layout.radius}
       stroke={statusColor}

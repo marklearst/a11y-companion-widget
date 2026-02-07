@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { useSyncedMap, useSyncedState, useEffect } = widget;
 
-import { withOpacity } from "design-system";
+import { defaultTheme, withOpacity } from "design-system/theme/default";
 
 type AvatarProfile = {
   id: string;
@@ -79,11 +79,11 @@ const TEST_AVATAR_NAMES = [
   "Morgan UX",
 ];
 const TEST_AVATAR_COLORS = [
-  "#E8EAFF",
-  "#E6F4FF",
-  "#E8F5E9",
-  "#FFF3E0",
-  "#F3E5F5",
+  defaultTheme.brand.purple[100],
+  defaultTheme.neutral.gray[100],
+  defaultTheme.semantic.success.light,
+  defaultTheme.semantic.warning.light,
+  defaultTheme.semantic.info.light,
 ];
 
 export function useAvatarProfiles(options: UseAvatarProfilesOptions) {

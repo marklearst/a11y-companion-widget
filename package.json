@@ -4,12 +4,22 @@
   "description": "a11y Companion Widget",
   "scripts": {
     "build": "esbuild widget-src/code.tsx --bundle --outfile=dist/code.js --target=es6",
-    "lint": "eslint --ext .ts,.tsx --ignore-pattern node_modules . && npm run lint:design-system",
+    "lint": "eslint --ext .ts,.tsx --ignore-pattern node_modules . && node scripts/check-design-system.mjs && node scripts/check-variable-architecture.mjs",
     "lint:fix": "eslint --ext .ts,.tsx --ignore-pattern node_modules --fix .",
-    "lint:design-system": "node scripts/check-design-system.mjs",
+    "lint:design-system": "node scripts/check-design-system.mjs && node scripts/check-variable-architecture.mjs",
+    "check:variables": "node scripts/check-design-system.mjs && node scripts/check-variable-architecture.mjs",
+    "report:variables": "node scripts/generate-variable-gap-report.mjs",
+    "check:contrast": "node scripts/check-contrast-aa.mjs",
+    "check:contrast:suggest": "node scripts/suggest-contrast-shade-steps.mjs",
+    "theme:baseline:write": "node scripts/theme-baseline.mjs --write",
+    "theme:baseline:check": "node scripts/theme-baseline.mjs --check",
+    "watch:ds": "node scripts/watch-design-system.mjs",
     "sync:a11y-checklist": "node scripts/sync-a11y-checklist.mjs",
     "tsc": "tsc --noEmit -p widget-src",
-    "watch": "npm run build -- --watch"
+    "watch": "pnpm run build -- --watch"
+  },
+  "engines": {
+    "pnpm": ">=10"
   },
   "author": "Mark Learst",
   "license": "MIT",

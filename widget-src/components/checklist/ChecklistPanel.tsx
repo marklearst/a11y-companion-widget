@@ -10,15 +10,16 @@ import { useMarkdownExport } from "hooks/useMarkdownExport";
 import { getMessages } from "i18n";
 import { resolveTheme } from "theme";
 import {
-  createChecklistTokens,
-  createOverlayTokens,
-  neutral,
+  createChecklistVariables,
+  createOverlayVariables,
 } from "design-system";
+import { neutral } from "design-system/theme/default";
 import { filterSectionsByTemplate } from "data/templates";
 import type { ChecklistSectionType } from "types";
 import { useAvatarProfiles } from "hooks/useAvatarProfiles";
 import { getProgressLayout } from "logic/progress";
 import { useChecklistSettingsMenu } from "hooks/useChecklistSettingsMenu";
+import { buildA11yLogoSvg } from "ui/icons";
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -102,8 +103,8 @@ function ChecklistPanel({
    */
   const effectiveDark = theme === "dark" || (theme === "system" && isDarkMode);
   const tokens = resolveTheme(!!effectiveDark, "default", accentColor);
-  const ui = createChecklistTokens(tokens);
-  const overlayUi = createOverlayTokens({
+  const ui = createChecklistVariables(tokens);
+  const overlayUi = createOverlayVariables({
     panelBg: ui.colors.panelBg,
     panelStroke: ui.colors.panelStroke,
     textPrimary: ui.colors.textPrimary,
@@ -154,6 +155,7 @@ function ChecklistPanel({
   }));
   const avatarsForRender = [...avatarPositions].reverse();
   const richDescriptionSections = new Set(showItemDescriptionsForSectionIds);
+  const a11yLogoSvg = buildA11yLogoSvg({ fill: logoFill, size: ui.header.logoSize });
   return (
     <AutoLayout
       direction="vertical"
@@ -193,7 +195,7 @@ function ChecklistPanel({
           name="a11y-logo"
           width={ui.header.logoSize}
           height={ui.header.logoSize}
-          src={`<svg class='c-logo__icon' aria-hidden='true' focusable='false' width='51' height='51' xmlns='http://www.w3.org/2000/svg'><title>The A11Y Project</title><path d='M25.5 0C11.417 0 0 11.417 0 25.5S11.417 51 25.5 51 51 39.583 51 25.5 39.583 0 25.5 0zm-.385 5.064a3.3 3.3 0 0 1 3.307 3.291 3.304 3.304 0 0 1-3.307 3.306 3.3 3.3 0 0 1-3.29-3.306 3.29 3.29 0 0 1 3.29-3.291zm14.289 10.652l-9.809 1.24.005 9.817 4.755 15.867a1.85 1.85 0 0 1-1.344 2.252c-.989.25-2.003-.3-2.252-1.298l-4.87-14.443h-1.498l-4.48 14.742c-.374.964-1.448 1.404-2.407 1.03-.954-.37-1.533-1.454-1.158-2.418l4.115-15.572v-9.978l-9.04-1.228c-.928-.075-1.558-.89-1.483-1.818.07-.934.914-1.628 1.838-1.554l10.982.944h4.815l11.69-.963a1.68 1.68 0 0 1 1.749 1.623c.04.924-.68 1.718-1.608 1.758z' fill='${logoFill}'></path></svg>`}
+          src={a11yLogoSvg}
         />
         <Text
           name="HeaderTitle"
@@ -269,7 +271,7 @@ function ChecklistPanel({
                   >
                     <Text
                       fontSize={ui.header.avatar.fontSize}
-                      fontWeight={600}
+                      fontWeight={ui.header.avatar.fontWeight}
                       fontFamily={ui.header.title.fontFamily}
                       fill={avatar.textColor}
                     >
