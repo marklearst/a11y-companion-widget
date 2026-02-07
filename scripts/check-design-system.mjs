@@ -1,7 +1,14 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-const ROOT = path.resolve(process.cwd(), "widget-src/components");
+const ROOT = process.cwd();
+const SCAN_ROOTS = [
+  "widget-src/components",
+  "widget-src/hooks",
+  "widget-src/theme",
+  "widget-src/effects",
+  "widget-src/types",
+].map((relativePath) => path.resolve(ROOT, relativePath));
 const EXTENSIONS = new Set([".ts", ".tsx"]);
 const ALLOWED_NUMERIC_LITERAL = new Set([0]);
 
@@ -24,6 +31,17 @@ const DEPRECATED_IMPORTS_BY_MODULE = new Map([
       "shadows",
       "withOpacity",
       "designSystem",
+      "getThemeShadow",
+      "createChecklistTokens",
+      "ChecklistTokens",
+      "ChecklistThemeTokens",
+      "createOverlayTokens",
+      "OverlayTokens",
+      "OverlayThemeTokens",
+      "primitiveComponentVariables",
+      "primitiveComponentTokens",
+      "PrimitiveComponentVariables",
+      "PrimitiveComponentTokens",
     ]),
   ],
   [
@@ -33,6 +51,22 @@ const DEPRECATED_IMPORTS_BY_MODULE = new Map([
       "primitiveComponentTokens",
       "PrimitiveComponentVariables",
       "PrimitiveComponentTokens",
+    ]),
+  ],
+  [
+    "design-system/components/checklist",
+    new Set([
+      "createChecklistTokens",
+      "ChecklistTokens",
+      "ChecklistThemeTokens",
+    ]),
+  ],
+  [
+    "design-system/components/overlays",
+    new Set([
+      "createOverlayTokens",
+      "OverlayTokens",
+      "OverlayThemeTokens",
     ]),
   ],
 ]);
@@ -96,6 +130,15 @@ async function walk(dir) {
   }
 
   return files;
+}
+
+async function pathExists(targetPath) {
+  try {
+    await fs.access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function lineNumberForIndex(content, index) {
@@ -213,7 +256,11 @@ function collectRawNumericViolations(content, file) {
 }
 
 async function main() {
-  const files = await walk(ROOT);
+  const files = [];
+  for (const scanRoot of SCAN_ROOTS) {
+    if (!(await pathExists(scanRoot))) continue;
+    files.push(...(await walk(scanRoot)));
+  }
   const violations = [];
 
   for (const file of files) {
@@ -235,7 +282,7 @@ async function main() {
   }
 
   console.log(
-    "Design-system lint passed: no deprecated imports, raw colors, or raw non-zero style literals in components."
+    "Design-system lint passed: no deprecated imports, raw colors, or raw non-zero style literals in scanned app files."
   );
 }
 

@@ -6,6 +6,8 @@ const TARGET_DIRS = [
   "widget-src/components",
   "widget-src/hooks",
   "widget-src/theme",
+  "widget-src/effects",
+  "widget-src/types",
 ].map((dir) => path.resolve(ROOT, dir));
 const EXTENSIONS = new Set([".ts", ".tsx"]);
 const ALLOWED_NUMERIC_LITERAL = new Set([0]);
@@ -31,6 +33,17 @@ const DEPRECATED_TOP_LEVEL_IMPORTS = new Set([
   "shadows",
   "withOpacity",
   "designSystem",
+  "getThemeShadow",
+  "createChecklistTokens",
+  "ChecklistTokens",
+  "ChecklistThemeTokens",
+  "createOverlayTokens",
+  "OverlayTokens",
+  "OverlayThemeTokens",
+  "primitiveComponentVariables",
+  "primitiveComponentTokens",
+  "PrimitiveComponentVariables",
+  "PrimitiveComponentTokens",
 ]);
 
 const colorChecks = [
@@ -79,6 +92,15 @@ async function walk(dir) {
   }
 
   return files;
+}
+
+async function pathExists(targetPath) {
+  try {
+    await fs.access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function lineNumberForIndex(content, index) {
@@ -251,7 +273,7 @@ function toMarkdown(findings) {
   lines.push("");
   lines.push("## Notes");
   lines.push("");
-  lines.push("- This report scans `widget-src/components`, `widget-src/hooks`, and `widget-src/theme`.");
+  lines.push("- This report scans `widget-src/components`, `widget-src/hooks`, `widget-src/theme`, `widget-src/effects`, and `widget-src/types`.");
   lines.push("- Numeric literal checks allow explicit `0` values.");
   lines.push("- Use this report to drive variable additions and migration PRs.");
 
@@ -261,6 +283,7 @@ function toMarkdown(findings) {
 async function main() {
   const allFiles = [];
   for (const dir of TARGET_DIRS) {
+    if (!(await pathExists(dir))) continue;
     allFiles.push(...(await walk(dir)));
   }
 

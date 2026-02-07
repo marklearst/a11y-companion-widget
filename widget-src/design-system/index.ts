@@ -57,29 +57,18 @@ export type {
 // Component Variables
 // ============================================
 
-export { createChecklistVariables, createChecklistTokens } from "./components/checklist";
-export type { ChecklistVariables, ChecklistTokens } from "./components/checklist";
-export { createOverlayVariables, createOverlayTokens } from "./components/overlays";
-export type { OverlayVariables, OverlayTokens } from "./components/overlays";
-export {
-  componentPrimitives,
-  primitiveComponentVariables,
-  primitiveComponentTokens,
-} from "./components/primitives";
-export type {
-  ComponentPrimitives,
-  PrimitiveComponentVariables,
-  PrimitiveComponentTokens,
-} from "./components/primitives";
+export { createChecklistVariables } from "./components/checklist";
+export type { ChecklistVariables } from "./components/checklist";
+export { createOverlayVariables } from "./components/overlays";
+export type { OverlayVariables } from "./components/overlays";
+export { componentPrimitives } from "./components/primitives";
+export type { ComponentPrimitives } from "./components/primitives";
 
 // Import primitives for bundled export
 import {
   colors,
-  lightTheme,
-  darkTheme,
   getThemeColors,
 } from "./primitives/color";
-import { shadows as themeShadows } from "./colors";
 import {
   fontSize,
   fontWeight,
@@ -194,70 +183,6 @@ export const primitives = {
 } as const;
 
 // ============================================
-// Legacy Support (Deprecated)
-// ============================================
-
-/**
- * @deprecated Use `primitives.typography` instead
- *
- * Legacy typography export for backward compatibility.
- * Will be removed in v2.0.0
- */
-export { typography } from "./typography";
-
-/**
- * @deprecated Use `primitives.spacing` instead
- *
- * Legacy spacing export for backward compatibility.
- * Will be removed in v2.0.0
- */
-export {
-  spacing as legacySpacing,
-  padding,
-  gap,
-  radius,
-  sizes,
-} from "./spacing";
-
-/**
- * @deprecated Use `primitives.color.light` or `primitives.color.dark` instead
- *
- * Legacy color export for backward compatibility.
- * Will be removed in v2.0.0
- */
-export {
-  lightTheme,
-  darkTheme,
-  brand,
-  neutral,
-  semantic,
-  shadows as legacyShadows,
-  withOpacity,
-} from "./colors";
-
-/**
- * @deprecated Use `primitives` instead
- *
- * Legacy design system export for backward compatibility.
- * Will be removed in v2.0.0
- */
-export const designSystem = {
-  typography: {
-    fontSize,
-    fontWeight,
-    lineHeight,
-    letterSpacing,
-    fontFamily,
-    textStyles,
-  },
-  spacing: spacing,
-  colors: {
-    light: lightTheme,
-    dark: darkTheme,
-  },
-} as const;
-
-// ============================================
 // Helper Functions
 // ============================================
 
@@ -277,17 +202,8 @@ export function getThemeColorsHelper(isDark: boolean) {
   return getThemeColors(isDark ? "dark" : "light");
 }
 
-/**
- * @deprecated Use `getThemeColorsHelper` instead
- */
-export function getThemeShadow(isDark: boolean) {
-  return isDark ? themeShadows.dark : themeShadows.light;
-}
-
 // ============================================
 // Type Exports
 // ============================================
 
 export type Primitives = typeof primitives;
-export type DesignSystem = typeof designSystem;
-export type ThemeColors = typeof lightTheme | typeof darkTheme;

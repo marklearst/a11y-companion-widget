@@ -52,24 +52,4 @@ export const componentPrimitives = {
   },
 } as const;
 
-/**
- * @deprecated Use `componentPrimitives`.
- */
-export const primitiveComponentVariables = componentPrimitives;
-
-/**
- * @deprecated Use `componentPrimitives`.
- */
-export const primitiveComponentTokens = componentPrimitives;
-
 export type ComponentPrimitives = typeof componentPrimitives;
-
-/**
- * @deprecated Use `ComponentPrimitives`.
- */
-export type PrimitiveComponentVariables = ComponentPrimitives;
-
-/**
- * @deprecated Use `ComponentPrimitives`.
- */
-export type PrimitiveComponentTokens = ComponentPrimitives;
