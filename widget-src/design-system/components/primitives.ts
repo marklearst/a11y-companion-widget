@@ -22,6 +22,7 @@ export const componentPrimitives = {
   progressBar: {
     height: 12,
     radius: 2,
+    minVisibleFillWidth: 1,
   },
   progressTracker: {
     gap: spacing[8],

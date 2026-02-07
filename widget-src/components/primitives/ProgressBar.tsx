@@ -31,15 +31,17 @@ const ProgressBar = ({
   height,
   radius,
 }: ProgressBarProps) => {
-  // Heuristic: derive dark mode based on background—widgets don't provide direct theme here.
-  // For now, keep original colors; ChecklistPanel wraps it with context colors if needed later.
-  const percentage = total === 0 ? 0 : (completed / total) * 100;
-  let calculatedWidth = (percentage / 100) * parentWidth;
-
-  // Ensure calculatedWidth is at least 1 to avoid rendering issues
-  if (calculatedWidth === 0) {
-    calculatedWidth = 0.25;
-  }
+  const resolvedParentWidth = Math.max(0, parentWidth);
+  const percentage = total <= 0 ? 0 : completed / total;
+  const rawFillWidth = percentage * resolvedParentWidth;
+  const hasProgress = completed > 0 && total > 0;
+  const minVisibleFillWidth = componentPrimitives.progressBar.minVisibleFillWidth;
+  const fillWidth = hasProgress
+    ? Math.min(
+        resolvedParentWidth,
+        Math.max(minVisibleFillWidth, rawFillWidth)
+      )
+    : 0;
 
   /**
    * Renders the progress bar component.
@@ -49,18 +51,20 @@ const ProgressBar = ({
     <AutoLayout
       direction="horizontal"
       overflow="hidden"
-      width={parentWidth}
+      width={resolvedParentWidth}
       height={height ?? componentPrimitives.progressBar.height}
       fill={colors?.track ?? defaultTheme.lightTheme.progressBg}
       cornerRadius={radius ?? componentPrimitives.progressBar.radius}
       padding={0}
       spacing={0}
     >
-      <Rectangle
-        width={calculatedWidth}
-        height="fill-parent"
-        fill={colors?.fill ?? defaultTheme.lightTheme.progressFill}
-      />
+      {fillWidth > 0 && (
+        <Rectangle
+          width={fillWidth}
+          height="fill-parent"
+          fill={colors?.fill ?? defaultTheme.lightTheme.progressFill}
+        />
+      )}
     </AutoLayout>
   );
 };
