@@ -274,7 +274,7 @@ const companionLayout: ChecklistLayoutVariables = {
     description: {
       paddingX: padding.sectionDescription.horizontal,
       paddingY: padding.sectionDescription.vertical,
-      radius: radius.xl,
+      radius: radius.lg,
       fontFamily: fontFamily.sans,
       fontSize: fontSize.sm,
       fontWeight: fontWeight.medium,
