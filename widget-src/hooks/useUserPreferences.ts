@@ -3,7 +3,7 @@ const { useSyncedMap, useSyncedState, useEffect } = widget;
 
 import { defaultTheme } from "design-system";
 import { templates, type TemplateType } from "data/templates";
-import { normalizeHexColor } from "logic/hexColor";
+import { normalizeHexColor } from "shared/hexColor";
 
 export type UserPreferences = {
   hideCompleted: boolean;

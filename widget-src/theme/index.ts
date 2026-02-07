@@ -1,5 +1,5 @@
 import { defaultTheme, themePresets, type ThemePresetName } from "design-system";
-import { normalizeHexColor } from "logic/hexColor";
+import { normalizeHexColor } from "shared/hexColor";
 
 export type ThemeName = "light" | "dark";
 
