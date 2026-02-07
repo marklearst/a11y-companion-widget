@@ -24,6 +24,8 @@ assets
 /markdown
 !README.md
 !AGENTS.md
+!CHANGELOG.md
+DESIGN_SYSTEM_*.md
 
 # production
 /build
