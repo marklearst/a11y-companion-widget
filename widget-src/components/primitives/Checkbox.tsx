@@ -3,7 +3,7 @@ const { AutoLayout, SVG } = widget
 
 import { CheckboxProps } from "types/index";
 import { defaultTheme } from "design-system/theme/default";
-import { primitiveComponentVariables } from "design-system/components/primitives";
+import { componentPrimitives } from "design-system/components/primitives";
 import { buildCheckmarkSvg } from "ui/icons";
 
 /**
@@ -29,14 +29,14 @@ const Checkbox = ({ checked, colors, size, strokeWidth, radius }: CheckboxProps)
     colors?.bgUnchecked ?? defaultTheme.lightTheme.checkboxBgUnchecked;
   const strokeColor =
     colors?.stroke ?? defaultTheme.lightTheme.checkboxStroke;
-  const resolvedSize = size ?? primitiveComponentVariables.checkbox.size
+  const resolvedSize = size ?? componentPrimitives.checkbox.size
   const resolvedStrokeWidth =
-    strokeWidth ?? primitiveComponentVariables.checkbox.strokeWidth
-  const resolvedRadius = radius ?? primitiveComponentVariables.checkbox.radius
-  const checkmarkWidth = primitiveComponentVariables.checkbox.checkmark.width
-  const checkmarkHeight = primitiveComponentVariables.checkbox.checkmark.height
+    strokeWidth ?? componentPrimitives.checkbox.strokeWidth
+  const resolvedRadius = radius ?? componentPrimitives.checkbox.radius
+  const checkmarkWidth = componentPrimitives.checkbox.checkmark.width
+  const checkmarkHeight = componentPrimitives.checkbox.checkmark.height
   const checkmarkStrokeWidth =
-    primitiveComponentVariables.checkbox.checkmark.strokeWidth
+    componentPrimitives.checkbox.checkmark.strokeWidth
   const checkmarkColor =
     colors?.checkmark ?? defaultTheme.lightTheme.panelBg
   const checkmarkSvg = buildCheckmarkSvg({

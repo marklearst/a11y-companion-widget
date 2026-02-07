@@ -3,7 +3,7 @@ const { AutoLayout, Rectangle } = widget;
 
 import { ProgressBarProps } from "types/index";
 import { defaultTheme } from "design-system/theme/default";
-import { primitiveComponentVariables } from "design-system/components/primitives";
+import { componentPrimitives } from "design-system/components/primitives";
 
 /**
  * Renders a horizontal progress bar showing completion status for tasks.
@@ -50,9 +50,9 @@ const ProgressBar = ({
       direction="horizontal"
       overflow="hidden"
       width={parentWidth}
-      height={height ?? primitiveComponentVariables.progressBar.height}
+      height={height ?? componentPrimitives.progressBar.height}
       fill={colors?.track ?? defaultTheme.lightTheme.progressBg}
-      cornerRadius={radius ?? primitiveComponentVariables.progressBar.radius}
+      cornerRadius={radius ?? componentPrimitives.progressBar.radius}
       padding={0}
       spacing={0}
     >

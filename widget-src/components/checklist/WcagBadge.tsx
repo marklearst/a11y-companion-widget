@@ -1,5 +1,5 @@
 import { defaultTheme } from "design-system/theme/default";
-import { primitiveComponentVariables } from "design-system/components/primitives";
+import { componentPrimitives } from "design-system/components/primitives";
 import { buildWcagLinkSvg } from "ui/icons";
 import type { WCAGLevel } from "types";
 import { getWcagUrl } from "logic/wcag";
@@ -43,7 +43,7 @@ export function WcagBadge({
 }) {
   const wcagUrl = getWcagUrl(wcag);
   const badgeLabel = level ? `${wcag} (${level})` : wcag;
-  const badgeVariables = primitiveComponentVariables.wcagBadge;
+  const badgeVariables = componentPrimitives.wcagBadge;
   const resolvedIconColor =
     iconColor ?? textColor ?? defaultTheme.lightTheme.wcagBadgeText;
   const resolvedIconSize = iconSize ?? badgeVariables.iconSize;
