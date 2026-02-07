@@ -20,6 +20,7 @@ import { useAvatarProfiles } from "hooks/useAvatarProfiles";
 import { getProgressLayout } from "logic/progress";
 import { useChecklistSettingsMenu } from "hooks/useChecklistSettingsMenu";
 import { buildA11yLogoSvg } from "ui/icons";
+import { resolveAvatarStackWidth, resolveAvatarStep } from "shared/avatarStack";
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -146,11 +147,12 @@ function ChecklistPanel({
   });
   const avatarSize = ui.header.avatar.size;
   const avatarStroke = ui.header.avatar.strokeWidth;
-  const avatarStep = Math.max(0, avatarSize + ui.header.avatar.stackOffsetX);
-  const avatarStackWidth =
-    avatars.length > 0
-      ? avatarSize + (avatars.length - 1) * avatarStep
-      : 0;
+  const avatarStep = resolveAvatarStep(avatarSize, ui.header.avatar.stackOffsetX);
+  const avatarStackWidth = resolveAvatarStackWidth(
+    avatars.length,
+    avatarSize,
+    avatarStep
+  );
   const avatarPositions = avatars.map((avatar, index) => ({
     avatar,
     x: index * avatarStep,

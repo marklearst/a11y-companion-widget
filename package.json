@@ -17,6 +17,8 @@
     "watch:ds:strict": "node scripts/watch-design-system.mjs --with-contrast-aa",
     "sync:a11y-checklist": "node scripts/sync-a11y-checklist.mjs",
     "generate:wcag-level-map": "node scripts/generate-wcag-level-map.mjs",
+    "test:hardening": "node scripts/test-hardening.mjs",
+    "check:safe": "pnpm run build && pnpm run tsc && pnpm run lint && pnpm run test:hardening",
     "tsc": "tsc --noEmit -p widget-src",
     "watch": "pnpm run build --watch"
   },
@@ -55,6 +57,24 @@
           "caughtErrorsIgnorePattern": "^_"
         }
       ]
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "widget-src/**/*.{ts,tsx}"
+        ],
+        "rules": {
+          "no-console": [
+            "error",
+            {
+              "allow": [
+                "warn",
+                "error"
+              ]
+            }
+          ]
+        }
+      }
+    ]
   }
 }
