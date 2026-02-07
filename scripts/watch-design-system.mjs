@@ -18,7 +18,17 @@ const WATCH_TARGETS = [
   "package.json",
 ];
 
-const ENABLE_CONTRAST_AA_CHECK = process.argv.includes("--with-contrast-aa");
+const FORCE_CONTRAST_AA_CHECK = process.argv.includes("--with-contrast-aa");
+const DISABLE_CONTRAST_AA_CHECK = process.argv.includes("--without-contrast-aa");
+
+if (FORCE_CONTRAST_AA_CHECK && DISABLE_CONTRAST_AA_CHECK) {
+  throw new Error(
+    "Cannot combine --with-contrast-aa and --without-contrast-aa."
+  );
+}
+
+const ENABLE_CONTRAST_AA_CHECK =
+  FORCE_CONTRAST_AA_CHECK || !DISABLE_CONTRAST_AA_CHECK;
 
 function buildCheckCommands() {
   const commands = [
@@ -129,7 +139,9 @@ async function main() {
   };
 
   if (ENABLE_CONTRAST_AA_CHECK) {
-    console.log("[watch:ds] Strict mode enabled (includes check-contrast-aa).");
+    console.log("[watch:ds] Contrast AA checks enabled.");
+  } else {
+    console.log("[watch:ds] Contrast AA checks disabled (--without-contrast-aa).");
   }
 
   await runChecks("startup");
