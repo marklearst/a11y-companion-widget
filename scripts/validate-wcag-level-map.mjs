@@ -47,7 +47,7 @@ async function validateWcagMap() {
 
       const seenCodes = new Set();
       for (const [index, entry] of criteria.entries()) {
-        const context = \`\${level}[\\\${index}]\`;
+        const context = \`\${level}[\${index}]\`;
         const code = String(entry?.code ?? "").trim();
         const title = String(entry?.title ?? "").trim();
         const url = String(entry?.url ?? "").trim();
@@ -68,11 +68,16 @@ async function validateWcagMap() {
       }
 
       if (Array.isArray(codeList)) {
-        const criteriaCodes = criteria.map((entry) => entry.code);
+        const criteriaCodes = criteria.map((entry) =>
+          String(entry?.code ?? "").trim()
+        );
+        const normalizedCodeList = codeList.map((code) =>
+          String(code ?? "").trim()
+        );
         const criteriaSet = new Set(criteriaCodes);
-        const codeListSet = new Set(codeList);
+        const codeListSet = new Set(normalizedCodeList);
 
-        for (const code of codeList) {
+        for (const code of normalizedCodeList) {
           if (!criteriaSet.has(code)) {
             errors.push(
               \`wcagCriteriaByLevel[\${level}] includes code "\${code}" missing from wcagLevelCriteriaMap.\`
@@ -139,6 +144,14 @@ async function validateWcagMap() {
       encoding: "utf8",
     });
 
+    if (run.error) {
+      throw new Error(
+        `WCAG map validation runner failed to spawn.\n${String(
+          run.error.message || run.error
+        )}`
+      );
+    }
+
     if (run.status !== 0) {
       throw new Error(`WCAG map validation runner failed.\n${run.stderr || ""}`);
     }
@@ -180,4 +193,3 @@ main().catch((error) => {
   console.error(error.message || error);
   process.exit(1);
 });
-
