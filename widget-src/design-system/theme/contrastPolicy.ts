@@ -213,7 +213,7 @@ export function resolveContrastSafeAccent(
           : candidateIndex === referenceIndex
             ? "mapped"
             : "stepped",
-      shadeStep: candidate.shade - referenceShade,
+      shadeStep: candidateIndex - referenceIndex,
     };
   }
 
