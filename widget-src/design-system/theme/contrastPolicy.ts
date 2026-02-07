@@ -1,4 +1,4 @@
-import { calculateContrastRatioHex, WCAG_AA } from "../utils/contrast";
+import { calculateContrastRatioHex } from "../utils/contrast";
 import type { ThemeConfig } from "./types";
 import { normalizeHexColor } from "shared/hexColor";
 
@@ -6,24 +6,24 @@ export type AccentStepDirection = "lighter" | "darker";
 export type ContrastMode = "light" | "dark";
 
 export interface AccentStepPolicyMode {
-  primaryDirection: AccentStepDirection;
-  fallbackDirection: AccentStepDirection;
+  readonly primaryDirection: AccentStepDirection;
+  readonly fallbackDirection: AccentStepDirection;
 }
 
 export interface AccentStepPolicy {
-  stepSize: 100;
-  mode: Record<ContrastMode, AccentStepPolicyMode>;
-  stopCondition: "first-pass";
-  unresolvedBehavior: "fail-validation-no-silent-mutation";
-  thresholds: {
-    normalTextAA: 4.5;
-    largeTextAA: 3.0;
+  readonly stepSize: number;
+  readonly mode: Record<ContrastMode, AccentStepPolicyMode>;
+  readonly stopCondition: "first-pass";
+  readonly unresolvedBehavior: "fail-validation-no-silent-mutation";
+  readonly thresholds: {
+    readonly normalTextAA: number;
+    readonly largeTextAA: number;
   };
 }
 
 export interface ResolvedAccentResult {
   accent: string;
-  source: "input" | "stepped" | "unresolved";
+  source: "input" | "mapped" | "stepped" | "unresolved";
   shadeStep: number;
 }
 
@@ -40,7 +40,7 @@ const policyDirectionOffset: Record<AccentStepDirection, number> = {
 /**
  * Phase 2 deterministic accent-step policy.
  */
-export const accentStepPolicy: AccentStepPolicy = {
+export const accentStepPolicy = {
   stepSize: 100,
   mode: {
     light: {
@@ -58,18 +58,26 @@ export const accentStepPolicy: AccentStepPolicy = {
     normalTextAA: 4.5,
     largeTextAA: 3.0,
   },
-} as const;
+} as const satisfies AccentStepPolicy;
 
 function buildBrandScale(theme: ThemeConfig): BrandScaleEntry[] {
   return Object.entries(theme.brand.purple)
     .map(([shade, color]) => {
       const normalizedColor = normalizeHexColor(String(color));
+      if (!normalizedColor) {
+        return null;
+      }
       return {
         shade: Number(shade),
-        color: normalizedColor ?? String(color),
+        color: normalizedColor,
       };
     })
-    .filter((entry) => Number.isFinite(entry.shade))
+    .filter(
+      (entry): entry is BrandScaleEntry => {
+        if (!entry) return false;
+        return Number.isFinite(entry.shade);
+      }
+    )
     .sort((left, right) => left.shade - right.shade);
 }
 
@@ -137,7 +145,7 @@ function buildCandidateIndices(
 }
 
 function passesRequiredContrast(accent: string, backgrounds: string[]): boolean {
-  const threshold = WCAG_AA.normal;
+  const threshold = accentStepPolicy.thresholds.normalTextAA;
   for (const background of backgrounds) {
     const ratio = calculateContrastRatioHex(accent, background);
     if (typeof ratio !== "number" || ratio < threshold) {
@@ -199,7 +207,12 @@ export function resolveContrastSafeAccent(
 
     return {
       accent: candidate.color,
-      source: candidate.color === normalizedAccent ? "input" : "stepped",
+      source:
+        candidate.color === normalizedAccent
+          ? "input"
+          : candidateIndex === referenceIndex
+            ? "mapped"
+            : "stepped",
       shadeStep: candidate.shade - referenceShade,
     };
   }
@@ -210,4 +223,3 @@ export function resolveContrastSafeAccent(
     shadeStep: 0,
   };
 }
-

@@ -67,15 +67,34 @@ async function runHardeningChecks() {
     for (const preset of presetNames) {
       const light = resolveTheme(false, preset);
       const dark = resolveTheme(true, preset);
-      const lightRatio = calculateContrastRatioHex(light.progressFill, light.panelBg);
-      const darkRatio = calculateContrastRatioHex(dark.progressFill, dark.panelBg);
+      const lightPanelRatio = calculateContrastRatioHex(
+        light.progressFill,
+        light.panelBg
+      );
+      const lightHeaderRatio = calculateContrastRatioHex(
+        light.progressFill,
+        light.headerBg
+      );
+      const darkPanelRatio = calculateContrastRatioHex(dark.progressFill, dark.panelBg);
+      const darkHeaderRatio = calculateContrastRatioHex(
+        dark.progressFill,
+        dark.headerBg
+      );
       assert.ok(
-        typeof lightRatio === "number" && lightRatio >= 4.5,
+        typeof lightPanelRatio === "number" && lightPanelRatio >= 4.5,
         "Light mode progressFill should pass AA after runtime policy resolution."
       );
       assert.ok(
-        typeof darkRatio === "number" && darkRatio >= 4.5,
+        typeof lightHeaderRatio === "number" && lightHeaderRatio >= 4.5,
+        "Light mode progressFill should pass AA against header backgrounds."
+      );
+      assert.ok(
+        typeof darkPanelRatio === "number" && darkPanelRatio >= 4.5,
         "Dark mode progressFill should pass AA after runtime policy resolution."
+      );
+      assert.ok(
+        typeof darkHeaderRatio === "number" && darkHeaderRatio >= 4.5,
+        "Dark mode progressFill should pass AA against header backgrounds."
       );
     }
 
@@ -91,13 +110,22 @@ async function runHardeningChecks() {
     for (const row of presetSwatchMatrix) {
       const matched = inferThemePresetFromAccent(row.swatch);
       assert.equal(matched, row.expectedPreset);
-      const preset = matched ?? "default";
-      const accentOverride = matched ? undefined : row.swatch;
-      const dark = resolveTheme(true, preset, accentOverride);
-      const darkRatio = calculateContrastRatioHex(dark.progressFill, dark.panelBg);
+      const dark = resolveTheme(true, "default", row.swatch);
+      const darkPanelRatio = calculateContrastRatioHex(
+        dark.progressFill,
+        dark.panelBg
+      );
+      const darkHeaderRatio = calculateContrastRatioHex(
+        dark.progressFill,
+        dark.headerBg
+      );
       assert.ok(
-        typeof darkRatio === "number" && darkRatio >= 4.5,
-        "Resolved dark preset swatch accent should pass AA."
+        typeof darkPanelRatio === "number" && darkPanelRatio >= 4.5,
+        "Resolved dark override swatch accent should pass AA."
+      );
+      assert.ok(
+        typeof darkHeaderRatio === "number" && darkHeaderRatio >= 4.5,
+        "Resolved dark override swatch accent should pass AA against header backgrounds."
       );
     }
 
@@ -113,9 +141,17 @@ async function runHardeningChecks() {
       customDark.progressFill,
       customDark.panelBg
     );
+    const customDarkHeaderRatio = calculateContrastRatioHex(
+      customDark.progressFill,
+      customDark.headerBg
+    );
     assert.ok(
       typeof customDarkRatio === "number" && customDarkRatio >= 4.5,
       "Custom dark accent should resolve to a contrast-safe value."
+    );
+    assert.ok(
+      typeof customDarkHeaderRatio === "number" && customDarkHeaderRatio >= 4.5,
+      "Custom dark accent should be contrast-safe on header backgrounds."
     );
 
     console.log("Hardening checks passed.");
