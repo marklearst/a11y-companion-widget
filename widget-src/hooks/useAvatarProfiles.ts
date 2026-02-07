@@ -2,6 +2,7 @@ const { widget } = figma;
 const { useSyncedMap, useSyncedState, useEffect } = widget;
 
 import { defaultTheme, withOpacity } from "design-system/theme/default";
+import { capAvatarIds } from "shared/avatarStack";
 
 type AvatarProfile = {
   id: string;
@@ -97,7 +98,7 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     "avatarTestSeeded",
     false
   );
-  const limitedAvatarIds = avatarIds.slice(0, max);
+  const limitedAvatarIds = capAvatarIds(avatarIds, max);
 
   const upsertAvatar = (profile: AvatarProfile) => {
     const existing = avatarProfiles.get(profile.id);
@@ -111,11 +112,11 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     if (hasChanges) {
       avatarProfiles.set(profile.id, profile);
     }
-    const nextIds = [
-      profile.id,
-      ...avatarIds.filter((id) => id !== profile.id),
-    ].slice(0, max);
-    if (nextIds.join("|") !== avatarIds.join("|")) {
+    const nextIds = capAvatarIds(
+      [profile.id, ...avatarIds.filter((id) => id !== profile.id)],
+      max
+    );
+    if (nextIds.join("|") !== limitedAvatarIds.join("|")) {
       setAvatarIds(nextIds);
     }
   };
@@ -160,15 +161,16 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
       }
     });
     if (nextIds.join("|") !== limitedAvatarIds.join("|")) {
-      setAvatarIds(nextIds.slice(0, max));
+      setAvatarIds(capAvatarIds(nextIds, max));
     }
     setSeeded(true);
   });
 
   // Enforce avatar cap for older synced data that may exceed the current max.
   useEffect(() => {
-    if (avatarIds.length <= max) return;
-    setAvatarIds(avatarIds.slice(0, max));
+    const cappedAvatarIds = capAvatarIds(avatarIds, max);
+    if (avatarIds.join("|") === cappedAvatarIds.join("|")) return;
+    setAvatarIds(cappedAvatarIds);
   });
 
   const profiles = limitedAvatarIds
