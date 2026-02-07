@@ -19,6 +19,7 @@ async function runHardeningChecks() {
       themePresets,
     } from "./widget-src/theme/index";
     import { accentStepPolicy } from "./widget-src/design-system/theme/contrastPolicy";
+    import { calculateContrastRatioHex } from "./widget-src/design-system/utils/contrast";
     import {
       capAvatarIds,
       resolveAvatarStep,
@@ -64,11 +65,36 @@ async function runHardeningChecks() {
 
     const presetNames = Object.keys(themePresets);
     for (const preset of presetNames) {
-      const tokens = resolveTheme(true, preset);
-      assert.equal(
-        tokens.progressFill,
-        themePresets[preset].darkTheme.progressFill,
-        "Dark theme base resolution should match preset dark progressFill.",
+      const light = resolveTheme(false, preset);
+      const dark = resolveTheme(true, preset);
+      const lightPanelRatio = calculateContrastRatioHex(
+        light.progressFill,
+        light.panelBg
+      );
+      const lightHeaderRatio = calculateContrastRatioHex(
+        light.progressFill,
+        light.headerBg
+      );
+      const darkPanelRatio = calculateContrastRatioHex(dark.progressFill, dark.panelBg);
+      const darkHeaderRatio = calculateContrastRatioHex(
+        dark.progressFill,
+        dark.headerBg
+      );
+      assert.ok(
+        typeof lightPanelRatio === "number" && lightPanelRatio >= 4.5,
+        "Light mode progressFill should pass AA after runtime policy resolution."
+      );
+      assert.ok(
+        typeof lightHeaderRatio === "number" && lightHeaderRatio >= 4.5,
+        "Light mode progressFill should pass AA against header backgrounds."
+      );
+      assert.ok(
+        typeof darkPanelRatio === "number" && darkPanelRatio >= 4.5,
+        "Dark mode progressFill should pass AA after runtime policy resolution."
+      );
+      assert.ok(
+        typeof darkHeaderRatio === "number" && darkHeaderRatio >= 4.5,
+        "Dark mode progressFill should pass AA against header backgrounds."
       );
     }
 
@@ -84,13 +110,22 @@ async function runHardeningChecks() {
     for (const row of presetSwatchMatrix) {
       const matched = inferThemePresetFromAccent(row.swatch);
       assert.equal(matched, row.expectedPreset);
-      const preset = matched ?? "default";
-      const accentOverride = matched ? undefined : row.swatch;
-      const dark = resolveTheme(true, preset, accentOverride);
-      assert.equal(
+      const dark = resolveTheme(true, "default", row.swatch);
+      const darkPanelRatio = calculateContrastRatioHex(
         dark.progressFill,
-        themePresets[row.expectedPreset].darkTheme.progressFill,
-        "Preset swatches should resolve via preset dark accent, not raw override."
+        dark.panelBg
+      );
+      const darkHeaderRatio = calculateContrastRatioHex(
+        dark.progressFill,
+        dark.headerBg
+      );
+      assert.ok(
+        typeof darkPanelRatio === "number" && darkPanelRatio >= 4.5,
+        "Resolved dark override swatch accent should pass AA."
+      );
+      assert.ok(
+        typeof darkHeaderRatio === "number" && darkHeaderRatio >= 4.5,
+        "Resolved dark override swatch accent should pass AA against header backgrounds."
       );
     }
 
@@ -102,10 +137,21 @@ async function runHardeningChecks() {
       matchedCustom ?? "default",
       matchedCustom ? undefined : customAccent
     );
-    assert.equal(
+    const customDarkRatio = calculateContrastRatioHex(
       customDark.progressFill,
-      customAccent,
-      "Unknown custom accent should remain a direct override until step-policy runtime is enabled."
+      customDark.panelBg
+    );
+    const customDarkHeaderRatio = calculateContrastRatioHex(
+      customDark.progressFill,
+      customDark.headerBg
+    );
+    assert.ok(
+      typeof customDarkRatio === "number" && customDarkRatio >= 4.5,
+      "Custom dark accent should resolve to a contrast-safe value."
+    );
+    assert.ok(
+      typeof customDarkHeaderRatio === "number" && customDarkHeaderRatio >= 4.5,
+      "Custom dark accent should be contrast-safe on header backgrounds."
     );
 
     console.log("Hardening checks passed.");
