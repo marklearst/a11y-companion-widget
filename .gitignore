@@ -24,9 +24,8 @@ assets
 /markdown
 !README.md
 !AGENTS.md
-!DESIGN_SYSTEM_MASTER_PLAN.md
-!DESIGN_SYSTEM_NAMING_GUIDE.md
-!DESIGN_SYSTEM_V2_TODO.md
+!CHANGELOG.md
+DESIGN_SYSTEM_*.md
 
 # production
 /build
