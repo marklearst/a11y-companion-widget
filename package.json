@@ -18,7 +18,7 @@
     "sync:a11y-checklist": "node scripts/sync-a11y-checklist.mjs",
     "generate:wcag-level-map": "node scripts/generate-wcag-level-map.mjs",
     "tsc": "tsc --noEmit -p widget-src",
-    "watch": "pnpm run build -- --watch"
+    "watch": "esbuild widget-src/code.tsx --bundle --outfile=dist/code.js --target=es6 --watch"
   },
   "engines": {
     "pnpm": ">=10"
