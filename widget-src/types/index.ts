@@ -16,6 +16,9 @@
 // Core checklist data types
 export * from 'types/checklist'
 
+// WCAG types
+export * from 'types/wcag'
+
 // Component prop types
 export * from 'types/components'
 
