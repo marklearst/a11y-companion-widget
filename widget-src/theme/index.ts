@@ -1,4 +1,5 @@
 import { defaultTheme, themePresets, type ThemePresetName } from "design-system";
+import { resolveContrastSafeAccent } from "design-system/theme/contrastPolicy";
 import { normalizeHexColor } from "shared/hexColor";
 
 export type ThemeName = "light" | "dark";
@@ -73,11 +74,18 @@ export function resolveTheme(
   const theme = themePresets[preset] ?? defaultTheme;
   const base = (isDark ? theme.darkTheme : theme.lightTheme) as ThemeTokens;
   const normalizedAccent = normalizeHexColor(accentColor);
-  if (!normalizedAccent) return base;
+  const requestedAccent = normalizedAccent ?? normalizeHexColor(base.progressFill);
+  if (!requestedAccent) return base;
+  const mode = isDark ? "dark" : "light";
+  const resolvedAccent = resolveContrastSafeAccent(requestedAccent, mode, theme, [
+    base.panelBg,
+    base.headerBg,
+  ]);
+
   return {
     ...base,
-    progressFill: normalizedAccent,
-    checkboxBgChecked: normalizedAccent,
-    checkboxStroke: normalizedAccent,
+    progressFill: resolvedAccent.accent,
+    checkboxBgChecked: resolvedAccent.accent,
+    checkboxStroke: resolvedAccent.accent,
   };
 }
