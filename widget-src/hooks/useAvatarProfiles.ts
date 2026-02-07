@@ -87,7 +87,7 @@ const TEST_AVATAR_COLORS = [
 ];
 
 export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
-  const { accentColor, neutralDark, neutralLight, max = 6 } = options;
+  const { accentColor, neutralDark, neutralLight, max = 5 } = options;
   const avatarProfiles = useSyncedMap<AvatarProfile>("avatarProfiles");
   const [avatarIds, setAvatarIds] = useSyncedState<string[]>(
     "avatarIds",
@@ -97,6 +97,7 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     "avatarTestSeeded",
     false
   );
+  const limitedAvatarIds = avatarIds.slice(0, max);
 
   const upsertAvatar = (profile: AvatarProfile) => {
     const existing = avatarProfiles.get(profile.id);
@@ -140,7 +141,7 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
 
   useEffect(() => {
     if (!ENABLE_TEST_AVATARS || seeded) return;
-    const nextIds = [...avatarIds];
+    const nextIds = [...limitedAvatarIds];
     TEST_AVATAR_NAMES.forEach((name, index) => {
       const id = `test:${index + 1}`;
       const existing = avatarProfiles.get(id);
@@ -158,13 +159,19 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
         nextIds.push(id);
       }
     });
-    if (nextIds.join("|") !== avatarIds.join("|")) {
+    if (nextIds.join("|") !== limitedAvatarIds.join("|")) {
       setAvatarIds(nextIds.slice(0, max));
     }
     setSeeded(true);
   });
 
-  const profiles = avatarIds
+  // Enforce avatar cap for older synced data that may exceed the current max.
+  useEffect(() => {
+    if (avatarIds.length <= max) return;
+    setAvatarIds(avatarIds.slice(0, max));
+  });
+
+  const profiles = limitedAvatarIds
     .map((id) => avatarProfiles.get(id))
     .filter((profile): profile is AvatarProfile => Boolean(profile));
 

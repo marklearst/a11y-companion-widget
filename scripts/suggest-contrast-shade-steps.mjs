@@ -427,6 +427,12 @@ function sortSuggestions(suggestions) {
 function printHumanReadable(report) {
   const { summary, suggestions, unresolved } = report;
   console.log(
+    "Policy: WCAG 2.2 SC 1.4.3 (normal text >= 4.5:1, large text >= 3.0:1)."
+  );
+  console.log(
+    "Scope: Suggestions are generated for text contrast failures only; decorative/incidental/logotype exceptions are excluded."
+  );
+  console.log(
     `Contrast shade-step suggestions: ${summary.totalSuggestions} proposal(s) across ${summary.failingScenarios}/${summary.totalScenarios} failing scenario(s).`,
   );
   console.log(`Presets: ${summary.presets.join(", ")}`);

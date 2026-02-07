@@ -1,10 +1,10 @@
 /**
  * WCAG Contrast Utilities
  *
- * Calculate and validate color contrast ratios according to WCAG 2.1 standards.
+ * Calculate and validate color contrast ratios according to WCAG 2.2 standards.
  *
- * @see https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html
- * @see https://www.w3.org/WAI/WCAG21/Understanding/contrast-enhanced.html
+ * @see https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+ * @see https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html
  */
 
 import type { RGB } from "../types/primitives";
@@ -45,7 +45,7 @@ export const LARGE_TEXT_THRESHOLD = {
 /**
  * Calculate relative luminance of an RGB color
  *
- * Formula from WCAG 2.1:
+ * Formula from WCAG 2.2:
  * https://www.w3.org/WAI/GL/wiki/Relative_luminance
  *
  * @param r - Red channel (0-255)
@@ -89,7 +89,7 @@ export function getLuminance(color: RGB): number {
 /**
  * Calculate contrast ratio between two colors
  *
- * Formula from WCAG 2.1:
+ * Formula from WCAG 2.2:
  * (L1 + 0.05) / (L2 + 0.05)
  * where L1 is lighter color and L2 is darker color
  *

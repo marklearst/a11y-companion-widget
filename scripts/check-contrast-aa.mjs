@@ -201,6 +201,12 @@ async function evaluateContrast(extraAccents) {
 function printHumanReadable(report) {
   const { summary, failures } = report;
   console.log(
+    "Policy: WCAG 2.2 SC 1.4.3 (normal text >= 4.5:1, large text >= 3.0:1)."
+  );
+  console.log(
+    "Note: Incidental/decorative content, inactive UI states, and logotypes are intentionally excluded from automated checks."
+  );
+  console.log(
     `Contrast AA check: ${summary.totalChecks - summary.totalFailures}/${summary.totalChecks} passed (${summary.passRate}%)`
   );
   console.log(`Presets tested: ${summary.presets.join(", ")}`);

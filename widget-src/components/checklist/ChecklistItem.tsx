@@ -111,7 +111,7 @@ function ChecklistItem({
             fontWeight={ui.badge.fontWeight}
             iconSize={ui.badge.iconSize}
             iconStrokeWidth={ui.badge.iconStrokeWidth}
-            iconColor={ui.colors.progressFill}
+            iconColor={ui.colors.textSecondary}
             strokeColor={ui.colors.panelStroke}
             strokeWidth={ui.badge.strokeWidth}
           />
