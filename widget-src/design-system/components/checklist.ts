@@ -424,19 +424,4 @@ export function createChecklistVariables(theme: ChecklistThemeVariables) {
   } as const;
 }
 
-/**
- * @deprecated Use `createChecklistVariables`.
- */
-export const createChecklistTokens = createChecklistVariables;
-
 export type ChecklistVariables = ReturnType<typeof createChecklistVariables>;
-
-/**
- * @deprecated Use `ChecklistVariables`.
- */
-export type ChecklistTokens = ChecklistVariables;
-
-/**
- * @deprecated Use `ChecklistThemeVariables`.
- */
-export type ChecklistThemeTokens = ChecklistThemeVariables;

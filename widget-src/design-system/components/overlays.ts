@@ -82,19 +82,4 @@ export function createOverlayVariables(theme: OverlayThemeVariables) {
   } as const;
 }
 
-/**
- * @deprecated Use `createOverlayVariables`.
- */
-export const createOverlayTokens = createOverlayVariables;
-
 export type OverlayVariables = ReturnType<typeof createOverlayVariables>;
-
-/**
- * @deprecated Use `OverlayVariables`.
- */
-export type OverlayTokens = OverlayVariables;
-
-/**
- * @deprecated Use `OverlayThemeVariables`.
- */
-export type OverlayThemeTokens = OverlayThemeVariables;
