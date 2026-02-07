@@ -155,7 +155,7 @@ export function createThemeTokens(base: ThemeBase) {
     // Checkbox
     checkboxBgChecked: b.accent.light,
     checkboxBgUnchecked: n.gray[900],
-    checkboxStroke: n.gray[500],
+    checkboxStroke: b.accent.light,
 
     // WCAG Badge
     wcagBadge: n.gray[800],
