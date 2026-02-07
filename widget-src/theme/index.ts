@@ -1,4 +1,5 @@
 import { defaultTheme, themePresets, type ThemePresetName } from "design-system";
+import { normalizeHexColor } from "logic/hexColor";
 
 export type ThemeName = "light" | "dark";
 
@@ -34,19 +35,6 @@ export const dark: ThemeTokens = defaultTheme.darkTheme;
 
 export { themePresets };
 export type { ThemePresetName };
-
-const HEX_COLOR_REGEX = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
-
-function normalizeHexColor(value?: string) {
-  if (!value) return undefined;
-  const trimmed = value.trim();
-  if (!HEX_COLOR_REGEX.test(trimmed)) return undefined;
-  if (trimmed.length === 4) {
-    const [r, g, b] = trimmed.slice(1).split("");
-    return `#${r}${r}${g}${g}${b}${b}`.toUpperCase();
-  }
-  return trimmed.toUpperCase();
-}
 
 export function inferThemePresetFromAccent(
   accentColor?: string,
