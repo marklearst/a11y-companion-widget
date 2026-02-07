@@ -27,6 +27,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 ## ✨ Features
 
 ### Core Features
+
 - Full A11Y Project checklist, organized by section
 - Each item includes a WCAG reference and a detailed explanation
 - Collapsible sections for easy navigation
@@ -35,6 +36,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 - WCAG references and detailed explanations
 
 ### New in v1.2.0 🎉
+
 - **🔍 Search & Filter** - Quickly find checklist items by text or WCAG code
 - **⚡ Bulk Actions** - Mark all items in a section complete/incomplete with one click
 - **📦 Collapse/Expand All** - Quickly navigate large checklists
@@ -81,4 +83,4 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 ## 📝 License
 
 This project is licensed under the [MIT License](LICENSE).
-© 2023–2025 Mark Learst
+© 2025–2026 Mark Learst
