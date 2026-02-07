@@ -1,5 +1,4 @@
 import { padding, gap, radius, sizes } from "../spacing";
-import { withOpacity } from "../colors";
 import { fontSize, fontWeight, fontFamily } from "../primitives/typography";
 import { borderWidth, borderRadius } from "../primitives/borders";
 import { dimensions } from "../primitives/sizing";
@@ -53,7 +52,8 @@ type ChecklistLayoutVariables = {
       strokeWidth: number;
       fontSize: number;
       fontWeight: WidgetJSX.FontWeight;
-      overlap: number;
+      stackOffsetX: number;
+      maxVisible: number;
     };
   };
   search: {
@@ -214,7 +214,8 @@ const companionLayout: ChecklistLayoutVariables = {
       strokeWidth: borderWidth.base,
       fontSize: fontSize.xs,
       fontWeight: fontWeight.semibold,
-      overlap: 6,
+      stackOffsetX: -8,
+      maxVisible: 5,
     },
   },
   search: {
@@ -371,7 +372,8 @@ export function createChecklistVariables(theme: ChecklistThemeVariables) {
       paddingBottom: layout.panel.paddingBottom,
       radius: layout.panel.radius,
       strokeWidth: layout.panel.strokeWidth,
-      strokeColor: withOpacity(theme.progressFill, 0.3),
+      // Keep panel chrome neutral so accent color stays focused on progress and links.
+      strokeColor: theme.panelStroke,
       spacing: layout.panel.spacing,
       effect: layout.panel.effect,
     },

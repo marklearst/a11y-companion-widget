@@ -8,7 +8,7 @@ import { CopyDisplay } from "components/checklist/CopyDisplay";
 import { useSearch } from "hooks/useSearch";
 import { useMarkdownExport } from "hooks/useMarkdownExport";
 import { getMessages } from "i18n";
-import { resolveTheme } from "theme";
+import { inferThemePresetFromAccent, resolveTheme } from "theme";
 import {
   createChecklistVariables,
   createOverlayVariables,
@@ -102,7 +102,10 @@ function ChecklistPanel({
    * @returns {JSX.Element} The rendered Checklist component.
    */
   const effectiveDark = theme === "dark" || (theme === "system" && isDarkMode);
-  const tokens = resolveTheme(!!effectiveDark, "default", accentColor);
+  const matchedThemePreset = inferThemePresetFromAccent(accentColor);
+  const themePreset = matchedThemePreset ?? "default";
+  const accentOverride = matchedThemePreset ? undefined : accentColor;
+  const tokens = resolveTheme(!!effectiveDark, themePreset, accentOverride);
   const ui = createChecklistVariables(tokens);
   const overlayUi = createOverlayVariables({
     panelBg: ui.colors.panelBg,
@@ -139,12 +142,11 @@ function ChecklistPanel({
     accentColor: ui.colors.progressFill,
     neutralDark: neutral.gray[900],
     neutralLight: neutral.white,
-    max: 6,
+    max: ui.header.avatar.maxVisible,
   });
   const avatarSize = ui.header.avatar.size;
   const avatarStroke = ui.header.avatar.strokeWidth;
-  const avatarOverlap = ui.header.avatar.overlap;
-  const avatarStep = Math.max(0, avatarSize - avatarOverlap);
+  const avatarStep = Math.max(0, avatarSize + ui.header.avatar.stackOffsetX);
   const avatarStackWidth =
     avatars.length > 0
       ? avatarSize + (avatars.length - 1) * avatarStep
@@ -232,7 +234,7 @@ function ChecklistPanel({
                     width={avatarSize}
                     height={avatarSize}
                     cornerRadius={ui.header.avatar.radius}
-                    stroke={ui.colors.progressFill}
+                    stroke={ui.colors.panelStroke}
                     strokeWidth={avatarStroke}
                     verticalAlignItems="center"
                     horizontalAlignItems="center"
@@ -256,7 +258,7 @@ function ChecklistPanel({
                   width={avatarSize}
                   height={avatarSize}
                   cornerRadius={ui.header.avatar.radius}
-                  stroke={ui.colors.progressFill}
+                  stroke={ui.colors.panelStroke}
                   strokeWidth={avatarStroke}
                   verticalAlignItems="center"
                   horizontalAlignItems="center"

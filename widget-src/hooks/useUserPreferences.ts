@@ -3,6 +3,7 @@ const { useSyncedMap, useSyncedState, useEffect } = widget;
 
 import { defaultTheme } from "design-system";
 import { templates, type TemplateType } from "data/templates";
+import { normalizeHexColor } from "shared/hexColor";
 
 export type UserPreferences = {
   hideCompleted: boolean;
@@ -29,19 +30,6 @@ const VALID_LANGUAGES = new Set<UserPreferences["language"]>(["en", "es"]);
 const VALID_TEMPLATES = new Set<TemplateType>(
   templates.map((template) => template.id)
 );
-
-const HEX_COLOR_REGEX = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
-
-function normalizeHexColor(value?: string) {
-  if (!value) return undefined;
-  const trimmed = value.trim();
-  if (!HEX_COLOR_REGEX.test(trimmed)) return undefined;
-  if (trimmed.length === 4) {
-    const [r, g, b] = trimmed.slice(1).split("");
-    return `#${r}${r}${g}${g}${b}${b}`.toUpperCase();
-  }
-  return trimmed.toUpperCase();
-}
 
 function normalizePreferences(value: UserPreferences): UserPreferences {
   const accentColor =
