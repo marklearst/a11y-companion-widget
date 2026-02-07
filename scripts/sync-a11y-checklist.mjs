@@ -67,6 +67,21 @@ async function main() {
       `WCAG level map generation failed with exit code ${generateMap.status ?? "unknown"}.`,
     );
   }
+
+  const validateMap = spawnSync(
+    process.execPath,
+    [path.resolve(__dirname, "./validate-wcag-level-map.mjs")],
+    {
+      cwd: path.resolve(__dirname, ".."),
+      stdio: "inherit",
+    },
+  );
+
+  if (validateMap.status !== 0) {
+    throw new Error(
+      `WCAG level map validation failed with exit code ${validateMap.status ?? "unknown"}.`,
+    );
+  }
 }
 
 main().catch((err) => {
