@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { useSyncedMap, useSyncedState, useEffect } = widget;
 
-import { withOpacity } from "design-system/theme/default";
+import { brand, semantic } from "design-system/theme/default";
 import { capAvatarIds } from "shared/avatarStack";
 
 type AvatarProfile = {
@@ -30,25 +30,64 @@ type UseAvatarProfilesOptions = {
   max?: number;
 };
 
-const normalizeHex = (hex: string) => {
+const normalizeHex = (hex: string): string | null => {
   const raw = hex.replace("#", "").trim();
-  if (raw.length === 3) {
+  if (raw.length === 3 && /^[0-9a-fA-F]{3}$/.test(raw)) {
     return raw
       .split("")
       .map((c) => `${c}${c}`)
       .join("");
   }
-  if (raw.length === 8) return raw.slice(0, 6);
-  return raw.padEnd(6, "0");
+  if (raw.length === 6 && /^[0-9a-fA-F]{6}$/.test(raw)) {
+    return raw;
+  }
+  if (raw.length === 8 && /^[0-9a-fA-F]{8}$/.test(raw)) {
+    return raw.slice(0, 6);
+  }
+  return null;
 };
 
 const isLightColor = (hex: string) => {
   const value = normalizeHex(hex);
+  if (!value) return false;
   const r = parseInt(value.slice(0, 2), 16);
   const g = parseInt(value.slice(2, 4), 16);
   const b = parseInt(value.slice(4, 6), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.6;
+};
+
+const toOpaqueHex = (color: string | null | undefined): string | null => {
+  if (!color) return null;
+  const normalized = normalizeHex(color);
+  return normalized ? `#${normalized.toUpperCase()}` : null;
+};
+
+const FALLBACK_AVATAR_COLORS = [
+  brand.accent.light,
+  semantic.success.dark,
+  semantic.warning.dark,
+  brand.accent.medium,
+  semantic.info.dark,
+  semantic.warning.medium,
+  semantic.error.dark,
+  semantic.success.medium,
+];
+
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+};
+
+const resolveFallbackAvatarColor = (id: string, accentColor: string) => {
+  const resolvedAccent = toOpaqueHex(accentColor);
+  const palette = resolvedAccent
+    ? [resolvedAccent, ...FALLBACK_AVATAR_COLORS]
+    : FALLBACK_AVATAR_COLORS;
+  return palette[hashString(id) % palette.length];
 };
 
 const getInitials = (name: string) => {
@@ -61,7 +100,7 @@ const getInitials = (name: string) => {
 const resolveUserId = (
   id: string | null,
   sessionId: number | null,
-  name: string
+  name: string,
 ) => {
   if (id) return id;
   if (sessionId !== null && sessionId !== undefined) {
@@ -72,15 +111,24 @@ const resolveUserId = (
 };
 
 const TEST_AVATAR_ID_PATTERN = /^test:\d+$/;
+const SHOW_DEBUG_TEST_AVATARS = false;
+const DEBUG_TEST_AVATARS = [
+  { id: "test:1", name: "Ava Test", color: brand.accent.light },
+  { id: "test:2", name: "Lee Sample", color: semantic.success.dark },
+  { id: "test:3", name: "Kai Demo", color: semantic.warning.dark },
+  { id: "test:4", name: "Riley QA", color: brand.accent.medium },
+];
+const DEBUG_TEST_AVATAR_COLOR_BY_ID = DEBUG_TEST_AVATARS.reduce<
+  Record<string, string>
+>((acc, profile) => {
+  acc[profile.id] = profile.color;
+  return acc;
+}, {});
 
 export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
   const { accentColor, neutralDark, neutralLight, max = 5 } = options;
   const avatarProfiles = useSyncedMap<AvatarProfile>("avatarProfiles");
-  const [avatarIds, setAvatarIds] = useSyncedState<string[]>(
-    "avatarIds",
-    []
-  );
-  const visibleAvatarIds = capAvatarIds(avatarIds, max);
+  const [avatarIds, setAvatarIds] = useSyncedState<string[]>("avatarIds", []);
 
   const upsertAvatar = (profile: AvatarProfile) => {
     const existing = avatarProfiles.get(profile.id);
@@ -94,7 +142,10 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     if (hasChanges) {
       avatarProfiles.set(profile.id, profile);
     }
-    const nextIds = [profile.id, ...avatarIds.filter((id) => id !== profile.id)];
+    const nextIds = [
+      profile.id,
+      ...avatarIds.filter((id) => id !== profile.id),
+    ];
     if (nextIds.join("|") !== avatarIds.join("|")) {
       setAvatarIds(nextIds);
     }
@@ -106,7 +157,7 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     const resolvedId = resolveUserId(
       currentUser.id ?? null,
       currentUser.sessionId ?? null,
-      currentUser.name
+      currentUser.name,
     );
     if (!resolvedId) return;
     upsertAvatar({
@@ -121,6 +172,48 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
 
   // Figma Widget useEffect does not support a dependency array.
   useEffect(() => {
+    if (SHOW_DEBUG_TEST_AVATARS) {
+      const debugIds = DEBUG_TEST_AVATARS.map((profile) => profile.id);
+      DEBUG_TEST_AVATARS.forEach((profile) => {
+        const existing = avatarProfiles.get(profile.id);
+        const nextInitials = getInitials(profile.name);
+        const needsUpdate =
+          !existing ||
+          existing.name !== profile.name ||
+          existing.initials !== nextInitials ||
+          existing.photoUrl !== null ||
+          existing.sessionId !== null ||
+          existing.color !== profile.color;
+        if (needsUpdate) {
+          avatarProfiles.set(profile.id, {
+            id: profile.id,
+            name: profile.name,
+            initials: nextInitials,
+            photoUrl: null,
+            color: profile.color,
+            sessionId: null,
+          });
+        }
+      });
+      const currentUser = figma.currentUser;
+      const currentUserId =
+        currentUser &&
+        resolveUserId(
+          currentUser.id ?? null,
+          currentUser.sessionId ?? null,
+          currentUser.name,
+        );
+      // Keep the active real user first, then debug avatars for deterministic screenshots.
+      const nextIds = [
+        ...(currentUserId ? [currentUserId] : []),
+        ...debugIds.filter((id) => id !== currentUserId),
+      ];
+      if (nextIds.join("|") !== avatarIds.join("|")) {
+        setAvatarIds(nextIds);
+      }
+      return;
+    }
+
     const testIds = avatarIds.filter((id) => TEST_AVATAR_ID_PATTERN.test(id));
     if (testIds.length === 0) {
       return;
@@ -136,11 +229,15 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     });
   });
 
+  const validAvatarIds = avatarIds.filter((id) =>
+    Boolean(avatarProfiles.get(id)),
+  );
+  const visibleAvatarIds = capAvatarIds(validAvatarIds, max);
   const profiles = visibleAvatarIds
     .map((id) => avatarProfiles.get(id))
     .filter((profile): profile is AvatarProfile => Boolean(profile));
-  const overflowCount = Math.max(0, avatarIds.length - profiles.length);
-  const overflowNames = avatarIds
+  const overflowCount = Math.max(0, validAvatarIds.length - profiles.length);
+  const overflowNames = validAvatarIds
     .slice(visibleAvatarIds.length)
     .map((id) => avatarProfiles.get(id)?.name?.trim() ?? "")
     .filter((name) => name.length > 0);
@@ -154,7 +251,14 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
         src: profile.photoUrl,
       };
     }
-    const fill = profile.color ?? withOpacity(accentColor, 0.2);
+    const debugColor =
+      SHOW_DEBUG_TEST_AVATARS && TEST_AVATAR_ID_PATTERN.test(profile.id)
+        ? DEBUG_TEST_AVATAR_COLOR_BY_ID[profile.id]
+        : null;
+    const fill =
+      toOpaqueHex(debugColor) ??
+      toOpaqueHex(profile.color) ??
+      resolveFallbackAvatarColor(profile.id, accentColor);
     const textColor = isLightColor(fill) ? neutralDark : neutralLight;
     return {
       id: profile.id,

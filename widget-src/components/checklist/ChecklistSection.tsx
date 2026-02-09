@@ -2,7 +2,7 @@ const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
 import { ChecklistSectionProps } from "types/index";
-import { ProgressTracker } from "components/primitives";
+import { ProgressTracker, RichText } from "components/primitives";
 import { ChecklistItem } from "components/checklist";
 import { useChecklistSectionState } from "hooks/useChecklistSectionState";
 import CaretIcon from "components/checklist/CaretIcon";
@@ -214,17 +214,16 @@ function ChecklistSection({
           width="fill-parent"
           verticalAlignItems="center"
         >
-          <Text
-            name="SectionDescription"
+          <RichText
+            text={section.description}
+            inlineStyles={uiTokens.inline}
+            width="fill-parent"
             fill={palette.sectionDescText}
+            lineHeight={uiTokens.section.description.lineHeight}
             fontFamily={uiTokens.section.description.fontFamily}
             fontSize={uiTokens.section.description.fontSize}
             fontWeight={uiTokens.section.description.fontWeight}
-            lineHeight={uiTokens.section.description.lineHeight}
-            width="fill-parent"
-          >
-            {section.description}
-          </Text>
+          />
         </AutoLayout>
       ) : null}
       {visibleItems.map((item, index) => (

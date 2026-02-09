@@ -110,7 +110,7 @@ export const wcagLevelCriteriaMap: WcagLevelCriteriaMap = {
     },
     {
       "code": "4.1.1",
-      "title": "Use the <code>th</code> element for table headers (with appropriate <code>scope</code> attributes).",
+      "title": "Validate your HTML.",
       "url": "https://www.w3.org/WAI/WCAG22/Understanding/parsing.html"
     },
     {

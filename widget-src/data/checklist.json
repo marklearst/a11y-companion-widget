@@ -37,7 +37,7 @@
         "wcag": "4.1.1 Parsing",
         "url": "https://www.w3.org/WAI/WCAG22/Understanding/parsing.html",
         "description": "<a href='https://validator.w3.org/nu/'>Valid HTML</a> helps to provide a consistent, expected experience across all browsers and assistive technology.",
-        "level": null
+        "level": "A"
       },
       {
         "title": "Use a <code>lang</code> attribute on the <code>html</code> element.",
@@ -305,8 +305,7 @@
         "checkboxId": "identify-new-window",
         "wcag": "G201: Giving users advanced warning when opening a new window",
         "url": "https://www.w3.org/WAI/WCAG22/Techniques/general/G201",
-        "description": "Ideally, avoid links that open in a new tab or window. If a link does, ensure the link's behavior will be communicated in a way that is apparent to all users. Doing this will help people understand what will happen before activating the link. While this technique is technically not required for compliance, it is an often-cited area of frustration for many different kinds of assistive technology users.",
-        "level": null
+        "description": "Ideally, avoid links that open in a new tab or window. If a link does, ensure the link's behavior will be communicated in a way that is apparent to all users. Doing this will help people understand what will happen before activating the link. While this technique is technically not required for compliance, it is an often-cited area of frustration for many different kinds of assistive technology users."
       }
     ]
   },
@@ -538,7 +537,7 @@
     ]
   },
   "color contrast": {
-    "preface": "<a href=\"{{ '/posts/what-is-color-contrast/' | url }}\">Color contrast</a> is how legible colors are when placed next to, and on top of each other.",
+    "preface": "<a href=\"/posts/what-is-color-contrast/\">Color contrast</a> is how legible colors are when placed next to, and on top of each other.",
     "tasks": [
       {
         "title": "Check the contrast for all normal-sized text.",

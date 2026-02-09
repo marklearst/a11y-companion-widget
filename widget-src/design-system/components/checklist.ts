@@ -231,10 +231,10 @@ const companionLayout: ChecklistLayoutVariables = {
     avatar: {
       size: dimensions.avatarMd,
       radius: borderRadius.full,
-      strokeWidth: borderWidth.base,
+      strokeWidth: borderWidth.thin,
       fontSize: fontSize.xs,
       fontWeight: fontWeight.bold,
-      stackOffsetX: -8,
+      stackOffsetX: -6,
       maxVisible: 4,
     },
   },
