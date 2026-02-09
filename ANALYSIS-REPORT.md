@@ -250,7 +250,7 @@ The **A11Y Companion Widget** is a **high-quality, well-architected Figma widget
 
 ## 🎯 Recommended Next Steps
 
-See **todo.md** for a prioritized, actionable checklist.
+See **CHANGELOG.md** for public release milestones and upcoming updates.
 
 ---
 

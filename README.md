@@ -60,10 +60,14 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 7. Hover over checklist items for WCAG references and detailed explanations.
 8. Use the **property menu** to:
    - Hide completed items
-   - Switch between light/dark/system themes
+   - Switch between light/dark themes
    - Switch between brand themes (Default, Indigo, Emerald, Rose, Slate, Cyan)
    - Change language (English/Español)
    - Export your progress as JSON
+
+## 🗺️ Roadmap
+
+Public roadmap updates are published with release notes in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## 🤔 Why use this widget?
 
