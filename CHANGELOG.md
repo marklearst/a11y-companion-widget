@@ -13,17 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Contrast automation scripts for WCAG AA validation and nearest safe shade-step suggestions.
 - Generated WCAG conformance level map (`A`, `AA`, `AAA`) and helper APIs for level-based criteria lookups.
 - Widget contrast inspector with on-canvas preview and property-menu toggle.
-- Deterministic contrast diagnostics for unsupported selections:
+- Stable contrast diagnostics for unsupported selections:
   - image fills
   - mixed fills
   - multiple fills
   - dual-gradient pairs
   - stale selection changes
 - Gradient-aware contrast support with sampled-min measurement, stop metadata, and tooltip details.
-- Shared contrast/namespace utilities:
-  - `widget-src/shared/contrastMessages.ts`
-  - `widget-src/shared/preferenceNamespace.ts`
-- Expanded hardening checks for shared utilities and preference namespaces.
+- Expanded hardening checks for shared utility behavior.
 
 ### Changed
 
@@ -34,12 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `watch:ds:strict` adds failing AA contrast checks for hard-gate mode
 - Improved naming clarity for component variable imports with canonical `componentPrimitives`.
 - Markdown export now uses real task-list syntax (`- [ ]` / `- [x]`) and wrapped continuation lines for long descriptions.
-- Widget preferences are now scoped with predictable widget-instance namespaces.
-- Property menu was reorganized into separated sections:
-  - Scope & Context
-  - Visual Configuration
-  - Specialized Checks & Export
-- Theme selection is now explicit and stable (`light` / `dark`).
+- Widget preference storage keeps per-user keys with a safe fallback key for anonymous sessions.
+- Theme selection remains available as `light`, `dark`, and `system`.
 - Avatar facepile updated for cleaner stacking and overflow readability:
   - maximum visible avatars reduced to 4
   - `+N` overflow chip with comma-delimited hidden-name tooltip
@@ -60,9 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `primitiveComponentTokens`
 - Legacy top-level design-system exports remain soft-deprecated and are planned for v2 cleanup.
 
-### Removed
-
-- Legacy runtime `system` theme branch and `useDarkMode` dependency from widget rendering path.
 
 ## [1.2.1] - 2025-12-12
 

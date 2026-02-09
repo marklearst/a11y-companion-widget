@@ -15,7 +15,6 @@
 ## Current examples
 - `hexColor.ts`: normalize and validate hex colors consistently.
 - `avatarStack.ts`: stable avatar stack math and capping.
-- `preferenceNamespace.ts`: stable per-user/per-widget preference keys.
 
 ## Rules
 - Functions must be pure and side-effect free.
