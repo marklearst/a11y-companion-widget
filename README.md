@@ -1,4 +1,4 @@
-# ♿️ A11Y Companion – Accessibility Checklist Widget for Figma Design
+# ♿️ A11Y Companion – Accessibility Checklist Widget for Figma Design and FigJam
 
 Built and maintained by Mark Learst.
 
