@@ -13,8 +13,7 @@ Built and maintained by Mark Learst.
 | Contributors | ![GitHub contributors](https://img.shields.io/github/contributors/marklearst/a11y-companion-widget?style=flat-square) |
 | Platform | ![Figma Widget API](https://img.shields.io/badge/platform-Figma%20Widget%20API-0ACF83?style=flat-square&logo=figma&logoColor=white) |
 | Tooling | ![pnpm >=10](https://img.shields.io/badge/pnpm-%3E%3D10-F69220?style=flat-square&logo=pnpm&logoColor=white) |
-
-[![Figma Community](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?style=flat-square&logo=figma)](https://www.figma.com/community/widget/1509302611418259130)
+| Figma Community | [![Figma Widget](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?style=flat-square&logo=figma)](https://www.figma.com/community/widget/1509302611418259130) |
 
 A production Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance with your team.
 
