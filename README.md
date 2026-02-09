@@ -2,7 +2,7 @@
 
 Built and maintained by Mark Learst.
 
-| Signal | Status |
+| Project Health | Status |
 | --- | --- |
 | License | ![License](https://img.shields.io/github/license/marklearst/a11y-companion-widget?style=flat-square) |
 | Latest release | ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/marklearst/a11y-companion-widget?sort=semver&style=flat-square) |
