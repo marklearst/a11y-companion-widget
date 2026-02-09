@@ -27,6 +27,10 @@ assets
 !AGENTS.md
 !CHANGELOG.md
 !ANALYSIS-REPORT.md
+!THIRD_PARTY_NOTICES.md
+!.github/OFFICIAL_LISTING_POLICY.md
+!.github/SECURITY.md
+!.github/SUPPORT.md
 DESIGN_SYSTEM_*.md
 
 # production

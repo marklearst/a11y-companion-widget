@@ -1,6 +1,7 @@
-# Official Listing and Attribution Guidance
+# Official Listing Policy
 
-This project is open source and community-friendly. To help users get the safest and most up-to-date experience, please point people to the official a11y Companion Widget listing and repository when sharing the widget.
+This repository is maintained for the official A11Y Companion widget release.
+When sharing this widget, use only the official listing and repository links below.
 
 ## Official Sources
 
@@ -9,17 +10,17 @@ This project is open source and community-friendly. To help users get the safest
 - Official GitHub repository and releases:
   - https://github.com/marklearst/a11y-companion-widget
 
-## Project Request
+## Policy
 
-- Please do not publish rebranded or near-identical copies of this widget to Figma Community.
-- Please do not republish this widget under a different name, branding, or listing.
+- Do not publish rebranded or near-identical copies of this widget to Figma Community.
+- Do not republish this widget under a different name, branding, or listing.
 - Do not create alternate public listings of this widget (or substantially similar copies) in Figma Community.
 - The official listing is the only supported public release from this project.
 
 ## Why This Matters
 
 - Users get timely fixes and accurate release notes from the official source.
-- Community trust improves when attribution is clear.
+- Users avoid confusion when only one official source is used.
 - Unofficial copies can include unreviewed changes, regressions, or security issues that this project cannot support.
 
 ## If You Find a Confusing Re-Listing

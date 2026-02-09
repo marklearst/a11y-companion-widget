@@ -7,7 +7,7 @@ Built and maintained by Mark Learst.
 ![GitHub issues](https://img.shields.io/github/issues/marklearst/a11y-companion-widget?style=flat-square)
 [![Figma Community](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?style=flat-square&logo=figma)](https://www.figma.com/community/widget/1509302611418259130)
 
-A modern, open-source Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance, collaboratively with your team.
+A production Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance with your team.
 
 [a11y Companion Widget | Figma Community](https://www.figma.com/community/widget/1509302611418259130)
 
@@ -90,9 +90,16 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 
 The inspector supports solid and single-gradient scenarios. Unsupported combinations are reported with explicit status messages.
 
-## ⚙️ For Builders
+## ⚠️ Distribution Guardrails
 
-Key local commands:
+This repository exists to maintain the official A11Y Companion widget.
+Do not publish forks, clones, or modified builds to Figma Community.
+Use the official listing linked above.
+If you need changes, open an issue please.
+
+## 🔒 Internal Maintenance Checks (Official Listing)
+
+Checks used for maintaining the official repository and release workflow:
 
 - `pnpm run build` - bundle widget code to `dist/code.js`
 - `pnpm run watch` - rebuild on file changes
@@ -131,16 +138,17 @@ For security-related reports, use the repository security policy:
 
 - [Support](.github/SUPPORT.md)
 - [Third-Party Notices](THIRD_PARTY_NOTICES.md)
-- [Listing and Attribution Guidance](.github/LISTING_ATTRIBUTION_GUIDANCE.md)
+- [Official Listing Policy](.github/OFFICIAL_LISTING_POLICY.md)
 
-This project is open source. Please use the official widget listing/repository for the safest and most up-to-date version. Unofficial copies may include unreviewed changes, security issues, or regressions and are not supported by this project.
+This repository is maintained for the official widget release.
+Use only the official listing/repository for the safest and most up-to-date version. Unofficial copies may include unreviewed changes, security issues, or regressions and are not supported by this project.
 Please do not republish this widget under a different name or listing in Figma Community.
 
 ## 🤔 Why use this widget?
 
 - Ensure your designs and content meet accessibility standards
 - Make accessibility a collaborative, visible part of your workflow
-- Reference the latest, community-driven accessibility guidance
+- Reference the latest accessibility guidance from trusted sources
 
 ## 🙌 Credits
 

@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { useSyncedMap, useSyncedState, useEffect } = widget;
 
-import { defaultTheme, withOpacity } from "design-system/theme/default";
+import { withOpacity } from "design-system/theme/default";
 import { capAvatarIds } from "shared/avatarStack";
 
 type AvatarProfile = {
@@ -71,26 +71,7 @@ const resolveUserId = (
   return null;
 };
 
-const ENABLE_TEST_AVATARS = true;
-const TEST_AVATAR_NAMES = [
-  "Ava Test",
-  "Lee Sample",
-  "Kai Demo",
-  "Riley QA",
-  "Morgan UX",
-  "Jordan Dev",
-  "Taylor Ops",
-  "Casey PM",
-  "Sam Review",
-  "Alex Design",
-];
-const TEST_AVATAR_COLORS = [
-  defaultTheme.brand.purple[100],
-  defaultTheme.neutral.gray[100],
-  defaultTheme.semantic.success.light,
-  defaultTheme.semantic.warning.light,
-  defaultTheme.neutral.gray[900],
-];
+const TEST_AVATAR_ID_PATTERN = /^test:\d+$/;
 
 export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
   const { accentColor, neutralDark, neutralLight, max = 5 } = options;
@@ -98,10 +79,6 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
   const [avatarIds, setAvatarIds] = useSyncedState<string[]>(
     "avatarIds",
     []
-  );
-  const [seeded, setSeeded] = useSyncedState<boolean>(
-    "avatarTestSeeded",
-    false
   );
   const visibleAvatarIds = capAvatarIds(avatarIds, max);
 
@@ -143,35 +120,19 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
   };
 
   useEffect(() => {
-    if (!ENABLE_TEST_AVATARS) return;
-    const hasAllTestAvatarIds = TEST_AVATAR_NAMES.every((_, index) =>
-      avatarIds.includes(`test:${index + 1}`)
-    );
-    if (seeded && hasAllTestAvatarIds) return;
-    const nextIds = [...avatarIds];
-    TEST_AVATAR_NAMES.forEach((name, index) => {
-      const id = `test:${index + 1}`;
-      const existing = avatarProfiles.get(id);
-      if (!existing) {
-        avatarProfiles.set(id, {
-          id,
-          name,
-          initials: getInitials(name),
-          photoUrl: null,
-          color: TEST_AVATAR_COLORS[index % TEST_AVATAR_COLORS.length],
-          sessionId: null,
-        });
-      }
-      if (!nextIds.includes(id)) {
-        nextIds.push(id);
-      }
-    });
+    const testIds = avatarIds.filter((id) => TEST_AVATAR_ID_PATTERN.test(id));
+    if (testIds.length === 0) {
+      return;
+    }
+    const nextIds = avatarIds.filter((id) => !TEST_AVATAR_ID_PATTERN.test(id));
     if (nextIds.join("|") !== avatarIds.join("|")) {
       setAvatarIds(nextIds);
     }
-    if (!seeded) {
-      setSeeded(true);
-    }
+    testIds.forEach((id) => {
+      if (avatarProfiles.get(id)) {
+        avatarProfiles.delete(id);
+      }
+    });
   });
 
   const profiles = visibleAvatarIds
