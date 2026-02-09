@@ -9,18 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Variable-first design-system tooling: architecture linting, variable gap reporting, and theme baseline snapshot checks.
-- Contrast automation scripts for WCAG AA validation and nearest safe shade-step suggestions.
-- Generated WCAG conformance level map (`A`, `AA`, `AAA`) and helper APIs for level-based criteria lookups.
-- Widget contrast inspector with on-canvas preview and property-menu toggle.
-- Stable contrast diagnostics for unsupported selections:
-  - image fills
-  - mixed fills
-  - multiple fills
-  - dual-gradient pairs
-  - stale selection changes
-- Gradient-aware contrast support with sampled-min measurement, stop metadata, and tooltip details.
-- Expanded hardening checks for shared utility behavior.
+- **Phase 1 - Foundation**
+  - Variable-first design-system tooling: architecture linting, variable gap reporting, and theme baseline snapshot checks.
+  - Contrast automation scripts for WCAG AA validation and nearest safe shade-step suggestions.
+  - Generated WCAG conformance level map (`A`, `AA`, `AAA`, `Failed`) and helper APIs for level-based criteria lookups.
+- **Phase 2 - Contrast Hardening**
+  - Runtime accent-step policy for contrast-safe theme resolution in light/dark modes.
+  - Expanded hardening checks for contrast policy, preset matching, and shared utility behavior.
+- **Phase 4 - Widget UX Upgrades**
+  - Widget contrast inspector with on-canvas preview and property-menu toggle.
+  - Unsupported-selection diagnostics for:
+    - image fills
+    - mixed fills
+    - multiple fills
+    - dual-gradient pairs
+    - stale selection changes
+  - Gradient-aware contrast support with sampled-min measurement, stop metadata, and tooltip details.
+  - AvatarStack activity tracking from real checklist interactions (item toggle and section bulk action).
 
 ### Changed
 
@@ -31,8 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `watch:ds:strict` adds failing AA contrast checks for hard-gate mode
 - Improved naming clarity for component variable imports with canonical `componentPrimitives`.
 - Markdown export now uses real task-list syntax (`- [ ]` / `- [x]`) and wrapped continuation lines for long descriptions.
-- Widget preference storage keeps per-user keys with a safe fallback key for anonymous sessions.
-- Theme selection remains available as `light` and `dark`.
+- Widget preference storage now uses shared widget-instance namespace keys (`prefs:user:shared:widget:<widgetId>`).
+- Property menu was reorganized into clearer sections:
+  - Scope & Context
+  - Visual Configuration
+  - Specialized Checks & Export
+- Theme selection is explicit `light` / `dark`.
 - Avatar facepile updated for cleaner stacking and overflow readability:
   - maximum visible avatars reduced to 4
   - `+N` overflow chip with comma-delimited hidden-name tooltip
@@ -46,13 +55,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - light/dark-specific readability adjustments
 - Added i18n message coverage for contrast inspector interactions and labels.
 
-### Deprecated
+### Removed
 
 - Legacy primitive variable aliases:
   - `primitiveComponentVariables`
   - `primitiveComponentTokens`
-- Legacy top-level design-system exports remain soft-deprecated and are planned for v2 cleanup.
-
+- Runtime `system` theme option from widget preferences and property-menu theme controls.
 
 ## [1.2.1] - 2025-12-12
 
