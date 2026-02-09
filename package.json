@@ -28,7 +28,7 @@
     "pnpm": ">=10"
   },
   "author": "Mark Learst",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@figma/eslint-plugin-figma-plugins": "*",
     "@figma/plugin-typings": "*",

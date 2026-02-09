@@ -171,14 +171,14 @@ The **A11Y Companion Widget** is a **high-quality, well-architected Figma widget
 
 **Minor gaps:**
 - No architecture decision records (ADRs)
-- No contributing guide (CONTRIBUTING.md)
+- No maintainer workflow doc
 - No issue templates
-- No PR template
+- No internal review checklist template
 - Design system could use visual documentation
 
 **Recommendations:**
-- Add CONTRIBUTING.md for new contributors
-- Add GitHub issue/PR templates
+- Add maintainer workflow documentation
+- Add GitHub issue and internal review checklist templates
 - Consider Storybook-style docs for design system
 - Add ADRs for major architectural decisions
 

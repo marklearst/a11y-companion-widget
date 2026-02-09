@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Phase 2 - Contrast Hardening**
   - Runtime accent-step policy for contrast-safe theme resolution in light/dark modes.
   - Expanded hardening checks for contrast policy, preset matching, and shared utility behavior.
+- **Phase 3 - Deprecation Cleanup**
+  - Canonical variable imports were standardized across runtime modules.
+  - Legacy primitive variable aliases and deprecated theme options were removed (see **Removed** for details).
 - **Phase 4 - Widget UX Upgrades**
   - Widget contrast inspector with on-canvas preview and property-menu toggle.
   - Unsupported-selection diagnostics for:
