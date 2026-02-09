@@ -1,6 +1,7 @@
 const { widget } = figma;
 const { useSyncedMap, useSyncedState, useEffect } = widget;
 
+import { brand, semantic } from "design-system/theme/default";
 import { capAvatarIds } from "shared/avatarStack";
 
 type AvatarProfile = {
@@ -63,14 +64,14 @@ const toOpaqueHex = (color: string | null | undefined): string | null => {
 };
 
 const FALLBACK_AVATAR_COLORS = [
-  "#4C6EF5",
-  "#0F766E",
-  "#C2410C",
-  "#7C3AED",
-  "#0369A1",
-  "#B45309",
-  "#BE123C",
-  "#15803D",
+  brand.accent.light,
+  semantic.success.dark,
+  semantic.warning.dark,
+  brand.accent.medium,
+  semantic.info.dark,
+  semantic.warning.medium,
+  semantic.error.dark,
+  semantic.success.medium,
 ];
 
 const hashString = (value: string) => {
@@ -112,10 +113,10 @@ const resolveUserId = (
 const TEST_AVATAR_ID_PATTERN = /^test:\d+$/;
 const SHOW_DEBUG_TEST_AVATARS = false;
 const DEBUG_TEST_AVATARS = [
-  { id: "test:1", name: "Ava Test", color: "#4C6EF5" },
-  { id: "test:2", name: "Lee Sample", color: "#0F766E" },
-  { id: "test:3", name: "Kai Demo", color: "#C2410C" },
-  { id: "test:4", name: "Riley QA", color: "#7C3AED" },
+  { id: "test:1", name: "Ava Test", color: brand.accent.light },
+  { id: "test:2", name: "Lee Sample", color: semantic.success.dark },
+  { id: "test:3", name: "Kai Demo", color: semantic.warning.dark },
+  { id: "test:4", name: "Riley QA", color: brand.accent.medium },
 ];
 const DEBUG_TEST_AVATAR_COLOR_BY_ID = DEBUG_TEST_AVATARS.reduce<
   Record<string, string>
