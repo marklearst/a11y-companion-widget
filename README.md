@@ -2,10 +2,10 @@
 
 Built and maintained by Mark Learst.
 
-![License](https://img.shields.io/github/license/marklearst/a11y-companion-widget)
-![GitHub last commit](https://img.shields.io/github/last-commit/marklearst/a11y-companion-widget)
-![GitHub issues](https://img.shields.io/github/issues/marklearst/a11y-companion-widget)
-[![Figma Community](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?logo=figma)](https://www.figma.com/community/widget/1509302611418259130)
+![License](https://img.shields.io/github/license/marklearst/a11y-companion-widget?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/marklearst/a11y-companion-widget?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/marklearst/a11y-companion-widget?style=flat-square)
+[![Figma Community](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?style=flat-square&logo=figma)](https://www.figma.com/community/widget/1509302611418259130)
 
 A modern, open-source Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance, collaboratively with your team.
 
@@ -26,28 +26,38 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 
 ## ✨ Features
 
-### Core Features
+### Core
 
 - Full A11Y Project checklist, organized by section
-- Each item includes a WCAG reference and a detailed explanation
-- Collapsible sections for easy navigation
-- Progress tracking per section and overall
-- Accessible custom checkboxes
-- WCAG references and detailed explanations
+- Per-section and overall progress tracking
+- WCAG references and detailed guidance per checklist item
+- Search and filter across checklist text and WCAG codes
+- Bulk section actions (check all / uncheck all)
+- Section collapse/expand for faster navigation
+- Markdown export with real task-list syntax (`- [ ]`, `- [x]`)
+- WCAG Level Coverage summary in markdown export (`A`, `AA`, `AAA`)
+- Works in both Figma Design and FigJam
 
-### New in v1.2.0 🎉
+### New in v2.0.0
 
-- **🔍 Search & Filter** - Quickly find checklist items by text or WCAG code
-- **⚡ Bulk Actions** - Mark all items in a section complete/incomplete with one click
-- **📦 Collapse/Expand All** - Quickly navigate large checklists
-- **💾 Export Progress** - Export your progress as JSON for backup or sharing
-- **🌙 Dark Mode** - Full dark mode support with system preference detection
-- **🌍 Localization** - English and Spanish language support
-- **🎨 Enhanced UI** - Improved visual hierarchy and user experience
-
----
-
-**Note:** Collaborative avatars (facepile) for team check-offs were removed in v1.1.0 for a simpler interface and less UI noise, based on overwhelming user feedback. Avatars could be reset by resetting widget state. This feature may return in the future with a toggle to enable or disable it.
+- **Phase 1 - Foundation**
+  - Variable-first design-system guardrails and baseline checks
+  - WCAG contrast automation scripts and watch modes for fast/strict validation
+  - WCAG level map generation and validation tooling
+- **Phase 2 - Contrast Hardening**
+  - Runtime contrast-safe accent resolution for themed UI states
+  - Stronger AA/AAA reliability checks in scripts and hardening tests
+- **Phase 3 - Deprecation Cleanup**
+  - Canonical variable imports and removal of legacy alias usage across runtime modules
+  - Cleaner design-system exports and fewer compatibility shims
+- **Phase 4 - Widget UX Upgrades**
+  - Contrast Inspector with on-canvas preview and property-menu toggle
+  - Contrast status output for `AAA`, `AA`, `A` (large text only), and `Failed`
+  - Gradient-aware contrast checks with sampled-min reporting
+  - Clear unsupported-state messaging (image, mixed fills, dual gradients, stale selection)
+  - AvatarStack activity tracking from real check/uncheck interactions
+  - Improved avatar overflow handling with `+N` summary and readable tooltip names
+  - Theme selection simplified to explicit `light` / `dark`
 
 ## ▶️ How to Use
 
@@ -59,15 +69,72 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 6. Click the **collapse/expand** button (▲/▼) to quickly navigate sections.
 7. Hover over checklist items for WCAG references and detailed explanations.
 8. Use the **property menu** to:
-   - Hide completed items
+   - Change language (English/Espanol)
+   - Change checklist template
    - Switch between light/dark themes
-   - Switch between brand themes (Default, Indigo, Emerald, Rose, Slate, Cyan)
-   - Change language (English/Español)
-   - Export your progress as JSON
+   - Switch accent color themes (Default, Indigo, Emerald, Rose, Slate, Cyan)
+   - Toggle Contrast Inspector
+   - Export checklist progress to Markdown
+
+## 🔬 Contrast Inspector
+
+1. Enable **Contrast Inspector** from the property menu.
+2. Select a layer on canvas.
+3. Press **Check** in the inspector row.
+4. Review:
+   - preview sample
+   - ratio and grade
+   - foreground/background metadata
+5. Use **Swap** to preview reversed foreground/background contrast where supported.
+6. Use **Clear** to reset the current inspector result.
+
+The inspector supports solid and single-gradient scenarios. Unsupported combinations are reported with explicit status messages.
+
+## ⚙️ For Builders
+
+Key local commands:
+
+- `pnpm run build` - bundle widget code to `dist/code.js`
+- `pnpm run watch` - rebuild on file changes
+- `pnpm run lint` - ESLint plus design-system architecture checks
+- `pnpm run tsc` - TypeScript checks (`--noEmit`)
+- `pnpm run check:contrast` - AA contrast checks for theme combinations
+- `pnpm run check:contrast:suggest` - nearest safe shade-step suggestions
+- `pnpm run theme:baseline:check` - compare theme output to baseline snapshot
+- `pnpm run test:hardening` - hardening regressions for shared/widget behavior
 
 ## 🗺️ Roadmap
 
 Public roadmap updates are published with release notes in [`CHANGELOG.md`](CHANGELOG.md).
+
+## 🐞 Report Issues
+
+Found a bug or regression? Open an issue here:
+
+- [GitHub Issues](https://github.com/marklearst/a11y-companion-widget/issues)
+
+Please include:
+
+- Figma or FigJam context
+- Steps to reproduce
+- Expected vs actual behavior
+- Screenshots (if UI-related)
+- Environment details (OS/Figma desktop version)
+
+## 🔐 Security
+
+For security-related reports, use the repository security policy:
+
+- [Security Policy](.github/SECURITY.md)
+
+## 🧭 Support and Project Notes
+
+- [Support](.github/SUPPORT.md)
+- [Third-Party Notices](THIRD_PARTY_NOTICES.md)
+- [Listing and Attribution Guidance](.github/LISTING_ATTRIBUTION_GUIDANCE.md)
+
+This project is open source. Please use the official widget listing/repository for the safest and most up-to-date version. Unofficial copies may include unreviewed changes, security issues, or regressions and are not supported by this project.
+Please do not republish this widget under a different name or listing in Figma Community.
 
 ## 🤔 Why use this widget?
 
