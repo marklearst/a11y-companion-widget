@@ -9,7 +9,11 @@ This project is open source and community-friendly. To help users get the safest
 - Official GitHub repository and releases:
   - https://github.com/marklearst/a11y-companion-widget
 
-If you publish derivative work, please provide clear attribution and make the differences from the official a11y Companion Widget obvious to users.
+## Project Request
+
+- Please do not publish rebranded or near-identical copies of this widget to Figma Community.
+- If you publish derivative work, keep clear attribution to this project and clearly label it as unofficial.
+- Make differences obvious to users (feature changes, bug fixes, known limitations, and version source).
 
 ## Why This Matters
 

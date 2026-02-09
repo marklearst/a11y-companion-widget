@@ -134,6 +134,7 @@ For security-related reports, use the repository security policy:
 - [Listing and Attribution Guidance](.github/LISTING_ATTRIBUTION_GUIDANCE.md)
 
 This project is open source. Please use the official widget listing/repository for the safest and most up-to-date version. Unofficial copies may include unreviewed changes, security issues, or regressions and are not supported by this project.
+Please do not publish rebranded near-identical copies in Figma Community. If you publish derivative work, keep attribution and clearly label it as unofficial.
 
 ## 🤔 Why use this widget?
 
