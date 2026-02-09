@@ -10,7 +10,7 @@
 - Design system code lives in `widget-src/design-system/` with layers for `primitives/`, `theme/`, `components/`, and `utils/`.
 - Shared SVG builders live in `widget-src/ui/icons/`.
 - Automation and quality scripts live in `scripts/`.
-- Reference docs and planning notes live in `markdown/` and root `DESIGN_SYSTEM_*.md` files.
+- Reference docs and planning notes live in `markdown/`.
 
 ## Build, Test, and Development Commands
 

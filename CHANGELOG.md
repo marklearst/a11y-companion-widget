@@ -12,11 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Variable-first design-system tooling: architecture linting, variable gap reporting, and theme baseline snapshot checks.
 - Contrast automation scripts for WCAG AA validation and nearest safe shade-step suggestions.
 - Generated WCAG conformance level map (`A`, `AA`, `AAA`) and helper APIs for level-based criteria lookups.
-- Root design-system planning docs:
-  - `DESIGN_SYSTEM_MASTER_PLAN.md`
-  - `DESIGN_SYSTEM_NAMING_GUIDE.md`
-  - `DESIGN_SYSTEM_V2_TODO.md`
-- Shared SVG builder utilities in `widget-src/ui/icons`.
+- Widget contrast inspector with on-canvas preview and property-menu toggle.
+- Deterministic contrast diagnostics for unsupported selections:
+  - image fills
+  - mixed fills
+  - multiple fills
+  - dual-gradient pairs
+  - stale selection changes
+- Gradient-aware contrast support with sampled-min measurement, stop metadata, and tooltip details.
+- Shared contrast/namespace utilities:
+  - `widget-src/shared/contrastMessages.ts`
+  - `widget-src/shared/preferenceNamespace.ts`
+- Expanded hardening checks for shared utilities and preference namespaces.
 
 ### Changed
 
@@ -26,7 +33,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `watch:ds` includes variable checks and contrast suggestion output
   - `watch:ds:strict` adds failing AA contrast checks for hard-gate mode
 - Improved naming clarity for component variable imports with canonical `componentPrimitives`.
-- Markdown export now includes WCAG level coverage summary for `A`, `AA`, and `AAA`.
+- Markdown export now uses real task-list syntax (`- [ ]` / `- [x]`) and wrapped continuation lines for long descriptions.
+- Widget preferences are now scoped with predictable widget-instance namespaces.
+- Property menu was reorganized into separated sections:
+  - Scope & Context
+  - Visual Configuration
+  - Specialized Checks & Export
+- Theme selection is now explicit and stable (`light` / `dark`).
+- Avatar facepile updated for cleaner stacking and overflow readability:
+  - maximum visible avatars reduced to 4
+  - `+N` overflow chip with comma-delimited hidden-name tooltip
+  - stronger initial/overflow typography
+  - outline and spacing alignment updates
+- Contrast inspector UI refined for production use:
+  - fixed-size preview area
+  - clear Check / Swap / Clear actions
+  - stable `Contrast: N/A` fallback state
+  - metadata rows for foreground/background values
+  - light/dark-specific readability adjustments
+- Added i18n message coverage for contrast inspector interactions and labels.
 
 ### Deprecated
 
@@ -34,6 +59,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `primitiveComponentVariables`
   - `primitiveComponentTokens`
 - Legacy top-level design-system exports remain soft-deprecated and are planned for v2 cleanup.
+
+### Removed
+
+- Legacy runtime `system` theme branch and `useDarkMode` dependency from widget rendering path.
 
 ## [1.2.1] - 2025-12-12
 

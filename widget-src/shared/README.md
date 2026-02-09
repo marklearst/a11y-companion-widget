@@ -14,10 +14,10 @@
 
 ## Current examples
 - `hexColor.ts`: normalize and validate hex colors consistently.
-- `avatarStack.ts`: deterministic avatar stack math and capping.
+- `avatarStack.ts`: stable avatar stack math and capping.
+- `preferenceNamespace.ts`: stable per-user/per-widget preference keys.
 
 ## Rules
-- Functions must be deterministic and side-effect free.
+- Functions must be pure and side-effect free.
 - Prefer small, composable helpers with explicit input/output.
 - Do not import from `hooks/` or `components/` inside `shared/`.
-
