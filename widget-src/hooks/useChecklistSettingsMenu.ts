@@ -52,6 +52,7 @@ export function useChecklistSettingsMenu({
     theme,
     selectedTemplate,
     accentColor,
+    showContrastInspector,
   } = preferences;
 
   const templateKeyMap: Record<TemplateType, keyof typeof messages.templates> =
@@ -73,15 +74,52 @@ export function useChecklistSettingsMenu({
     /:\s*$/,
     ""
   );
-
   usePropertyMenu(
     [
+      // Section 1: Scope & Context
+      {
+        itemType: "dropdown",
+        propertyName: "language",
+        tooltip: messages.languageLabel,
+        selectedOption: language,
+        options: [
+          { option: "en", label: "English" },
+          { option: "es", label: "Español" },
+        ],
+      },
       {
         itemType: "dropdown",
         propertyName: "template",
         tooltip: templateTooltip || "Checklist Template",
         selectedOption: selectedTemplate,
         options: templateOptions,
+      },
+      { itemType: "separator" },
+      // Section 2: Visual Configuration
+      {
+        itemType: "dropdown",
+        propertyName: "theme",
+        tooltip: messages.themeLabel,
+        selectedOption: theme,
+        options: [
+          { option: "light", label: "Light" },
+          { option: "dark", label: "Dark" },
+        ],
+      },
+      {
+        itemType: "color-selector",
+        propertyName: "accentColor",
+        tooltip: messages.brandThemeLabel,
+        selectedOption: accentColor,
+        options: COLOR_SELECTOR_OPTIONS,
+      },
+      { itemType: "separator" },
+      // Section 3: Specialized Checks & Exports
+      {
+        itemType: "toggle",
+        propertyName: "contrast-inspector",
+        tooltip: messages.contrastInspectorToggle,
+        isToggled: showContrastInspector,
       },
       {
         itemType: "action",
@@ -96,34 +134,6 @@ export function useChecklistSettingsMenu({
         isToggled: hideCompleted,
       },
       */
-      {
-        itemType: "dropdown",
-        propertyName: "theme",
-        tooltip: messages.themeLabel,
-        selectedOption: theme,
-        options: [
-          { option: "light", label: "Light" },
-          { option: "dark", label: "Dark" },
-          { option: "system", label: "System" },
-        ],
-      },
-      {
-        itemType: "dropdown",
-        propertyName: "language",
-        tooltip: messages.languageLabel,
-        selectedOption: language,
-        options: [
-          { option: "en", label: "English" },
-          { option: "es", label: "Español" },
-        ],
-      },
-      {
-        itemType: "color-selector",
-        propertyName: "accentColor",
-        tooltip: messages.brandThemeLabel,
-        selectedOption: accentColor,
-        options: COLOR_SELECTOR_OPTIONS,
-      },
     ],
     (event: { propertyName: string; propertyValue?: string }) => {
       const { propertyName, propertyValue } = event;
@@ -139,13 +149,16 @@ export function useChecklistSettingsMenu({
         }
       }
       if (propertyName === "theme" && propertyValue) {
-        setPreferences({ theme: propertyValue as "light" | "dark" | "system" });
+        setPreferences({ theme: propertyValue as "light" | "dark" });
       }
       if (propertyName === "language" && propertyValue) {
         setPreferences({ language: propertyValue as "en" | "es" });
       }
       if (propertyName === "accentColor" && propertyValue) {
         setPreferences({ accentColor: propertyValue });
+      }
+      if (propertyName === "contrast-inspector") {
+        setPreferences({ showContrastInspector: !showContrastInspector });
       }
     }
   );

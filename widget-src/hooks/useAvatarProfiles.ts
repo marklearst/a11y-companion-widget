@@ -78,13 +78,18 @@ const TEST_AVATAR_NAMES = [
   "Kai Demo",
   "Riley QA",
   "Morgan UX",
+  "Jordan Dev",
+  "Taylor Ops",
+  "Casey PM",
+  "Sam Review",
+  "Alex Design",
 ];
 const TEST_AVATAR_COLORS = [
   defaultTheme.brand.purple[100],
   defaultTheme.neutral.gray[100],
   defaultTheme.semantic.success.light,
   defaultTheme.semantic.warning.light,
-  defaultTheme.semantic.info.light,
+  defaultTheme.neutral.gray[900],
 ];
 
 export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
@@ -98,7 +103,7 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     "avatarTestSeeded",
     false
   );
-  const limitedAvatarIds = capAvatarIds(avatarIds, max);
+  const visibleAvatarIds = capAvatarIds(avatarIds, max);
 
   const upsertAvatar = (profile: AvatarProfile) => {
     const existing = avatarProfiles.get(profile.id);
@@ -112,11 +117,8 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     if (hasChanges) {
       avatarProfiles.set(profile.id, profile);
     }
-    const nextIds = capAvatarIds(
-      [profile.id, ...avatarIds.filter((id) => id !== profile.id)],
-      max
-    );
-    if (nextIds.join("|") !== limitedAvatarIds.join("|")) {
+    const nextIds = [profile.id, ...avatarIds.filter((id) => id !== profile.id)];
+    if (nextIds.join("|") !== avatarIds.join("|")) {
       setAvatarIds(nextIds);
     }
   };
@@ -141,8 +143,12 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
   };
 
   useEffect(() => {
-    if (!ENABLE_TEST_AVATARS || seeded) return;
-    const nextIds = [...limitedAvatarIds];
+    if (!ENABLE_TEST_AVATARS) return;
+    const hasAllTestAvatarIds = TEST_AVATAR_NAMES.every((_, index) =>
+      avatarIds.includes(`test:${index + 1}`)
+    );
+    if (seeded && hasAllTestAvatarIds) return;
+    const nextIds = [...avatarIds];
     TEST_AVATAR_NAMES.forEach((name, index) => {
       const id = `test:${index + 1}`;
       const existing = avatarProfiles.get(id);
@@ -160,22 +166,22 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
         nextIds.push(id);
       }
     });
-    if (nextIds.join("|") !== limitedAvatarIds.join("|")) {
-      setAvatarIds(capAvatarIds(nextIds, max));
+    if (nextIds.join("|") !== avatarIds.join("|")) {
+      setAvatarIds(nextIds);
     }
-    setSeeded(true);
+    if (!seeded) {
+      setSeeded(true);
+    }
   });
 
-  // Enforce avatar cap for older synced data that may exceed the current max.
-  useEffect(() => {
-    const cappedAvatarIds = capAvatarIds(avatarIds, max);
-    if (avatarIds.join("|") === cappedAvatarIds.join("|")) return;
-    setAvatarIds(cappedAvatarIds);
-  });
-
-  const profiles = limitedAvatarIds
+  const profiles = visibleAvatarIds
     .map((id) => avatarProfiles.get(id))
     .filter((profile): profile is AvatarProfile => Boolean(profile));
+  const overflowCount = Math.max(0, avatarIds.length - profiles.length);
+  const overflowNames = avatarIds
+    .slice(visibleAvatarIds.length)
+    .map((id) => avatarProfiles.get(id)?.name?.trim() ?? "")
+    .filter((name) => name.length > 0);
 
   const avatars: AvatarDisplay[] = profiles.map((profile) => {
     if (profile.photoUrl) {
@@ -198,5 +204,5 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     };
   });
 
-  return { avatars, recordInteraction };
+  return { avatars, overflowCount, overflowNames, recordInteraction };
 }

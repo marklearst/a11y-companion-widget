@@ -2,6 +2,8 @@ import { padding, gap, radius, sizes } from "../spacing";
 import { fontSize, fontWeight, fontFamily } from "../primitives/typography";
 import { borderWidth, borderRadius } from "../primitives/borders";
 import { dimensions } from "../primitives/sizing";
+import { gray, pure } from "../primitives/color";
+import { calculateContrastRatioHex } from "../utils/contrast";
 
 export type ChecklistThemeVariables = {
   panelBg: string;
@@ -184,6 +186,24 @@ type ChecklistLayoutVariables = {
     fontWeight: WidgetJSX.FontWeight;
     gap: number;
   };
+  inspector: {
+    previewWidth: number;
+    previewHeight: number;
+    previewRadius: number;
+    status: {
+      fontFamily: string;
+      fontSize: number;
+      fontWeight: WidgetJSX.FontWeight;
+      lineHeight?: string;
+    };
+    controls: {
+      height: number;
+      paddingX: number;
+      gap: number;
+      radius: number;
+      strokeWidth: number;
+    };
+  };
 };
 
 const companionLayout: ChecklistLayoutVariables = {
@@ -209,13 +229,13 @@ const companionLayout: ChecklistLayoutVariables = {
       letterSpacing: -0.3,
     },
     avatar: {
-      size: dimensions.avatarMd + 2,
+      size: dimensions.avatarMd,
       radius: borderRadius.full,
       strokeWidth: borderWidth.base,
       fontSize: fontSize.xs,
-      fontWeight: fontWeight.semibold,
+      fontWeight: fontWeight.bold,
       stackOffsetX: -8,
-      maxVisible: 5,
+      maxVisible: 4,
     },
   },
   search: {
@@ -341,10 +361,62 @@ const companionLayout: ChecklistLayoutVariables = {
     fontWeight: fontWeight.bold,
     gap: gap.compact,
   },
+  inspector: {
+    previewWidth: 352,
+    previewHeight: 200,
+    previewRadius: radius.lg,
+    status: {
+      fontFamily: fontFamily.sans,
+      fontSize: 64,
+      fontWeight: fontWeight.medium,
+      lineHeight: "100%",
+    },
+    controls: {
+      height: gap.major,
+      paddingX: gap.tight,
+      gap: gap.tight,
+      radius: radius.sm,
+      strokeWidth: borderWidth.base,
+    },
+  },
 };
+
+function pickReadableColor(background: string, preferred: string): string {
+  const preferredRatio = calculateContrastRatioHex(preferred, background);
+  if (typeof preferredRatio === "number" && preferredRatio >= 3) {
+    return preferred;
+  }
+  const darkRatio = calculateContrastRatioHex(gray[900], background);
+  const lightRatio = calculateContrastRatioHex(pure.white, background);
+  const darkValue = typeof darkRatio === "number" ? darkRatio : 0;
+  const lightValue = typeof lightRatio === "number" ? lightRatio : 0;
+  return darkValue >= lightValue ? gray[900] : pure.white;
+}
 
 export function createChecklistVariables(theme: ChecklistThemeVariables) {
   const layout = companionLayout;
+  const inspectorSurface = pure.white;
+  const inspectorActionActiveBg = theme.progressFill;
+  const inspectorActionText = pickReadableColor(
+    inspectorSurface,
+    theme.textPrimary,
+  );
+  const inspectorActionActiveText = pickReadableColor(
+    inspectorActionActiveBg,
+    theme.panelBg,
+  );
+  const panelContrastWithWhite = calculateContrastRatioHex(
+    theme.panelBg,
+    pure.white,
+  );
+  const panelContrastWithDark = calculateContrastRatioHex(
+    theme.panelBg,
+    gray[900],
+  );
+  const shouldUseLightInspectorText =
+    (typeof panelContrastWithWhite === "number" ? panelContrastWithWhite : 0) >=
+    (typeof panelContrastWithDark === "number" ? panelContrastWithDark : 0);
+  const inspectorHintText = shouldUseLightInspectorText ? "#FAFAFA" : "#404040";
   return {
     colors: {
       panelBg: theme.panelBg,
@@ -420,6 +492,18 @@ export function createChecklistVariables(theme: ChecklistThemeVariables) {
     },
     progressTracker: {
       ...layout.progressTracker,
+    },
+    inspector: {
+      ...layout.inspector,
+      colors: {
+        surface: inspectorSurface,
+        surfaceStroke: theme.panelStroke,
+        hintText: inspectorHintText,
+        actionText: inspectorActionText,
+        actionTextDisabled: gray[500],
+        actionActiveBg: inspectorActionActiveBg,
+        actionActiveText: inspectorActionActiveText,
+      },
     },
   } as const;
 }

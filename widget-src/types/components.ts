@@ -100,8 +100,6 @@ export interface ChecklistProps {
   total: number;
   /** Number of completed tasks. */
   completed: number;
-  /** Whether to use dark mode styling. */
-  isDarkMode?: boolean;
   /** Section ids that should show item descriptions. */
   showItemDescriptionsForSectionIds?: string[];
   /** Current user preferences. */
