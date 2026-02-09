@@ -21,6 +21,14 @@ const normalizeKey = (value?: string) => {
   return value.toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
 };
 
+const hasTemplateSyntax = (value?: string) => {
+  if (!value) return false;
+  const lowered = value.toLowerCase();
+  return (
+    lowered.includes("{{") || lowered.includes("}}") || lowered.includes("| url")
+  );
+};
+
 const resolveLegacySection = (
   legacy: LegacyChecklist,
   sectionId: string,
@@ -77,7 +85,9 @@ export function applyLegacyOverrides(
       });
       return {
         ...section,
-        description: legacySection.preface ?? section.description,
+        description: hasTemplateSyntax(legacySection.preface)
+          ? section.description
+          : legacySection.preface ?? section.description,
         items: tasks,
       };
     }),
