@@ -11,6 +11,8 @@ import { parseInlineMarkup, segmentsToMarkdown } from "logic/inlineMarkup";
 import { getWcagCriteriaCodesByLevel } from "logic/wcag";
 
 const WCAG_LEVEL_ORDER = ["A", "AA", "AAA"] as const;
+const TASK_CONTINUATION_INDENT = "  ";
+const TASK_CONTINUATION_WIDTH = 96;
 
 function normalizeLevel(value: string | null | undefined) {
   if (!value) return null;
@@ -23,6 +25,65 @@ function normalizeLevel(value: string | null | undefined) {
 function parseWcagCode(wcag: string | undefined) {
   const match = wcag?.match(/(\d+\.\d+\.\d+)/);
   return match ? match[1] : null;
+}
+
+function wrapWordsToWidth(text: string, maxWidth: number): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (words.length === 0) return [];
+
+  const lines: string[] = [];
+  let current = "";
+
+  for (const word of words) {
+    if (!current) {
+      current = word;
+      continue;
+    }
+    if (current.length + 1 + word.length <= maxWidth) {
+      current = `${current} ${word}`;
+      continue;
+    }
+    lines.push(current);
+    current = word;
+  }
+
+  if (current) {
+    lines.push(current);
+  }
+  return lines;
+}
+
+function formatTaskContinuation(markdownText: string): string {
+  const normalized = markdownText.replace(/\r\n?/g, "\n").trim();
+  if (!normalized) return "";
+
+  const maxWidth = Math.max(
+    24,
+    TASK_CONTINUATION_WIDTH - TASK_CONTINUATION_INDENT.length
+  );
+  const paragraphs = normalized
+    .split(/\n\s*\n/g)
+    .map((paragraph) =>
+      paragraph
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .join(" ")
+    )
+    .filter(Boolean);
+
+  const lines: string[] = [];
+  paragraphs.forEach((paragraph, index) => {
+    if (index > 0) {
+      lines.push(TASK_CONTINUATION_INDENT);
+    }
+    const wrapped = wrapWordsToWidth(paragraph, maxWidth);
+    wrapped.forEach((line) => {
+      lines.push(`${TASK_CONTINUATION_INDENT}${line}`);
+    });
+  });
+
+  return lines.length > 0 ? `${lines.join("\n")}\n` : "";
 }
 
 /**
@@ -71,14 +132,14 @@ export function useQuickCopy() {
     markdown += `**Progress**: ${completed}/${section.items.length} complete\n\n`;
 
     section.items.forEach((item) => {
-      const status = taskCompletion[item.id] ? "✅" : "⬜";
-      markdown += `${status} ${toMarkdown(item.text)}`;
+      const status = taskCompletion[item.id] ? "[x]" : "[ ]";
+      markdown += `- ${status} ${toMarkdown(item.text)}`;
       if (item.wcag) {
         markdown += ` _(${item.wcag})_`;
       }
       markdown += "\n";
       if (item.longDescription) {
-        markdown += `   ${toMarkdown(item.longDescription)}\n`;
+        markdown += formatTaskContinuation(toMarkdown(item.longDescription));
       }
       markdown += "\n";
     });

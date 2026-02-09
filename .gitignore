@@ -16,8 +16,9 @@ assets
 # build
 /dist
 
-# planning
+# ai/planning
 .claude
+.codex
 
 # markdown
 *.md

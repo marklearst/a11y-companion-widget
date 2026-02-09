@@ -19,8 +19,47 @@ import type { ChecklistSectionType } from "types";
 import { useAvatarProfiles } from "hooks/useAvatarProfiles";
 import { getProgressLayout } from "logic/progress";
 import { useChecklistSettingsMenu } from "hooks/useChecklistSettingsMenu";
+import { useContrastChecker } from "hooks/useContrastChecker";
 import { buildA11yLogoSvg } from "ui/icons";
 import { resolveAvatarStackWidth, resolveAvatarStep } from "shared/avatarStack";
+
+function hexToColor(hex: string): RGB {
+  const raw = hex.replace("#", "");
+  const normalized =
+    raw.length === 3
+      ? raw
+          .split("")
+          .map((char) => `${char}${char}`)
+          .join("")
+      : raw.padEnd(6, "0").slice(0, 6);
+  const parseChannel = (start: number) =>
+    Number.parseInt(normalized.slice(start, start + 2), 16) / 255;
+  return {
+    r: parseChannel(0),
+    g: parseChannel(2),
+    b: parseChannel(4),
+  };
+}
+
+function buildLinearGradientPaint(
+  stops: Array<{ position: number; color: string; alpha: number }>
+) {
+  return {
+    type: "gradient-linear" as const,
+    gradientHandlePositions: [
+      { x: 0, y: 0.5 },
+      { x: 1, y: 0.5 },
+      { x: 0, y: 1 },
+    ] as [{ x: number; y: number }, { x: number; y: number }, { x: number; y: number }],
+    gradientStops: stops.map((stop) => ({
+      position: stop.position,
+      color: {
+        ...hexToColor(stop.color),
+        a: stop.alpha,
+      },
+    })),
+  };
+}
 
 /**
  * Renders the accessibility checklist panel, displaying categories and their associated tasks.
@@ -59,13 +98,18 @@ function ChecklistPanel({
   handleCheckChange,
   total,
   completed,
-  isDarkMode,
   showItemDescriptionsForSectionIds = [],
   preferences,
   setPreferences,
 }: ChecklistProps) {
-  const { hideCompleted, language, theme, selectedTemplate, accentColor } =
-    preferences;
+  const {
+    hideCompleted,
+    language,
+    theme,
+    selectedTemplate,
+    accentColor,
+    showContrastInspector,
+  } = preferences;
   const t = getMessages(language);
 
   // Search functionality
@@ -86,6 +130,14 @@ function ChecklistPanel({
     total,
     messages: t,
   });
+  const {
+    contrastResult,
+    contrastNotice,
+    contrastSwapped,
+    checkSelection,
+    clearResult,
+    toggleContrastSwap,
+  } = useContrastChecker();
 
   useChecklistSettingsMenu({
     preferences,
@@ -102,7 +154,7 @@ function ChecklistPanel({
    *
    * @returns {JSX.Element} The rendered Checklist component.
    */
-  const effectiveDark = theme === "dark" || (theme === "system" && isDarkMode);
+  const effectiveDark = theme === "dark";
   const matchedThemePreset = inferThemePresetFromAccent(accentColor);
   const themePreset = matchedThemePreset ?? "default";
   const accentOverride = matchedThemePreset ? undefined : accentColor;
@@ -129,6 +181,182 @@ function ChecklistPanel({
   const progressGap = ui.progress.gap;
   const progressTextColor = ui.progress.textColor ?? ui.colors.textPrimary;
   const progressLayoutText = progressTextSample;
+  const contrastSwapSupported = Boolean(contrastResult?.swappable);
+  const contrastDisplay = (() => {
+    if (!contrastResult) return null;
+    const swapped = contrastSwapped && contrastSwapSupported;
+    return {
+      foreground: swapped ? contrastResult.background : contrastResult.foreground,
+      background: swapped ? contrastResult.foreground : contrastResult.background,
+      foregroundKind: swapped
+        ? contrastResult.backgroundKind
+        : contrastResult.foregroundKind,
+      backgroundKind: swapped
+        ? contrastResult.foregroundKind
+        : contrastResult.backgroundKind,
+      foregroundStops: swapped
+        ? contrastResult.backgroundStops
+        : contrastResult.foregroundStops,
+      backgroundStops: swapped
+        ? contrastResult.foregroundStops
+        : contrastResult.backgroundStops,
+      foregroundStopCount: swapped
+        ? contrastResult.backgroundStopCount
+        : contrastResult.foregroundStopCount,
+      backgroundStopCount: swapped
+        ? contrastResult.foregroundStopCount
+        : contrastResult.backgroundStopCount,
+      ratioDisplay: contrastResult.ratioDisplay,
+      measurementMode: contrastResult.measurementMode,
+      grade: contrastResult.grade,
+    };
+  })();
+  const contrastPreviewFill =
+    contrastDisplay?.backgroundKind === "gradient" &&
+    contrastDisplay.backgroundStops &&
+    contrastDisplay.backgroundStops.length > 1
+      ? buildLinearGradientPaint(contrastDisplay.backgroundStops)
+      : contrastDisplay?.background ?? ui.colors.sectionDescBg;
+  const contrastPreviewText =
+    contrastDisplay?.foregroundKind === "gradient" &&
+    contrastDisplay.foregroundStops &&
+    contrastDisplay.foregroundStops.length > 1
+      ? buildLinearGradientPaint(contrastDisplay.foregroundStops)
+      : contrastDisplay?.foreground ?? ui.colors.textPrimary;
+  const contrastPreviewStatusText = contrastDisplay
+    ? contrastDisplay.grade === "A"
+      ? "Aa"
+      : contrastDisplay.grade
+    : "Aa";
+  const contrastResetDisabled =
+    !contrastResult && !contrastNotice && !contrastSwapped;
+  const contrastBlockGap = ui.section.headerGap;
+  const contrastPreviewActionsGap = ui.section.bulkAction.gap;
+  const contrastMetaGap = ui.section.bulkAction.gap;
+  const contrastPreviewWidth = ui.inspector.previewWidth;
+  const contrastControlPadding = ui.section.bulkAction.padding;
+  const contrastActionPadding = {
+    top: ui.section.headerGap,
+    // Add subtle bottom bias for hover fill without moving text baseline.
+    bottom: contrastControlPadding + 2,
+    left: contrastControlPadding,
+    right: contrastControlPadding,
+  };
+  const contrastUiTextColor = ui.inspector.colors.hintText;
+  const formatGradientSummary = (
+    stops:
+      | Array<{ position: number; color: string; alpha: number }>
+      | undefined
+      | null
+  ): string => {
+    const values = (stops ?? []).map((stop) => stop.color);
+    if (values.length === 0) {
+      return "Gradient 0 steps";
+    }
+    const sample = values.slice(0, 2);
+    const remaining = values.length - sample.length;
+    return `Gradient ${values.length} steps, ${sample.join(", ")}${
+      remaining > 0 ? `, ${remaining}+` : ""
+    }`;
+  };
+  const formatGradientTooltip = (
+    stops:
+      | Array<{ position: number; color: string; alpha: number }>
+      | undefined
+      | null
+  ): string | undefined => {
+    if (!stops || stops.length === 0) return undefined;
+    return stops
+      .map((stop, index) => {
+        const percent = Math.round(stop.position * 100);
+        return `${index + 1}. ${stop.color} @ ${percent}%`;
+      })
+      .join("\n");
+  };
+  const describeFill = (
+    kind: "solid" | "gradient" | undefined,
+    value: string | null,
+    stops: number | undefined,
+    gradientStops:
+      | Array<{ position: number; color: string; alpha: number }>
+      | undefined
+      | null
+  ): string => {
+    if (!value) return String(t.contrastNoData);
+    if (kind === "gradient") {
+      if (gradientStops && gradientStops.length > 0) {
+        return formatGradientSummary(gradientStops);
+      }
+      return `Gradient ${stops ?? 0} steps`;
+    }
+    return value;
+  };
+  const contrastForegroundLabel = contrastDisplay
+    ? describeFill(
+        contrastDisplay.foregroundKind,
+        contrastDisplay.foreground,
+        contrastDisplay.foregroundStopCount,
+        contrastDisplay.foregroundStops
+      )
+    : null;
+  const contrastBackgroundLabel = contrastDisplay
+    ? describeFill(
+        contrastDisplay.backgroundKind,
+        contrastDisplay.background,
+        contrastDisplay.backgroundStopCount,
+        contrastDisplay.backgroundStops
+      )
+    : null;
+  const contrastForegroundTooltip =
+    contrastDisplay?.foregroundKind === "gradient"
+      ? formatGradientTooltip(contrastDisplay.foregroundStops)
+      : undefined;
+  const contrastBackgroundTooltip =
+    contrastDisplay?.backgroundKind === "gradient"
+      ? formatGradientTooltip(contrastDisplay.backgroundStops)
+      : undefined;
+  const contrastTextLabel = `${String(t.contrastTextLabel)}:`;
+  const contrastBackgroundLabelText = `${String(t.contrastBackgroundLabel)}:`;
+  const contrastMetaPlaceholder = "N/A";
+  const contrastTextValue = contrastDisplay
+    ? contrastForegroundLabel ?? String(t.contrastNoData)
+    : contrastMetaPlaceholder;
+  const contrastBackgroundValue = contrastDisplay
+    ? contrastBackgroundLabel ?? String(t.contrastNoData)
+    : contrastMetaPlaceholder;
+  const showContrastMeta = true;
+  const contrastStatusPrimary = contrastDisplay
+    ? `Contrast ${contrastDisplay.ratioDisplay}:1`
+    : null;
+  const contrastStatusSuffixMin =
+    contrastDisplay?.measurementMode === "sampled-min" ? " (min)" : "";
+  const contrastStatusSuffixLarge =
+    contrastDisplay?.grade === "A"
+      ? ` | ${String(t.contrastLargeTextOnly)}`
+      : "";
+  const contrastStatusFullText = contrastStatusPrimary
+    ? `${contrastStatusPrimary}${contrastStatusSuffixMin}${contrastStatusSuffixLarge}`
+    : null;
+  const statusCandidates = contrastStatusPrimary
+    ? [
+        `${contrastStatusPrimary}${contrastStatusSuffixMin}${contrastStatusSuffixLarge}`,
+        `${contrastStatusPrimary}${contrastStatusSuffixMin}`,
+        contrastStatusPrimary,
+      ]
+    : [];
+  const contrastStatusCellWidth = Math.floor(contrastPreviewWidth / 2);
+  const statusCharBudget = Math.max(16, Math.floor((contrastStatusCellWidth - 12) / 7));
+  const contrastStatusCandidate = statusCandidates.find(
+    (candidate) => candidate.length <= statusCharBudget
+  );
+  const contrastStatusText =
+    contrastStatusCandidate ??
+    (statusCandidates.length > 0 ? statusCandidates[statusCandidates.length - 1] : null);
+  const contrastStatusColor = ui.colors.progressFill;
+  const contrastStatusWeight = ui.progressTracker.fontWeight;
+  const contrastResolvedStatus = contrastNotice ?? contrastStatusText ?? "Contrast: N/A";
+  const contrastStatusTooltip = contrastNotice ?? contrastStatusFullText ?? undefined;
+
   const { textWidth: progressTextWidth, barWidth: progressBarWidth } =
     getProgressLayout({
       text: progressLayoutText,
@@ -139,21 +367,40 @@ function ChecklistPanel({
       textCharWidth: ui.progress.textCharWidth,
     });
 
-  const { avatars, recordInteraction } = useAvatarProfiles({
+  const { avatars, overflowCount, overflowNames, recordInteraction } = useAvatarProfiles({
     accentColor: ui.colors.progressFill,
     neutralDark: neutral.gray[900],
     neutralLight: neutral.white,
     max: ui.header.avatar.maxVisible,
   });
+  const avatarOutlineColor = headerText;
   const avatarSize = ui.header.avatar.size;
   const avatarStroke = ui.header.avatar.strokeWidth;
   const avatarStep = resolveAvatarStep(avatarSize, ui.header.avatar.stackOffsetX);
+  const avatarEntries: Array<
+    | (typeof avatars)[number]
+    | { id: string; name: string; type: "overflow"; label: string }
+  > =
+    overflowCount > 0
+      ? [
+          ...avatars,
+          {
+            id: "avatar-overflow",
+            name:
+              overflowNames.length > 0
+                ? `${overflowCount} more users: ${overflowNames.join(", ")}`
+                : `${overflowCount} more users`,
+            type: "overflow",
+            label: `+${overflowCount}`,
+          },
+        ]
+      : avatars;
   const avatarStackWidth = resolveAvatarStackWidth(
-    avatars.length,
+    avatarEntries.length,
     avatarSize,
     avatarStep
   );
-  const avatarPositions = avatars.map((avatar, index) => ({
+  const avatarPositions = avatarEntries.map((avatar, index) => ({
     avatar,
     x: index * avatarStep,
   }));
@@ -225,6 +472,43 @@ function ChecklistPanel({
                 0,
                 ui.header.avatar.radius - avatarStroke
               );
+              if (avatar.type === "overflow") {
+                return (
+                  <AutoLayout
+                    key={avatar.id}
+                    name="UserOverflow"
+                    tooltip={avatar.name}
+                    x={x}
+                    y={0}
+                    width={avatarSize}
+                    height={avatarSize}
+                    cornerRadius={ui.header.avatar.radius}
+                    stroke={avatarOutlineColor}
+                    strokeAlign="inside"
+                    strokeWidth={avatarStroke}
+                    verticalAlignItems="center"
+                    horizontalAlignItems="center"
+                  >
+                    <AutoLayout
+                      width={innerSize}
+                      height={innerSize}
+                      cornerRadius={innerRadius}
+                      fill={ui.colors.sectionDescBg}
+                      verticalAlignItems="center"
+                      horizontalAlignItems="center"
+                    >
+                      <Text
+                        fontSize={ui.header.avatar.fontSize}
+                        fontWeight={ui.header.avatar.fontWeight}
+                        fontFamily={ui.header.title.fontFamily}
+                        fill={ui.colors.textPrimary}
+                      >
+                        {avatar.label}
+                      </Text>
+                    </AutoLayout>
+                  </AutoLayout>
+                );
+              }
               if (avatar.type === "image" && avatar.src) {
                 return (
                   <AutoLayout
@@ -236,7 +520,8 @@ function ChecklistPanel({
                     width={avatarSize}
                     height={avatarSize}
                     cornerRadius={ui.header.avatar.radius}
-                    stroke={ui.colors.panelStroke}
+                    stroke={avatarOutlineColor}
+                    strokeAlign="inside"
                     strokeWidth={avatarStroke}
                     verticalAlignItems="center"
                     horizontalAlignItems="center"
@@ -260,7 +545,8 @@ function ChecklistPanel({
                   width={avatarSize}
                   height={avatarSize}
                   cornerRadius={ui.header.avatar.radius}
-                  stroke={ui.colors.panelStroke}
+                  stroke={avatarOutlineColor}
+                  strokeAlign="inside"
                   strokeWidth={avatarStroke}
                   verticalAlignItems="center"
                   horizontalAlignItems="center"
@@ -401,6 +687,222 @@ function ChecklistPanel({
             </Text>
           </AutoLayout>
         </AutoLayout>
+        {showContrastInspector ? (
+          <AutoLayout
+            direction="vertical"
+            spacing={contrastBlockGap}
+            width="fill-parent"
+            padding={{
+              top: ui.section.headerGap,
+              bottom: ui.progress.paddingBottom + ui.section.bulkAction.gap,
+              left: 0,
+              right: 0,
+            }}
+          >
+            <Text
+              fill={ui.inspector.colors.hintText}
+              fontFamily={ui.section.bulkAction.fontFamily}
+              fontSize={ui.item.text.fontSize}
+              fontWeight={ui.section.bulkAction.fontWeight}
+            >
+              {String(t.contrastInspectorHint)}
+            </Text>
+            <AutoLayout direction="vertical" spacing={contrastPreviewActionsGap} width="fill-parent">
+              <AutoLayout
+                width={contrastPreviewWidth}
+                height={ui.inspector.previewHeight}
+                fill={contrastPreviewFill}
+                cornerRadius={ui.inspector.previewRadius}
+                verticalAlignItems="center"
+                horizontalAlignItems="center"
+              >
+                <AutoLayout
+                  width="fill-parent"
+                  height="fill-parent"
+                  verticalAlignItems="center"
+                  horizontalAlignItems="center"
+                >
+                  <Text
+                    horizontalAlignText="center"
+                    fill={contrastPreviewText}
+                    fontFamily={ui.inspector.status.fontFamily}
+                    fontSize={ui.inspector.status.fontSize}
+                    fontWeight={ui.inspector.status.fontWeight}
+                    lineHeight={ui.inspector.status.lineHeight}
+                  >
+                    {contrastPreviewStatusText}
+                  </Text>
+                </AutoLayout>
+              </AutoLayout>
+              <AutoLayout
+                direction="horizontal"
+                width={contrastPreviewWidth}
+                height={ui.inspector.controls.height}
+                spacing={0}
+                verticalAlignItems="center"
+              >
+                <AutoLayout
+                  width={contrastStatusCellWidth}
+                  height="fill-parent"
+                  direction="horizontal"
+                  spacing={ui.inspector.controls.gap}
+                  verticalAlignItems="center"
+                >
+                  <AutoLayout
+                    onClick={checkSelection}
+                    height="fill-parent"
+                    padding={contrastActionPadding}
+                    cornerRadius={ui.section.bulkAction.radius}
+                    hoverStyle={{
+                      fill: ui.colors.hoverBg,
+                    }}
+                    horizontalAlignItems="center"
+                  >
+                    <Text
+                      fill={contrastUiTextColor}
+                      fontFamily={ui.section.bulkAction.fontFamily}
+                      fontSize={ui.progress.text.fontSize}
+                      fontWeight={ui.section.bulkAction.fontWeight}
+                    >
+                      {String(t.contrastRunCheck)}
+                    </Text>
+                  </AutoLayout>
+                  <AutoLayout
+                    onClick={contrastSwapSupported ? toggleContrastSwap : undefined}
+                    opacity={contrastSwapSupported ? 1 : 0.5}
+                    height="fill-parent"
+                    padding={contrastActionPadding}
+                    cornerRadius={ui.section.bulkAction.radius}
+                    {...(contrastSwapSupported
+                      ? {
+                          hoverStyle: {
+                            fill: ui.colors.hoverBg,
+                          },
+                        }
+                      : {})}
+                    horizontalAlignItems="center"
+                  >
+                    <Text
+                      fill={contrastUiTextColor}
+                      fontFamily={ui.section.bulkAction.fontFamily}
+                      fontSize={ui.progress.text.fontSize}
+                      fontWeight={ui.section.bulkAction.fontWeight}
+                    >
+                      {String(t.contrastSwap)}
+                    </Text>
+                  </AutoLayout>
+                  <AutoLayout
+                    onClick={!contrastResetDisabled ? clearResult : undefined}
+                    opacity={contrastResetDisabled ? 0.5 : 1}
+                    height="fill-parent"
+                    padding={contrastActionPadding}
+                    cornerRadius={ui.section.bulkAction.radius}
+                    {...(!contrastResetDisabled
+                      ? {
+                          hoverStyle: {
+                            fill: ui.colors.hoverBg,
+                          },
+                        }
+                      : {})}
+                    horizontalAlignItems="center"
+                  >
+                    <Text
+                      fill={contrastUiTextColor}
+                      fontFamily={ui.section.bulkAction.fontFamily}
+                      fontSize={ui.progress.text.fontSize}
+                      fontWeight={ui.section.bulkAction.fontWeight}
+                    >
+                      {String(t.contrastClear)}
+                    </Text>
+                  </AutoLayout>
+                </AutoLayout>
+                <AutoLayout
+                  width={contrastPreviewWidth - contrastStatusCellWidth}
+                  height="fill-parent"
+                  verticalAlignItems="center"
+                >
+                  <Text
+                    fill={contrastStatusColor}
+                    opacity={1}
+                    fontFamily={ui.progress.text.fontFamily}
+                    fontSize={ui.progress.text.fontSize}
+                    fontWeight={contrastStatusWeight}
+                    width="fill-parent"
+                    horizontalAlignText="right"
+                    truncate={1}
+                    tooltip={contrastStatusTooltip}
+                  >
+                    {contrastResolvedStatus}
+                  </Text>
+                </AutoLayout>
+              </AutoLayout>
+            </AutoLayout>
+            <AutoLayout
+              direction="vertical"
+              spacing={contrastMetaGap}
+              width="fill-parent"
+              fill={ui.colors.sectionDescBg}
+              cornerRadius={ui.section.description.radius}
+              padding={{
+                vertical: ui.section.description.paddingY,
+                horizontal: ui.section.description.paddingX,
+              }}
+            >
+              <AutoLayout
+                tooltip={contrastForegroundTooltip}
+                direction="horizontal"
+                spacing={ui.section.bulkAction.gap}
+                width="fill-parent"
+                verticalAlignItems="center"
+              >
+                <Text
+                  fill={contrastUiTextColor}
+                  opacity={showContrastMeta ? 1 : 0}
+                  fontFamily={ui.progress.text.fontFamily}
+                  fontSize={ui.section.bulkAction.fontSize}
+                  fontWeight={ui.section.title.fontWeight}
+                >
+                  {contrastTextLabel}
+                </Text>
+                <Text
+                  fill={contrastUiTextColor}
+                  opacity={showContrastMeta ? 1 : 0}
+                  fontFamily={ui.progress.text.fontFamily}
+                  fontSize={ui.section.bulkAction.fontSize}
+                  fontWeight={ui.section.bulkAction.fontWeight}
+                >
+                  {contrastTextValue}
+                </Text>
+              </AutoLayout>
+              <AutoLayout
+                tooltip={contrastBackgroundTooltip}
+                direction="horizontal"
+                spacing={ui.section.bulkAction.gap}
+                width="fill-parent"
+                verticalAlignItems="center"
+              >
+                <Text
+                  fill={contrastUiTextColor}
+                  opacity={showContrastMeta ? 1 : 0}
+                  fontFamily={ui.progress.text.fontFamily}
+                  fontSize={ui.section.bulkAction.fontSize}
+                  fontWeight={ui.section.title.fontWeight}
+                >
+                  {contrastBackgroundLabelText}
+                </Text>
+                <Text
+                  fill={contrastUiTextColor}
+                  opacity={showContrastMeta ? 1 : 0}
+                  fontFamily={ui.progress.text.fontFamily}
+                  fontSize={ui.section.bulkAction.fontSize}
+                  fontWeight={ui.section.bulkAction.fontWeight}
+                >
+                  {contrastBackgroundValue}
+                </Text>
+              </AutoLayout>
+            </AutoLayout>
+          </AutoLayout>
+        ) : null}
         {templateFilteredSections.length === 0 ? (
           <Text
             fill={ui.colors.textPrimary}

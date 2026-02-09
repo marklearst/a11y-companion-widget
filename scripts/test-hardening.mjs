@@ -25,6 +25,8 @@ async function runHardeningChecks() {
       resolveAvatarStep,
       resolveAvatarStackWidth,
     } from "./widget-src/shared/avatarStack";
+    import { getContrastNotice } from "./widget-src/shared/contrastMessages";
+    import { resolvePreferenceNamespace } from "./widget-src/shared/preferenceNamespace";
 
     assert.equal(normalizeHexColor("#abc"), "#AABBCC");
     assert.equal(normalizeHexColor("#a1b2c3"), "#A1B2C3");
@@ -49,6 +51,44 @@ async function runHardeningChecks() {
     assert.equal(resolveAvatarStackWidth(0, 34, 26), 0);
     assert.equal(resolveAvatarStackWidth(1, 34, 26), 34);
     assert.equal(resolveAvatarStackWidth(5, 34, 26), 138);
+
+    assert.equal(
+      getContrastNotice("image"),
+      "Image not supported."
+    );
+
+    const namespacedByUser = resolvePreferenceNamespace({
+      userId: "123",
+      sessionId: 77,
+      widgetId: "widget-abc",
+    });
+    assert.equal(
+      namespacedByUser.mapKey,
+      "prefs:user:id:123:widget:widget-abc"
+    );
+    assert.deepEqual(namespacedByUser.legacyKeys, ["user:123", "user:session:77", "user:default"]);
+
+    const namespacedBySession = resolvePreferenceNamespace({
+      userId: null,
+      sessionId: 77,
+      widgetId: "widget-abc",
+    });
+    assert.equal(
+      namespacedBySession.mapKey,
+      "prefs:user:session:77:widget:widget-abc"
+    );
+    assert.deepEqual(namespacedBySession.legacyKeys, ["user:session:77", "user:default"]);
+
+    const namespacedAnonymous = resolvePreferenceNamespace({
+      userId: null,
+      sessionId: null,
+      widgetId: null,
+    });
+    assert.equal(
+      namespacedAnonymous.mapKey,
+      "prefs:user:anonymous:widget:unknown"
+    );
+    assert.deepEqual(namespacedAnonymous.legacyKeys, ["user:default"]);
 
     assert.equal(accentStepPolicy.stepSize, 100);
     assert.equal(accentStepPolicy.mode.light.primaryDirection, "darker");

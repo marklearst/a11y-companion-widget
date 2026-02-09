@@ -18,6 +18,19 @@ export type Messages = {
   themeLabel: string;
   brandThemeLabel: string;
   languageLabel: string;
+  contrastInspectorToggle: string;
+  contrastPairLabel: string;
+  contrastCheckSelection: string;
+  contrastClearSelection: string;
+  contrastInspectorHint: string;
+  contrastNoData: string;
+  contrastRunCheck: string;
+  contrastSwap: string;
+  contrastSwapSolidOnly: string;
+  contrastClear: string;
+  contrastLargeTextOnly: string;
+  contrastTextLabel: string;
+  contrastBackgroundLabel: string;
   layoutLabel: string;
   noResults: string;
   quickCopy: string;
@@ -34,6 +47,11 @@ export type Messages = {
     mobileApp: { name: string; description: string };
     quickAudit: { name: string; description: string };
     formsHeavy: { name: string; description: string };
+  };
+  contrastPairs: {
+    progressOnPanel: string;
+    progressOnHeader: string;
+    textPrimaryOnPanel: string;
   };
 };
 
@@ -55,6 +73,19 @@ const en: Messages = {
   themeLabel: "Theme",
   brandThemeLabel: "Accent color",
   languageLabel: "Language",
+  contrastInspectorToggle: "Contrast",
+  contrastPairLabel: "Contrast Pair",
+  contrastCheckSelection: "Check selected layer contrast",
+  contrastClearSelection: "Clear contrast result",
+  contrastInspectorHint: "Select a layer, then Check.",
+  contrastNoData: "No result yet",
+  contrastRunCheck: "Check",
+  contrastSwap: "Swap",
+  contrastSwapSolidOnly: "Swap works only for solid pairs.",
+  contrastClear: "Clear",
+  contrastLargeTextOnly: "Large text only",
+  contrastTextLabel: "Text",
+  contrastBackgroundLabel: "Background",
   layoutLabel: "Layout",
   noResults: "No items found",
   quickCopy: "Export Format:",
@@ -90,6 +121,11 @@ const en: Messages = {
       description: "Forms and data entry focused",
     },
   },
+  contrastPairs: {
+    progressOnPanel: "Progress fill on panel background",
+    progressOnHeader: "Progress fill on header background",
+    textPrimaryOnPanel: "Primary text on panel background",
+  },
 };
 
 const es: Messages = {
@@ -110,6 +146,19 @@ const es: Messages = {
   themeLabel: "Tema",
   brandThemeLabel: "Color de acento",
   languageLabel: "Idioma",
+  contrastInspectorToggle: "Contraste",
+  contrastPairLabel: "Par de contraste",
+  contrastCheckSelection: "Comprobar contraste de capa seleccionada",
+  contrastClearSelection: "Limpiar resultado de contraste",
+  contrastInspectorHint: "Selecciona una capa y luego pulsa Comprobar.",
+  contrastNoData: "Sin resultado",
+  contrastRunCheck: "Comprobar",
+  contrastSwap: "Intercambiar",
+  contrastSwapSolidOnly: "Intercambiar solo funciona con pares sólidos.",
+  contrastClear: "Limpiar",
+  contrastLargeTextOnly: "Solo texto grande",
+  contrastTextLabel: "Texto",
+  contrastBackgroundLabel: "Fondo",
   layoutLabel: "Diseño",
   noResults: "No se encontraron elementos",
   quickCopy: "Formato de Exportación:",
@@ -144,6 +193,11 @@ const es: Messages = {
       name: "Formularios Pesados",
       description: "Enfocado en formularios y entrada de datos",
     },
+  },
+  contrastPairs: {
+    progressOnPanel: "Relleno de progreso sobre fondo del panel",
+    progressOnHeader: "Relleno de progreso sobre fondo del encabezado",
+    textPrimaryOnPanel: "Texto principal sobre fondo del panel",
   },
 };
 
