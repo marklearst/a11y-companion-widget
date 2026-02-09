@@ -331,11 +331,11 @@ function ChecklistPanel({
   const contrastStatusSuffixMin =
     contrastDisplay?.measurementMode === "sampled-min" ? " (min)" : "";
   const contrastStatusSuffixLarge =
-    contrastDisplay?.grade === "A" ? " | Large only" : "";
+    contrastDisplay?.grade === "A"
+      ? ` | ${String(t.contrastLargeTextOnly)}`
+      : "";
   const contrastStatusFullText = contrastStatusPrimary
-    ? `${contrastStatusPrimary}${contrastStatusSuffixMin}${
-        contrastDisplay?.grade === "A" ? ` | ${String(t.contrastLargeTextOnly)}` : ""
-      }`
+    ? `${contrastStatusPrimary}${contrastStatusSuffixMin}${contrastStatusSuffixLarge}`
     : null;
   const statusCandidates = contrastStatusPrimary
     ? [
