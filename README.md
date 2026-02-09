@@ -10,12 +10,11 @@ Built and maintained by Mark Learst.
 | Commit activity | ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/marklearst/a11y-companion-widget?style=flat-square) |
 | Open issues | ![GitHub issues](https://img.shields.io/github/issues/marklearst/a11y-companion-widget?style=flat-square) |
 | Closed issues | ![GitHub closed issues](https://img.shields.io/github/issues-closed/marklearst/a11y-companion-widget?style=flat-square) |
-| Contributors | ![GitHub contributors](https://img.shields.io/github/contributors/marklearst/a11y-companion-widget?style=flat-square) |
 | Platform | ![Figma Widget API](https://img.shields.io/badge/platform-Figma%20Widget%20API-0ACF83?style=flat-square&logo=figma&logoColor=white) |
 | Tooling | ![pnpm >=10](https://img.shields.io/badge/pnpm-%3E%3D10-F69220?style=flat-square&logo=pnpm&logoColor=white) |
 | Figma Community | [![Figma Widget](https://img.shields.io/badge/Figma%20Widget-Open%20in%20Figma-blue?style=flat-square&logo=figma)](https://www.figma.com/community/widget/1509302611418259130) |
 
-A production Figma widget that brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your design workflow. Use this widget to check your designs, content, and code for accessibility and WCAG compliance with your team.
+A11Y Companion is the official accessibility checklist widget for Figma and FigJam, built and maintained by Mark Learst. It brings the [A11Y Project Checklist](https://www.a11yproject.com/checklist/) directly into your workflow for manual, team-visible WCAG tracking, with clear guidance and progress.
 
 [a11y Companion Widget | Figma Community](https://www.figma.com/community/widget/1509302611418259130)
 
@@ -100,10 +99,9 @@ The inspector supports solid and single-gradient scenarios. Unsupported combinat
 
 ## ⚠️ Distribution Guardrails
 
-This repository exists to maintain the official A11Y Companion widget.
-Do not publish forks, clones, or modified builds to Figma Community.
-Use the official listing linked above.
-If you need changes, please open an issue.
+This repository maintains the official A11Y Companion widget listing.
+Please do not publish forks, clones, or modified builds to Figma Community.
+Use the official listing linked above. For changes or requests, open an issue.
 
 ## 🔒 Internal Maintenance Checks (Official Listing)
 
@@ -124,7 +122,7 @@ Public roadmap updates are published with release notes in [`CHANGELOG.md`](CHAN
 
 ## 🐞 Report Issues
 
-Found a bug or regression? Open an issue here:
+Found a bug or regression in the official widget? Open an issue here:
 
 - [GitHub Issues](https://github.com/marklearst/a11y-companion-widget/issues)
 
@@ -152,20 +150,14 @@ This repository is maintained for the official widget release.
 Use only the official listing/repository for the safest and most up-to-date version. Unofficial copies may include unreviewed changes, security issues, or regressions and are not supported by this project.
 Please do not republish this widget under a different name or listing in Figma Community.
 
-## 🤔 Why use this widget?
-
-- Ensure your designs and content meet accessibility standards
-- Make accessibility a collaborative, visible part of your workflow
-- Reference the latest accessibility guidance from trusted sources
-
 ## 🙌 Credits
 
 - Checklist data and guidance from [The A11Y Project](https://www.a11yproject.com/checklist/)
 - Widget built with the [Figma Widget API](https://www.figma.com/widget-docs/api/api-reference/)
 
-## 🚀 Make Accessibility First-Class
+## 💬 Personal Message
 
-**Make accessibility a first-class part of your design and development process!**
+Accessibility is personal for me. I have been the eyes and ears for my legally blind and deaf brother for decades, and I have seen how often the web shuts him out. That loss of access is not theoretical. It is hours of digging through sites that do not care. I do not share this for vibes. I share it because it is the reason I built this, and why I will keep caring about getting it right. My brother is my biggest inspiration.
 
 ## 📝 License
 
