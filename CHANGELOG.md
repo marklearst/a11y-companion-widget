@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved naming clarity for component variable imports with canonical `componentPrimitives`.
 - Markdown export now uses real task-list syntax (`- [ ]` / `- [x]`) and wrapped continuation lines for long descriptions.
 - Widget preference storage keeps per-user keys with a safe fallback key for anonymous sessions.
-- Theme selection remains available as `light`, `dark`, and `system`.
+- Theme selection remains available as `light` and `dark`.
 - Avatar facepile updated for cleaner stacking and overflow readability:
   - maximum visible avatars reduced to 4
   - `+N` overflow chip with comma-delimited hidden-name tooltip
@@ -74,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Search and filter support for checklist text and WCAG codes.
 - Bulk section actions and collapse/expand all controls.
 - Export progress improvements and quick-copy support.
-- Dark mode support with theme selection (`light`, `dark`, `system`).
+- Dark mode support with theme selection (`light`, `dark`).
 - Language selector with English/Spanish localization.
 - Brand theme presets and broader design-system theming integration.
 - Property-menu toggle to hide completed checklist items.
