@@ -69,7 +69,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 6. Click the **collapse/expand** button (▲/▼) to quickly navigate sections.
 7. Hover over checklist items for WCAG references and detailed explanations.
 8. Use the **property menu** to:
-   - Change language (English/Espanol)
+   - Change language (English/Español)
    - Change checklist template
    - Switch between light/dark themes
    - Switch accent color themes (Default, Indigo, Emerald, Rose, Slate, Cyan)
@@ -95,7 +95,7 @@ The inspector supports solid and single-gradient scenarios. Unsupported combinat
 This repository exists to maintain the official A11Y Companion widget.
 Do not publish forks, clones, or modified builds to Figma Community.
 Use the official listing linked above.
-If you need changes, open an issue please.
+If you need changes, please open an issue.
 
 ## 🔒 Internal Maintenance Checks (Official Listing)
 
@@ -161,5 +161,5 @@ Please do not republish this widget under a different name or listing in Figma C
 
 ## 📝 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
 © 2025–2026 Mark Learst

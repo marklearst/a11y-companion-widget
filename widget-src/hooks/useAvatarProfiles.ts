@@ -119,6 +119,7 @@ export function useAvatarProfiles(options: UseAvatarProfilesOptions) {
     });
   };
 
+  // Figma Widget useEffect does not support a dependency array.
   useEffect(() => {
     const testIds = avatarIds.filter((id) => TEST_AVATAR_ID_PATTERN.test(id));
     if (testIds.length === 0) {

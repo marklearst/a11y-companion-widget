@@ -5,7 +5,7 @@
 If you find a security issue, please do not open a public issue.
 
 - Preferred: open a private GitHub security advisory for this repository.
-- If advisories are unavailable, open a regular issue with the title prefix `[SECURITY]` and share only high-level details first.
+- If advisories are unavailable, open a regular issue with the title prefix `[SECURITY]` and include no technical or exploit details; maintainers will move follow-up to a private channel.
 
 ## What to Include
 
