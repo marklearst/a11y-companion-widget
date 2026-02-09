@@ -12,8 +12,8 @@ This project is open source and community-friendly. To help users get the safest
 ## Project Request
 
 - Please do not publish rebranded or near-identical copies of this widget to Figma Community.
-- If you publish derivative work, keep clear attribution to this project and clearly label it as unofficial.
-- Make differences obvious to users (feature changes, bug fixes, known limitations, and version source).
+- Please do not republish this widget under a different name, branding, or listing.
+- If you fork this repository under the open-source license, do not present it as the official a11y Companion Widget.
 
 ## Why This Matters
 
