@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-06T19:46:37.992Z",
+    "generatedAt": "2026-02-09T07:09:03.689Z",
     "generatedBy": "scripts/theme-baseline.mjs",
-    "hash": "6ace69bde3fdda5e5cb541354dc931baddc0771487ad3c9f42f95c7682c8cf69",
+    "hash": "8e9a9d28da0c064b2482de26ab882047a3749cec43eca0e57b26c560cca2a923",
     "presetNames": [
       "cyan",
       "default",
@@ -37,7 +37,7 @@
       "darkTheme": {
         "checkboxBgChecked": "#7A84D8",
         "checkboxBgUnchecked": "#171717",
-        "checkboxStroke": "#737373",
+        "checkboxStroke": "#7A84D8",
         "headerBg": "#171717",
         "headerText": "#FAFAFA",
         "hoverBg": "#F5F5F512",
@@ -154,7 +154,7 @@
       "darkTheme": {
         "checkboxBgChecked": "#7A84D8",
         "checkboxBgUnchecked": "#171717",
-        "checkboxStroke": "#737373",
+        "checkboxStroke": "#7A84D8",
         "headerBg": "#171717",
         "headerText": "#FAFAFA",
         "hoverBg": "#F5F5F512",
@@ -272,7 +272,7 @@
         "darkTheme": {
           "checkboxBgChecked": "#67E8F9",
           "checkboxBgUnchecked": "#171717",
-          "checkboxStroke": "#737373",
+          "checkboxStroke": "#67E8F9",
           "headerBg": "#171717",
           "headerText": "#FAFAFA",
           "hoverBg": "#F5F5F512",
@@ -389,7 +389,7 @@
         "darkTheme": {
           "checkboxBgChecked": "#7A84D8",
           "checkboxBgUnchecked": "#171717",
-          "checkboxStroke": "#737373",
+          "checkboxStroke": "#7A84D8",
           "headerBg": "#171717",
           "headerText": "#FAFAFA",
           "hoverBg": "#F5F5F512",
@@ -506,7 +506,7 @@
         "darkTheme": {
           "checkboxBgChecked": "#6EE7B7",
           "checkboxBgUnchecked": "#171717",
-          "checkboxStroke": "#737373",
+          "checkboxStroke": "#6EE7B7",
           "headerBg": "#171717",
           "headerText": "#FAFAFA",
           "hoverBg": "#F5F5F512",
@@ -623,7 +623,7 @@
         "darkTheme": {
           "checkboxBgChecked": "#A5B4FC",
           "checkboxBgUnchecked": "#171717",
-          "checkboxStroke": "#737373",
+          "checkboxStroke": "#A5B4FC",
           "headerBg": "#171717",
           "headerText": "#FAFAFA",
           "hoverBg": "#F5F5F512",
@@ -740,7 +740,7 @@
         "darkTheme": {
           "checkboxBgChecked": "#FDA4AF",
           "checkboxBgUnchecked": "#171717",
-          "checkboxStroke": "#737373",
+          "checkboxStroke": "#FDA4AF",
           "headerBg": "#171717",
           "headerText": "#FAFAFA",
           "hoverBg": "#F5F5F512",
@@ -857,7 +857,7 @@
         "darkTheme": {
           "checkboxBgChecked": "#CBD5E1",
           "checkboxBgUnchecked": "#171717",
-          "checkboxStroke": "#737373",
+          "checkboxStroke": "#CBD5E1",
           "headerBg": "#171717",
           "headerText": "#FAFAFA",
           "hoverBg": "#F5F5F512",
