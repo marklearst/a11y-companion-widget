@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # assets
-assets
+assets/design
 .figma-assets
 /widget-src/assets
 
@@ -28,6 +28,7 @@ assets
 !CHANGELOG.md
 !ANALYSIS-REPORT.md
 !THIRD_PARTY_NOTICES.md
+!ARCHITECTURE.md
 !.github/OFFICIAL_LISTING_POLICY.md
 !.github/SECURITY.md
 !.github/SUPPORT.md
