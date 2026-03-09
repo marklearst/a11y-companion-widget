@@ -85,7 +85,6 @@ export function WcagBadge({
           letterSpacing={badgeVariables.letterSpacing}
           textDecoration="none"
           hoverStyle={wcagUrl ? { fill: hoverTextColor } : undefined}
-          onClick={wcagUrl ? () => figma.openExternal(wcagUrl) : undefined}
         >
           {badgeLabel}
         </Text>
