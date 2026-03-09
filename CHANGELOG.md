@@ -65,6 +65,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `primitiveComponentTokens`
 - Runtime `system` theme option from widget preferences and property-menu theme controls.
 
+## [2.0.1] - 2026-03-09
+
+### Fixed
+
+- Fixed WCAG badge links opening two tabs: removed duplicate `onClick` from inner `Text` that caused event bubbling to trigger `figma.openExternal` twice.
+
 ## [1.2.1] - 2025-12-12
 
 ### Fixed
