@@ -47,26 +47,23 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 - WCAG Level Coverage summary in markdown export (`A`, `AA`, `AAA`)
 - Works in both Figma Design and FigJam
 
-### New in v2.0.0
+### New in v2.1.0
 
-- **Phase 1 - Foundation**
-  - Variable-first design-system guardrails and baseline checks
-  - WCAG contrast automation scripts and watch modes for fast/strict validation
-  - WCAG level map generation and validation tooling
-- **Phase 2 - Contrast Hardening**
-  - Runtime contrast-safe accent resolution for themed UI states
-  - Stronger AA/AAA reliability checks in scripts and hardening tests
-- **Phase 3 - Deprecation Cleanup**
-  - Canonical variable imports and removal of legacy alias usage across runtime modules
-  - Cleaner design-system exports and fewer compatibility shims
-- **Phase 4 - Widget UX Upgrades**
-  - Contrast Inspector with on-canvas preview and property-menu toggle
-  - Contrast status output for `AAA`, `AA`, `A` (large text only), and `Failed`
-  - Gradient-aware contrast checks with sampled-min reporting
-  - Clear unsupported-state messaging (image, mixed fills, dual gradients, stale selection)
-  - AvatarStack activity tracking from real check/uncheck interactions
-  - Improved avatar overflow handling with `+N` summary and readable tooltip names
-  - Theme selection simplified to explicit `light` / `dark`
+- **Multi-language support** — 13 locales: English, Spanish, French, German, Portuguese (BR), Japanese, Korean, Ukrainian, Polish, Danish, Norwegian, Swedish, Finnish
+- **Translation pipeline** — automated scripts with term protection for HTML elements, WCAG codes, and technical terms
+- **Locale-aware UI** — all settings labels, progress text, contrast inspector notices, and template names localized
+- **WCAG levels in all languages** — A/AA/AAA conformance badges now display in every locale
+- **Locale-safe number formatting** — progress numbers use locale-appropriate thousands separators
+- **Stable section state** — open/close state persists correctly across language switches
+
+### v2.0.0 highlights
+
+- Variable-first design-system guardrails and baseline checks
+- Runtime contrast-safe accent resolution for themed UI states
+- Canonical variable imports and removal of legacy alias usage
+- Contrast Inspector with on-canvas preview, gradient-aware checks, and property-menu toggle
+- AvatarStack activity tracking from real check/uncheck interactions
+- Theme selection simplified to explicit `light` / `dark`
 
 ## ▶️ How to Use
 
@@ -78,7 +75,7 @@ Based on the authoritative [A11Y Project Checklist](https://www.a11yproject.com/
 6. Click the **collapse/expand** button (▲/▼) to quickly navigate sections.
 7. Hover over checklist items for WCAG references and detailed explanations.
 8. Use the **property menu** to:
-   - Change language (English/Español)
+   - Change language (13 locales including English, Spanish, French, German, Japanese, Korean, and more)
    - Change checklist template
    - Switch between light/dark themes
    - Switch accent color themes (Default, Indigo, Emerald, Rose, Slate, Cyan)
