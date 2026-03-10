@@ -10,6 +10,7 @@ import {
   getContrastNotice,
   type ContrastUnsupportedReason,
 } from "shared/contrastMessages";
+import { useUserPreferences } from "hooks/useUserPreferences";
 
 const { widget } = figma;
 const { useSyncedState } = widget;
@@ -81,7 +82,7 @@ const GRADIENT_TYPES = new Set<Paint["type"]>([
 ]);
 
 function paintSupportsContrastSample(
-  paint: Paint
+  paint: Paint,
 ): paint is SolidPaint | GradientPaint {
   return paint.type === "SOLID" || GRADIENT_TYPES.has(paint.type);
 }
@@ -123,7 +124,7 @@ function clampAlpha(value: number): number {
 }
 
 function extractRgbaSamplesFromPaint(
-  paint: SolidPaint | GradientPaint
+  paint: SolidPaint | GradientPaint,
 ): RgbaSample[] {
   if (paint.visible === false) return [];
 
@@ -149,7 +150,7 @@ function extractRgbaSamplesFromPaint(
 }
 
 function resolvePaint(
-  paint: Paint | readonly Paint[] | typeof figma.mixed | null
+  paint: Paint | readonly Paint[] | typeof figma.mixed | null,
 ): PaintResolution {
   if (!paint) return { status: "none" };
   if (paint === figma.mixed) return { status: "mixed" };
@@ -162,7 +163,9 @@ function resolvePaint(
     return { status: "image" };
   }
 
-  const supported = visible.filter((entry) => paintSupportsContrastSample(entry));
+  const supported = visible.filter((entry) =>
+    paintSupportsContrastSample(entry),
+  );
   if (supported.length === 0) return { status: "none" };
 
   // Multiple visible paints require full compositing and are not reliable here.
@@ -182,7 +185,7 @@ function resolvePaint(
 }
 
 function toUnsupportedReason(
-  status: Exclude<PaintResolution["status"], "ok" | "none">
+  status: Exclude<PaintResolution["status"], "ok" | "none">,
 ): ContrastUnsupportedReason {
   switch (status) {
     case "image":
@@ -259,7 +262,7 @@ function buildContrastResult(
   backgroundKind: ColorKind,
   swappable: boolean,
   foregroundStops?: ContrastResult["foregroundStops"],
-  backgroundStops?: ContrastResult["backgroundStops"]
+  backgroundStops?: ContrastResult["backgroundStops"],
 ): ContrastResult {
   const grade = resolveGrade(ratioRaw);
   const passesAA = ratioRaw >= 4.5;
@@ -289,10 +292,12 @@ function buildContrastResult(
     foreground: rgbToHex(foreground),
     background: rgbToHex(background),
     foregroundKind,
-    foregroundStopCount: foregroundKind === "gradient" ? foregroundStops?.length : undefined,
+    foregroundStopCount:
+      foregroundKind === "gradient" ? foregroundStops?.length : undefined,
     foregroundStops,
     backgroundKind,
-    backgroundStopCount: backgroundKind === "gradient" ? backgroundStops?.length : undefined,
+    backgroundStopCount:
+      backgroundKind === "gradient" ? backgroundStops?.length : undefined,
     backgroundStops,
     suggestion,
   };
@@ -300,7 +305,7 @@ function buildContrastResult(
 
 function readNodePaint(
   node: BaseNode,
-  key: "fills" | "strokes"
+  key: "fills" | "strokes",
 ): Paint | readonly Paint[] | typeof figma.mixed | null {
   if (!(key in node)) return null;
   try {
@@ -355,7 +360,7 @@ function resolveOpacityChain(node: BaseNode): number {
 
 function serializeGradientStops(
   samples: RgbaSample[],
-  opacityFactor = 1
+  opacityFactor = 1,
 ): Array<{ position: number; color: string; alpha: number }> {
   return samples
     .map((sample, index) => ({
@@ -398,11 +403,11 @@ type BackgroundSource =
 
 function resolveBackgroundPaint(
   node: SceneNode,
-  foregroundSamples: RgbaSample[]
+  foregroundSamples: RgbaSample[],
 ): BackgroundSource {
   const inspectCandidate = (
     candidate: Paint | readonly Paint[] | typeof figma.mixed | null,
-    sourceNode: BaseNode | null
+    sourceNode: BaseNode | null,
   ): BackgroundSource | null => {
     const resolution = resolvePaint(candidate);
     if (resolution.status === "none") return null;
@@ -429,13 +434,19 @@ function resolveBackgroundPaint(
 
   let parent: BaseNode | null = readParent(node);
   while (parent) {
-    const parentBackground = inspectCandidate(readNodePaint(parent, "fills"), parent);
+    const parentBackground = inspectCandidate(
+      readNodePaint(parent, "fills"),
+      parent,
+    );
     if (parentBackground) return parentBackground;
     parent = readParent(parent);
   }
 
   if ("backgrounds" in figma.currentPage) {
-    const pageBackground = inspectCandidate(figma.currentPage.backgrounds, null);
+    const pageBackground = inspectCandidate(
+      figma.currentPage.backgrounds,
+      null,
+    );
     if (pageBackground) return pageBackground;
   }
 
@@ -474,7 +485,7 @@ function resolveContrastFromNode(node: SceneNode): ContrastResolution {
 
   const backgroundResolution = resolveBackgroundPaint(
     node,
-    foregroundResolution.samples
+    foregroundResolution.samples,
   );
   if (backgroundResolution.kind === "unsupported") {
     return backgroundResolution;
@@ -514,16 +525,19 @@ function resolveContrastFromNode(node: SceneNode): ContrastResolution {
     const effectiveBackground = blendOver(
       bgSample.color,
       baseBackground,
-      bgSample.alpha * backgroundOpacityFactor
+      bgSample.alpha * backgroundOpacityFactor,
     );
 
     for (const fgSample of foregroundResolution.samples) {
       const effectiveForeground = blendOver(
         fgSample.color,
         effectiveBackground,
-        fgSample.alpha * foregroundOpacityFactor
+        fgSample.alpha * foregroundOpacityFactor,
       );
-      const candidateRatio = getContrastRatio(effectiveForeground, effectiveBackground);
+      const candidateRatio = getContrastRatio(
+        effectiveForeground,
+        effectiveBackground,
+      );
       if (candidateRatio < bestRatio) {
         bestRatio = candidateRatio;
         bestForeground = effectiveForeground;
@@ -538,7 +552,10 @@ function resolveContrastFromNode(node: SceneNode): ContrastResolution {
 
   const foregroundStops =
     foregroundResolution.kind === "gradient"
-      ? serializeGradientStops(foregroundResolution.samples, foregroundOpacityFactor)
+      ? serializeGradientStops(
+          foregroundResolution.samples,
+          foregroundOpacityFactor,
+        )
       : undefined;
   const backgroundStops =
     backgroundPaint.kind === "gradient"
@@ -558,7 +575,7 @@ function resolveContrastFromNode(node: SceneNode): ContrastResolution {
       backgroundPaint.kind,
       swappable,
       foregroundStops,
-      backgroundStops
+      backgroundStops,
     ),
   };
 }
@@ -567,16 +584,21 @@ function resolveContrastFromNode(node: SceneNode): ContrastResolution {
  * Hook that provides contrast checking functionality.
  */
 export function useContrastChecker() {
+  const { preferences } = useUserPreferences();
+  const { language } = preferences;
   const [contrastResult, setContrastResult] =
     useSyncedState<ContrastResult | null>("contrastResult", null);
   const [contrastNotice, setContrastNotice] = useSyncedState<string | null>(
     "contrastNotice",
-    null
+    null,
   );
   const [contrastSwapped, setContrastSwapped] = useSyncedState<boolean>(
     "contrastSwapped",
-    false
+    false,
   );
+
+  const getNotice = (reason: ContrastUnsupportedReason) =>
+    getContrastNotice(reason, language);
 
   /**
    * Checks contrast for currently selected elements.
@@ -585,17 +607,18 @@ export function useContrastChecker() {
     try {
       const selection = figma.currentPage.selection;
       const node =
-        selection.find((selectedNode) => selectedNode.type !== "WIDGET") ?? null;
+        selection.find((selectedNode) => selectedNode.type !== "WIDGET") ??
+        null;
       if (!node) {
         setContrastResult(null);
-        setContrastNotice(getContrastNotice("no-selection"));
+        setContrastNotice(getNotice("no-selection"));
         setContrastSwapped(false);
         return;
       }
 
       if (hasImagePaintWithin(node)) {
         setContrastResult(null);
-        setContrastNotice(getContrastNotice("image"));
+        setContrastNotice(getNotice("image"));
         setContrastSwapped(false);
         return;
       }
@@ -609,12 +632,12 @@ export function useContrastChecker() {
       }
 
       setContrastResult(null);
-      setContrastNotice(getContrastNotice(resolution.reason));
+      setContrastNotice(getNotice(resolution.reason));
       setContrastSwapped(false);
     } catch {
       // Ignore stale-node read errors from deleted or detached instance layers.
       setContrastResult(null);
-      setContrastNotice(getContrastNotice("stale-selection"));
+      setContrastNotice(getNotice("stale-selection"));
       setContrastSwapped(false);
     }
   };

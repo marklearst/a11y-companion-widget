@@ -8,6 +8,7 @@ import {
   buildPreferenceMapKey,
   resolveWidgetScope,
 } from "shared/preferenceNamespace";
+import type { Locale } from "i18n";
 
 export type ContrastInspectorPair =
   | "progress-on-panel"
@@ -17,7 +18,7 @@ export type ContrastInspectorPair =
 export type UserPreferences = {
   hideCompleted: boolean;
   theme: "light" | "dark";
-  language: "en" | "es";
+  language: Locale;
   selectedTemplate: TemplateType;
   accentColor: string;
   showContrastInspector: boolean;
@@ -35,7 +36,9 @@ const DEFAULT_PREFERENCES: UserPreferences = {
 };
 
 const VALID_THEMES = new Set<UserPreferences["theme"]>(["light", "dark"]);
-const VALID_LANGUAGES = new Set<UserPreferences["language"]>(["en", "es"]);
+const VALID_LANGUAGES = new Set<UserPreferences["language"]>([
+  "en", "es", "fr", "de", "pt-BR", "ja", "ko", "uk", "pl", "da", "nb", "sv", "fi",
+]);
 const VALID_TEMPLATES = new Set<TemplateType>(
   templates.map((template) => template.id),
 );
