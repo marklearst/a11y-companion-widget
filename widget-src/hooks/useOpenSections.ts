@@ -32,10 +32,10 @@ export function useOpenSections() {
    * Toggles the open/close state for a section by title.
    * @param sectionTitle - The title of the section to toggle.
    */
-  function toggleSection(sectionTitle: string) {
+  function toggleSection(sectionId: string) {
     setOpenSections(prev => ({
       ...prev,
-      [sectionTitle]: !prev[sectionTitle],
+      [sectionId]: !prev[sectionId],
     }))
   }
 

@@ -48,8 +48,12 @@ export interface ChecklistSectionProps {
   };
   /** Design-system variables for layout and typography. */
   ui: ChecklistVariables;
-  /** Optional labels for bulk section actions. */
-  labels?: { checkAll: string; uncheckAll: string };
+  /** Optional labels for bulk section actions and localized progress. */
+  labels?: {
+    checkAll: string;
+    uncheckAll: string;
+    progressCount?: (completed: number, total: number) => string;
+  };
   /** Whether to show item long descriptions in this section. */
   showItemDescriptions?: boolean;
   /** Optional callback fired when bulk actions are triggered. */
@@ -152,6 +156,8 @@ export interface ProgressTrackerProps {
   completed: number;
   /** Total number of tasks. */
   total: number;
+  /** Locale-formatted label (e.g. "3 / 10"). When set, rendered instead of raw numbers. */
+  label?: string;
   /** Optional custom colors for theming. */
   colors?: { bg: string; text: string };
   /** Optional padding override. */

@@ -10,7 +10,11 @@ type UseChecklistSectionStateOptions = {
   taskCompletion: Record<string, boolean>;
   handleCheckChange: (taskId: string, isChecked: boolean) => void;
   hideCompleted?: boolean;
-  labels?: { checkAll: string; uncheckAll: string };
+  labels?: {
+    checkAll: string;
+    uncheckAll: string;
+    progressCount?: (completed: number, total: number) => string;
+  };
   ui: ChecklistVariables;
 };
 
@@ -23,7 +27,7 @@ export function useChecklistSectionState({
   ui,
 }: UseChecklistSectionStateOptions) {
   const { openSections, toggleSection } = useOpenSections();
-  const isOpen = openSections[section.title] || false;
+  const isOpen = openSections[section.id] || false;
   const { completedCount, totalCount } = useChecklistProgress(
     section,
     taskCompletion
