@@ -5,6 +5,29 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-03-09
+
+### Added
+
+- **Multi-language support** — expanded from 2 to 13 locales: English, Spanish, French, German, Portuguese (BR), Japanese, Korean, Ukrainian, Polish, Danish, Norwegian, Swedish, Finnish.
+- **Translation pipeline** — `translate.mjs` with multi-provider support (Lingva, MyMemory, Google, LibreTranslate) and `translation-protect.mjs` to preserve HTML elements, attributes, WCAG codes, and technical terms during machine translation.
+- **Localized UI messages** — JSON-driven message files for all 13 locales covering progress text, settings labels, contrast inspector, template names, and notice messages.
+- **Translated checklist data** — full accessibility checklist translated for all non-English locales with WCAG criterion codes preserved by the translation protection pipeline.
+- **WCAG level injection** — `inject-wcag-levels.mjs` script to inject A/AA/AAA conformance levels into all translated checklist data files from the canonical source.
+- **Locale-aware number formatting** — progress numbers formatted with locale-appropriate thousands separators (Figma Widget sandbox-safe, no `Intl` dependency).
+
+### Changed
+
+- Rewrote `i18n/index.ts` from hardcoded message objects to a JSON-driven `buildMessages()` approach loading from per-locale message files.
+- `UserPreferences.language` now uses the full `Locale` type instead of a hardcoded union.
+- Settings menu language selector expanded to show all 13 languages with native-script labels.
+- Contrast inspector notice messages are now locale-aware.
+- Theme labels (Light/Dark) are now localized via message strings.
+
+### Fixed
+
+- Section open/close state is now keyed by stable `section.id` instead of translated `section.title`, preventing all sections from collapsing when switching languages.
+
 ## [2.0.1] - 2026-03-09
 
 ### Fixed
