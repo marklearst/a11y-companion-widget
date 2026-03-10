@@ -19,6 +19,7 @@ assets/design
 # ai/planning
 .claude
 .codex
+.cursor
 
 # markdown
 *.md
