@@ -1,0 +1,573 @@
+{
+  "title": "a11y Companion",
+  "sections": [
+    {
+      "id": "content",
+      "title": "Sisältö",
+      "description": "Sisältö on sivustosi tärkein osa.",
+      "link": "https://www.a11yproject.com/checklist/#content",
+      "items": [
+        {
+          "id": "content-plain-language",
+          "text": "Käytä selkeää kieltä ja vältä puhekuvioita, idioomeja ja monimutkaisia ​​metaforia.",
+          "wcag": "3.1.5 Lukutaso",
+          "longDescription": "Kirjoita sisältöä 8. luokan lukutasolla.",
+          "level": "AAA"
+        },
+        {
+          "id": "content-unique-labels",
+          "text": "Varmista, että button, a ja etikettielementtien sisältö on yksilöllinen ja kuvaava.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Termit, kuten \"klikkaa tästä\" ja \"lue lisää\", eivät tarjoa kontekstia. Jotkut ihmiset liikkuvat käyttämällä luetteloa kaikista sivulla tai näkymässä olevista painikkeista tai linkeistä. Tätä tilaa käytettäessä termit osoittavat, mitä tapahtuu, jos ne navigoidaan tai aktivoidaan.",
+          "level": "A"
+        },
+        {
+          "id": "content-ltr-rtl",
+          "text": "Käytä vasemmalle tasattua tekstiä vasemmalta oikealle (LTR) ja oikealle tasattua tekstiä oikealta vasemmalle (RTL).",
+          "wcag": "1.4.8 Visuaalinen esitys",
+          "longDescription": "Keskitettyä tai tasattua tekstiä on vaikea lukea.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "global-code",
+      "title": "Globaali koodi",
+      "description": "Globaali koodi on koodi, joka vaikuttaa koko verkkosivustoosi tai verkkosovellukseesi.",
+      "link": "https://www.a11yproject.com/checklist/#global-code",
+      "items": [
+        {
+          "id": "global-validate-html",
+          "text": "Vahvista HTML.",
+          "wcag": "4.1.1 Jäsennys",
+          "longDescription": "Kelvollinen HTML auttaa tarjoamaan johdonmukaisen, odotetun käyttökokemuksen kaikissa selaimissa ja aputekniikassa.",
+          "level": "A"
+        },
+        {
+          "id": "global-lang-attribute",
+          "text": "Käytä lang-attribuuttia html-elementissä.",
+          "wcag": "3.1.1 Sivun kieli",
+          "longDescription": "Tämä auttaa aputekniikoita, kuten näytönlukuohjelmia, ääntämään sisällön oikein.",
+          "level": "A"
+        },
+        {
+          "id": "global-title-unique",
+          "text": "Anna jokaiselle sivulle tai näkymälle yksilöllinen otsikko.",
+          "wcag": "2.4.2 Sivun otsikko",
+          "longDescription": "Otsikkoelementti, joka sisältyy asiakirjan pääelementtiin, on usein ensimmäinen aputekniikan ilmoittama tieto. Tämä auttaa kertomaan ihmisille, mille sivulle tai näkymälle he aikovat siirtyä.",
+          "level": "A"
+        },
+        {
+          "id": "global-viewport-zoom",
+          "text": "Varmista, että kuvaportin zoomaus ei ole poistettu käytöstä.",
+          "wcag": "1.4.4 Muuta tekstin kokoa",
+          "longDescription": "Joidenkin ihmisten on suurennettava tekstin kokoa niin, että he voivat lukea sen. Älä estä heitä tekemästä tätä edes verkkosovelluksissa, joissa on natiivi sovellusmainen kokemus. Jopa alkuperäisten sovellusten tulee noudattaa käyttöjärjestelmän asetuksia tekstin koon muuttamisessa.",
+          "level": "AA"
+        },
+        {
+          "id": "global-landmark-elements",
+          "text": "Käytä maamerkkielementtejä tärkeiden sisältöalueiden osoittamiseen.",
+          "wcag": "4.1.2 Nimi, rooli, arvo",
+          "longDescription": "Maamerkkialueet auttavat viestimään sivun tai näkymän asettelusta ja tärkeistä alueista, ja ne voivat mahdollistaa nopean pääsyn näihin alueisiin. Käytä esimerkiksi nav-elementtiä sivuston navigoinnin käärimiseen ja pääelementtiä sivun ensisijaisen sisällön sisällyttämiseen.",
+          "level": "A"
+        },
+        {
+          "id": "global-linear-flow",
+          "text": "Varmista lineaarinen sisällön virtaus.",
+          "wcag": "2.4.3 Focus Order",
+          "longDescription": "Poista tabindex-attribuuttien arvot, jotka eivät ole 0 tai -1. Elementit, jotka ovat luonnostaan ​​focusable, kuten linkit tai button-elementit, eivät vaadi tabindex:tä. Elementteihin, jotka eivät ole luonnostaan ​​focusable, ei pitäisi soveltaa tabindex:tä hyvin erityisten käyttötapausten ulkopuolella.",
+          "level": "A"
+        },
+        {
+          "id": "global-no-autofocus",
+          "text": "Vältä autofocus-attribuutin käyttöä.",
+          "wcag": "2.4.3 Focus Order",
+          "longDescription": "Sokeat tai heikkonäköiset ihmiset voivat olla sekaisin, kun tarkennusta siirretään ilman heidän lupaansa. Lisäksi autofocus voi olla ongelmallinen henkilöille, joilla on moottorin hallinnan vamma, koska se voi aiheuttaa heille ylimääräistä työtä navigoidakseen pois automaattitarkennetulta alueelta ja sivun/näkymän muihin paikkoihin.",
+          "level": "A"
+        },
+        {
+          "id": "global-extend-session",
+          "text": "Salli istunnon aikakatkaisujen pidentäminen.",
+          "wcag": "2.2.1 Ajoitus säädettävissä",
+          "longDescription": "Jos et voi poistaa istunnon aikakatkaisuja kokonaan, anna sivustoasi käyttävän henkilön helposti sammuttaa, säätää tai pidentää istuntoaan hyvissä ajoin ennen sen päättymistä.",
+          "level": "A"
+        },
+        {
+          "id": "global-remove-title-tooltips",
+          "text": "Poista otsikkomääritteen työkaluvihjeet.",
+          "wcag": "4.1.2 Nimi, rooli, arvo",
+          "longDescription": "Otsikko-attribuutissa on monia ongelmia, eikä sitä tule käyttää, jos annetut tiedot ovat tärkeitä kaikkien ihmisten käytettäväksi. Hyväksytty otsikko-attribuutin käyttö olisi iframe-elementin merkitseminen sen sisältämän sisällön osoittamiseksi.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "title": "Näppäimistö",
+      "description": "On tärkeää, että käyttöliittymääsi ja sisältöäsi voidaan käyttää ja navigoida näppäimistön avulla. Jotkut ihmiset eivät voi käyttää hiirtä tai he saattavat käyttää muita aputekniikoita, jotka eivät ehkä salli osoittimen siirtämistä tai tarkkaa napsautusta.",
+      "link": "https://www.a11yproject.com/checklist/#keyboard",
+      "items": [
+        {
+          "id": "keyboard-focus-style",
+          "text": "Varmista, että interaktiivisille elementeille, joihin navigoidaan näppäimistön input avulla, on näkyvä kohdistustyyli.",
+          "wcag": "2.4.7 Tarkennus näkyy",
+          "longDescription": "Näkeekö näppäimistöllä, kytkimellä, puheohjauksella tai näytönlukijalla navigoiva henkilö, missä hän tällä hetkellä on sivulla?",
+          "level": "AA"
+        },
+        {
+          "id": "keyboard-focus-order",
+          "text": "Tarkista, että näppäimistön tarkennusjärjestys vastaa visuaalista asettelua.",
+          "wcag": "1.3.2 Merkittävä sekvenssi",
+          "longDescription": "Voiko näppäimistöllä tai näytönlukijalla navigoiva henkilö liikkua sivulla ennustettavasti?",
+          "level": "A"
+        },
+        {
+          "id": "keyboard-remove-invisible",
+          "text": "Poista näkymättömät focusable-elementit.",
+          "wcag": "2.4.3 Focus Order",
+          "longDescription": "Poista kyky keskittyä elementteihin, joita ei tällä hetkellä ole tarkoitettu löydettäviksi. Tämä sisältää esimerkiksi passiiviset avattavat valikot, näytön ulkopuoliset navigoinnit tai modaalit.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Kuvat",
+      "description": "Kuvat ovat hyvin yleinen osa useimmilla verkkosivustoilla. Auta varmistamaan, että kaikki voivat nauttia niistä.",
+      "link": "https://www.a11yproject.com/checklist/#images",
+      "items": [
+        {
+          "id": "images-alt-attribute",
+          "text": "Varmista, että kaikilla img-elementeillä on alt-attribuutti.",
+          "wcag": "1.1.1 Ei-tekstisisältö",
+          "longDescription": "alt-attribuutit (alt-teksti) antavat kuvauksen kuvasta ihmisille, jotka eivät ehkä voi nähdä niitä. Jos kuvassa ei ole alt-attribuuttia, näytönlukuohjelma voi ilmoittaa sen sijaan kuvan tiedostonimen ja polun. Tämä ei kommunikoi kuvan sisällöstä.",
+          "level": "A"
+        },
+        {
+          "id": "images-decorative-null-alt",
+          "text": "Varmista, että koristekuvissa käytetään null alt (tyhjä) attribuuttiarvoja.",
+          "wcag": "1.1.1 Ei-tekstisisältö",
+          "longDescription": "Nolla-alt-attribuutteja kutsutaan joskus myös tyhjiksi alt-määritteiksi. Ne on tehty siten, että alt-attribuutin avaus- ja loppulainausmerkkien väliin ei ole sisällytetty tietoja. Koristekuvat eivät välitä tietoa, jota tarvitaan verkkosivuston yleisen merkityksen ymmärtämiseen. Historiallisesti niitä käytettiin kukoistaviin ja spacer gif -kuviin, mutta ne eivät yleensä ole yhtä tärkeitä nykyaikaisille verkkosivustoille ja verkkosovelluksille.",
+          "level": "A"
+        },
+        {
+          "id": "images-complex-alt",
+          "text": "Tarjoa tekstivaihtoehto monimutkaisille kuville, kuten kaavioille, kaavioille ja kartoille.",
+          "wcag": "1.1.1 Ei-tekstisisältö",
+          "longDescription": "Onko olemassa pelkkää tekstiä, jossa luetellaan pisteet kartalla tai vuokaavion osia? Kuvaile kaikki näkyvät tiedot. Tämä sisältää kuvaajan akselit, datapisteet ja otsikot sekä yleispisteen, jonka grafiikka välittää.",
+          "level": "A"
+        },
+        {
+          "id": "images-text-alt",
+          "text": "Jos kuvissa on tekstiä, varmista, että alt-kuvaus sisältää kuvan tekstin.",
+          "wcag": "1.1.1 Ei-tekstisisältö",
+          "longDescription": "Esimerkiksi FedEx-logon alt-arvon tulee olla \"FedEx\".",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "headings",
+      "title": "Otsikot",
+      "description": "Otsikkoelementit (h1, h2, h3 jne.) auttavat hajottamaan sivun sisällön toisiinsa liittyviksi \"tietopaloiksi\". Ne ovat uskomattoman tärkeitä, jotta aputeknologiaa käyttävät ihmiset ymmärtävät sivun tai näkymän merkityksen.",
+      "link": "https://www.a11yproject.com/checklist/#headings",
+      "items": [
+        {
+          "id": "headings-intro",
+          "text": "Käytä otsikkoelementtejä sisällön esittelyyn.",
+          "wcag": "2.4.6 Otsikot tai tarrat",
+          "longDescription": "Otsikkoelementit muodostavat asiakirjan ääriviivat, eikä niitä tule käyttää pelkästään visuaaliseen suunnitteluun.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-one-h1",
+          "text": "Käytä vain yhtä h1-elementtiä sivua tai näkymää kohti.",
+          "wcag": "2.4.6 Otsikot tai tarrat",
+          "longDescription": "h1-elementtiä tulisi käyttää kertomaan sivun tai näkymän korkean tason tarkoitus. Älä käytä h1-elementtiä otsikossa, joka ei vaihdu sivujen tai näkymien välillä (esimerkiksi sivuston nimi).",
+          "level": "AA"
+        },
+        {
+          "id": "headings-logical-sequence",
+          "text": "Otsikkoelementit tulee kirjoittaa loogisessa järjestyksessä.",
+          "wcag": "2.4.6 Otsikot tai tarrat",
+          "longDescription": "Otsikkoelementtien järjestyksen tulee laskea sisällön \"syvyyden\" perusteella. Esimerkiksi h4-elementti ei saa näkyä sivulla ennen ensimmäistä h3-elementtiilmoitusta. Työkalu, kuten headingsMap, voi auttaa sinua arvioimaan tämän.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-no-skip",
+          "text": "Älä ohita otsikkotasoja.",
+          "wcag": "2.4.6 Otsikot tai tarrat",
+          "longDescription": "Älä esimerkiksi hyppää h2:stä h4:hen ohittaen h3-elementin. Jos otsikkotasot ohitetaan tietyn visuaalisen käsittelyn vuoksi, käytä sen sijaan CSS-luokkia.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "Luettelot",
+      "description": "Luetteloelementit kertovat ihmisille, että kokoelma kohteet liittyvät toisiinsa, ovatko ne peräkkäisiä ja kuinka monta kohdetta luetteloryhmässä on.",
+      "link": "https://www.a11yproject.com/checklist/#lists",
+      "items": [
+        {
+          "id": "lists-semantic",
+          "text": "Käytä luetteloelementtejä (ol, ul ja dl elementtejä) luettelon sisällössä.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Tämä voi sisältää aiheeseen liittyvän sisällön osia, visuaalisesti ruudukkomaisessa asettelussa näytettyjä kohteita tai elementtien sisaruksia.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "Säätimet",
+      "description": "Ohjaimet ovat interaktiivisia elementtejä, kuten linkkejä ja painikkeita, joiden avulla henkilö voi navigoida määränpäähän tai suorittaa toiminnon.",
+      "link": "https://www.a11yproject.com/checklist/#controls",
+      "items": [
+        {
+          "id": "controls-a-element",
+          "text": "Käytä a-elementtiä linkeissä.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Linkeillä tulee aina olla href-attribuutti, vaikka niitä käytettäisiin yksisivuisissa sovelluksissa (Single Page Applications, SPA). Ilman href-attribuuttia linkki ei ole kunnolla alttiina aputekniikalle. Esimerkki tästä on linkki, joka käyttää onclick-tapahtumaa href-attribuutin sijaan.",
+          "level": "A"
+        },
+        {
+          "id": "controls-links-recognizable",
+          "text": "Varmista, että linkit ovat tunnistettavissa linkeiksi.",
+          "wcag": "1.4.1 ​​Värien käyttö",
+          "longDescription": "Pelkkä väri ei riitä osoittamaan linkin olemassaoloa. Alleviivaukset ovat suosittu ja yleisesti ymmärretty tapa viestiä linkin sisällön olemassaolosta.",
+          "level": "A"
+        },
+        {
+          "id": "controls-focus-states",
+          "text": "Varmista, että säätimillä on :focus-tilat.",
+          "wcag": "2.4.7 Tarkennus näkyy",
+          "longDescription": "Näkyvät tarkennustyylit auttavat ihmisiä määrittämään, missä interaktiivisessa elementissä on näppäimistön kohdistus. Näin he tietävät, että he voivat suorittaa toimintoja, kuten aktivoida button:n tai navigoida linkin määränpäähän.",
+          "level": "AA"
+        },
+        {
+          "id": "controls-button-element",
+          "text": "Käytä button-elementtiä painikkeina.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Painikkeita käytetään tietojen lähettämiseen tai näytöllä tapahtuvan toiminnon suorittamiseen, joka ei siirrä näppäimistön tarkennusta. Voit lisätä type=\"button\" button-elementtiin estääksesi selainta yrittämästä lähettää form-tietoja aktivoituna.",
+          "level": "A"
+        },
+        {
+          "id": "controls-skip-link",
+          "text": "Anna ohituslinkki ja varmista, että se näkyy tarkennettaessa.",
+          "wcag": "2.4.1 Ohituslohkot",
+          "longDescription": "Ohituslinkkiä voidaan käyttää nopeaan pääsyyn sivun tai näkymän pääsisältöön. Tämän avulla henkilö voi helposti ohittaa maailmanlaajuisesti toistuvan sisällön, kuten verkkosivuston ensisijaisen navigoinnin tai jatkuvan hakuwidgetin.",
+          "level": "A"
+        },
+        {
+          "id": "controls-new-tab",
+          "text": "Tunnista linkit, jotka avautuvat uudessa välilehdessä tai ikkunassa.",
+          "wcag": "G201: Antaa käyttäjille lisävaroituksen uuden ikkunan avaamisesta",
+          "longDescription": "Ihannetapauksessa vältä linkkejä, jotka avautuvat uudessa välilehdessä tai ikkunassa. Jos linkki toimii, varmista, että linkin käyttäytyminen viestitään tavalla, joka on ilmeinen kaikille käyttäjille. Tämä auttaa ihmisiä ymmärtämään, mitä tapahtuu ennen linkin aktivoimista. Vaikka tämä tekniikka ei teknisesti vaadi vaatimustenmukaisuutta, se on usein mainittu turhauttava alue monille erilaisille aputekniikan käyttäjille.",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "Taulukot",
+      "description": "Taulukot ovat jäsennelty tietojoukko, joka auttaa ihmisiä ymmärtämään erityyppisten tietojen välisiä suhteita.",
+      "link": "https://www.a11yproject.com/checklist/#tables",
+      "items": [
+        {
+          "id": "tables-table-element",
+          "text": "Käytä table-elementtiä taulukkotietojen kuvaamiseen.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Onko sinun näytettävä tiedot riveissä ja sarakkeissa? Käytä table-elementtiä.",
+          "level": "A"
+        },
+        {
+          "id": "tables-th-element",
+          "text": "Käytä th-elementtiä table-otsikoissa (sopivilla laajuusmääritteillä).",
+          "wcag": "4.1.1 Jäsennys",
+          "longDescription": "Riippuen siitä, kuinka monimutkainen table on, voit myös harkita Scope=\"col\":n käyttöä sarakeotsikoille ja Scope=\"row\" riviotsikoille. Monet erilaiset avustavat tekniikat käyttävät edelleen soveltamisala-attribuuttia auttaakseen heitä ymmärtämään ja kuvaamaan table:n rakennetta.",
+          "level": "A"
+        },
+        {
+          "id": "tables-caption-element",
+          "text": "Käytä caption-elementtiä antaaksesi otsikon table:lle.",
+          "wcag": "2.4.6 Otsikot tai tarrat",
+          "longDescription": "table:n caption:n pitäisi kuvata, millaista tietoa table sisältää.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "Lomakkeet",
+      "description": "Lomakkeiden avulla ihmiset voivat syöttää tietoja sivustolle käsittelyä ja käsittelyä varten. Tämä sisältää esimerkiksi viestien lähettämisen ja tilausten tekemisen.",
+      "link": "https://www.a11yproject.com/checklist/#forms",
+      "items": [
+        {
+          "id": "forms-labels",
+          "text": "Kaikki form:n tulot on liitetty vastaavaan etikettielementtiin.",
+          "wcag": "3.2.2 Mallissa Input",
+          "longDescription": "Käytä for/id-paria varmistaaksesi korkeimman tason selaimen/aputeknologian tuen.",
+          "level": "A"
+        },
+        {
+          "id": "forms-fieldset-legend",
+          "text": "Käytä fieldset- ja legend-elementtejä tarvittaessa.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Sisältääkö form useita osioita vastaavista tuloista? Käytä fieldset:tä niiden ryhmittelyyn ja legend:n avulla merkitse tämän osion tarkoitus.",
+          "level": "A"
+        },
+        {
+          "id": "forms-autocomplete",
+          "text": "Sisääntulot käyttävät autocomplete:tä tarvittaessa.",
+          "wcag": "1.3.5 Tunnista Input Käyttötarkoitus",
+          "longDescription": "Tarjoaa mekanismin, joka auttaa ihmisiä nopeammin, helpommin ja tarkemmin täyttämään form-kentät, joissa pyydetään yleisiä tietoja (esimerkiksi nimi, osoite, puhelinnumero).",
+          "level": "AA"
+        },
+        {
+          "id": "forms-errors-list",
+          "text": "Varmista, että form input -virheet näkyvät form:n yläpuolella olevassa luettelossa lähettämisen jälkeen.",
+          "wcag": "3.3.1 Virheen tunnistus",
+          "longDescription": "Tämä tarjoaa aputekniikan käyttäjille tavan saada nopeasti korkeatasoinen käsitys form:n ongelmista. Tämä on erityisen tärkeää suurille lomakkeille, joissa on useita syötteitä. Varmista, että jokaisessa raportoidussa virheessä on myös linkki vastaavaan kenttään, jossa on virheellinen input.",
+          "level": "A"
+        },
+        {
+          "id": "forms-errors-associated",
+          "text": "Yhdistä input-virheviesti input:hen, jota se vastaa.",
+          "wcag": "3.3.1 Virheen tunnistus",
+          "longDescription": "aria-describedby:n kaltaisten tekniikoiden avulla aputekniikkaa käyttävät ihmiset ymmärtävät helpommin input:n ja siihen liittyvän virheilmoituksen välisen eron.",
+          "level": "A"
+        },
+        {
+          "id": "forms-not-color-only",
+          "text": "Varmista, että virhe-, varoitus- ja onnistumistilat eivät välity visuaalisesti pelkällä värillä.",
+          "wcag": "1.4.1 Värien käyttö",
+          "longDescription": "Värisokeat, muut heikkonäköiset tai erilaiset kulttuuriset ymmärrykset väristä eivät välttämättä näe tilan muutosta eivätkä ymmärrä, millaista palautetta tila edustaa, jos väri on ainoa indikaattori.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Media",
+      "description": "Media sisältää sisältöä, kuten pre-nauhoitettu ja live-audio ja video.",
+      "link": "https://www.a11yproject.com/checklist/#media",
+      "items": [
+        {
+          "id": "media-no-autoplay",
+          "text": "Varmista, että materiaali ei autoplay.",
+          "wcag": "1.4.2 Audio Ohjaus",
+          "longDescription": "Odottamaton video ja audio voivat olla häiritseviä ja häiritseviä, erityisesti tietyntyyppisten kognitiivisten vammojen, kuten ADHD:n, tapauksessa. Tietynlaiset automaattisesti toistuvat video ja animaatiot voivat laukaista vestibulaari- ja kohtaushäiriöitä.",
+          "level": "A"
+        },
+        {
+          "id": "media-controls-markup",
+          "text": "Varmista, että mediaohjaimet käyttävät asianmukaisia ​​merkintöjä.",
+          "wcag": "1.3.1 Tiedot ja suhteet",
+          "longDescription": "Esimerkkejä ovat sen varmistaminen, että audio-mykistys button on päällä, kun se on aktiivinen, tai että äänenvoimakkuuden liukusäädin käyttää <input type=\"range\">.",
+          "level": "A"
+        },
+        {
+          "id": "media-can-be-paused",
+          "text": "Tarkista, että kaikki mediat voidaan keskeyttää.",
+          "wcag": "Näppäimistö 2.1.1",
+          "longDescription": "Tarjoa yleinen taukotoiminto mille tahansa mediaelementille. Jos laitteessa on näppäimistö, varmista, että välilyöntinäppäimen painaminen voi keskeyttää toiston. Varmista, että et myöskään häiritse välilyöntinäppäimen kykyä selata sivua/näkymää, kun et tarkenna form-säätimeen.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "video",
+      "title": "Video",
+      "description": "Video-kohtaiset tarkastukset.",
+      "link": "https://www.a11yproject.com/checklist/#video",
+      "items": [
+        {
+          "id": "video-captions",
+          "text": "Vahvista kuvatekstien olemassaolo.",
+          "wcag": "1.2.2 Tekstitykset",
+          "longDescription": "Kuvatekstien avulla henkilö, joka ei kuule video:n audio-sisältöä, voi silti ymmärtää sen sisällön.",
+          "level": "A"
+        },
+        {
+          "id": "video-remove-seizure",
+          "text": "Poista kohtauslaukaisimet.",
+          "wcag": "2.3.1 Kolme välähdystä tai alle kynnyksen",
+          "longDescription": "Tietynlaiset vilkkuvat tai vilkkuvat animaatiot laukaisevat kohtauksia.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Audio",
+      "description": "Audio-kohtaiset tarkastukset.",
+      "link": "https://www.a11yproject.com/checklist/#audio",
+      "items": [
+        {
+          "id": "audio-transcripts",
+          "text": "Varmista, että transkriptiot ovat saatavilla.",
+          "wcag": "",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "Ulkonäkö",
+      "description": "Miltä verkkosivustosi sovelluksen sisältö näyttää missä tahansa tilanteessa.",
+      "link": "https://www.a11yproject.com/checklist/#appearance",
+      "items": [
+        {
+          "id": "appearance-specialized-modes",
+          "text": "Tarkista sisältösi erityisissä selaustiloissa.",
+          "wcag": "1.4.1 Värin käyttö",
+          "longDescription": "Aktivoi tilat, kuten Windowsin suuri kontrasti tai käänteiset värit. Onko sisältösi edelleen luettavissa? Ovatko kuvakkeet, reunat, linkit, form-kentät ja muu sisältö edelleen olemassa? Pystytkö erottamaan etualalla olevan sisällön taustasta?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-increase-text",
+          "text": "Suurenna tekstin koko 200 %:iin.",
+          "wcag": "1.4.4 Muuta tekstin kokoa",
+          "longDescription": "Onko sisältö edelleen luettavissa? Aiheuttaako tekstin koon lisääminen sisällön päällekkäisyyttä?",
+          "level": "AA"
+        },
+        {
+          "id": "appearance-proximity",
+          "text": "Tarkista, että sisällön välillä säilyy hyvä etäisyys.",
+          "wcag": "1.3.3 Sensoriset ominaisuudet",
+          "longDescription": "Käytä olkitestiä varmistaaksesi, että näytön zoomausohjelmistosta riippuvaiset ihmiset löytävät helposti kaiken sisällön.",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-color-only",
+          "text": "Varmista, että väri ei ole ainoa tapa välittää tietoa.",
+          "wcag": "1.4.1 Värin käyttö",
+          "longDescription": "Näetkö silti, missä linkit ovat kehon sisällön joukossa, jos kaikki on harmaasävyjä?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-visual-audio-only",
+          "text": "Varmista, että ohjeet eivät ole visuaalisia tai vain audio:tä.",
+          "wcag": "1.3.3 Sensoriset ominaisuudet",
+          "longDescription": "Käytä ominaisuuksien yhdistelmää kirjoittaaksesi vihjeitä, erityisesti osien ja elementtien todellisia nimiä, pelkän kuvauksen, kuten sijainnin (\"oikealla\") tai audio (\"äänen jälkeen\") sijaan.",
+          "level": "A"
+        },
+        {
+          "id": "appearance-simple-layout",
+          "text": "Käytä yksinkertaista, suoraviivaista ja johdonmukaista asettelua.",
+          "wcag": "1.4.10 Reflow",
+          "longDescription": "Monimutkainen asettelu voi olla hämmentävää ymmärtää ja käyttää.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "Animaatio",
+      "description": "Sisältö, joka liikkuu joko itsestään tai ohjauksen aktivoivan henkilön laukaisemana.",
+      "link": "https://www.a11yproject.com/checklist/#animation",
+      "items": [
+        {
+          "id": "animation-subtle",
+          "text": "Varmista, että animaatiot ovat hienovaraisia ​​eivätkä välähdä liikaa.",
+          "wcag": "2.3.1 Kolme välähdystä tai alle kynnyksen",
+          "longDescription": "Tietynlaiset vilkkuvat tai vilkkuvat animaatiot laukaisevat kohtauksia. Toiset voivat olla häiritseviä ja häiritseviä, erityisesti tietyntyyppisten kognitiivisten vammojen, kuten ADHD:n, tapauksessa.",
+          "level": "A"
+        },
+        {
+          "id": "animation-pause-bg-video",
+          "text": "Tarjoa mekanismi taustan video keskeyttämiseksi.",
+          "wcag": "2.2.2 Keskeytä, Pysäytä, Piilota",
+          "longDescription": "Tausta video voi olla häiritsevää, varsinkin jos sisältöä on asetettu sen päälle.",
+          "level": "A"
+        },
+        {
+          "id": "animation-reduced-motion",
+          "text": "Varmista, että kaikki animaatiot noudattavat ensisijaisesti pienennetyn liikkeen mediakyselyä.",
+          "wcag": "2.3.3 Animaatio vuorovaikutuksista",
+          "longDescription": "Poista animaatiot, kun \"vähennä liikettä\" -asetus on aktivoitu. Jos animaatio on tarpeen konseptin merkityksen välittämiseksi, hidasta sen kestoa.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "title": "Värikontrasti",
+      "description": "Värikontrasti tarkoittaa, kuinka luettavissa olevat värit ovat vierekkäin ja päällekkäin.",
+      "link": "https://www.a11yproject.com/checklist/#color-contrast",
+      "items": [
+        {
+          "id": "color-contrast-normal",
+          "text": "Tarkista kaiken normaalikokoisen tekstin kontrasti.",
+          "wcag": "1.4.3 Kontrasti",
+          "longDescription": "AA-tason yhteensopivuus edellyttää kontrastisuhdetta 4,5:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-large",
+          "text": "Tarkista kaiken suuren tekstin kontrasti.",
+          "wcag": "1.4.3 Kontrasti",
+          "longDescription": "AA-tason yhteensopivuus edellyttää kontrastisuhdetta 3:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-icons",
+          "text": "Tarkista kaikkien kuvakkeiden kontrasti.",
+          "wcag": "1.4.11 Ei-tekstikontrasti",
+          "longDescription": "AA-tason yhteensopivuus edellyttää kontrastisuhdetta 3,0:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-borders",
+          "text": "Tarkista input-elementtien reunusten kontrasti (teksti input, valintanapit, valintaruudut jne.).",
+          "wcag": "1.4.11 Ei-tekstikontrasti",
+          "longDescription": "AA-tason yhteensopivuus edellyttää kontrastisuhdetta 3,0:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-overlap",
+          "text": "Tarkista teksti, joka on päällekkäinen kuvien kanssa, tai video.",
+          "wcag": "1.4.3 Kontrasti",
+          "longDescription": "Onko teksti vielä luettavissa?",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-selection",
+          "text": "Tarkista mukautetut ::valitut värit.",
+          "wcag": "1.4.3 Kontrasti",
+          "longDescription": "Onko ::selection CSS -ilmoituksessa asettamasi värikontrasti riittävä? Muuten joku ei ehkä pysty lukemaan sitä, jos hän korostaa sen.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "mobile-and-touch",
+      "title": "Mobiili ja kosketus",
+      "description": "Mobiilikokemukset kannattaa tarkistaa.",
+      "link": "https://www.a11yproject.com/checklist/#mobile-and-touch",
+      "items": [
+        {
+          "id": "mobile-orientation",
+          "text": "Tarkista, että sivustoa voidaan kääntää mihin tahansa suuntaan.",
+          "wcag": "1.3.4 Suunta",
+          "longDescription": "Salliiko sivusto vain pystysuuntauksen?",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-no-horizontal-scroll",
+          "text": "Poista vaakasuuntainen vieritys.",
+          "wcag": "1.4.10 Reflow",
+          "longDescription": "Joillekin voi olla vaikeaa vaatia jonkun vierimään vaakasuunnassa ja ärsyttää kaikkia.",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-activate-icons",
+          "text": "Varmista, että button ja linkkikuvakkeet voidaan aktivoida helposti.",
+          "wcag": "2.5.5 Tavoitekoko",
+          "longDescription": "On hyvä varmistaa, että esimerkiksi hampurilaismenut, sosiaaliset kuvakkeet, gallerian katseluohjelmat ja muut kosketusohjaimet ovat käytettävissä useilla erikokoisilla käsillä ja kynällä.",
+          "level": "AAA"
+        },
+        {
+          "id": "mobile-scroll-area",
+          "text": "Varmista, että interaktiivisten kohteiden väliin jää riittävästi tilaa vieritysalueen muodostamiseksi.",
+          "wcag": "2.4.1 Ohituslohkot",
+          "longDescription": "Joillekin ihmisille, jotka kokevat moottorin ohjausongelmia, kuten käsien vapinaa, voi olla erittäin vaikeaa selata vuorovaikutteisia kohteita, joissa ei ole välilyöntejä.",
+          "level": "A"
+        }
+      ]
+    }
+  ]
+}

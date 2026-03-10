@@ -1,0 +1,573 @@
+{
+  "title": "a11y Companion",
+  "sections": [
+    {
+      "id": "content",
+      "title": "Inhalt",
+      "description": "Der Inhalt ist der wichtigste Teil Ihrer Website.",
+      "link": "https://www.a11yproject.com/checklist/#content",
+      "items": [
+        {
+          "id": "content-plain-language",
+          "text": "Verwenden Sie eine klare Sprache und vermeiden Sie Redewendungen, Redewendungen und komplizierte Metaphern.",
+          "wcag": "3.1.5 Leseniveau",
+          "longDescription": "Schreiben Sie Inhalte auf dem Leseniveau der 8. Klasse.",
+          "level": "AAA"
+        },
+        {
+          "id": "content-unique-labels",
+          "text": "Stellen Sie sicher, dass der Inhalt der Elemente button, a und label eindeutig und beschreibend ist.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Begriffe wie „hier klicken“ und „mehr lesen“ liefern keinen Kontext. Manche Leute navigieren mithilfe einer Liste aller Schaltflächen oder Links auf einer Seite oder Ansicht. Bei Verwendung dieses Modus geben die Begriffe an, was passiert, wenn zu diesem Modus navigiert oder dieser aktiviert wird.",
+          "level": "A"
+        },
+        {
+          "id": "content-ltr-rtl",
+          "text": "Verwenden Sie linksbündigen Text für Sprachen mit der Schreibrichtung von links nach rechts (LTR) und rechtsbündigen Text für Sprachen mit der Schreibrichtung von rechts nach links (RTL).",
+          "wcag": "1.4.8 Visuelle Präsentation",
+          "longDescription": "Zentrierter oder im Blocksatz ausgerichteter Text ist schwer lesbar.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "global-code",
+      "title": "Globaler Code",
+      "description": "Globaler Code ist Code, der sich auf Ihre gesamte Website oder Web-App auswirkt.",
+      "link": "https://www.a11yproject.com/checklist/#global-code",
+      "items": [
+        {
+          "id": "global-validate-html",
+          "text": "Validieren Sie Ihren HTML.",
+          "wcag": "4.1.1-Analyse",
+          "longDescription": "Valid HTML trägt dazu bei, ein konsistentes, erwartetes Erlebnis über alle Browser und Hilfstechnologien hinweg bereitzustellen.",
+          "level": "A"
+        },
+        {
+          "id": "global-lang-attribute",
+          "text": "Verwenden Sie ein lang-Attribut für das html-Element.",
+          "wcag": "3.1.1 Sprache der Seite",
+          "longDescription": "Dies hilft unterstützenden Technologien wie Screenreadern dabei, Inhalte korrekt auszusprechen.",
+          "level": "A"
+        },
+        {
+          "id": "global-title-unique",
+          "text": "Geben Sie für jede Seite oder Ansicht einen eindeutigen Titel an.",
+          "wcag": "2.4.2 Seite betitelt",
+          "longDescription": "Das Titelelement, das im Kopfelement des Dokuments enthalten ist, ist häufig die erste Information, die von unterstützenden Technologien angekündigt wird. Dies hilft den Leuten, zu sagen, auf welcher Seite oder in welcher Ansicht sie zu navigieren beginnen werden.",
+          "level": "A"
+        },
+        {
+          "id": "global-viewport-zoom",
+          "text": "Stellen Sie sicher, dass der Ansichtsfensterzoom nicht deaktiviert ist.",
+          "wcag": "1.4.4 Textgröße ändern",
+          "longDescription": "Manche Leute müssen den Text so weit vergrößern, dass sie ihn lesen können. Halten Sie sie nicht davon ab, dies zu tun, auch nicht für Web-Apps mit einem nativen App-ähnlichen Erlebnis. Selbst native Apps sollten die Betriebssystemeinstellungen für die Größenänderung von Text berücksichtigen.",
+          "level": "AA"
+        },
+        {
+          "id": "global-landmark-elements",
+          "text": "Verwenden Sie Orientierungselemente, um wichtige Inhaltsbereiche anzuzeigen.",
+          "wcag": "4.1.2 Name, Rolle, Wert",
+          "longDescription": "Markierungsbereiche helfen dabei, das Layout und wichtige Bereiche einer Seite oder Ansicht zu kommunizieren und können einen schnellen Zugriff auf diese Bereiche ermöglichen. Verwenden Sie beispielsweise das Element nav, um die Navigation einer Site zu umschließen, und das Element main, um den primären Inhalt einer Seite aufzunehmen.",
+          "level": "A"
+        },
+        {
+          "id": "global-linear-flow",
+          "text": "Sorgen Sie für einen linearen Inhaltsfluss.",
+          "wcag": "2.4.3 Fokusauftrag",
+          "longDescription": "Entfernen Sie tabindex-Attributwerte, die weder 0 noch -1 sind. Elemente, die von Natur aus focusable sind, wie z. B. Links oder button-Elemente, erfordern kein tabindex. Auf Elemente, die nicht von Natur aus focusable sind, sollte außerhalb sehr spezifischer Anwendungsfälle kein tabindex angewendet werden.",
+          "level": "A"
+        },
+        {
+          "id": "global-no-autofocus",
+          "text": "Vermeiden Sie die Verwendung des autofocus-Attributs.",
+          "wcag": "2.4.3 Fokusbestellung",
+          "longDescription": "Blinde oder sehbehinderte Menschen können die Orientierung verlieren, wenn der Fokus ohne ihre Erlaubnis verschoben wird. Darüber hinaus kann autofocus für Menschen mit eingeschränkter Motorik problematisch sein, da es für sie zusätzliche Arbeit bedeuten kann, aus dem Autofokusbereich heraus und zu anderen Stellen auf der Seite/Ansicht zu navigieren.",
+          "level": "A"
+        },
+        {
+          "id": "global-extend-session",
+          "text": "Erlauben Sie die Verlängerung von Sitzungszeitüberschreitungen.",
+          "wcag": "2.2.1 Timing einstellbar",
+          "longDescription": "Wenn Sie Sitzungszeitüberschreitungen nicht vollständig entfernen können, ermöglichen Sie es der Person, die Ihre Website nutzt, ihre Sitzung rechtzeitig vor dem Ende einfach zu deaktivieren, anzupassen oder zu verlängern.",
+          "level": "A"
+        },
+        {
+          "id": "global-remove-title-tooltips",
+          "text": "Tooltips für Titelattribute entfernen.",
+          "wcag": "4.1.2 Name, Rolle, Wert",
+          "longDescription": "Das Titelattribut weist zahlreiche Probleme auf und sollte nicht verwendet werden, wenn die bereitgestellten Informationen für den Zugriff aller Personen wichtig sind. Eine akzeptable Verwendung für das Titelattribut wäre die Kennzeichnung eines iframe-Elements, um anzugeben, welchen Inhalt es enthält.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "title": "Tastatur",
+      "description": "Es ist wichtig, dass Ihre Benutzeroberfläche und Ihre Inhalte über eine Tastatur bedient und navigiert werden können. Manche Menschen können keine Maus verwenden oder verwenden möglicherweise andere Hilfstechnologien, die das Schweben oder präzise Klicken nicht ermöglichen.",
+      "link": "https://www.a11yproject.com/checklist/#keyboard",
+      "items": [
+        {
+          "id": "keyboard-focus-style",
+          "text": "Stellen Sie sicher, dass für interaktive Elemente, zu denen über die Tastatur input navigiert wird, ein sichtbarer Fokusstil vorhanden ist.",
+          "wcag": "2.4.7 Fokus sichtbar",
+          "longDescription": "Kann eine Person, die mit einer Tastatur, einem Schalter, einer Sprachsteuerung oder einem Screenreader navigiert, sehen, wo sie sich gerade auf der Seite befindet?",
+          "level": "AA"
+        },
+        {
+          "id": "keyboard-focus-order",
+          "text": "Überprüfen Sie, ob die Fokusreihenfolge der Tastatur mit dem visuellen Layout übereinstimmt.",
+          "wcag": "1.3.2 Sinnvolle Sequenz",
+          "longDescription": "Kann sich eine Person, die mit einer Tastatur oder einem Screenreader navigiert, vorhersehbar auf der Seite bewegen?",
+          "level": "A"
+        },
+        {
+          "id": "keyboard-remove-invisible",
+          "text": "Entfernen Sie unsichtbare focusable-Elemente.",
+          "wcag": "2.4.3 Fokusauftrag",
+          "longDescription": "Entfernen Sie die Möglichkeit, sich auf Elemente zu konzentrieren, die derzeit nicht erkennbar sein sollen. Dazu gehören Dinge wie inaktive Dropdown-Menüs, Off-Screen-Navigationen oder Modalitäten.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Bilder",
+      "description": "Bilder sind ein sehr häufiger Bestandteil der meisten Websites. Sorgen Sie dafür, dass alle Freude daran haben.",
+      "link": "https://www.a11yproject.com/checklist/#images",
+      "items": [
+        {
+          "id": "images-alt-attribute",
+          "text": "Stellen Sie sicher, dass alle img-Elemente über ein Alt-Attribut verfügen.",
+          "wcag": "1.1.1 Nicht-Text-Inhalt",
+          "longDescription": "Alt-Attribute (Alt-Text) geben eine Beschreibung eines Bildes für Personen, die sie möglicherweise nicht sehen können. Wenn in einem Bild kein Alt-Attribut vorhanden ist, kann ein Bildschirmlesegerät stattdessen den Dateinamen und den Pfad des Bildes ansagen. Dadurch wird der Inhalt des Bildes nicht kommuniziert.",
+          "level": "A"
+        },
+        {
+          "id": "images-decorative-null-alt",
+          "text": "Stellen Sie sicher, dass dekorative Bilder Null-Alt-Attributwerte (leer) verwenden.",
+          "wcag": "1.1.1 Nicht-Text-Inhalt",
+          "longDescription": "Null-Alt-Attribute werden manchmal auch als leere Alt-Attribute bezeichnet. Sie werden erstellt, indem zwischen den öffnenden und schließenden Anführungszeichen eines Alt-Attributs keine Informationen eingefügt werden. Dekorative Bilder vermitteln keine Informationen, die zum Verständnis der Gesamtbedeutung der Website erforderlich sind. Früher wurden sie für Schnörkel und Spacer-GIF-Bilder verwendet, für moderne Websites und Web-Apps sind sie jedoch tendenziell weniger relevant.",
+          "level": "A"
+        },
+        {
+          "id": "images-complex-alt",
+          "text": "Bieten Sie eine Textalternative für komplexe Bilder wie Diagramme, Grafiken und Karten.",
+          "wcag": "1.1.1 Nicht-Text-Inhalt",
+          "longDescription": "Gibt es einen Klartext, der Punkte auf der Karte oder Abschnitte eines Flussdiagramms auflistet? Beschreiben Sie alle sichtbaren Informationen. Dazu gehören Diagrammachsen, Datenpunkte und Beschriftungen sowie der Gesamtpunkt, den die Grafik kommuniziert.",
+          "level": "A"
+        },
+        {
+          "id": "images-text-alt",
+          "text": "Stellen Sie bei Bildern mit Text sicher, dass die Alternativbeschreibung den Bildtext enthält.",
+          "wcag": "1.1.1 Nicht-Text-Inhalt",
+          "longDescription": "Beispielsweise sollte das FedEx-Logo den Alternativwert „FedEx“ haben.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "headings",
+      "title": "Überschriften",
+      "description": "Überschriftenelemente (h1, h2, h3 usw.) helfen dabei, den Inhalt der Seite in zusammenhängende Informationsblöcke aufzuteilen. Sie sind unglaublich wichtig, um Menschen, die unterstützende Technologien nutzen, dabei zu helfen, die Bedeutung einer Seite oder Ansicht zu verstehen.",
+      "link": "https://www.a11yproject.com/checklist/#headings",
+      "items": [
+        {
+          "id": "headings-intro",
+          "text": "Verwenden Sie Überschriftenelemente, um Inhalte einzuleiten.",
+          "wcag": "2.4.6 Überschriften oder Beschriftungen",
+          "longDescription": "Überschriftenelemente bilden eine Dokumentgliederung und sollten nicht zur rein visuellen Gestaltung verwendet werden.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-one-h1",
+          "text": "Verwenden Sie nur ein h1-Element pro Seite oder Ansicht.",
+          "wcag": "2.4.6 Überschriften oder Beschriftungen",
+          "longDescription": "Das Element h1 sollte verwendet werden, um den übergeordneten Zweck der Seite oder Ansicht zu kommunizieren. Verwenden Sie das h1-Element nicht für eine Überschrift, die sich zwischen Seiten oder Ansichten nicht ändert (z. B. der Name der Site).",
+          "level": "AA"
+        },
+        {
+          "id": "headings-logical-sequence",
+          "text": "Überschriftenelemente sollten in einer logischen Reihenfolge geschrieben werden.",
+          "wcag": "2.4.6 Überschriften oder Beschriftungen",
+          "longDescription": "Die Reihenfolge der Überschriftenelemente sollte je nach „Tiefe“ des Inhalts absteigend sein. Beispielsweise sollte ein h4-Element nicht vor der ersten h3-Elementdeklaration auf einer Seite erscheinen. Ein Tool wie headingsMap kann Ihnen bei der Auswertung helfen.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-no-skip",
+          "text": "Überspringen Sie keine Überschriftenebenen.",
+          "wcag": "2.4.6 Überschriften oder Beschriftungen",
+          "longDescription": "Springen Sie beispielsweise nicht von einem h2 zu einem h4 und überspringen Sie dabei ein h3-Element. Wenn Überschriftenebenen für eine bestimmte visuelle Behandlung übersprungen werden, verwenden Sie stattdessen CSS-Klassen.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "Listen",
+      "description": "Listenelemente informieren Benutzer darüber, dass eine Sammlung von Elementen zusammenhängt, ob sie sequentiell sind und wie viele Elemente in der Listengruppierung vorhanden sind.",
+      "link": "https://www.a11yproject.com/checklist/#lists",
+      "items": [
+        {
+          "id": "lists-semantic",
+          "text": "Verwenden Sie Listenelemente (ol-, ul- und dl-Elemente) für Listeninhalte.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Dazu können Abschnitte mit verwandten Inhalten, visuell in einem rasterartigen Layout angezeigte Elemente oder gleichrangige Elemente gehören.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "Kontrollen",
+      "description": "Steuerelemente sind interaktive Elemente wie Links und Schaltflächen, mit denen eine Person zu einem Ziel navigieren oder eine Aktion ausführen kann.",
+      "link": "https://www.a11yproject.com/checklist/#controls",
+      "items": [
+        {
+          "id": "controls-a-element",
+          "text": "Verwenden Sie das a-Element für Links.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Links sollten immer ein href-Attribut haben, auch wenn sie in Single Page Applications (SPAs) verwendet werden. Ohne ein href-Attribut wird der Link der unterstützenden Technologie nicht ordnungsgemäß ausgesetzt. Ein Beispiel hierfür wäre ein Link, der ein Onclick-Ereignis anstelle eines href-Attributs verwendet.",
+          "level": "A"
+        },
+        {
+          "id": "controls-links-recognizable",
+          "text": "Stellen Sie sicher, dass Links als Links erkennbar sind.",
+          "wcag": "1.4.1 ​​Verwendung von Farbe",
+          "longDescription": "Die Farbe allein reicht nicht aus, um das Vorhandensein eines Links anzuzeigen. Unterstreichungen sind eine beliebte und allgemein verständliche Möglichkeit, das Vorhandensein von Linkinhalten zu kommunizieren.",
+          "level": "A"
+        },
+        {
+          "id": "controls-focus-states",
+          "text": "Stellen Sie sicher, dass die Steuerelemente den Status „:focus“ haben.",
+          "wcag": "2.4.7 Fokus sichtbar",
+          "longDescription": "Mithilfe sichtbarer Fokusstile können Benutzer feststellen, welches interaktive Element den Tastaturfokus hat. Dadurch wissen sie, dass sie Aktionen wie das Aktivieren eines button oder das Navigieren zum Ziel eines Links ausführen können.",
+          "level": "AA"
+        },
+        {
+          "id": "controls-button-element",
+          "text": "Verwenden Sie das Element button für Schaltflächen.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Schaltflächen werden zum Senden von Daten oder zum Ausführen einer Bildschirmaktion verwendet, ohne den Tastaturfokus zu verschieben. Sie können type=\"button\" zu einem button-Element hinzufügen, um zu verhindern, dass der Browser bei Aktivierung versucht, form-Informationen zu übermitteln.",
+          "level": "A"
+        },
+        {
+          "id": "controls-skip-link",
+          "text": "Stellen Sie einen Link zum Überspringen bereit und stellen Sie sicher, dass dieser sichtbar ist, wenn Sie den Fokus darauf legen.",
+          "wcag": "2.4.1 Bypass-Blöcke",
+          "longDescription": "Ein Sprunglink kann verwendet werden, um schnellen Zugriff auf den Hauptinhalt einer Seite oder Ansicht zu ermöglichen. Dies ermöglicht es einer Person, global wiederholte Inhalte wie die primäre Navigation einer Website oder das dauerhafte Such-Widget einfach zu umgehen.",
+          "level": "A"
+        },
+        {
+          "id": "controls-new-tab",
+          "text": "Identifizieren Sie Links, die in einem neuen Tab oder Fenster geöffnet werden.",
+          "wcag": "G201: Vorabwarnung für Benutzer beim Öffnen eines neuen Fensters",
+          "longDescription": "Vermeiden Sie im Idealfall Links, die in einem neuen Tab oder Fenster geöffnet werden. Wenn dies bei einem Link der Fall ist, stellen Sie sicher, dass das Verhalten des Links so kommuniziert wird, dass es für alle Benutzer erkennbar ist. Auf diese Weise können Benutzer besser verstehen, was passieren wird, bevor sie den Link aktivieren. Obwohl diese Technik für die Compliance technisch nicht erforderlich ist, ist sie für viele verschiedene Arten von Benutzern unterstützender Technologien ein oft genannter Grund für die Frustration.",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "Tische",
+      "description": "Tabellen sind strukturierte Datensätze, die Menschen helfen, die Beziehungen zwischen verschiedenen Arten von Informationen zu verstehen.",
+      "link": "https://www.a11yproject.com/checklist/#tables",
+      "items": [
+        {
+          "id": "tables-table-element",
+          "text": "Verwenden Sie das Element table, um Tabellendaten zu beschreiben.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Müssen Sie Daten in Zeilen und Spalten anzeigen? Verwenden Sie das table-Element.",
+          "level": "A"
+        },
+        {
+          "id": "tables-th-element",
+          "text": "Verwenden Sie das th-Element für table-Header (mit entsprechenden Bereichsattributen).",
+          "wcag": "4.1.1-Analyse",
+          "longDescription": "Abhängig davon, wie komplex Ihr table ist, können Sie auch die Verwendung von „scope=\"col\" für Spaltenüberschriften und von „scope=\"row\" für Zeilenüberschriften“ in Betracht ziehen. Viele verschiedene Arten von Hilfstechnologien verwenden immer noch das Scope-Attribut, um die Struktur eines table zu verstehen und zu beschreiben.",
+          "level": "A"
+        },
+        {
+          "id": "tables-caption-element",
+          "text": "Verwenden Sie das Element caption, um einen Titel für das table bereitzustellen.",
+          "wcag": "2.4.6 Überschriften oder Beschriftungen",
+          "longDescription": "Der table des caption sollte beschreiben, welche Art von Informationen der table enthält.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "Formulare",
+      "description": "Mithilfe von Formularen können Benutzer Informationen in eine Website eingeben, um sie zu verarbeiten und zu bearbeiten. Dazu gehören Dinge wie das Versenden von Nachrichten und das Aufgeben von Bestellungen.",
+      "link": "https://www.a11yproject.com/checklist/#forms",
+      "items": [
+        {
+          "id": "forms-labels",
+          "text": "Alle Eingänge in einem form sind mit einem entsprechenden Label-Element verknüpft.",
+          "wcag": "3.2.2 auf Input",
+          "longDescription": "Verwenden Sie eine for/id-Paarung, um das höchste Maß an Browser-/Hilfstechnologieunterstützung zu gewährleisten.",
+          "level": "A"
+        },
+        {
+          "id": "forms-fieldset-legend",
+          "text": "Verwenden Sie gegebenenfalls die Elemente fieldset und legend.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Enthält Ihr form mehrere Abschnitte mit zugehörigen Eingaben? Verwenden Sie fieldset, um sie zu gruppieren, und legend, um eine Bezeichnung für den Zweck dieses Abschnitts bereitzustellen.",
+          "level": "A"
+        },
+        {
+          "id": "forms-autocomplete",
+          "text": "Bei Eingaben wird ggf. autocomplete verwendet.",
+          "wcag": "1.3.5 Identifizieren Sie den Zweck von Input",
+          "longDescription": "Bereitstellung eines Mechanismus, der Menschen dabei hilft, form-Felder, in denen nach allgemeinen Informationen gefragt wird (z. B. Name, Adresse, Telefonnummer), schneller, einfacher und genauer auszufüllen.",
+          "level": "AA"
+        },
+        {
+          "id": "forms-errors-list",
+          "text": "Stellen Sie sicher, dass form input-Fehler nach der Übermittlung in der Liste über form angezeigt werden.",
+          "wcag": "3.3.1 Fehleridentifikation",
+          "longDescription": "Dies bietet Benutzern unterstützender Technologien die Möglichkeit, sich schnell einen umfassenden Überblick über die Probleme zu verschaffen, die im form vorliegen. Dies ist besonders wichtig für größere Formulare mit vielen Eingaben. Stellen Sie sicher, dass jeder gemeldete Fehler auch einen Link zum entsprechenden Feld mit ungültigem input enthält.",
+          "level": "A"
+        },
+        {
+          "id": "forms-errors-associated",
+          "text": "Ordnen Sie die Fehlermeldung input der entsprechenden Fehlermeldung input zu.",
+          "wcag": "3.3.1 Fehleridentifikation",
+          "longDescription": "Techniken wie die Verwendung von aria-describedby ermöglichen es Personen, die unterstützende Technologien verwenden, den Unterschied zwischen dem input und der damit verbundenen Fehlermeldung leichter zu verstehen.",
+          "level": "A"
+        },
+        {
+          "id": "forms-not-color-only",
+          "text": "Stellen Sie sicher, dass Fehler-, Warnungs- und Erfolgsstatus nicht nur durch Farbe visuell kommuniziert werden.",
+          "wcag": "1.4.1 Verwendung von Farbe",
+          "longDescription": "Menschen, die farbenblind sind, andere Sehbehinderungen haben oder ein anderes kulturelles Verständnis von Farbe haben, sehen möglicherweise nicht, wie sich der Zustand ändert, oder verstehen nicht, welche Art von Rückmeldung der Zustand darstellt, wenn Farbe der einzige Indikator ist.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Medien",
+      "description": "Zu den Medien gehören Inhalte wie von pre aufgezeichnete und Live-Inhalte von audio und video.",
+      "link": "https://www.a11yproject.com/checklist/#media",
+      "items": [
+        {
+          "id": "media-no-autoplay",
+          "text": "Stellen Sie sicher, dass das Medium nicht autoplay ist.",
+          "wcag": "1.4.2 Audio Steuerung",
+          "longDescription": "Unerwartetes video und audio können ablenkend und störend sein, insbesondere bei bestimmten Arten von kognitiven Behinderungen wie ADHS. Bestimmte Arten der automatischen Wiedergabe von video und Animationen können Auslöser für Gleichgewichtsstörungen und Anfallsleiden sein.",
+          "level": "A"
+        },
+        {
+          "id": "media-controls-markup",
+          "text": "Stellen Sie sicher, dass die Mediensteuerelemente das entsprechende Markup verwenden.",
+          "wcag": "1.3.1 Informationen und Beziehungen",
+          "longDescription": "Beispiele hierfür sind die Sicherstellung, dass ein audio-Stummschalter button einen gedrückten Umschaltstatus hat, wenn er aktiv ist, oder dass ein Lautstärkeregler <input type=\"range\"> verwendet.",
+          "level": "A"
+        },
+        {
+          "id": "media-can-be-paused",
+          "text": "Überprüfen Sie, ob alle Medien angehalten werden können.",
+          "wcag": "2.1.1-Tastatur",
+          "longDescription": "Stellen Sie für jedes Medienelement eine globale Pausenfunktion bereit. Wenn das Gerät über eine Tastatur verfügt, stellen Sie sicher, dass durch Drücken der Leertaste die Wiedergabe angehalten werden kann. Stellen Sie sicher, dass Sie auch die Funktion der Leertaste zum Scrollen der Seite/Ansicht nicht beeinträchtigen, wenn Sie sich nicht auf ein form-Steuerelement konzentrieren.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "video",
+      "title": "Video",
+      "description": "Video-spezifische Prüfungen.",
+      "link": "https://www.a11yproject.com/checklist/#video",
+      "items": [
+        {
+          "id": "video-captions",
+          "text": "Bestätigen Sie das Vorhandensein von Untertiteln.",
+          "wcag": "1.2.2 Bildunterschriften",
+          "longDescription": "Untertitel ermöglichen es einer Person, die den audio-Inhalt eines video nicht hören kann, dessen Inhalt dennoch zu verstehen.",
+          "level": "A"
+        },
+        {
+          "id": "video-remove-seizure",
+          "text": "Entfernen Sie Anfallsauslöser.",
+          "wcag": "2.3.1 Dreimal blinken oder unter dem Schwellenwert",
+          "longDescription": "Bestimmte Arten von Stroboskop- oder Blinkanimationen lösen Anfälle aus.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Audio",
+      "description": "Audio-spezifische Prüfungen.",
+      "link": "https://www.a11yproject.com/checklist/#audio",
+      "items": [
+        {
+          "id": "audio-transcripts",
+          "text": "Bestätigen Sie, dass Transkripte verfügbar sind.",
+          "wcag": "",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "Aussehen",
+      "description": "Wie der Inhalt Ihrer Website-App in einer bestimmten Situation aussieht.",
+      "link": "https://www.a11yproject.com/checklist/#appearance",
+      "items": [
+        {
+          "id": "appearance-specialized-modes",
+          "text": "Überprüfen Sie Ihre Inhalte in speziellen Browsermodi.",
+          "wcag": "1.4.1 Verwendung von Farbe",
+          "longDescription": "Aktivieren Sie Modi wie Windows High Contrast oder Inverted Colors. Sind Ihre Inhalte noch lesbar? Sind Ihre Symbole, Rahmen, Links, form-Felder und andere Inhalte noch vorhanden? Können Sie Vordergrundinhalte vom Hintergrund unterscheiden?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-increase-text",
+          "text": "Erhöhen Sie die Textgröße auf 200 %.",
+          "wcag": "1.4.4 Textgröße ändern",
+          "longDescription": "Ist der Inhalt noch lesbar? Führt eine Vergrößerung der Textgröße dazu, dass sich Inhalte überlappen?",
+          "level": "AA"
+        },
+        {
+          "id": "appearance-proximity",
+          "text": "Stellen Sie sicher, dass eine gute Nähe zwischen den Inhalten gewährleistet ist.",
+          "wcag": "1.3.3 Sensorische Eigenschaften",
+          "longDescription": "Nutzen Sie den Straw-Test, um sicherzustellen, dass Personen, die auf Bildschirmzoom-Software angewiesen sind, dennoch alle Inhalte problemlos entdecken können.",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-color-only",
+          "text": "Stellen Sie sicher, dass Informationen nicht nur durch Farbe übermittelt werden.",
+          "wcag": "1.4.1 Verwendung von Farbe",
+          "longDescription": "Können Sie immer noch sehen, wo sich Links im Hauptinhalt befinden, wenn alles in Graustufen ist?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-visual-audio-only",
+          "text": "Stellen Sie sicher, dass die Anweisungen nicht visuell oder nur audio sind.",
+          "wcag": "1.3.3 Sensorische Eigenschaften",
+          "longDescription": "Verwenden Sie eine Kombination von Merkmalen, um Hinweise zu schreiben, insbesondere die tatsächlichen Namen von Abschnitten und Elementen, und nicht nur Beschreibungen wie Position („rechts“) oder audio („nach dem Ton“).",
+          "level": "A"
+        },
+        {
+          "id": "appearance-simple-layout",
+          "text": "Verwenden Sie ein einfaches, unkompliziertes und einheitliches Layout.",
+          "wcag": "1.4.10 Reflow",
+          "longDescription": "Ein kompliziertes Layout kann verwirrend sein, es zu verstehen und zu verwenden.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "Animation",
+      "description": "Inhalte, die sich bewegen, entweder von selbst oder wenn sie durch die Aktivierung eines Steuerelements durch eine Person ausgelöst werden.",
+      "link": "https://www.a11yproject.com/checklist/#animation",
+      "items": [
+        {
+          "id": "animation-subtle",
+          "text": "Stellen Sie sicher, dass die Animationen subtil sind und nicht zu stark blinken.",
+          "wcag": "2.3.1 Dreimal blinken oder unter dem Schwellenwert",
+          "longDescription": "Bestimmte Arten von Stroboskop- oder Blinkanimationen lösen Anfälle aus. Andere können ablenkend und störend sein, insbesondere bei bestimmten Arten von kognitiven Behinderungen wie ADHS.",
+          "level": "A"
+        },
+        {
+          "id": "animation-pause-bg-video",
+          "text": "Stellen Sie einen Mechanismus zum Anhalten des Hintergrunds video bereit.",
+          "wcag": "2.2.2 Pause, Stopp, Ausblenden",
+          "longDescription": "Der Hintergrund video kann ablenken, insbesondere wenn Inhalte darüber platziert werden.",
+          "level": "A"
+        },
+        {
+          "id": "animation-reduced-motion",
+          "text": "Stellen Sie sicher, dass alle Animationen der Medienabfrage „Preferred-Reduced-Motion“ entsprechen.",
+          "wcag": "2.3.3 Animation aus Interaktionen",
+          "longDescription": "Animationen entfernen, wenn die Einstellung „Bewegung reduzieren“ aktiviert ist. Wenn eine Animation erforderlich ist, um die Bedeutung eines Konzepts zu vermitteln, verlangsamen Sie ihre Dauer.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "title": "Farbkontrast",
+      "description": "Beim Farbkontrast geht es darum, wie Farben lesbar sind, wenn sie neben- und übereinander platziert werden.",
+      "link": "https://www.a11yproject.com/checklist/#color-contrast",
+      "items": [
+        {
+          "id": "color-contrast-normal",
+          "text": "Überprüfen Sie den Kontrast für alle Texte in normaler Größe.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Die Einhaltung der Stufe AA erfordert ein Kontrastverhältnis von 4,5:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-large",
+          "text": "Überprüfen Sie den Kontrast für alle großformatigen Texte.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Die Einhaltung der Stufe AA erfordert ein Kontrastverhältnis von 3:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-icons",
+          "text": "Überprüfen Sie den Kontrast aller Symbole.",
+          "wcag": "1.4.11 Nicht-Text-Kontrast",
+          "longDescription": "Die Einhaltung der Stufe AA erfordert ein Kontrastverhältnis von 3,0:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-borders",
+          "text": "Überprüfen Sie den Kontrast der Ränder für input-Elemente (Text input, Optionsfelder, Kontrollkästchen usw.).",
+          "wcag": "1.4.11 Nicht-Text-Kontrast",
+          "longDescription": "Die Einhaltung der Stufe AA erfordert ein Kontrastverhältnis von 3,0:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-overlap",
+          "text": "Überprüfen Sie Text, der Bilder oder video überlappt.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Ist der Text noch lesbar?",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-selection",
+          "text": "Überprüfen Sie die benutzerdefinierten ::Auswahlfarben.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Ist der Farbkontrast, den Sie in Ihrer ::selection CSS-Deklaration eingestellt haben, ausreichend? Andernfalls kann es passieren, dass jemand es nicht lesen kann, wenn er es markiert.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "mobile-and-touch",
+      "title": "Mobil und Touch",
+      "description": "Dinge, auf die Sie bei mobilen Erlebnissen achten sollten.",
+      "link": "https://www.a11yproject.com/checklist/#mobile-and-touch",
+      "items": [
+        {
+          "id": "mobile-orientation",
+          "text": "Überprüfen Sie, ob die Site in jede beliebige Ausrichtung gedreht werden kann.",
+          "wcag": "1.3.4 Ausrichtung",
+          "longDescription": "Erlaubt die Website nur die Ausrichtung im Hochformat?",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-no-horizontal-scroll",
+          "text": "Entfernen Sie das horizontale Scrollen.",
+          "wcag": "1.4.10 Reflow",
+          "longDescription": "Von jemandem zu verlangen, dass er horizontal scrollt, kann für manche schwierig und für alle irritierend sein.",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-activate-icons",
+          "text": "Stellen Sie sicher, dass button und Linksymbole problemlos aktiviert werden können.",
+          "wcag": "2.5.5 Zielgröße",
+          "longDescription": "Es ist wichtig, sicherzustellen, dass Dinge wie Hamburger-Menüs, soziale Symbole, Galerie-Viewer und andere Touch-Steuerelemente von einer Vielzahl von Hand- und Stiftgrößen verwendet werden können.",
+          "level": "AAA"
+        },
+        {
+          "id": "mobile-scroll-area",
+          "text": "Stellen Sie sicher, dass zwischen interaktiven Elementen ausreichend Platz vorhanden ist, um einen Scrollbereich bereitzustellen.",
+          "wcag": "2.4.1 Bypass-Blöcke",
+          "longDescription": "Manche Menschen, die unter motorischen Kontrollproblemen wie z. B. Handzittern leiden, haben möglicherweise große Schwierigkeiten, an interaktiven Elementen vorbeizuscrollen, die keinen Abstand aufweisen.",
+          "level": "A"
+        }
+      ]
+    }
+  ]
+}
