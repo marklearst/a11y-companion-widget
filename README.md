@@ -20,8 +20,6 @@ A11Y Companion is the official accessibility checklist widget for Figma and FigJ
 
 [a11y Companion Widget | Figma Community](https://www.figma.com/community/widget/1509302611418259130)
 
-![A11Y Companion Widget Screenshot](./widget-src/assets/a11y-widget-250.jpg)
-
 ## ❓ What is this?
 
 **A11Y Companion** is a Figma widget that helps you:
