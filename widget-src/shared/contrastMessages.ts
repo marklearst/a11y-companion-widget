@@ -1,3 +1,6 @@
+import { getMessages } from "i18n";
+import type { Locale } from "i18n";
+
 export type ContrastUnsupportedReason =
   | "image"
   | "two-gradients"
@@ -7,16 +10,12 @@ export type ContrastUnsupportedReason =
   | "no-selection"
   | "stale-selection";
 
-const CONTRAST_NOTICES: Record<ContrastUnsupportedReason, string> = {
-  image: "Image not supported.",
-  "two-gradients": "Two gradients not supported.",
-  "mixed-fills": "Mixed fill not supported.",
-  "multi-fills": "Multiple fills not supported.",
-  "no-pair": "No contrast pair found.",
-  "no-selection": "No layer selected.",
-  "stale-selection": "Selection changed. Check again.",
-};
-
-export function getContrastNotice(reason: ContrastUnsupportedReason): string {
-  return CONTRAST_NOTICES[reason];
+export function getContrastNotice(
+  reason: ContrastUnsupportedReason,
+  locale: Locale = "en",
+): string {
+  const messages = getMessages(locale);
+  return (
+    messages.contrastNotices[reason] ?? messages.contrastNotices["no-selection"]
+  );
 }

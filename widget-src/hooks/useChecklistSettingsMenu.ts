@@ -85,6 +85,17 @@ export function useChecklistSettingsMenu({
         options: [
           { option: "en", label: "English" },
           { option: "es", label: "Español" },
+          { option: "fr", label: "Français" },
+          { option: "de", label: "Deutsch" },
+          { option: "pt-BR", label: "Português (BR)" },
+          { option: "ja", label: "日本語" },
+          { option: "ko", label: "한국어" },
+          { option: "uk", label: "Українська" },
+          { option: "pl", label: "Polski" },
+          { option: "da", label: "Dansk" },
+          { option: "nb", label: "Norsk" },
+          { option: "sv", label: "Svenska" },
+          { option: "fi", label: "Suomi" },
         ],
       },
       {
@@ -102,8 +113,8 @@ export function useChecklistSettingsMenu({
         tooltip: messages.themeLabel,
         selectedOption: theme,
         options: [
-          { option: "light", label: "Light" },
-          { option: "dark", label: "Dark" },
+          { option: "light", label: messages.themeLightLabel || "Light" },
+          { option: "dark", label: messages.themeDarkLabel || "Dark" },
         ],
       },
       {
@@ -152,7 +163,7 @@ export function useChecklistSettingsMenu({
         setPreferences({ theme: propertyValue as "light" | "dark" });
       }
       if (propertyName === "language" && propertyValue) {
-        setPreferences({ language: propertyValue as "en" | "es" });
+        setPreferences({ language: propertyValue as UserPreferences["language"] });
       }
       if (propertyName === "accentColor" && propertyValue) {
         setPreferences({ accentColor: propertyValue });

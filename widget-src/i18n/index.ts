@@ -1,4 +1,31 @@
-export type Locale = "en" | "es";
+import enMessages from "./messages/en.json";
+import esMessages from "./messages/es.json";
+import frMessages from "./messages/fr.json";
+import deMessages from "./messages/de.json";
+import ptBRMessages from "./messages/pt-BR.json";
+import jaMessages from "./messages/ja.json";
+import koMessages from "./messages/ko.json";
+import ukMessages from "./messages/uk.json";
+import plMessages from "./messages/pl.json";
+import daMessages from "./messages/da.json";
+import nbMessages from "./messages/nb.json";
+import svMessages from "./messages/sv.json";
+import fiMessages from "./messages/fi.json";
+
+export type Locale =
+  | "en"
+  | "es"
+  | "fr"
+  | "de"
+  | "pt-BR"
+  | "ja"
+  | "ko"
+  | "uk"
+  | "pl"
+  | "da"
+  | "nb"
+  | "sv"
+  | "fi";
 
 export type Messages = {
   appTitle: string;
@@ -53,155 +80,180 @@ export type Messages = {
     progressOnHeader: string;
     textPrimaryOnPanel: string;
   };
+  themeLightLabel: string;
+  themeDarkLabel: string;
+  contrastNotices: {
+    image: string;
+    "two-gradients": string;
+    "mixed-fills": string;
+    "multi-fills": string;
+    "no-pair": string;
+    "no-selection": string;
+    "stale-selection": string;
+  };
 };
 
-const en: Messages = {
-  appTitle: "a11y Companion",
-  progressText: (c, t) => `${c} of ${t} checked`,
-  progressCount: (c, t) => `${c} of ${t}`,
-  progressLabel: "checked",
-  hideCompletedToggle: "Hide completed items",
-  markAllComplete: "Check all",
-  markAllIncomplete: "Uncheck all",
-  collapseAll: "Collapse all",
-  expandAll: "Expand all",
-  searchLabel: "Search:",
-  searchPlaceholder: "Type to filter items...",
-  exportProgress: "Export progress",
-  importProgress: "Import progress",
-  exportMarkdown: "Export Markdown",
-  themeLabel: "Theme",
-  brandThemeLabel: "Accent color",
-  languageLabel: "Language",
-  contrastInspectorToggle: "Contrast",
-  contrastPairLabel: "Contrast Pair",
-  contrastCheckSelection: "Check selected layer contrast",
-  contrastClearSelection: "Clear contrast result",
-  contrastInspectorHint: "Select a layer, then Check.",
-  contrastNoData: "No result yet",
-  contrastRunCheck: "Check",
-  contrastSwap: "Swap",
-  contrastSwapSolidOnly: "Swap works only for solid pairs.",
-  contrastClear: "Clear",
-  contrastLargeTextOnly: "Large text only",
-  contrastTextLabel: "Text",
-  contrastBackgroundLabel: "Background",
-  layoutLabel: "Layout",
-  noResults: "No items found",
-  quickCopy: "Export Format:",
-  exportFormat: "Export Format:",
-  checklistTemplate: "Checklist Template:",
-  copyAs: "Copy as",
-  copyInstruction: "Select and copy the text below:",
-  copiedMarkdown: "✅ Copied as Markdown!",
-  copyReady: "📋 Text ready to copy below",
-  templates: {
-    all: {
-      name: "All Checks",
-      description: "Complete accessibility checklist",
-    },
-    landingPage: {
-      name: "Landing Page",
-      description: "Content-focused marketing pages",
-    },
-    dashboard: {
-      name: "Dashboard / App",
-      description: "Interactive applications and dashboards",
-    },
-    mobileApp: {
-      name: "Mobile App",
-      description: "Mobile and touch-focused experiences",
-    },
-    quickAudit: {
-      name: "Quick Audit",
-      description: "Top 10 most common accessibility issues",
-    },
-    formsHeavy: {
-      name: "Forms Heavy",
-      description: "Forms and data entry focused",
-    },
-  },
-  contrastPairs: {
-    progressOnPanel: "Progress fill on panel background",
-    progressOnHeader: "Progress fill on header background",
-    textPrimaryOnPanel: "Primary text on panel background",
-  },
+type MessagesJson = Record<string, string>;
+
+const THOUSANDS_SEP: Partial<Record<Locale, string>> = {
+  en: ",",
+  ja: ",",
+  ko: ",",
+  es: ".",
+  de: ".",
+  da: ".",
+  "pt-BR": ".",
+  fr: "\u202F",
+  fi: "\u00A0",
+  sv: "\u00A0",
+  nb: "\u00A0",
+  uk: "\u00A0",
+  pl: "\u00A0",
 };
 
-const es: Messages = {
-  appTitle: "Compañero a11y",
-  progressText: (c, t) => `${c} de ${t} completados`,
-  progressCount: (c, t) => `${c} de ${t}`,
-  progressLabel: "completados",
-  hideCompletedToggle: "Ocultar elementos completados",
-  markAllComplete: "Marcar todo",
-  markAllIncomplete: "Desmarcar todo",
-  collapseAll: "Contraer todo",
-  expandAll: "Expandir todo",
-  searchLabel: "Buscar:",
-  searchPlaceholder: "Escribe para filtrar...",
-  exportProgress: "Exportar progreso",
-  importProgress: "Importar progreso",
-  exportMarkdown: "Exportar Markdown",
-  themeLabel: "Tema",
-  brandThemeLabel: "Color de acento",
-  languageLabel: "Idioma",
-  contrastInspectorToggle: "Contraste",
-  contrastPairLabel: "Par de contraste",
-  contrastCheckSelection: "Comprobar contraste de capa seleccionada",
-  contrastClearSelection: "Limpiar resultado de contraste",
-  contrastInspectorHint: "Selecciona una capa y luego pulsa Comprobar.",
-  contrastNoData: "Sin resultado",
-  contrastRunCheck: "Comprobar",
-  contrastSwap: "Intercambiar",
-  contrastSwapSolidOnly: "Intercambiar solo funciona con pares sólidos.",
-  contrastClear: "Limpiar",
-  contrastLargeTextOnly: "Solo texto grande",
-  contrastTextLabel: "Texto",
-  contrastBackgroundLabel: "Fondo",
-  layoutLabel: "Diseño",
-  noResults: "No se encontraron elementos",
-  quickCopy: "Formato de Exportación:",
-  exportFormat: "Formato de Exportación:",
-  checklistTemplate: "Plantilla de Lista:",
-  copyAs: "Copiar como",
-  copyInstruction: "Selecciona y copia el texto debajo:",
-  copiedMarkdown: "✅ Copiado como Markdown!",
-  copyReady: "📋 Texto listo para copiar abajo",
-  templates: {
-    all: {
-      name: "Todas las Comprobaciones",
-      description: "Lista completa de accesibilidad",
-    },
-    landingPage: {
-      name: "Página de Destino",
-      description: "Páginas de marketing centradas en contenido",
-    },
-    dashboard: {
-      name: "Panel / App",
-      description: "Aplicaciones interactivas y paneles",
-    },
-    mobileApp: {
-      name: "App Móvil",
-      description: "Experiencias móviles y táctiles",
-    },
-    quickAudit: {
-      name: "Auditoría Rápida",
-      description: "Top 10 problemas de accesibilidad más comunes",
-    },
-    formsHeavy: {
-      name: "Formularios Pesados",
-      description: "Enfocado en formularios y entrada de datos",
-    },
-  },
-  contrastPairs: {
-    progressOnPanel: "Relleno de progreso sobre fondo del panel",
-    progressOnHeader: "Relleno de progreso sobre fondo del encabezado",
-    textPrimaryOnPanel: "Texto principal sobre fondo del panel",
-  },
-};
+function formatNumber(locale: Locale, value: number): string {
+  const str = String(Math.floor(value));
+  if (str.length <= 3) return str;
+  const sep = THOUSANDS_SEP[locale] ?? ",";
+  const parts: string[] = [];
+  for (let i = str.length; i > 0; i -= 3) {
+    parts.unshift(str.slice(Math.max(0, i - 3), i));
+  }
+  return parts.join(sep);
+}
 
-export const locales: Record<Locale, Messages> = { en, es };
+function interpolate(
+  template: string,
+  vars: Record<string, string | number>,
+  locale?: Locale,
+): string {
+  return template.replace(/\{(\w+)\}/g, (_, key) => {
+    const v = vars[key];
+    if (typeof v === "number" && locale) {
+      return formatNumber(locale, v);
+    }
+    return String(v ?? "");
+  });
+}
+
+function buildMessages(raw: MessagesJson, locale: Locale): Messages {
+  const get = (key: string): string => raw[key] ?? "";
+  return {
+    appTitle: get("appTitle"),
+    progressText: (c, t) =>
+      interpolate(get("progressText"), { checked: c, total: t }, locale),
+    progressCount: (c, t) =>
+      interpolate(get("progressCount"), { checked: c, total: t }, locale),
+    progressLabel: get("progressLabel"),
+    hideCompletedToggle: get("hideCompletedToggle"),
+    markAllComplete: get("markAllComplete"),
+    markAllIncomplete: get("markAllIncomplete"),
+    collapseAll: get("collapseAll"),
+    expandAll: get("expandAll"),
+    searchLabel: get("searchLabel"),
+    searchPlaceholder: get("searchPlaceholder"),
+    exportProgress: get("exportProgress"),
+    importProgress: get("importProgress"),
+    exportMarkdown: get("exportMarkdown"),
+    themeLabel: get("themeLabel"),
+    brandThemeLabel: get("brandThemeLabel"),
+    languageLabel: get("languageLabel"),
+    contrastInspectorToggle: get("contrastInspectorToggle"),
+    contrastPairLabel: get("contrastPairLabel"),
+    contrastCheckSelection: get("contrastCheckSelection"),
+    contrastClearSelection: get("contrastClearSelection"),
+    contrastInspectorHint: get("contrastInspectorHint"),
+    contrastNoData: get("contrastNoData"),
+    contrastRunCheck: get("contrastRunCheck"),
+    contrastSwap: get("contrastSwap"),
+    contrastSwapSolidOnly: get("contrastSwapSolidOnly"),
+    contrastClear: get("contrastClear"),
+    contrastLargeTextOnly: get("contrastLargeTextOnly"),
+    contrastTextLabel: get("contrastTextLabel"),
+    contrastBackgroundLabel: get("contrastBackgroundLabel"),
+    layoutLabel: get("layoutLabel"),
+    noResults: get("noResults"),
+    quickCopy: get("quickCopy"),
+    exportFormat: get("exportFormat"),
+    checklistTemplate: get("checklistTemplate"),
+    copyAs: get("copyAs"),
+    copyInstruction: get("copyInstruction"),
+    copiedMarkdown: get("copiedMarkdown"),
+    copyReady: get("copyReady"),
+    templates: {
+      all: {
+        name: get("templates.all.name"),
+        description: get("templates.all.description"),
+      },
+      landingPage: {
+        name: get("templates.landingPage.name"),
+        description: get("templates.landingPage.description"),
+      },
+      dashboard: {
+        name: get("templates.dashboard.name"),
+        description: get("templates.dashboard.description"),
+      },
+      mobileApp: {
+        name: get("templates.mobileApp.name"),
+        description: get("templates.mobileApp.description"),
+      },
+      quickAudit: {
+        name: get("templates.quickAudit.name"),
+        description: get("templates.quickAudit.description"),
+      },
+      formsHeavy: {
+        name: get("templates.formsHeavy.name"),
+        description: get("templates.formsHeavy.description"),
+      },
+    },
+    contrastPairs: {
+      progressOnPanel: get("contrastPairs.progressOnPanel"),
+      progressOnHeader: get("contrastPairs.progressOnHeader"),
+      textPrimaryOnPanel: get("contrastPairs.textPrimaryOnPanel"),
+    },
+    themeLightLabel: get("themeLightLabel"),
+    themeDarkLabel: get("themeDarkLabel"),
+    contrastNotices: {
+      image: get("contrastNotices.image"),
+      "two-gradients": get("contrastNotices.two-gradients"),
+      "mixed-fills": get("contrastNotices.mixed-fills"),
+      "multi-fills": get("contrastNotices.multi-fills"),
+      "no-pair": get("contrastNotices.no-pair"),
+      "no-selection": get("contrastNotices.no-selection"),
+      "stale-selection": get("contrastNotices.stale-selection"),
+    },
+  };
+}
+
+const en = buildMessages(enMessages as MessagesJson, "en");
+const es = buildMessages(esMessages as MessagesJson, "es");
+const fr = buildMessages(frMessages as MessagesJson, "fr");
+const de = buildMessages(deMessages as MessagesJson, "de");
+const ptBR = buildMessages(ptBRMessages as MessagesJson, "pt-BR");
+const ja = buildMessages(jaMessages as MessagesJson, "ja");
+const ko = buildMessages(koMessages as MessagesJson, "ko");
+const uk = buildMessages(ukMessages as MessagesJson, "uk");
+const pl = buildMessages(plMessages as MessagesJson, "pl");
+const da = buildMessages(daMessages as MessagesJson, "da");
+const nb = buildMessages(nbMessages as MessagesJson, "nb");
+const sv = buildMessages(svMessages as MessagesJson, "sv");
+const fi = buildMessages(fiMessages as MessagesJson, "fi");
+
+export const locales: Record<Locale, Messages> = {
+  en,
+  es,
+  fr,
+  de,
+  "pt-BR": ptBR,
+  ja,
+  ko,
+  uk,
+  pl,
+  da,
+  nb,
+  sv,
+  fi,
+};
 
 export function getMessages(locale: Locale): Messages {
   return locales[locale] ?? en;

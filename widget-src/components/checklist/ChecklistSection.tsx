@@ -113,7 +113,7 @@ function ChecklistSection({
         height={uiTokens.section.headerHeight}
         horizontalAlignItems="center"
         {...(uiTokens.section.headerFullClick
-          ? { onClick: () => toggleSection(section.title) }
+          ? { onClick: () => toggleSection(section.id) }
           : {})}
         {...(uiTokens.section.headerHoverBg
           ? { hoverStyle: { fill: uiTokens.section.headerHoverBg } }
@@ -123,7 +123,7 @@ function ChecklistSection({
           onClick={
             uiTokens.section.headerFullClick
               ? undefined
-              : () => toggleSection(section.title)
+              : () => toggleSection(section.id)
           }
           spacing={uiTokens.section.headerGap}
           verticalAlignItems="center"

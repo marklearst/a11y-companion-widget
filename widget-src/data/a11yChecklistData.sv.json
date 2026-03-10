@@ -1,0 +1,573 @@
+{
+  "title": "a11y Companion",
+  "sections": [
+    {
+      "id": "content",
+      "title": "Innehåll",
+      "description": "Innehållet är den viktigaste delen av din webbplats.",
+      "link": "https://www.a11yproject.com/checklist/#content",
+      "items": [
+        {
+          "id": "content-plain-language",
+          "text": "Använd rent språk och undvik siffror, idiom och komplicerade metaforer.",
+          "wcag": "3.1.5 Läsnivå",
+          "longDescription": "Skriv innehåll på läsnivå i 8:e klass.",
+          "level": "AAA"
+        },
+        {
+          "id": "content-unique-labels",
+          "text": "Se till att innehållet i button, a och etikettelement är unikt och beskrivande.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Termer som \"klicka här\" och \"läs mer\" ger inget sammanhang. Vissa personer navigerar med hjälp av en lista med alla knappar eller länkar på en sida eller vy. När du använder det här läget indikerar termerna vad som kommer att hända om du navigerar till eller aktiveras.",
+          "level": "A"
+        },
+        {
+          "id": "content-ltr-rtl",
+          "text": "Använd vänsterjusterad text för vänster-till-höger-språk (LTR) och högerjusterad text för höger-till-vänster-språk (RTL).",
+          "wcag": "1.4.8 visuell presentation",
+          "longDescription": "Centrerad eller justerad text är svår att läsa.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "global-code",
+      "title": "Global kod",
+      "description": "Global kod är kod som påverkar hela din webbplats eller webbapp.",
+      "link": "https://www.a11yproject.com/checklist/#global-code",
+      "items": [
+        {
+          "id": "global-validate-html",
+          "text": "Validera din HTML.",
+          "wcag": "4.1.1 Parsing",
+          "longDescription": "Giltig HTML hjälper till att ge en konsekvent, förväntad upplevelse över alla webbläsare och hjälpmedelsteknik.",
+          "level": "A"
+        },
+        {
+          "id": "global-lang-attribute",
+          "text": "Använd ett lang-attribut på html-elementet.",
+          "wcag": "3.1.1 Sidans språk",
+          "longDescription": "Detta hjälper hjälpmedel som skärmläsare att uttala innehåll korrekt.",
+          "level": "A"
+        },
+        {
+          "id": "global-title-unique",
+          "text": "Ange en unik titel för varje sida eller vy.",
+          "wcag": "2.4.2 Sidans titel",
+          "longDescription": "Titelelementet, som finns i dokumentets huvudelement, är ofta den första informationen som tillkännages av hjälpmedel. Detta hjälper människor att tala om vilken sida eller vy de ska börja navigera.",
+          "level": "A"
+        },
+        {
+          "id": "global-viewport-zoom",
+          "text": "Se till att visningsportzoomen inte är inaktiverad.",
+          "wcag": "1.4.4 Ändra storlek på text",
+          "longDescription": "Vissa människor behöver öka storleken på texten till en punkt där de kan läsa den. Hindra dem inte från att göra detta, inte ens för webbappar med en inbyggd appliknande upplevelse. Även inbyggda appar bör respektera operativsystemets inställningar för att ändra storlek på text.",
+          "level": "AA"
+        },
+        {
+          "id": "global-landmark-elements",
+          "text": "Använd landmärkeselement för att indikera viktiga innehållsregioner.",
+          "wcag": "4.1.2 Namn, Roll, Värde",
+          "longDescription": "Landmärkeregioner hjälper till att kommunicera layouten och viktiga områden på en sida eller vy och kan ge snabb åtkomst till dessa regioner. Använd till exempel nav-elementet för att avsluta en webbplatss navigering, och huvudelementet för att innehålla det primära innehållet på en sida.",
+          "level": "A"
+        },
+        {
+          "id": "global-linear-flow",
+          "text": "Säkerställ ett linjärt innehållsflöde.",
+          "wcag": "2.4.3 Focus Order",
+          "longDescription": "Ta bort tabindex-attributvärden som inte är antingen 0 eller -1. Element som i sig är focusable, såsom länkar eller button-element, kräver inte en tabindex. Element som inte i sig är focusable bör inte ha en tabindex applicerad på dem utanför mycket specifika användningsfall.",
+          "level": "A"
+        },
+        {
+          "id": "global-no-autofocus",
+          "text": "Undvik att använda autofocus-attributet.",
+          "wcag": "2.4.3 Focus Order",
+          "longDescription": "Personer som är blinda eller som har nedsatt syn kan bli desorienterade när fokus flyttas utan deras tillåtelse. Dessutom kan autofocus vara problematiskt för personer med motorisk funktionsnedsättning, eftersom det kan skapa extra arbete för dem att navigera ut från det autofokuserade området och till andra platser på sidan/vyn.",
+          "level": "A"
+        },
+        {
+          "id": "global-extend-session",
+          "text": "Tillåt förlängning av sessionstimeout.",
+          "wcag": "2.2.1 Timing Justerbar",
+          "longDescription": "Om du inte kan ta bort tidsgränser för sessioner helt och hållet, låt personen som använder din webbplats enkelt stänga av, justera eller förlänga sin session i god tid innan den tar slut.",
+          "level": "A"
+        },
+        {
+          "id": "global-remove-title-tooltips",
+          "text": "Ta bort verktygstips för titelattribut.",
+          "wcag": "4.1.2 Namn, Roll, Värde",
+          "longDescription": "title-attributet har många problem och bör inte användas om informationen som tillhandahålls är viktig för alla att få tillgång till. En acceptabel användning av title-attributet skulle vara att märka ett iframe-element för att indikera vilket innehåll det innehåller.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "title": "Tangentbord",
+      "description": "Det är viktigt att ditt gränssnitt och ditt innehåll kan hanteras och navigeras med hjälp av ett tangentbord. Vissa människor kan inte använda en mus, eller kanske använder andra hjälpmedel som kanske inte tillåter hovring eller exakt klickning.",
+      "link": "https://www.a11yproject.com/checklist/#keyboard",
+      "items": [
+        {
+          "id": "keyboard-focus-style",
+          "text": "Se till att det finns en synlig fokusstil för interaktiva element som navigeras till via tangentbordet input.",
+          "wcag": "2.4.7 Fokus synlig",
+          "longDescription": "Kan en person som navigerar med ett tangentbord, strömbrytare, röststyrning eller skärmläsare se var de för närvarande befinner sig på sidan?",
+          "level": "AA"
+        },
+        {
+          "id": "keyboard-focus-order",
+          "text": "Kontrollera att tangentbordets fokusordning matchar den visuella layouten.",
+          "wcag": "1.3.2 Meningsfull sekvens",
+          "longDescription": "Kan en person som navigerar med ett tangentbord eller skärmläsare flytta runt på sidan på ett förutsägbart sätt?",
+          "level": "A"
+        },
+        {
+          "id": "keyboard-remove-invisible",
+          "text": "Ta bort osynliga focusable-element.",
+          "wcag": "2.4.3 Focus Order",
+          "longDescription": "Ta bort möjligheten att fokusera på element som för närvarande inte är avsedda att vara upptäckbara. Detta inkluderar saker som inaktiva rullgardinsmenyer, navigering utanför skärmen eller modaler.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Bilder",
+      "description": "Bilder är en mycket vanlig del av de flesta webbplatser. Hjälp till att se till att alla kan njuta av dem.",
+      "link": "https://www.a11yproject.com/checklist/#images",
+      "items": [
+        {
+          "id": "images-alt-attribute",
+          "text": "Se till att alla img-element har ett alt-attribut.",
+          "wcag": "1.1.1 Icke-textinnehåll",
+          "longDescription": "alt-attribut (alt text) ger en beskrivning av en bild för personer som kanske inte kan se dem. När ett alt-attribut inte finns på en bild kan en skärmläsare meddela bildens filnamn och sökväg istället. Detta misslyckas med att kommunicera bildens innehåll.",
+          "level": "A"
+        },
+        {
+          "id": "images-decorative-null-alt",
+          "text": "Se till att dekorativa bilder använder noll alt (tom) attributvärden.",
+          "wcag": "1.1.1 Icke-textinnehåll",
+          "longDescription": "Null alt-attribut kallas ibland även tomma alt-attribut. De skapas genom att inte inkludera någon information mellan inledande och avslutande citat av ett alt-attribut. Dekorativa bilder kommunicerar inte information som krävs för att förstå webbplatsens övergripande innebörd. Historiskt har de använts för blommor och spacer gif-bilder, men tenderar att vara mindre relevanta för moderna webbplatser och webbappar.",
+          "level": "A"
+        },
+        {
+          "id": "images-complex-alt",
+          "text": "Ge ett textalternativ för komplexa bilder som diagram, grafer och kartor.",
+          "wcag": "1.1.1 Icke-textinnehåll",
+          "longDescription": "Finns det en vanlig text som listar punkter på kartan eller delar av ett flödesschema? Beskriv all synlig information. Detta inkluderar grafaxlar, datapunkter och etiketter och den övergripande punkt som grafiken kommunicerar med.",
+          "level": "A"
+        },
+        {
+          "id": "images-text-alt",
+          "text": "För bilder som innehåller text, se till att alt-beskrivningen inkluderar bildens text.",
+          "wcag": "1.1.1 Icke-textinnehåll",
+          "longDescription": "Till exempel bör FedEx-logotypen ha alt-värdet \"FedEx\".",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "headings",
+      "title": "Rubriker",
+      "description": "Rubrikelement (h1, h2, h3, etc.) hjälper till att dela upp sidans innehåll i relaterade \"bitar\" av information. De är otroligt viktiga för att hjälpa människor som använder hjälpmedel att förstå innebörden av en sida eller vy.",
+      "link": "https://www.a11yproject.com/checklist/#headings",
+      "items": [
+        {
+          "id": "headings-intro",
+          "text": "Använd rubrikelement för att introducera innehåll.",
+          "wcag": "2.4.6 Rubriker eller etiketter",
+          "longDescription": "Rubrikelement konstruerar en dokumentkontur och bör inte användas för rent visuell design.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-one-h1",
+          "text": "Använd endast ett h1-element per sida eller vy.",
+          "wcag": "2.4.6 Rubriker eller etiketter",
+          "longDescription": "Elementet h1 ska användas för att kommunicera syftet med sidan eller vyn på hög nivå. Använd inte h1-elementet för en rubrik som inte ändras mellan sidor eller vyer (till exempel webbplatsens namn).",
+          "level": "AA"
+        },
+        {
+          "id": "headings-logical-sequence",
+          "text": "Rubrikelement ska skrivas i en logisk följd.",
+          "wcag": "2.4.6 Rubriker eller etiketter",
+          "longDescription": "Ordningen på rubrikelementen bör sjunka, baserat på \"djupet\" av innehållet. Till exempel bör ett h4-element inte visas på en sida före den första h3-elementdeklarationen. Ett verktyg som headingsMap kan hjälpa dig att utvärdera detta.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-no-skip",
+          "text": "Hoppa inte över rubriknivåer.",
+          "wcag": "2.4.6 Rubriker eller etiketter",
+          "longDescription": "Hoppa till exempel inte från en h2 till en h4 och hoppa över ett h3-element. Om rubriknivåer hoppas över för en specifik visuell behandling, använd CSS-klasser istället.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "Listor",
+      "description": "Listelement låter folk veta att en samling objekt är relaterade och om de är sekventiella, och hur många objekt som finns i listgrupperingen.",
+      "link": "https://www.a11yproject.com/checklist/#lists",
+      "items": [
+        {
+          "id": "lists-semantic",
+          "text": "Använd listelement (ol, ul och dl element) för listinnehåll.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Detta kan inkludera delar av relaterat innehåll, objekt som visas visuellt i en rutnätsliknande layout eller syskonelement.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "Kontroller",
+      "description": "Kontroller är interaktiva element som länkar och knappar som låter en person navigera till en destination eller utföra en åtgärd.",
+      "link": "https://www.a11yproject.com/checklist/#controls",
+      "items": [
+        {
+          "id": "controls-a-element",
+          "text": "Använd elementet a för länkar.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Länkar ska alltid ha ett href-attribut, även när de används i Single Page Applications (SPA). Utan ett href-attribut kommer länken inte att exponeras korrekt för hjälpmedel. Ett exempel på detta skulle vara en länk som använder en onclick-händelse, istället för ett href-attribut.",
+          "level": "A"
+        },
+        {
+          "id": "controls-links-recognizable",
+          "text": "Se till att länkar känns igen som länkar.",
+          "wcag": "1.4.1 ​​Användning av färg",
+          "longDescription": "Enbart färg är inte tillräckligt för att indikera närvaron av en länk. Understrykningar är ett populärt och allmänt uppfattat sätt att kommunicera närvaron av länkinnehåll.",
+          "level": "A"
+        },
+        {
+          "id": "controls-focus-states",
+          "text": "Se till att kontrollerna har :fokustillstånd.",
+          "wcag": "2.4.7 Fokus synlig",
+          "longDescription": "Synliga fokusstilar hjälper människor att avgöra vilket interaktivt element som har tangentbordsfokus. Detta låter dem veta att de kan utföra åtgärder som att aktivera en button eller navigera till en länks destination.",
+          "level": "AA"
+        },
+        {
+          "id": "controls-button-element",
+          "text": "Använd button-elementet för knappar.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Knappar används för att skicka data eller utföra en åtgärd på skärmen som inte ändrar tangentbordets fokus. Du kan lägga till typ=\"button\" till ett button-element för att förhindra att webbläsaren försöker skicka form-information när den är aktiverad.",
+          "level": "A"
+        },
+        {
+          "id": "controls-skip-link",
+          "text": "Ange en överhoppningslänk och se till att den är synlig när den är fokuserad.",
+          "wcag": "2.4.1 Bypass-block",
+          "longDescription": "En hoppa över länk kan användas för att ge snabb åtkomst till huvudinnehållet på en sida eller vy. Detta gör att en person enkelt kan kringgå globalt upprepat innehåll som en webbplatss primära navigering eller ihållande sökwidget.",
+          "level": "A"
+        },
+        {
+          "id": "controls-new-tab",
+          "text": "Identifiera länkar som öppnas i en ny flik eller ett nytt fönster.",
+          "wcag": "G201: Ger användare avancerad varning när ett nytt fönster öppnas",
+          "longDescription": "Undvik helst länkar som öppnas i en ny flik eller ett nytt fönster. Om en länk gör det, se till att länkens beteende kommer att kommuniceras på ett sätt som är uppenbart för alla användare. Att göra detta kommer att hjälpa människor att förstå vad som kommer att hända innan de aktiverar länken. Även om denna teknik tekniskt sett inte krävs för efterlevnad, är det ett ofta citerat område av frustration för många olika typer av hjälpmedelsanvändare.",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "Tabeller",
+      "description": "Tabeller är en strukturerad uppsättning data som hjälper människor att förstå sambanden mellan olika typer av information.",
+      "link": "https://www.a11yproject.com/checklist/#tables",
+      "items": [
+        {
+          "id": "tables-table-element",
+          "text": "Använd table-elementet för att beskriva tabelldata.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Behöver du visa data i rader och kolumner? Använd elementet table.",
+          "level": "A"
+        },
+        {
+          "id": "tables-th-element",
+          "text": "Använd th-elementet för table-rubriker (med lämpliga scope-attribut).",
+          "wcag": "4.1.1 Parsing",
+          "longDescription": "Beroende på hur komplex din table är kan du också överväga att använda scope=\"col\" för kolumnrubriker och scope=\"row\" för radrubriker. Många olika typer av hjälpmedel använder fortfarande scope-attributet för att hjälpa dem att förstå och beskriva strukturen hos en table.",
+          "level": "A"
+        },
+        {
+          "id": "tables-caption-element",
+          "text": "Använd caption-elementet för att tillhandahålla en titel för table.",
+          "wcag": "2.4.6 Rubriker eller etiketter",
+          "longDescription": "table:s caption ska beskriva vilken typ av information table innehåller.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "Blanketter",
+      "description": "Formulär tillåter människor att ange information på en webbplats för bearbetning och manipulation. Detta inkluderar saker som att skicka meddelanden och lägga beställningar.",
+      "link": "https://www.a11yproject.com/checklist/#forms",
+      "items": [
+        {
+          "id": "forms-labels",
+          "text": "Alla ingångar i en form är associerade med ett motsvarande etikettelement.",
+          "wcag": "3.2.2 På Input",
+          "longDescription": "Använd en for/id-parning för att garantera den högsta nivån av webbläsare/hjälpmedelsstöd.",
+          "level": "A"
+        },
+        {
+          "id": "forms-fieldset-legend",
+          "text": "Använd fieldset och legend element där så är lämpligt.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Innehåller din form flera sektioner av relaterade ingångar? Använd fieldset för att gruppera dem, och legend för att ge en etikett för vad det här avsnittet är till för.",
+          "level": "A"
+        },
+        {
+          "id": "forms-autocomplete",
+          "text": "Ingångar använder autocomplete där så är lämpligt.",
+          "wcag": "1.3.5 Identifiera Input Syfte",
+          "longDescription": "Tillhandahåller en mekanism för att hjälpa människor snabbare, enklare och mer exakt att fylla i form-fält som ber om vanlig information (till exempel namn, adress, telefonnummer).",
+          "level": "AA"
+        },
+        {
+          "id": "forms-errors-list",
+          "text": "Se till att form input-fel visas i listan ovanför form efter inlämning.",
+          "wcag": "3.3.1 Felidentifiering",
+          "longDescription": "Detta ger ett sätt för hjälpmedelsanvändare att snabbt få en förståelse på hög nivå av vilka problem som finns i form. Detta är särskilt viktigt för större blanketter med många ingångar. Se till att varje rapporterat fel också har en länk till motsvarande fält med ogiltig input.",
+          "level": "A"
+        },
+        {
+          "id": "forms-errors-associated",
+          "text": "Associera input felmeddelanden med input den motsvarar.",
+          "wcag": "3.3.1 Felidentifiering",
+          "longDescription": "Tekniker som att använda aria-describedby gör att personer som använder hjälpmedel lättare kan förstå skillnaden mellan input och felmeddelandet i samband med den.",
+          "level": "A"
+        },
+        {
+          "id": "forms-not-color-only",
+          "text": "Se till att fel-, varnings- och framgångstillstånd inte kommuniceras visuellt av bara färg.",
+          "wcag": "1.4.1 Användning av färg",
+          "longDescription": "Människor som är färgblinda, som har andra svagsynstillstånd eller olika kulturell förståelse för färg kanske inte ser tillståndet förändras eller förstår vilken typ av feedback staten representerar om färg är den enda indikatorn.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Media",
+      "description": "Media inkluderar innehåll som pre-inspelade och live audio och video.",
+      "link": "https://www.a11yproject.com/checklist/#media",
+      "items": [
+        {
+          "id": "media-no-autoplay",
+          "text": "Se till att media inte autoplay.",
+          "wcag": "1.4.2 Audio Kontroll",
+          "longDescription": "Oväntade video och audio kan vara distraherande och störande, särskilt för vissa typer av kognitiva funktionshinder som ADHD. Vissa typer av autospelande video och animering kan vara en utlösande faktor för vestibulära och anfallsrubbningar.",
+          "level": "A"
+        },
+        {
+          "id": "media-controls-markup",
+          "text": "Se till att mediakontroller använder lämplig markering.",
+          "wcag": "1.3.1 Info och relationer",
+          "longDescription": "Exempel inkluderar att se till att en audio mute button har ett intryckt växlingsläge när den är aktiv, eller att en volymreglage använder <input type=\"range\">.",
+          "level": "A"
+        },
+        {
+          "id": "media-can-be-paused",
+          "text": "Kontrollera att alla media kan pausas.",
+          "wcag": "2.1.1 tangentbord",
+          "longDescription": "Tillhandahåll en global pausfunktion på alla mediaelement. Om enheten har ett tangentbord, se till att ett tryck på mellanslagstangenten kan pausa uppspelningen. Se till att du inte heller stör mellanslagstangentens förmåga att rulla sidan/vyn när du inte fokuserar på en form-kontroll.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "video",
+      "title": "Video",
+      "description": "Video-specifika kontroller.",
+      "link": "https://www.a11yproject.com/checklist/#video",
+      "items": [
+        {
+          "id": "video-captions",
+          "text": "Bekräfta förekomsten av bildtexter.",
+          "wcag": "1.2.2 Bildtexter",
+          "longDescription": "Bildtexter tillåter en person som inte kan höra audio-innehållet i en video att fortfarande förstå dess innehåll.",
+          "level": "A"
+        },
+        {
+          "id": "video-remove-seizure",
+          "text": "Ta bort anfallsutlösare.",
+          "wcag": "2.3.1 Tre blinkningar eller under tröskelvärdet",
+          "longDescription": "Vissa typer av strobing eller blinkande animationer kommer att utlösa anfall.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Audio",
+      "description": "Audio-specifika kontroller.",
+      "link": "https://www.a11yproject.com/checklist/#audio",
+      "items": [
+        {
+          "id": "audio-transcripts",
+          "text": "Bekräfta att utskrifter är tillgängliga.",
+          "wcag": "",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "Utseende",
+      "description": "Hur din webbplatsapps innehåll ser ut i en given situation.",
+      "link": "https://www.a11yproject.com/checklist/#appearance",
+      "items": [
+        {
+          "id": "appearance-specialized-modes",
+          "text": "Kontrollera ditt innehåll i specialiserade webbläsarlägen.",
+          "wcag": "1.4.1 Användning av färg",
+          "longDescription": "Aktivera lägen som Windows High Contrast eller Inverted Colors. Är ditt innehåll fortfarande läsbart? Finns dina ikoner, ramar, länkar, form-fält och annat innehåll fortfarande kvar? Kan du skilja förgrundsinnehåll från bakgrunden?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-increase-text",
+          "text": "Öka textstorleken till 200 %.",
+          "wcag": "1.4.4 Ändra storlek på text",
+          "longDescription": "Är innehållet fortfarande läsbart? Får en ökning av textstorleken att innehållet överlappar varandra?",
+          "level": "AA"
+        },
+        {
+          "id": "appearance-proximity",
+          "text": "Dubbelkolla att god närhet mellan innehåll bibehålls.",
+          "wcag": "1.3.3 Sensoriska egenskaper",
+          "longDescription": "Använd halmtestet för att säkerställa att personer som är beroende av skärmzoomprogramvara fortfarande enkelt kan upptäcka allt innehåll.",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-color-only",
+          "text": "Se till att färg inte är det enda sättet information förmedlas.",
+          "wcag": "1.4.1 Användning av färg",
+          "longDescription": "Kan du fortfarande se var länkar finns bland kroppsinnehåll om allt är gråskala?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-visual-audio-only",
+          "text": "Se till att instruktionerna inte är visuella eller endast för audio.",
+          "wcag": "1.3.3 Sensoriska egenskaper",
+          "longDescription": "Använd en kombination av egenskaper för att skriva ledtrådar, särskilt de faktiska namnen på sektioner och element, snarare än bara beskrivningar som plats (\"till höger\") eller audio (\"efter tonen\").",
+          "level": "A"
+        },
+        {
+          "id": "appearance-simple-layout",
+          "text": "Använd en enkel, okomplicerad och konsekvent layout.",
+          "wcag": "1.4.10 Reflow",
+          "longDescription": "En komplicerad layout kan vara förvirrande att förstå och använda.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "Animation",
+      "description": "Innehåll som rör sig, antingen på egen hand eller när det utlöses av en person som aktiverar en kontroll.",
+      "link": "https://www.a11yproject.com/checklist/#animation",
+      "items": [
+        {
+          "id": "animation-subtle",
+          "text": "Se till att animationer är subtila och inte blinkar för mycket.",
+          "wcag": "2.3.1 Tre blinkningar eller under tröskelvärdet",
+          "longDescription": "Vissa typer av strobing eller blinkande animationer kommer att utlösa anfall. Andra kan vara distraherande och störande, särskilt för vissa typer av kognitiva funktionshinder som ADHD.",
+          "level": "A"
+        },
+        {
+          "id": "animation-pause-bg-video",
+          "text": "Tillhandahåll en mekanism för att pausa bakgrunden video.",
+          "wcag": "2.2.2 Pausa, stoppa, dölja",
+          "longDescription": "Bakgrund video kan vara distraherande, speciellt om innehåll placeras över den.",
+          "level": "A"
+        },
+        {
+          "id": "animation-reduced-motion",
+          "text": "Se till att all animering följer mediefrågan prefers-reduced-motion.",
+          "wcag": "2.3.3 Animation från Interactions",
+          "longDescription": "Ta bort animationer när inställningen \"reducera rörelse\" är aktiverad. Om en animation är nödvändig för att kommunicera meningen med ett koncept, sakta ner dess varaktighet.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "title": "Färgkontrast",
+      "description": "Färgkontrast är hur läsbara färger är när de placeras bredvid och ovanpå varandra.",
+      "link": "https://www.a11yproject.com/checklist/#color-contrast",
+      "items": [
+        {
+          "id": "color-contrast-normal",
+          "text": "Kontrollera kontrasten för all normalstor text.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Överensstämmelse med nivå AA kräver ett kontrastförhållande på 4,5:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-large",
+          "text": "Kontrollera kontrasten för all stor text.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Nivå AA-kompatibilitet kräver ett kontrastförhållande på 3:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-icons",
+          "text": "Kontrollera kontrasten för alla ikoner.",
+          "wcag": "1.4.11 Icke-textkontrast",
+          "longDescription": "Överensstämmelse med nivå AA kräver ett kontrastförhållande på 3,0:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-borders",
+          "text": "Kontrollera kontrasten på kanter för input-element (text input, alternativknappar, kryssrutor, etc.).",
+          "wcag": "1.4.11 Icke-textkontrast",
+          "longDescription": "Överensstämmelse med nivå AA kräver ett kontrastförhållande på 3,0:1.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-overlap",
+          "text": "Kontrollera text som överlappar bilder eller video.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Är texten fortfarande läsbar?",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-selection",
+          "text": "Kontrollera anpassade ::urvalsfärger.",
+          "wcag": "1.4.3 Kontrast",
+          "longDescription": "Är färgkontrasten du ställt in i din ::selection CSS-deklaration tillräcklig? Annars kanske någon inte kan läsa den om de markerar den.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "mobile-and-touch",
+      "title": "Mobil och beröring",
+      "description": "Saker att kolla mobilupplevelser för.",
+      "link": "https://www.a11yproject.com/checklist/#mobile-and-touch",
+      "items": [
+        {
+          "id": "mobile-orientation",
+          "text": "Kontrollera att platsen kan roteras till valfri riktning.",
+          "wcag": "1.3.4 Orientering",
+          "longDescription": "Tillåter webbplatsen endast stående orientering?",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-no-horizontal-scroll",
+          "text": "Ta bort horisontell rullning.",
+          "wcag": "1.4.10 Reflow",
+          "longDescription": "Att kräva att någon rullar horisontellt kan vara svårt för vissa, irriterande för alla.",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-activate-icons",
+          "text": "Se till att button och länkikoner kan aktiveras med lätthet.",
+          "wcag": "2.5.5 Målstorlek",
+          "longDescription": "Det är bra att se till att saker som hamburgermenyer, sociala ikoner, gallerivisare och andra pekkontroller är användbara för ett brett utbud av hand- och pennstorlekar.",
+          "level": "AAA"
+        },
+        {
+          "id": "mobile-scroll-area",
+          "text": "Se till att det finns tillräckligt med utrymme mellan interaktiva objekt för att skapa ett rullområde.",
+          "wcag": "2.4.1 Bypass-block",
+          "longDescription": "Vissa personer som upplever problem med motorisk kontroll som handskakningar kan ha mycket svårt att rulla förbi interaktiva objekt som har noll mellanrum.",
+          "level": "A"
+        }
+      ]
+    }
+  ]
+}

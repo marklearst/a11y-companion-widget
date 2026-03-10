@@ -24,6 +24,7 @@ import { componentPrimitives } from "design-system/components/primitives";
 const ProgressTracker = ({
   completed,
   total,
+  label,
   colors,
   padding,
   radius,
@@ -76,7 +77,7 @@ const ProgressTracker = ({
           fontWeight ?? componentPrimitives.progressTracker.fontWeight
         }
       >
-        {completed} / {total}
+        {label ?? `${completed} / ${total}`}
       </Text>
     </AutoLayout>
   );

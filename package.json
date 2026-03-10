@@ -17,6 +17,7 @@
     "watch:ds:fast": "node scripts/watch-design-system.mjs --without-contrast-aa",
     "watch:ds:strict": "node scripts/watch-design-system.mjs --with-contrast-aa",
     "sync:a11y-checklist": "node scripts/sync-a11y-checklist.mjs",
+    "translate": "node scripts/translate.mjs",
     "generate:wcag-level-map": "node scripts/generate-wcag-level-map.mjs",
     "validate:wcag-map": "node scripts/validate-wcag-level-map.mjs",
     "test:hardening": "node scripts/test-hardening.mjs",

@@ -29,7 +29,7 @@ export function useCollapseAll(sections: ChecklistSectionType[]) {
   const collapseAll = () => {
     const newState: Record<string, boolean> = {}
     sections.forEach((section) => {
-      newState[section.title] = false
+      newState[section.id] = false
     })
     setOpenSections(newState)
   }
@@ -40,7 +40,7 @@ export function useCollapseAll(sections: ChecklistSectionType[]) {
   const expandAll = () => {
     const newState: Record<string, boolean> = {}
     sections.forEach((section) => {
-      newState[section.title] = true
+      newState[section.id] = true
     })
     setOpenSections(newState)
   }
@@ -48,12 +48,12 @@ export function useCollapseAll(sections: ChecklistSectionType[]) {
   /**
    * Checks if all sections are collapsed.
    */
-  const isAllCollapsed = sections.every((section) => !openSections[section.title])
+  const isAllCollapsed = sections.every((section) => !openSections[section.id])
 
   /**
    * Checks if all sections are expanded.
    */
-  const isAllExpanded = sections.every((section) => openSections[section.title] === true)
+  const isAllExpanded = sections.every((section) => openSections[section.id] === true)
 
   return {
     collapseAll,

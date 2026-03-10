@@ -1,0 +1,573 @@
+{
+  "title": "a11y Companion",
+  "sections": [
+    {
+      "id": "content",
+      "title": "콘텐츠",
+      "description": "콘텐츠는 사이트에서 가장 중요한 부분입니다.",
+      "link": "https://www.a11yproject.com/checklist/#content",
+      "items": [
+        {
+          "id": "content-plain-language",
+          "text": "평이한 언어를 사용하고 비유적 표현, 숙어, 복잡한 은유를 피하세요.",
+          "wcag": "3.1.5 읽기 수준",
+          "longDescription": "8학년 읽기 수준에 맞춰 내용을 작성하세요.",
+          "level": "AAA"
+        },
+        {
+          "id": "content-unique-labels",
+          "text": "button, a 및 레이블 요소 콘텐츠가 고유하고 설명적인지 확인하세요.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "\"여기를 클릭하세요\" 및 \"자세히 알아보기\"와 같은 용어는 어떠한 맥락도 제공하지 않습니다. 어떤 사람들은 페이지나 보기의 모든 버튼이나 링크 목록을 사용하여 탐색합니다. 이 모드를 사용할 때 용어는 탐색하거나 활성화할 경우 어떤 일이 발생하는지 나타냅니다.",
+          "level": "A"
+        },
+        {
+          "id": "content-ltr-rtl",
+          "text": "왼쪽에서 오른쪽으로(LTR) 언어에는 왼쪽 정렬 텍스트를 사용하고 오른쪽에서 왼쪽으로(RTL) 언어에는 오른쪽 정렬 텍스트를 사용합니다.",
+          "wcag": "1.4.8 시각적 프레젠테이션",
+          "longDescription": "가운데 정렬 또는 양쪽 정렬된 텍스트를 읽기 어렵습니다.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "global-code",
+      "title": "글로벌 코드",
+      "description": "글로벌 코드는 전체 웹사이트나 웹앱에 영향을 미치는 코드입니다.",
+      "link": "https://www.a11yproject.com/checklist/#global-code",
+      "items": [
+        {
+          "id": "global-validate-html",
+          "text": "HTML를 검증하세요.",
+          "wcag": "4.1.1 구문 분석 중",
+          "longDescription": "유효한 HTML는 모든 브라우저와 보조 기술에서 일관되고 기대되는 경험을 제공하는 데 도움이 됩니다.",
+          "level": "A"
+        },
+        {
+          "id": "global-lang-attribute",
+          "text": "html 요소에 lang 속성을 사용하세요.",
+          "wcag": "3.1.1 페이지 언어",
+          "longDescription": "이는 화면 판독기와 같은 보조 기술이 콘텐츠를 올바르게 발음하는 데 도움이 됩니다.",
+          "level": "A"
+        },
+        {
+          "id": "global-title-unique",
+          "text": "각 페이지 또는 보기에 고유한 제목을 제공합니다.",
+          "wcag": "2.4.2 페이지 제목",
+          "longDescription": "문서의 head 요소에 포함된 title 요소는 보조 기술이 발표하는 첫 번째 정보인 경우가 많습니다. 이는 사람들에게 탐색을 시작할 페이지나 보기를 알려주는 데 도움이 됩니다.",
+          "level": "A"
+        },
+        {
+          "id": "global-viewport-zoom",
+          "text": "뷰포트 확대/축소가 비활성화되어 있지 않은지 확인하세요.",
+          "wcag": "1.4.4 텍스트 크기 조정",
+          "longDescription": "어떤 사람들은 읽을 수 있을 정도로 텍스트 크기를 늘려야 합니다. 네이티브 앱과 유사한 경험을 제공하는 웹 앱의 경우에도 이러한 작업을 중단하지 마세요. 기본 앱도 텍스트 크기 조정에 대한 운영 체제 설정을 따라야 합니다.",
+          "level": "AA"
+        },
+        {
+          "id": "global-landmark-elements",
+          "text": "랜드마크 요소를 사용하여 중요한 콘텐츠 영역을 나타냅니다.",
+          "wcag": "4.1.2 이름, 역할, 값",
+          "longDescription": "랜드마크 영역은 페이지나 보기의 레이아웃과 중요한 영역을 전달하는 데 도움이 되며 이러한 영역에 빠르게 액세스할 수 있습니다. 예를 들어 nav 요소를 사용하여 사이트 탐색을 래핑하고 기본 요소를 사용하여 페이지의 기본 콘텐츠를 포함합니다.",
+          "level": "A"
+        },
+        {
+          "id": "global-linear-flow",
+          "text": "선형적인 콘텐츠 흐름을 보장합니다.",
+          "wcag": "2.4.3 초점 순서",
+          "longDescription": "0 또는 -1이 아닌 tabindex 속성 값을 제거합니다. 링크 또는 button 요소와 같이 본질적으로 focusable인 요소에는 tabindex가 필요하지 않습니다. 본질적으로 focusable가 아닌 요소에는 매우 특정한 사용 사례를 제외하고 tabindex를 적용하면 안 됩니다.",
+          "level": "A"
+        },
+        {
+          "id": "global-no-autofocus",
+          "text": "autofocus 속성을 사용하지 마세요.",
+          "wcag": "2.4.3 초점 순서",
+          "longDescription": "시각 장애가 있거나 시력이 낮은 사람은 허락 없이 초점을 이동하면 방향 감각을 잃을 수 있습니다. 또한 autofocus는 자동 초점 영역에서 벗어나 페이지/보기의 다른 위치로 이동하는 데 추가 작업이 발생할 수 있으므로 운동 제어 장애가 있는 사람들에게 문제가 될 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "global-extend-session",
+          "text": "세션 시간 초과 연장을 허용합니다.",
+          "wcag": "2.2.1 타이밍 조정 가능",
+          "longDescription": "세션 시간 초과를 완전히 제거할 수 없는 경우 사이트 사용자가 세션이 끝나기 훨씬 전에 세션을 쉽게 끄거나 조정하거나 확장할 수 있도록 하십시오.",
+          "level": "A"
+        },
+        {
+          "id": "global-remove-title-tooltips",
+          "text": "제목 속성 도구 설명을 제거합니다.",
+          "wcag": "4.1.2 이름, 역할, 값",
+          "longDescription": "제목 속성에는 많은 문제가 있으므로 제공된 정보가 모든 사람이 액세스하는 데 중요한 경우에는 사용해서는 안 됩니다. title 속성에 대해 허용되는 용도는 iframe 요소에 레이블을 지정하여 해당 요소에 포함된 내용을 나타내는 것입니다.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "title": "건반",
+      "description": "키보드를 사용하여 인터페이스와 콘텐츠를 조작하고 탐색할 수 있는 것이 중요합니다. 어떤 사람들은 마우스를 사용할 수 없거나 호버링이나 정확한 클릭을 허용하지 않는 다른 보조 기술을 사용하고 있을 수 있습니다.",
+      "link": "https://www.a11yproject.com/checklist/#keyboard",
+      "items": [
+        {
+          "id": "keyboard-focus-style",
+          "text": "키보드 input를 통해 탐색되는 대화형 요소에 대해 시각적 포커스 스타일이 있는지 확인하세요.",
+          "wcag": "2.4.7 초점 표시",
+          "longDescription": "키보드, 스위치, 음성 제어 또는 화면 리더를 사용하여 탐색하는 사람이 현재 페이지의 위치를 ​​볼 수 있습니까?",
+          "level": "AA"
+        },
+        {
+          "id": "keyboard-focus-order",
+          "text": "키보드 포커스 순서가 시각적 레이아웃과 일치하는지 확인하세요.",
+          "wcag": "1.3.2 의미있는 시퀀스",
+          "longDescription": "키보드나 화면 판독기를 사용하여 탐색하는 사람이 예측 가능한 방식으로 페이지 주위를 이동할 수 있습니까?",
+          "level": "A"
+        },
+        {
+          "id": "keyboard-remove-invisible",
+          "text": "보이지 않는 focusable 요소를 제거합니다.",
+          "wcag": "2.4.3 초점 순서",
+          "longDescription": "현재 검색할 수 없는 요소에 집중하는 기능을 제거합니다. 여기에는 비활성 드롭다운 메뉴, 화면 외부 탐색 또는 모달 등이 포함됩니다.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "이미지",
+      "description": "이미지는 대부분의 웹사이트에서 매우 일반적인 부분입니다. 모두가 즐길 수 있도록 도와주세요.",
+      "link": "https://www.a11yproject.com/checklist/#images",
+      "items": [
+        {
+          "id": "images-alt-attribute",
+          "text": "모든 img 요소에 alt 속성이 있는지 확인하세요.",
+          "wcag": "1.1.1 텍스트가 아닌 콘텐츠",
+          "longDescription": "대체 속성(대체 텍스트)은 이미지를 볼 수 없는 사람들을 위해 이미지에 대한 설명을 제공합니다. 이미지에 alt 속성이 없으면 화면 판독기가 대신 이미지의 파일 이름과 경로를 알려줄 수 있습니다. 이는 이미지의 내용을 전달하는 데 실패합니다.",
+          "level": "A"
+        },
+        {
+          "id": "images-decorative-null-alt",
+          "text": "장식용 이미지가 null Alt(빈) 속성 값을 사용하는지 확인하세요.",
+          "wcag": "1.1.1 텍스트가 아닌 콘텐츠",
+          "longDescription": "Null 대체 속성은 빈 대체 속성이라고도 합니다. Alt 속성의 여는 따옴표와 닫는 따옴표 사이에 정보를 포함하지 않음으로써 만들어집니다. 장식 이미지는 웹사이트의 전반적인 의미를 이해하는 데 필요한 정보를 전달하지 않습니다. 역사적으로 이들은 장식 및 스페이서 gif 이미지에 사용되었지만 최신 웹 사이트 및 웹 앱과는 관련성이 떨어지는 경향이 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "images-complex-alt",
+          "text": "차트, 그래프, 지도 등 복잡한 이미지에 대한 대체 텍스트를 제공합니다.",
+          "wcag": "1.1.1 텍스트가 아닌 콘텐츠",
+          "longDescription": "지도의 지점이나 순서도 섹션을 나열하는 일반 텍스트가 있습니까? 눈에 보이는 모든 정보를 설명합니다. 여기에는 그래프 축, 데이터 포인트 및 레이블, 그래픽이 전달하는 전체 포인트가 포함됩니다.",
+          "level": "A"
+        },
+        {
+          "id": "images-text-alt",
+          "text": "텍스트가 포함된 이미지의 경우 대체 설명에 이미지의 텍스트가 포함되어 있는지 확인하세요.",
+          "wcag": "1.1.1 텍스트가 아닌 콘텐츠",
+          "longDescription": "예를 들어, FedEx 로고에는 \"FedEx\"라는 대체 값이 있어야 합니다.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "headings",
+      "title": "제목",
+      "description": "제목 요소(h1, h2, h3 등)는 페이지 콘텐츠를 관련 정보 \"청크\"로 나누는 데 도움이 됩니다. 보조 기술을 사용하는 사람들이 페이지나 보기의 의미를 이해하도록 돕는 데 매우 중요합니다.",
+      "link": "https://www.a11yproject.com/checklist/#headings",
+      "items": [
+        {
+          "id": "headings-intro",
+          "text": "제목 요소를 사용하여 콘텐츠를 소개하세요.",
+          "wcag": "2.4.6 제목 또는 라벨",
+          "longDescription": "제목 요소는 문서 개요를 구성하며 순수한 시각적 디자인에만 사용해서는 안 됩니다.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-one-h1",
+          "text": "페이지 또는 보기당 하나의 h1 요소만 사용하세요.",
+          "wcag": "2.4.6 제목 또는 라벨",
+          "longDescription": "h1 요소는 페이지나 보기의 상위 수준 목적을 전달하는 데 사용되어야 합니다. 페이지나 보기 간에 변경되지 않는 제목(예: 사이트 이름)에는 h1 요소를 사용하지 마십시오.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-logical-sequence",
+          "text": "제목 요소는 논리적인 순서로 작성되어야 합니다.",
+          "wcag": "2.4.6 제목 또는 라벨",
+          "longDescription": "제목 요소의 순서는 콘텐츠의 \"깊이\"에 따라 낮아져야 합니다. 예를 들어, h4 요소는 페이지에서 첫 번째 h3 요소 선언 이전에 나타나서는 안 됩니다. HeadingsMap과 같은 도구는 이를 평가하는 데 도움이 될 수 있습니다.",
+          "level": "AA"
+        },
+        {
+          "id": "headings-no-skip",
+          "text": "제목 수준을 건너뛰지 마십시오.",
+          "wcag": "2.4.6 제목 또는 라벨",
+          "longDescription": "예를 들어 h3 요소를 건너뛰고 h2에서 h4로 점프하지 마세요. 특정 시각적 처리를 위해 제목 수준을 건너뛰는 경우 대신 CSS 클래스를 사용하세요.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "기울기",
+      "description": "목록 요소는 사람들에게 항목 모음이 관련되어 있는지, 순차적인지, 목록 그룹에 존재하는 항목 수를 알려줍니다.",
+      "link": "https://www.a11yproject.com/checklist/#lists",
+      "items": [
+        {
+          "id": "lists-semantic",
+          "text": "목록 콘텐츠에는 목록 요소(ol, ul 및 dl 요소)를 사용합니다.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "여기에는 관련 콘텐츠 섹션, 격자형 레이아웃으로 시각적으로 표시되는 항목 또는 형제 요소가 포함될 수 있습니다.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "통제 수단",
+      "description": "컨트롤은 사용자가 목적지로 이동하거나 작업을 수행할 수 있게 해주는 링크 및 버튼과 같은 대화형 요소입니다.",
+      "link": "https://www.a11yproject.com/checklist/#controls",
+      "items": [
+        {
+          "id": "controls-a-element",
+          "text": "링크에는 a 요소를 사용하세요.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "SPA(단일 페이지 애플리케이션)에서 사용되는 경우에도 링크에는 항상 href 속성이 있어야 합니다. href 속성이 없으면 링크가 보조 기술에 제대로 노출되지 않습니다. 이에 대한 예는 href 속성 대신 onclick 이벤트를 사용하는 링크입니다.",
+          "level": "A"
+        },
+        {
+          "id": "controls-links-recognizable",
+          "text": "링크가 링크로 인식되는지 확인하세요.",
+          "wcag": "1.4.1 ​​색상의 사용",
+          "longDescription": "색상만으로는 링크의 존재를 나타내기에 충분하지 않습니다. 밑줄은 링크 콘텐츠의 존재를 전달하는 대중적이고 일반적으로 이해되는 방법입니다.",
+          "level": "A"
+        },
+        {
+          "id": "controls-focus-states",
+          "text": "컨트롤에 :focus 상태가 있는지 확인하세요.",
+          "wcag": "2.4.7 초점 표시",
+          "longDescription": "표시되는 포커스 스타일은 사람들이 키보드 포커스가 있는 대화형 요소를 결정하는 데 도움이 됩니다. 이를 통해 button 활성화 또는 링크 대상으로 이동과 같은 작업을 수행할 수 있음을 알 수 있습니다.",
+          "level": "AA"
+        },
+        {
+          "id": "controls-button-element",
+          "text": "버튼에는 button 요소를 사용하세요.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "버튼은 데이터를 제출하거나 키보드 포커스를 이동하지 않는 화면 작업을 수행하는 데 사용됩니다. button 요소에 type=\"button\"를 추가하면 활성화 시 브라우저가 form 정보 제출을 시도하지 못하도록 할 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "controls-skip-link",
+          "text": "건너뛰기 링크를 제공하고 초점이 맞춰졌을 때 표시되는지 확인하세요.",
+          "wcag": "2.4.1 바이패스 블록",
+          "longDescription": "건너뛰기 링크를 사용하면 페이지나 보기의 기본 콘텐츠에 빠르게 액세스할 수 있습니다. 이를 통해 사용자는 웹사이트의 기본 탐색이나 지속적인 검색 위젯과 같이 전 세계적으로 반복되는 콘텐츠를 쉽게 우회할 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "controls-new-tab",
+          "text": "새 탭이나 창에서 열리는 링크를 식별합니다.",
+          "wcag": "G201: 새 창을 열 때 사용자에게 고급 경고 제공",
+          "longDescription": "이상적으로는 새 탭이나 창에서 열리는 링크를 피하세요. If a link does, ensure the link's behavior will be communicated in a way that is apparent to all users. 이렇게 하면 링크를 활성화하기 전에 어떤 일이 일어날지 사람들이 이해하는 데 도움이 됩니다. 이 기술은 기술적으로 규정 준수에 필요한 것은 아니지만 다양한 종류의 보조 기술 사용자에게 좌절감을 주는 영역으로 자주 언급됩니다.",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "테이블",
+      "description": "테이블은 사람들이 다양한 유형의 정보 간의 관계를 이해하는 데 도움이 되는 구조화된 데이터 세트입니다.",
+      "link": "https://www.a11yproject.com/checklist/#tables",
+      "items": [
+        {
+          "id": "tables-table-element",
+          "text": "표 형식의 데이터를 설명하려면 table 요소를 사용하세요.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "데이터를 행과 열로 표시해야 합니까? table 요소를 사용하십시오.",
+          "level": "A"
+        },
+        {
+          "id": "tables-th-element",
+          "text": "table 헤더에는 th 요소를 사용합니다(적절한 범위 속성 포함).",
+          "wcag": "4.1.1 구문 분석 중",
+          "longDescription": "table가 얼마나 복잡한지에 따라 열 머리글에 범위=\"col\"를 사용하고 행 머리글에 범위=\"행\"을 사용하는 것을 고려할 수도 있습니다. 다양한 종류의 보조 기술이 여전히 범위 속성을 사용하여 table의 구조를 이해하고 설명하는 데 도움을 줍니다.",
+          "level": "A"
+        },
+        {
+          "id": "tables-caption-element",
+          "text": "caption 요소를 사용하여 table에 대한 제목을 제공합니다.",
+          "wcag": "2.4.6 제목 또는 라벨",
+          "longDescription": "table의 caption는 table에 어떤 종류의 정보가 포함되어 있는지 설명해야 합니다.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "양식",
+      "description": "양식을 사용하면 사람들이 처리 및 조작을 위해 사이트에 정보를 입력할 수 있습니다. 여기에는 메시지 보내기, 주문하기 등이 포함됩니다.",
+      "link": "https://www.a11yproject.com/checklist/#forms",
+      "items": [
+        {
+          "id": "forms-labels",
+          "text": "form의 모든 입력은 해당 라벨 요소와 연결됩니다.",
+          "wcag": "3.2.2 온 Input",
+          "longDescription": "최고 수준의 브라우저/보조 기술 지원을 보장하려면 for/id 쌍을 사용하십시오.",
+          "level": "A"
+        },
+        {
+          "id": "forms-fieldset-legend",
+          "text": "적절한 경우 fieldset 및 legend 요소를 사용합니다.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "form에 관련 입력의 여러 섹션이 포함되어 있습니까? 그룹화하려면 fieldset를 사용하고 이 섹션의 용도에 대한 레이블을 제공하려면 legend를 사용하세요.",
+          "level": "A"
+        },
+        {
+          "id": "forms-autocomplete",
+          "text": "입력은 적절한 경우 autocomplete를 사용합니다.",
+          "wcag": "1.3.5 Input 목적 식별",
+          "longDescription": "사람들이 공통 정보(예: 이름, 주소, 전화번호)를 요청하는 form 필드를 더 빠르고, 쉽고, 정확하게 채울 수 있도록 돕는 메커니즘을 제공합니다.",
+          "level": "AA"
+        },
+        {
+          "id": "forms-errors-list",
+          "text": "제출 후 form input 오류가 form 위의 목록에 표시되는지 확인하세요.",
+          "wcag": "3.3.1 오류 식별",
+          "longDescription": "이를 통해 보조 기술 사용자는 form에 어떤 문제가 있는지 높은 수준으로 빠르게 이해할 수 있습니다. 이는 입력이 많은 대규모 양식에 특히 중요합니다. 보고된 각 오류에는 잘못된 input가 있는 해당 필드에 대한 링크도 있는지 확인하세요.",
+          "level": "A"
+        },
+        {
+          "id": "forms-errors-associated",
+          "text": "input 오류 메시지를 해당 input와 연결합니다.",
+          "wcag": "3.3.1 오류 식별",
+          "longDescription": "aria-describedby 사용과 같은 기술을 사용하면 보조 기술을 사용하는 사람들이 input와 이와 관련된 오류 메시지의 차이점을 더 쉽게 이해할 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "forms-not-color-only",
+          "text": "오류, 경고 및 성공 상태가 색상만으로 시각적으로 전달되지 않도록 하세요.",
+          "wcag": "1.4.1 색상의 사용",
+          "longDescription": "색맹이거나 기타 저시력 질환이 있거나 색상에 대한 문화적 이해가 다른 사람은 상태 변화를 볼 수 없거나 색상이 유일한 지표인 경우 상태가 어떤 종류의 피드백을 나타내는지 이해하지 못할 수 있습니다.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "메디아",
+      "description": "미디어에는 pre 녹화 및 라이브 audio 및 video와 같은 콘텐츠가 포함됩니다.",
+      "link": "https://www.a11yproject.com/checklist/#media",
+      "items": [
+        {
+          "id": "media-no-autoplay",
+          "text": "미디어가 autoplay가 아닌지 확인하세요.",
+          "wcag": "1.4.2 Audio 제어",
+          "longDescription": "예상치 못한 video 및 audio는 특히 ADHD와 같은 특정 종류의 인지 장애의 경우 산만하고 파괴적일 수 있습니다. 특정 종류의 자동 재생 video 및 애니메이션은 전정 및 발작 장애를 유발할 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "media-controls-markup",
+          "text": "미디어 컨트롤이 적절한 마크업을 사용하는지 확인하세요.",
+          "wcag": "1.3.1 정보 및 관계",
+          "longDescription": "예를 들어 audio 음소거 button가 활성화되었을 때 토글 상태를 눌렀는지 확인하거나 볼륨 슬라이더가 <input type=\"range\">를 사용하는지 확인하는 것이 포함됩니다.",
+          "level": "A"
+        },
+        {
+          "id": "media-can-be-paused",
+          "text": "모든 미디어를 일시 중지할 수 있는지 확인하세요.",
+          "wcag": "2.1.1 키보드",
+          "longDescription": "모든 미디어 요소에 전역 일시 중지 기능을 제공하세요. 장치에 키보드가 있는 경우 스페이스 키를 누르면 재생이 일시 중지될 수 있는지 확인하세요. 또한 form 컨트롤에 초점을 맞추지 않을 때 페이지/보기를 스크롤하는 스페이스 키의 기능을 방해하지 않는지 확인하십시오.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "id": "video",
+      "title": "Video",
+      "description": "Video 관련 검사.",
+      "link": "https://www.a11yproject.com/checklist/#video",
+      "items": [
+        {
+          "id": "video-captions",
+          "text": "캡션이 있는지 확인하세요.",
+          "wcag": "1.2.2 캡션",
+          "longDescription": "캡션을 사용하면 video의 audio 콘텐츠를 들을 수 없는 사람도 해당 내용을 이해할 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "video-remove-seizure",
+          "text": "발작 유발 요인을 제거하십시오.",
+          "wcag": "2.3.1 3회 깜박임 또는 임계값 미만",
+          "longDescription": "특정 종류의 섬광 또는 깜박이는 애니메이션은 발작을 유발합니다.",
+          "level": "A"
+        }
+      ]
+    },
+    {
+      "title": "Audio",
+      "description": "Audio 특정 검사.",
+      "link": "https://www.a11yproject.com/checklist/#audio",
+      "items": [
+        {
+          "id": "audio-transcripts",
+          "text": "성적표를 사용할 수 있는지 확인하세요.",
+          "wcag": "",
+          "level": null
+        }
+      ]
+    },
+    {
+      "title": "모습",
+      "description": "특정 상황에서 웹사이트 앱 콘텐츠가 어떻게 보이는지.",
+      "link": "https://www.a11yproject.com/checklist/#appearance",
+      "items": [
+        {
+          "id": "appearance-specialized-modes",
+          "text": "특수 검색 모드에서 콘텐츠를 확인하세요.",
+          "wcag": "1.4.1 색상의 사용",
+          "longDescription": "Windows 고대비 또는 반전된 색상과 같은 모드를 활성화합니다. 콘텐츠를 여전히 읽을 수 있나요? 아이콘, 테두리, 링크, form 필드 및 기타 콘텐츠가 여전히 존재합니까? 전경 내용과 배경 내용을 구별할 수 있습니까?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-increase-text",
+          "text": "텍스트 크기를 200%로 늘립니다.",
+          "wcag": "1.4.4 텍스트 크기 조정",
+          "longDescription": "아직 내용을 읽을 수 있나요? 텍스트 크기를 늘리면 내용이 겹치나요?",
+          "level": "AA"
+        },
+        {
+          "id": "appearance-proximity",
+          "text": "콘텐츠 간의 근접성이 잘 유지되는지 다시 확인하세요.",
+          "wcag": "1.3.3 감각적 특성",
+          "longDescription": "밀짚 테스트를 사용하면 화면 확대 소프트웨어에 의존하는 사람들이 여전히 모든 콘텐츠를 쉽게 찾을 수 있는지 확인할 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-color-only",
+          "text": "색상이 정보를 전달하는 유일한 방법이 아닌지 확인하세요.",
+          "wcag": "1.4.1 색상의 사용",
+          "longDescription": "모든 것이 회색조인 경우에도 본문 내용 중 링크가 어디에 있는지 확인할 수 있습니까?",
+          "level": "A"
+        },
+        {
+          "id": "appearance-not-visual-audio-only",
+          "text": "지침이 시각적이거나 audio 전용이 아닌지 확인하세요.",
+          "wcag": "1.3.3 감각적 특성",
+          "longDescription": "위치(\"오른쪽\") 또는 audio(\"음 이후\")와 같은 설명보다는 특히 섹션과 요소의 실제 이름과 같은 특성 조합을 사용하여 큐를 작성합니다.",
+          "level": "A"
+        },
+        {
+          "id": "appearance-simple-layout",
+          "text": "간단하고 간단하며 일관된 레이아웃을 사용하세요.",
+          "wcag": "1.4.10 리플로우",
+          "longDescription": "복잡한 레이아웃은 이해하고 사용하는 데 혼란을 줄 수 있습니다.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "title": "생기",
+      "description": "자체적으로 이동하거나 컨트롤을 활성화하는 사람에 의해 실행되는 콘텐츠입니다.",
+      "link": "https://www.a11yproject.com/checklist/#animation",
+      "items": [
+        {
+          "id": "animation-subtle",
+          "text": "애니메이션이 미묘하고 너무 많이 깜박이지 않는지 확인하세요.",
+          "wcag": "2.3.1 3회 깜박임 또는 임계값 미만",
+          "longDescription": "특정 종류의 섬광 또는 깜박이는 애니메이션은 발작을 유발합니다. 다른 것들은 특히 ADHD와 같은 특정 종류의 인지 장애의 경우 산만하고 파괴적일 수 있습니다.",
+          "level": "A"
+        },
+        {
+          "id": "animation-pause-bg-video",
+          "text": "배경 video를 일시 중지하는 메커니즘을 제공합니다.",
+          "wcag": "2.2.2 일시정지, 정지, 숨기기",
+          "longDescription": "배경 video는 주의를 산만하게 할 수 있으며, 특히 콘텐츠가 배경 위에 배치된 경우 더욱 그렇습니다.",
+          "level": "A"
+        },
+        {
+          "id": "animation-reduced-motion",
+          "text": "모든 애니메이션이 선호 감소 모션 미디어 쿼리를 준수하는지 확인하세요.",
+          "wcag": "상호 작용의 2.3.3 애니메이션",
+          "longDescription": "\"모션 감소\" 설정이 활성화되면 애니메이션을 제거합니다. 개념의 의미를 전달하기 위해 애니메이션이 필요한 경우 지속 시간을 줄이세요.",
+          "level": "AAA"
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "title": "색상 대비",
+      "description": "색상 대비는 색상을 나란히 배치하거나 위에 배치했을 때 색상을 얼마나 쉽게 읽을 수 있는지를 나타냅니다.",
+      "link": "https://www.a11yproject.com/checklist/#color-contrast",
+      "items": [
+        {
+          "id": "color-contrast-normal",
+          "text": "모든 일반 크기 텍스트의 대비를 확인하세요.",
+          "wcag": "1.4.3 대비",
+          "longDescription": "레벨 AA를 준수하려면 4.5:1의 명암비가 필요합니다.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-large",
+          "text": "모든 큰 크기의 텍스트에 대해 대비를 확인하십시오.",
+          "wcag": "1.4.3 대비",
+          "longDescription": "레벨 AA를 준수하려면 3:1의 명암비가 필요합니다.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-icons",
+          "text": "모든 아이콘의 대비를 확인하세요.",
+          "wcag": "1.4.11 텍스트가 아닌 대비",
+          "longDescription": "레벨 AA를 준수하려면 3.0:1의 명암비가 필요합니다.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-borders",
+          "text": "input 요소(텍스트 input, 라디오 버튼, 체크박스 등)의 테두리 대비를 확인하세요.",
+          "wcag": "1.4.11 텍스트가 아닌 대비",
+          "longDescription": "레벨 AA를 준수하려면 3.0:1의 명암비가 필요합니다.",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-overlap",
+          "text": "이미지 또는 video와 겹치는 텍스트를 확인하세요.",
+          "wcag": "1.4.3 대비",
+          "longDescription": "텍스트를 여전히 읽을 수 있나요?",
+          "level": "AA"
+        },
+        {
+          "id": "color-contrast-selection",
+          "text": "사용자 정의::선택 색상을 확인하세요.",
+          "wcag": "1.4.3 대비",
+          "longDescription": "::selection CSS 선언에 설정한 색상 대비가 충분합니까? 그렇지 않으면 누군가가 강조 표시하면 읽지 못할 수도 있습니다.",
+          "level": "AA"
+        }
+      ]
+    },
+    {
+      "id": "mobile-and-touch",
+      "title": "모바일과 터치",
+      "description": "모바일 경험을 확인해야 할 사항.",
+      "link": "https://www.a11yproject.com/checklist/#mobile-and-touch",
+      "items": [
+        {
+          "id": "mobile-orientation",
+          "text": "사이트가 어떤 방향으로든 회전할 수 있는지 확인하세요.",
+          "wcag": "1.3.4 오리엔테이션",
+          "longDescription": "사이트에서는 세로 방향만 허용합니까?",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-no-horizontal-scroll",
+          "text": "가로 스크롤을 제거합니다.",
+          "wcag": "1.4.10 리플로우",
+          "longDescription": "누군가에게 가로로 스크롤하도록 요구하는 것은 일부에게는 어려울 수 있고 모든 사람에게는 짜증스러울 수 있습니다.",
+          "level": "AA"
+        },
+        {
+          "id": "mobile-activate-icons",
+          "text": "button 및 링크 아이콘이 쉽게 활성화될 수 있는지 확인하십시오.",
+          "wcag": "2.5.5 대상 크기",
+          "longDescription": "햄버거 메뉴, 소셜 아이콘, 갤러리 뷰어, 기타 터치 컨트롤 등을 다양한 손과 스타일러스 크기로 사용할 수 있도록 하는 것이 좋습니다.",
+          "level": "AAA"
+        },
+        {
+          "id": "mobile-scroll-area",
+          "text": "스크롤 영역을 제공하려면 대화형 항목 사이에 충분한 공간을 확보하세요.",
+          "wcag": "2.4.1 바이패스 블록",
+          "longDescription": "손 떨림과 같은 모터 제어 문제를 경험하는 일부 사람들은 간격이 0인 대화형 항목을 스크롤하는 데 매우 어려움을 겪을 수 있습니다.",
+          "level": "A"
+        }
+      ]
+    }
+  ]
+}
